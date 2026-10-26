@@ -75,6 +75,9 @@ async function queryBindings(query: string): Promise<IBindings[]> {
 // The catalog uses the local `ex:` namespace (http://example.org#).
 const EX = 'http://example.org#'
 const TAX = 'https://solidproject.solidcommunity.net/catalog/taxonomy#'
+// Software is described in DOAP; `ex:` entries are still read during the
+// migration so the older catalog records keep showing up.
+const DOAP = 'http://usefulinc.com/ns/doap#'
 
 // Short display/URL form of a catalog URI: tail after the last / or #,
 // with trailing separators and the known URN prefixes dropped.
@@ -192,12 +195,42 @@ async function sparqlProjects(): Promise<Project[]> {
 }
 
 async function sparqlSoftware(): Promise<Software[]> {
-  // Software package names and dependency edges (resolved to names below).
-  const [nameRows, edgeRows] = await Promise.all([
+  // DOAP projects (the LWS implementations) plus any catalog ex:Software, with
+  // their languages, maintainers, implemented specs and dependency edges.
+  // Dependency targets are resolved to names below, once every project is known.
+  const [rows, edgeRows] = await Promise.all([
     queryBindings(
-      `PREFIX ex: <${EX}>
-       SELECT ?s ?name WHERE {
-         ?s a ex:Software ; ex:name ?name
+      `PREFIX doap: <${DOAP}>
+       PREFIX ex: <${EX}>
+       SELECT ?s ?name ?description ?language ?license ?homepage ?repo ?repoLocation
+              ?docs ?maintainer ?maintainerName ?maintainerLogo ?maintainerSiloUsername
+              ?spec ?specName ?specShortname ?specLandingPage WHERE {
+         { ?s a doap:Project } UNION { ?s a ex:Software }
+         { ?s doap:name ?name } UNION { ?s ex:name ?name }
+         OPTIONAL {
+           { ?s doap:shortdesc ?description }
+           UNION { ?s doap:description ?description }
+         }
+         OPTIONAL { ?s doap:programming-language ?language }
+         OPTIONAL { ?s doap:license ?license }
+         OPTIONAL { ?s doap:homepage ?homepage }
+         OPTIONAL { ?s doap:documentation ?docs }
+         OPTIONAL {
+           ?s doap:repository ?repo .
+           OPTIONAL { ?repo doap:location ?repoLocation }
+         }
+         OPTIONAL {
+           ?s doap:maintainer ?maintainer .
+           OPTIONAL { ?maintainer ex:name ?maintainerName }
+           OPTIONAL { ?maintainer ex:logo ?maintainerLogo }
+           OPTIONAL { ?maintainer ex:siloUsername ?maintainerSiloUsername }
+         }
+         OPTIONAL {
+           ?s doap:implements ?spec .
+           OPTIONAL { ?spec ex:name ?specName }
+           OPTIONAL { ?spec ex:shortname ?specShortname }
+           OPTIONAL { ?spec ex:landingPage ?specLandingPage }
+         }
        }`,
     ),
     queryBindings(
@@ -207,29 +240,90 @@ async function sparqlSoftware(): Promise<Software[]> {
        }`,
     ),
   ])
-  const names = new Map<string, string>()
-  for (const b of nameRows) {
-    const s = value(b, 's')
-    const n = value(b, 'name')
-    if (s && n) names.set(s, n)
-  }
-  const edges = new Map<string, Set<string>>()
-  for (const b of edgeRows) {
-    const s = value(b, 's')
-    const dep = value(b, 'dep')
-    if (s && dep) {
-      if (!edges.has(s)) edges.set(s, new Set())
-      edges.get(s)!.add(dep)
+  const map = new Map<string, Software>()
+  for (const b of rows) {
+    const uri = value(b, 's')
+    const name = value(b, 'name')
+    if (!uri || !name) continue
+    let sw = map.get(uri)
+    if (!sw) {
+      sw = {
+        id: short(uri),
+        uri,
+        name,
+        description: value(b, 'description') ?? '',
+        programmingLanguages: [],
+        maintainers: [],
+        implements: [],
+        homepage: value(b, 'homepage'),
+        // The repository node may carry the URL itself or point at it.
+        repository: value(b, 'repoLocation') ?? value(b, 'repo'),
+        documentation: value(b, 'docs'),
+        license: value(b, 'license'),
+        dependencies: [],
+        dependents: [],
+      }
+      map.set(uri, sw)
+    }
+    const language = value(b, 'language')
+    if (language && !sw.programmingLanguages.includes(language)) {
+      sw.programmingLanguages.push(language)
+    }
+    const maintainer = toSpecContributor(
+      value(b, 'maintainer'),
+      value(b, 'maintainerName'),
+      value(b, 'maintainerLogo'),
+      value(b, 'maintainerSiloUsername'),
+    )
+    if (
+      maintainer &&
+      !sw.maintainers.some(
+        (m) => (m.uri ?? m.name) === (maintainer.uri ?? maintainer.name),
+      )
+    ) {
+      sw.maintainers.push(maintainer)
+    }
+    const spec = value(b, 'spec')
+    if (spec && !sw.implements.some((s) => s.uri === spec)) {
+      sw.implements.push({
+        uri: spec,
+        id: short(spec),
+        name: value(b, 'specName') ?? short(spec),
+        shortname: value(b, 'specShortname'),
+        landingPage: value(b, 'specLandingPage'),
+      })
     }
   }
-  const list: Software[] = []
-  for (const [uri, name] of names) {
-    const dependencies = [...(edges.get(uri) ?? [])]
-      .map((dep) => names.get(dep) ?? short(dep))
-      .sort((a, b) => a.localeCompare(b))
-    list.push({ id: short(uri), uri, name, dependencies })
+  for (const b of edgeRows) {
+    const uri = value(b, 's')
+    const dep = value(b, 'dep')
+    const sw = uri ? map.get(uri) : undefined
+    if (!sw || !dep) continue
+    if (sw.dependencies.some((d) => d.uri === dep)) continue
+    // Keep the URI: the detail page resolves it to the dependency's own
+    // doap:implements targets when a specification is pinned.
+    sw.dependencies.push({
+      uri: dep,
+      id: short(dep),
+      name: map.get(dep)?.name ?? short(dep),
+    })
   }
-  return list.sort((a, b) => a.name.localeCompare(b.name))
+  // Mirror the edges so a project can also list who depends on it; every
+  // dependency target is a project row too, so both ends are already in `map`.
+  for (const sw of map.values()) {
+    for (const dep of sw.dependencies) {
+      const target = map.get(dep.uri)
+      if (!target || target.dependents.some((d) => d.uri === sw.uri)) continue
+      target.dependents.push({ uri: sw.uri, id: sw.id, name: sw.name })
+    }
+  }
+  for (const sw of map.values()) {
+    sw.dependencies.sort((a, b) => a.name.localeCompare(b.name))
+    sw.dependents.sort((a, b) => a.name.localeCompare(b.name))
+    sw.maintainers.sort((a, b) => a.name.localeCompare(b.name))
+    sw.implements.sort((a, b) => a.name.localeCompare(b.name))
+  }
+  return [...map.values()].sort((a, b) => a.name.localeCompare(b.name))
 }
 
 const toSpecContributor = (

@@ -3,12 +3,15 @@ import { For, Match, Show, Switch, onMount } from 'solid-js'
 import { A, useParams } from '@solidjs/router'
 import { ContributorSection } from '../components/ContributorChips'
 import { GroupCard } from '../components/GroupCard'
+import { SoftwareCard } from '../components/SoftwareCard'
 import { SpecReferenceSection } from '../components/SpecReferences'
 import { appActor } from '../store/app'
 import { useSdoNav } from '../lib/sdoNav'
 import {
   groupByName,
   groupByUri,
+  softwareImplementing,
+  softwareSlice,
   specificationById,
   specificationsSlice,
   w3cGroupsSlice,
@@ -27,6 +30,9 @@ const SpecificationDetail: Component = () => {
     // Only needed to turn the "Published by" names into links.
     if (w3cGroupsSlice().status === 'idle')
       appActor.send({ type: 'loadW3cGroups' })
+    // Software declares the specs it implements, so the join lives there.
+    if (softwareSlice().status === 'idle')
+      appActor.send({ type: 'loadSoftware' })
   })
 
   const spec = () => specificationById(params.id)
@@ -146,6 +152,41 @@ const SpecificationDetail: Component = () => {
                 references={s().citedBy}
                 empty="No catalog specification references this one."
               />
+
+              <div class="space-y-3">
+                <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                  Implemented by
+                </h2>
+                <Switch>
+                  <Match when={softwareSlice().status === 'error'}>
+                    <p class="text-red-500">
+                      Failed to load software: {softwareSlice().error}
+                    </p>
+                  </Match>
+                  <Match
+                    when={
+                      softwareImplementing(s()).length === 0 &&
+                      softwareSlice().status !== 'ready'
+                    }
+                  >
+                    <p class="text-slate-500 dark:text-slate-400">
+                      Loading software…
+                    </p>
+                  </Match>
+                  <Match when={softwareImplementing(s()).length === 0}>
+                    <p class="text-slate-500 dark:text-slate-400">
+                      No software in the catalog declares this specification.
+                    </p>
+                  </Match>
+                  <Match when={true}>
+                    <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <For each={softwareImplementing(s())}>
+                        {(sw) => <SoftwareCard software={sw} />}
+                      </For>
+                    </ul>
+                  </Match>
+                </Switch>
+              </div>
             </>
           )}
         </Match>

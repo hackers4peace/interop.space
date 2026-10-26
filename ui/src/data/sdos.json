@@ -34,6 +34,20 @@
     ]
   },
   {
+    "id": "openid",
+    "name": "OpenID Foundation",
+    "website": "https://openid.net/",
+    "logo": "/logos/openid-foundation.png",
+    "sections": []
+  },
+  {
+    "id": "oasis",
+    "name": "OASIS Open",
+    "website": "https://www.oasis-open.org/",
+    "logo": "/logos/oasis-open.png",
+    "sections": []
+  },
+  {
     "id": "dif",
     "name": "Decentralized Identity Foundation",
     "website": "https://identity.foundation/",

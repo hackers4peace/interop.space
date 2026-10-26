@@ -18,11 +18,36 @@ export type Project = {
   memberIds: string[] // short ids referencing Person.id
 }
 
+export type SoftwareSpec = {
+  uri: string // doap:implements target (specification IRI)
+  id: string // short display/URL form, matching /specifications/:id
+  name: string // catalog name when the spec is in the catalog, else the tail
+  shortname?: string
+  landingPage?: string
+}
+
+// One end of a dependency edge: used for both directions, so a project can
+// list what it depends on and what depends on it.
+export type SoftwareRef = {
+  uri: string // ex:hasDependencyOn subject or object
+  id: string // short display/URL form, matching /software/:id
+  name: string // catalog name when the project is in the catalog
+}
+
 export type Software = {
   id: string // short display/URL form (tail of the catalog URI)
   uri: string // full catalog URI
   name: string
-  dependencies: string[] // names of linked software (ex:hasDependencyOn targets)
+  description: string // doap:shortdesc / doap:description
+  programmingLanguages: string[] // doap:programming-language literals
+  maintainers: SpecContributor[] // doap:maintainer, resolved to ex:Person when known
+  implements: SoftwareSpec[] // doap:implements targets
+  homepage?: string
+  repository?: string
+  documentation?: string // doap:documentation
+  license?: string // doap:license, SPDX identifier as a literal
+  dependencies: SoftwareRef[] // ex:hasDependencyOn targets ("depends on")
+  dependents: SoftwareRef[] // projects pointing at this one ("dependency of")
 }
 
 export type CitationNature = 'normative' | 'informative'

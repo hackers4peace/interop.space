@@ -1,0 +1,272 @@
+# Early Linked Web Storage implementations, in DOAP (http://usefulinc.com/ns/doap#).
+#
+# Source: the Touchstone conformance runs reported at
+# https://ebremer.com/lws/conformance (2026-10-19 / 2026-10-21), plus each
+# repository's own metadata. Every entry implements lws10-core.
+#
+# Dependencies use the catalog's own ex:hasDependencyOn predicate (there is no
+# DOAP property for them); the Titanium libraries below carry doap:implements
+# for the specs they actually implement, which is what lets a pinned spec match
+# against a dependency.
+#
+# Licenses are SPDX identifiers taken from each project's own metadata
+# (GitHub license detection, Cargo.toml, composer.json, package.json).
+#
+# Repositories and the tested build are IRIs (the GitHub repo / commit), never
+# blank nodes, so re-posting this file is idempotent.
+#
+# Seeded with `devbox run seed` (see devbox.json), so the UI reads it from the
+# same Fuseki dataset as the W3C + Specref data.
+
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix ex: <http://example.org#> .
+
+# Halcyon — 0.9.0 (next, f173c88), conformant.
+<urn:uuid:32f1c032-c9a9-4de0-aac3-79703bba03ce> a doap:Project ;
+  doap:license "Apache-2.0" ;
+  doap:name "Halcyon" ;
+  doap:shortdesc "Halcyon: Feature Analysis and Management System for Pathology Imaging" ;
+  doap:programming-language "Java" ;
+  doap:maintainer <urn:w3c:person:45759> ;
+  doap:implements <https://www.w3.org/TR/lws10-core/> ;
+  doap:homepage <https://halcyon.is> ;
+  doap:repository <https://github.com/halcyon-project/Halcyon> ;
+  doap:release <https://github.com/halcyon-project/Halcyon/commit/f173c88> ;
+  ex:hasDependencyOn
+    <urn:uuid:146f4c12-acaa-483b-90af-2ae688125d7f> , # Titanium JSON-LD
+    <urn:uuid:f29630d3-494d-44f9-8f12-e41fe0ea5e75> , # Titanium RDF N-Quads
+    <urn:uuid:d5636749-1165-4cbc-937a-2e6e93cf57a6> , # Titanium RDF Dataset Canonicalization
+    <urn:uuid:108ea4c4-f819-4cbd-b90e-6e7cef7a0baa> . # Titanium RDF Primitives
+
+<https://github.com/halcyon-project/Halcyon/commit/f173c88> a doap:Version ;
+  doap:name "0.9.0" ;
+  doap:revision "f173c88" .
+
+# lws-server — 1.0.0 (master, 2bee2c6), conformant.
+<urn:uuid:64c03e8b-c908-41e2-8c16-4ed968f41cc4> a doap:Project ;
+  doap:license "Apache-2.0" ;
+  doap:name "lws-server" ;
+  doap:shortdesc "A Linked Web Storage server implementing the W3C LWS Protocol, written as plain Jakarta servlets and bootstrapped (for now) by Spring Boot on an embedded Eclipse Jetty container." ;
+  doap:programming-language "Java" ;
+  doap:maintainer <urn:w3c:person:45759> ;
+  doap:implements <https://www.w3.org/TR/lws10-core/> ;
+  doap:homepage <https://ebremer.github.io/lws-server/> ;
+  doap:repository <https://github.com/ebremer/lws-server> ;
+  doap:release <https://github.com/ebremer/lws-server/commit/2bee2c6> ;
+  ex:hasDependencyOn
+    <urn:uuid:146f4c12-acaa-483b-90af-2ae688125d7f> , # Titanium JSON-LD
+    <urn:uuid:f29630d3-494d-44f9-8f12-e41fe0ea5e75> , # Titanium RDF N-Quads
+    <urn:uuid:d5636749-1165-4cbc-937a-2e6e93cf57a6> , # Titanium RDF Dataset Canonicalization
+    <urn:uuid:108ea4c4-f819-4cbd-b90e-6e7cef7a0baa> . # Titanium RDF Primitives
+
+<https://github.com/ebremer/lws-server/commit/2bee2c6> a doap:Version ;
+  doap:name "1.0.0" ;
+  doap:revision "2bee2c6" .
+
+# sparq-lws-core — 0.1.0 (sparq PR #6650, 5501efa), not conformant.
+<urn:uuid:e854c787-7125-4c85-a0c3-535293378341> a doap:Project ;
+  doap:license "MIT" ;
+  doap:name "sparq-lws-core" ;
+  doap:programming-language "Rust" ;
+  doap:maintainer <urn:w3c:person:132252> ;
+  doap:implements <https://www.w3.org/TR/lws10-core/> ;
+  doap:repository <https://github.com/sparq-org/sparq> ;
+  doap:release <https://github.com/sparq-org/sparq/commit/5501efa> .
+
+<https://github.com/sparq-org/sparq/commit/5501efa> a doap:Version ;
+  doap:name "0.1.0" ;
+  doap:revision "5501efa" .
+
+# Community Solid Server — 8.0.0-alpha.3 (PR #126, 311b367), not conformant.
+# The tested build is the LWS branch on jeswr's fork, so that is the repository.
+<urn:uuid:7fd4fd53-ef63-4dc2-9855-45afe61eecb9> a doap:Project ;
+  doap:license "MIT" ;
+  doap:name "Community Solid Server" ;
+  doap:shortdesc "An open and modular implementation of the Solid specifications" ;
+  doap:programming-language "TypeScript" ;
+  doap:maintainer <urn:w3c:person:132252> ;
+  doap:implements <https://www.w3.org/TR/lws10-core/> ;
+  doap:homepage <https://communitysolidserver.github.io/CommunitySolidServer/> ;
+  doap:repository <https://github.com/jeswr/CommunitySolidServer> ;
+  doap:release <https://github.com/jeswr/CommunitySolidServer/commit/311b367> .
+
+<https://github.com/jeswr/CommunitySolidServer/commit/311b367> a doap:Version ;
+  doap:name "8.0.0-alpha.3" ;
+  doap:revision "311b367" .
+
+# lws-drupal — main (6f3dbe1), conformant.
+<urn:uuid:e5108b65-1ada-44d1-b40e-2cd9344ae8dc> a doap:Project ;
+  doap:license "GPL-2.0-or-later" ;
+  doap:name "lws-drupal" ;
+  doap:shortdesc "W3C Linked Web Storage Drupal Module" ;
+  doap:programming-language "PHP" ;
+  doap:maintainer <urn:w3c:person:45759> ;
+  doap:implements <https://www.w3.org/TR/lws10-core/> ;
+  doap:repository <https://github.com/ebremer/lws-drupal> ;
+  doap:release <https://github.com/ebremer/lws-drupal/commit/6f3dbe1> .
+
+<https://github.com/ebremer/lws-drupal/commit/6f3dbe1> a doap:Version ;
+  doap:name "main" ;
+  doap:revision "6f3dbe1" .
+
+# lwsd — 0.0.6 (v0.0.6, 1999965), conformant.
+<urn:uuid:4733352c-b701-43f9-b262-8a2d244f3992> a doap:Project ;
+  doap:license "AGPL-3.0" ;
+  doap:name "lwsd" ;
+  doap:shortdesc "LWS Daemon - Full-featured Linked Web Storage server with authentication" ;
+  doap:programming-language "JavaScript" ;
+  doap:maintainer <urn:w3c:person:43676> ;
+  doap:implements <https://www.w3.org/TR/lws10-core/> ;
+  doap:homepage <https://linkedwebstorage.github.io/lwsd/> ;
+  doap:repository <https://github.com/linkedwebstorage/lwsd> ;
+  doap:release <https://github.com/linkedwebstorage/lwsd/commit/1999965> .
+
+<https://github.com/linkedwebstorage/lwsd/commit/1999965> a doap:Version ;
+  doap:name "0.0.6" ;
+  doap:revision "1999965" .
+
+# Repository nodes (one per implementation, no blank nodes).
+<https://github.com/halcyon-project/Halcyon> a doap:GitRepository .
+<https://github.com/ebremer/lws-server> a doap:GitRepository .
+<https://github.com/sparq-org/sparq> a doap:GitRepository .
+<https://github.com/jeswr/CommunitySolidServer> a doap:GitRepository .
+<https://github.com/ebremer/lws-drupal> a doap:GitRepository .
+<https://github.com/linkedwebstorage/lwsd> a doap:GitRepository .
+
+# ---------------------------------------------------------------------------
+# Libraries the implementations above depend on (ex:hasDependencyOn).
+# Descriptions are each repository's own, and doap:implements names the
+# specification the library implements, so a pinned spec can be matched against
+# a dependency.
+# ---------------------------------------------------------------------------
+
+# Titanium JSON-LD — JSON-LD 1.1 processor, a normative reference of lws10-core.
+<urn:uuid:146f4c12-acaa-483b-90af-2ae688125d7f> a doap:Project ;
+  doap:license "Apache-2.0" ;
+  doap:name "Titanium JSON-LD" ;
+  doap:shortdesc "A JSON-LD 1.1 (JSON-based Serialization for Linked Data) Processor & API" ;
+  doap:programming-language "Java" ;
+  doap:maintainer <https://github.com/filip26> ;
+  doap:implements <https://www.w3.org/TR/json-ld11/> ;
+  doap:homepage <https://apicatalog.com> ;
+  doap:repository <https://github.com/filip26/titanium-json-ld> .
+
+# Titanium RDF N-Quads — RDF 1.2 N-Quads, a normative reference of lws10-core.
+<urn:uuid:f29630d3-494d-44f9-8f12-e41fe0ea5e75> a doap:Project ;
+  doap:license "Apache-2.0" ;
+  doap:name "Titanium RDF N-Quads" ;
+  doap:shortdesc "RDF N-Quads reader and writer optimized for efficient parsing, serialization, and handling of large RDF datasets" ;
+  doap:programming-language "Java" ;
+  doap:maintainer <https://github.com/filip26> ;
+  doap:implements <https://www.w3.org/TR/rdf12-n-quads/> ;
+  doap:homepage <https://apicatalog.com> ;
+  doap:repository <https://github.com/filip26/titanium-rdf-n-quads> .
+
+# Titanium RDF Dataset Canonicalization — implements RDFC 1.0. Note: rdf-canon
+# is NOT a normative reference of lws10-core in this catalog, so this library
+# never matches a pinned lws10-core.
+<urn:uuid:d5636749-1165-4cbc-937a-2e6e93cf57a6> a doap:Project ;
+  doap:license "Apache-2.0" ;
+  doap:name "Titanium RDF Dataset Canonicalization" ;
+  doap:shortdesc "An implementation of W3C Standard RDF Dataset Canonicalization (RDFC 1.0)" ;
+  doap:programming-language "Java" ;
+  doap:maintainer <https://github.com/filip26> ;
+  doap:implements <https://www.w3.org/TR/rdf-canon/> ;
+  doap:homepage <https://apicatalog.com> ;
+  doap:repository <https://github.com/filip26/titanium-rdf-canon> .
+
+# Titanium RDF Primitives — RDF 1.2 concepts, a normative reference of lws10-core.
+<urn:uuid:108ea4c4-f819-4cbd-b90e-6e7cef7a0baa> a doap:Project ;
+  doap:license "Apache-2.0" ;
+  doap:name "Titanium RDF Primitives" ;
+  doap:shortdesc "RDF primitives, Quad, Triple, Graph, Literal, LangString, ..." ;
+  doap:programming-language "Java" ;
+  doap:maintainer <https://github.com/filip26> ;
+  doap:implements <https://www.w3.org/TR/rdf12-concepts/> ;
+  doap:homepage <https://apicatalog.com> ;
+  doap:repository <https://github.com/filip26/titanium-rdf-primitives> .
+
+# The maintainer of the Titanium libraries is not in the W3C data, so the
+# GitHub profile is the person IRI; the minimal person record keeps the chip
+# readable (and joins to the catalog if he ever arrives from the W3C API).
+<https://github.com/filip26> a ex:Person ;
+  ex:name "Filip" ;
+  ex:siloUsername "github:filip26" ;
+  ex:landingPage <https://github.com/filip26> .
+
+<https://github.com/filip26/titanium-json-ld> a doap:GitRepository .
+<https://github.com/filip26/titanium-rdf-n-quads> a doap:GitRepository .
+<https://github.com/filip26/titanium-rdf-canon> a doap:GitRepository .
+<https://github.com/filip26/titanium-rdf-primitives> a doap:GitRepository .
+
+# ---------------------------------------------------------------------------
+# CBOR-LD 1.0 (https://www.w3.org/TR/cbor-ld-10/) implementations.
+# Repositories, languages and descriptions are the projects' own. Maintainers
+# are only recorded where the repository belongs to a person; the org-owned
+# projects still need a named maintainer.
+# ---------------------------------------------------------------------------
+
+# Digital Bazaar cborld — browser and Node.js CBOR-LD encoder/decoder.
+<urn:uuid:b4243be4-2a1d-433b-a81d-07fd5eb267c9> a doap:Project ;
+  doap:license "BSD-3-Clause" ;
+  doap:name "Digital Bazaar cborld" ;
+  doap:shortdesc "A Javascript CBOR-LD processor for web browsers and Node.js apps." ;
+  doap:programming-language "JavaScript" ;
+  doap:implements <https://www.w3.org/TR/cbor-ld-10/> ;
+  doap:homepage <https://json-ld.github.io/cbor-ld-spec/> ;
+  doap:repository <https://github.com/digitalbazaar/cborld> .
+
+# SpruceID cbor-ld — JSON-LD to CBOR-LD conversion for TruAge credentials.
+<urn:uuid:7850d4c5-a508-4aa9-83b7-d661d37d2358> a doap:Project ;
+  doap:license "MIT OR Apache-2.0" ;
+  doap:name "SpruceID cbor-ld" ;
+  doap:shortdesc "json-ld to cbor-ld conversion for TruAge credentials" ;
+  doap:programming-language "Rust" ;
+  doap:implements <https://www.w3.org/TR/cbor-ld-10/> ;
+  doap:repository <https://github.com/spruceid/cbor-ld> .
+
+# The `cbor-ld` crate on crates.io. Verified as a separate codebase: it lives
+# in LD Labs' repository, not SpruceID's.
+<urn:uuid:c1653e4f-7fdc-4436-90a4-641df801fe35> a doap:Project ;
+  doap:license "MIT" ;
+  doap:name "cbor-ld crate" ;
+  doap:shortdesc "CBOR-LD 1.0 processor built on cbor2 with semantic compression, JSON-LD context processing, type tables and deterministic CBOR output. Separate codebase from SpruceID's cbor-ld (LD Labs)." ;
+  doap:programming-language "Rust" ;
+  doap:implements <https://www.w3.org/TR/cbor-ld-10/> ;
+  doap:documentation <https://docs.rs/cbor-ld/latest/cbor_ld/> ;
+  doap:repository <https://github.com/ldclabs/cbor-ld> .
+
+# Iridium CBOR-LD — CBOR-LD 1.0, dictionaries, Verifiable Credential Barcodes.
+<urn:uuid:5b6bfb1f-d4d7-4a2d-bf79-1b52e2d028ca> a doap:Project ;
+  doap:license "Apache-2.0" ;
+  doap:name "Iridium CBOR-LD" ;
+  doap:shortdesc "CBOR-LD 1.0, dictionaries, Verifiable Credential Barcodes" ;
+  doap:programming-language "Java" ;
+  doap:maintainer <https://github.com/filip26> ;
+  doap:implements <https://www.w3.org/TR/cbor-ld-10/> ;
+  doap:homepage <https://apicatalog.com> ;
+  doap:repository <https://github.com/filip26/iridium-cbor-ld> .
+
+# cborld-ex — CBOR-LD extension for Subjective Logic annotations, not a
+# general-purpose implementation.
+<urn:uuid:6df6fc29-7115-4e64-b3c8-aefbf2a119d0> a doap:Project ;
+  doap:license "MIT" ;
+  doap:name "cborld-ex" ;
+  doap:shortdesc "CBOR-LD-related extension for Subjective Logic annotations; not a general-purpose implementation." ;
+  doap:programming-language "Rust" ;
+  doap:maintainer <https://github.com/jemsbhai> ;
+  doap:implements <https://www.w3.org/TR/cbor-ld-10/> ;
+  doap:documentation <https://docs.rs/cborld-ex/latest/cborld_ex/> ;
+  doap:repository <https://github.com/jemsbhai/cborld-ex> .
+
+# Maintainer of cborld-ex is a personal GitHub account, not in the W3C data.
+<https://github.com/jemsbhai> a ex:Person ;
+  ex:name "Muntaser Syed" ;
+  ex:siloUsername "github:jemsbhai" ;
+  ex:landingPage <https://muntasersyed.com/> .
+
+<https://github.com/digitalbazaar/cborld> a doap:GitRepository .
+<https://github.com/spruceid/cbor-ld> a doap:GitRepository .
+<https://github.com/ldclabs/cbor-ld> a doap:GitRepository .
+<https://github.com/filip26/iridium-cbor-ld> a doap:GitRepository .
+<https://github.com/jemsbhai/cborld-ex> a doap:GitRepository .

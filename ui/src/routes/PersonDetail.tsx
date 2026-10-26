@@ -4,6 +4,7 @@ import { A, useParams } from '@solidjs/router'
 import { Avatar } from '../components/ui/avatar'
 import { GithubHandle } from '../components/GithubHandle'
 import { GroupCard } from '../components/GroupCard'
+import { SoftwareCard } from '../components/SoftwareCard'
 import { SpecificationCard } from '../components/SpecificationCard'
 import { appActor } from '../store/app'
 import { useSdoNav } from '../lib/sdoNav'
@@ -11,8 +12,10 @@ import {
   authoredSpecificationsOf,
   editedSpecificationsOf,
   groupsOfPerson,
+  maintainedSoftwareOf,
   peopleSlice,
   personById,
+  softwareSlice,
   specificationsSlice,
   w3cGroupsSlice,
 } from '../store/selectors'
@@ -27,6 +30,9 @@ const PersonDetail: Component = () => {
       appActor.send({ type: 'loadW3cGroups' })
     if (specificationsSlice().status === 'idle')
       appActor.send({ type: 'loadSpecifications' })
+    // Software carries its maintainers (doap:maintainer), so the join lives there.
+    if (softwareSlice().status === 'idle')
+      appActor.send({ type: 'loadSoftware' })
   })
 
   const person = () => personById(params.id)
@@ -41,6 +47,10 @@ const PersonDetail: Component = () => {
   const authored = () => {
     const p = person()
     return p ? authoredSpecificationsOf(p) : []
+  }
+  const software = () => {
+    const p = person()
+    return p ? maintainedSoftwareOf(p) : []
   }
 
   return (
@@ -148,6 +158,45 @@ const PersonDetail: Component = () => {
                           </div>
                         </Show>
                       </div>
+                    </Show>
+                  </Match>
+                </Switch>
+              </div>
+
+              <div class="space-y-3">
+                <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                  Software
+                </h2>
+                <Switch>
+                  <Match when={softwareSlice().status === 'error'}>
+                    <p class="text-red-500">
+                      Failed to load software: {softwareSlice().error}
+                    </p>
+                  </Match>
+                  <Match
+                    when={
+                      softwareSlice().status !== 'ready' &&
+                      software().length === 0
+                    }
+                  >
+                    <p class="text-slate-500 dark:text-slate-400">
+                      Loading software…
+                    </p>
+                  </Match>
+                  <Match when={softwareSlice().status === 'ready'}>
+                    <Show
+                      when={software().length > 0}
+                      fallback={
+                        <p class="text-slate-500 dark:text-slate-400">
+                          Not a maintainer of any software in the catalog.
+                        </p>
+                      }
+                    >
+                      <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <For each={software()}>
+                          {(sw) => <SoftwareCard software={sw} />}
+                        </For>
+                      </ul>
                     </Show>
                   </Match>
                 </Switch>

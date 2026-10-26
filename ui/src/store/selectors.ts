@@ -1,6 +1,7 @@
 import { appState } from './app'
 import type { Person } from '../worker/protocol'
 import type { Project } from '../worker/protocol'
+import type { Software } from '../worker/protocol'
 import type { W3cGroup } from '../worker/protocol'
 import type { Specification } from '../worker/protocol'
 
@@ -50,6 +51,23 @@ export const specificationsOf = (group: W3cGroup): Specification[] =>
 
 export const projectById = (id: string): Project | undefined =>
   appState.projects.data.find((p) => p.id === id)
+
+export const softwareById = (id: string): Software | undefined =>
+  appState.software.data.find((s) => s.id === id)
+
+// Software joins to a spec through its own doap:implements targets, so the
+// spec page asks with the specification's catalog URI (the TR shortlink).
+export const softwareImplementing = (spec: Specification): Software[] =>
+  appState.software.data.filter((sw) =>
+    sw.implements.some((target) => target.uri === spec.uri),
+  )
+
+// doap:maintainer points at the person node, so this join is on the full URI
+// (urn:w3c:person:<id> for W3C people).
+export const maintainedSoftwareOf = (person: Person): Software[] =>
+  appState.software.data.filter((sw) =>
+    sw.maintainers.some((maintainer) => maintainer.uri === person.uri),
+  )
 
 export const personById = (id: string): Person | undefined =>
   appState.people.data.find((p) => p.id === id)
