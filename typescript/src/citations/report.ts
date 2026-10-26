@@ -51,6 +51,9 @@ export interface CitationTotals {
 export interface CitationReport {
   retrievedAt: string
   source: string
+  /** True when the step was skipped because the dataset already had edges. */
+  skipped?: boolean
+  reason?: string
   totals: CitationTotals
   documents: CitationDocumentReport[]
 }
@@ -92,6 +95,9 @@ export function citationTotals(
 }
 
 export function summarizeCitations(report: CitationReport): string {
+  if (report.skipped) {
+    return `Citations: skipped (${report.reason ?? 'already present'})`
+  }
   const totals = report.totals
   return [
     `Citations: ${totals.resolved} edges from ${totals.ok}/${totals.documents} documents`,

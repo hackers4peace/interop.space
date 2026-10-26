@@ -1,18 +1,27 @@
 // Temporal activities for the W3C API workflow. Network I/O, seed loading and
 // RDF building live here; the workflow stays deterministic and only sequences.
 //
-// The run seeds Oxigraph with the previous dump when it exists, so the dump is
-// the crawl state. With upstream data treated as frozen, existence in the seed
-// means "already fetched": people already linked to a W3C group and groups
-// already present are skipped. Without a dump, the crawl starts from one
-// hardcoded GitHub username.
+// The workflow is data-first: every step checks the live store and skips when
+// its output is already present. On an existing dump all steps skip; a fresh
+// dataset starts with all W3C groups, then their members, specifications,
+// spec→people links and finally spec→spec citation edges.
 import { readFile } from 'node:fs/promises'
-import w3capi from 'node-w3capi'
+import { setTimeout as sleep } from 'node:timers/promises'
 import pThrottle from 'p-throttle'
+import type { Quad } from 'n3'
 import { endpointFor, sanitizeNQuads } from '../software-dependencies/activities.ts'
-import { buildCitationQuads, citationDeleteUpdate } from '../citations/build.ts'
+import {
+  buildCitationQuads,
+  citationDeleteUpdate,
+  INFORMATIVE_REF,
+  NORMATIVE_REF,
+} from '../citations/build.ts'
 import { collectCitations } from '../citations/collect.ts'
-import { summarizeCitations, writeCitationReport } from '../citations/report.ts'
+import {
+  citationTotals,
+  summarizeCitations,
+  writeCitationReport,
+} from '../citations/report.ts'
 import type { CitationReport } from '../citations/report.ts'
 import type { CatalogSpec } from '../citations/types.ts'
 import { buildPersonNameIndex } from '../specref/authors.ts'
@@ -24,15 +33,23 @@ import {
 } from '../specref/source.ts'
 import {
   buildEditorQuads,
+  buildGroupQuads,
+  buildParticipantQuads,
   buildSpecificationQuads,
-  buildStartPersonQuads,
-  buildW3cQuads,
   collectPeople,
-  readDataset,
   serializeQuads,
+  BIBO_EDITOR,
+  EDITOR_DRAFT,
+  GROUP_TYPE,
+  NAME,
+  ORGANIZATION_TYPE,
+  PERSON_TYPE,
   SHORTNAME,
+  SILO_ID,
   SPECIFICATION_TYPE,
+  W3C_API_URL,
   W3C_LATEST_VERSION_URL,
+  W3C_SILO_PREFIX,
 } from './analysis.ts'
 import type {
   W3cEditor,
@@ -40,6 +57,7 @@ import type {
   W3cGroupRef,
   W3cGroupSpecifications,
   W3cParticipant,
+  W3cPersonRef,
   W3cSpecification,
   W3cSpecificationEditors,
 } from './analysis.ts'
@@ -62,14 +80,16 @@ export const DEFAULT_CITATIONS_REPORT_PATH = new URL(
   import.meta.url,
 ).pathname
 
-/** Crawl roots for a run without a previous dump. */
-const FALLBACK_GITHUB_USERNAMES = ['elf-pavlik', 'TallTed', 'pchampin', 'plehegar']
-
 const W3C_API = 'https://api.w3.org'
-const GITHUB_API = 'https://api.github.com'
 
 /** api.w3.org pages at 100 items by default; ask for the maximum instead. */
 const ITEMS_PER_PAGE = 1000
+
+/** Stay at the W3C API's 6000 requests / 10 minutes average. */
+const W3C_RATE_LIMIT = { limit: 10, interval: 1000 }
+const MAX_W3C_ATTEMPTS = 2
+const W3C_RATE_LIMIT_WAIT_MS = 12 * 60_000
+const DCTERMS_CREATOR = 'http://purl.org/dc/terms/creator'
 
 /**
  * Everything later activities need to reconstruct the seed graph. The dump
@@ -79,130 +99,23 @@ const ITEMS_PER_PAGE = 1000
 export interface SeedRef {
   /** Dump file on the worker, when the previous dump exists. */
   path?: string
-  /** Small generated start record, when no dump (or no GitHub account) exists. */
-  extraNQuads?: string
   source: string
-  people: number
-  /** People without any W3C group membership in the seed. */
-  pendingPeople: number
-  knownGroups: number
 }
 
-function joinNQuads(base: string, extra: string): string {
-  if (!base) return extra
-  if (!extra) return base
-  return `${base}${base.endsWith('\n') ? '' : '\n'}${extra}`
-}
-
-/** The seed graph: the dump (if present) plus any generated start record. */
+/** The seed graph: the dump, or an empty string for a fresh dataset. */
 export async function readSeed(seed: SeedRef): Promise<string> {
-  const base = seed.path ? await readFile(seed.path, 'utf-8') : ''
-  return joinNQuads(base, seed.extraNQuads ?? '')
+  return seed.path ? await readFile(seed.path, 'utf-8') : ''
 }
 
-interface GithubUser {
-  id: number
-  login: string
-  name: string | null
-  html_url: string
-  avatar_url: string
-}
-
-async function fetchGithubUser(username: string): Promise<GithubUser> {
-  const url = `${GITHUB_API}/users/${encodeURIComponent(username)}`
-  const response = await fetch(url, {
-    headers: {
-      Accept: 'application/vnd.github+json',
-      'User-Agent': 'interop.space',
-    },
-  })
-  if (!response.ok) {
-    throw new Error(
-      `GitHub API ${url}: HTTP ${response.status} ${response.statusText}`,
-    )
-  }
-  return (await response.json()) as GithubUser
-}
-
-/** The opaque user id api.w3.org uses in URLs, from a fetched user detail. */
-function opaqueUserId(detail: W3cApiUserDetail): string {
-  const id = detail._links?.self?.href?.split('/').filter(Boolean).pop()
-  if (!id) {
-    throw new Error(`W3C API user ${detail.id} has no self link`)
-  }
-  return id
-}
-
-// Start-person lookups are one request each; keep them under the API's rate
-// limit even when a dump contributes many accounts.
-const throttledUserFetch = pThrottle({ limit: 10, interval: 1000 })
-
-const fetchW3cUserByGithub = throttledUserFetch((githubId: string) =>
-  w3capi.user({ type: 'github', id: githubId }).fetch(),
-)
-
-/** Build the seed records used when there is no dump to start from. */
-async function buildFallbackSeed(): Promise<string> {
-  const records: string[] = []
-  for (const username of FALLBACK_GITHUB_USERNAMES) {
-    const github = await fetchGithubUser(username)
-    const detail = await fetchW3cUserByGithub(String(github.id))
-    records.push(
-      serializeQuads(
-        buildStartPersonQuads({
-          name: detail.name ?? github.name ?? github.login,
-          githubId: String(github.id),
-          githubUsername: github.login,
-          w3cId: detail.id,
-          w3cApiUrl: detail._links?.self?.href,
-          logo: github.avatar_url,
-        }),
-      ),
-    )
-  }
-  return records.join('\n')
-}
-
-/**
- * Load the previous dump when it exists, otherwise generate a seed from the
- * fallback GitHub account. The seed graph is parsed here so the workflow knows
- * how many people/groups it already has without carrying the graph itself.
- */
+/** Read the previous dump path; a missing dump means a fresh dataset. */
 export async function loadSeed(): Promise<SeedRef> {
   const path = process.env.DUMP_PATH ?? DEFAULT_DUMP_PATH
-  let base: string | null = null
   try {
-    base = await readFile(path, 'utf-8')
+    await readFile(path, 'utf-8')
+    return { path, source: path }
   } catch (error) {
     if ((error as { code?: string }).code !== 'ENOENT') throw error
-  }
-
-  let nquads = base ?? ''
-  let parsed = await readDataset(nquads)
-  let extraNQuads: string | undefined
-
-  if (parsed.accounts.length === 0) {
-    extraNQuads = await buildFallbackSeed()
-    nquads = joinNQuads(nquads, extraNQuads)
-    parsed = await readDataset(nquads)
-  }
-
-  const fallbackSource = `github:${FALLBACK_GITHUB_USERNAMES.join(',')}`
-  const source =
-    base === null
-      ? fallbackSource
-      : extraNQuads
-        ? `${path} + ${fallbackSource}`
-        : path
-
-  return {
-    ...(base !== null ? { path } : {}),
-    ...(extraNQuads ? { extraNQuads } : {}),
-    source,
-    people: parsed.accounts.length,
-    pendingPeople: parsed.accounts.filter((account) => !account.hasW3cGroups)
-      .length,
-    knownGroups: parsed.groupIds.length,
+    return { source: 'empty dataset' }
   }
 }
 
@@ -211,6 +124,51 @@ export async function loadSeed(): Promise<SeedRef> {
  * API defaults to 100), and `embed=true` returns full objects instead of links
  * so no follow-up requests are needed per item.
  */
+const throttledW3cFetch = pThrottle(W3C_RATE_LIMIT)((url: URL) =>
+  fetch(url, {
+    headers: { Accept: 'application/json' },
+    signal: AbortSignal.timeout(60_000),
+  }),
+)
+
+/** One JSON response; on 429 suspend for 12 minutes and retry. */
+async function fetchW3cJson<T>(url: URL): Promise<T> {
+  for (let attempt = 1; attempt <= MAX_W3C_ATTEMPTS; attempt++) {
+    let response: Response
+    try {
+      response = await throttledW3cFetch(url)
+    } catch (error) {
+      if (attempt >= MAX_W3C_ATTEMPTS) throw error
+      console.warn(
+        `W3C API request failed at ${url}; retrying: ${errorMessage(error)}`,
+      )
+      await sleep(1000 * attempt)
+      continue
+    }
+    if (response.status === 429) {
+      const retryAfter = Number(response.headers.get('retry-after') ?? '')
+      const delay = Math.min(
+        Number.isFinite(retryAfter) && retryAfter > 0
+          ? retryAfter * 1000
+          : W3C_RATE_LIMIT_WAIT_MS,
+        W3C_RATE_LIMIT_WAIT_MS,
+      )
+      console.warn(
+        `W3C API rate limit at ${url}; suspending ${Math.round(delay / 1000)}s (attempt ${attempt}/${MAX_W3C_ATTEMPTS})`,
+      )
+      await sleep(delay)
+      continue
+    }
+    if (!response.ok) {
+      throw new Error(
+        `W3C API ${url}: HTTP ${response.status} ${response.statusText}`,
+      )
+    }
+    return (await response.json()) as T
+  }
+  throw new Error(`W3C API rate limit persisted at ${url}`)
+}
+
 async function fetchW3cList<T>(path: string, key: string): Promise<T[]> {
   const items: T[] = []
   let pages = 1
@@ -219,99 +177,36 @@ async function fetchW3cList<T>(path: string, key: string): Promise<T[]> {
     url.searchParams.set('embed', 'true')
     url.searchParams.set('items', String(ITEMS_PER_PAGE))
     url.searchParams.set('page', String(page))
-    const response = await fetch(url, {
-      headers: { Accept: 'application/json' },
-    })
-    if (!response.ok) {
-      throw new Error(
-        `W3C API ${url}: HTTP ${response.status} ${response.statusText}`,
-      )
-    }
-    const body = (await response.json()) as {
+    const body = await fetchW3cJson<{
       pages?: number
       _embedded?: Record<string, T[]>
-    }
+    }>(url)
     items.push(...(body._embedded?.[key] ?? []))
     pages = body.pages ?? 1
   }
   return items
 }
 
-/** The opaque W3C user id when the person URI already is an API user URI. */
-function opaqueUserIdFromPersonUri(personUri: string): string | undefined {
-  const prefix = `${W3C_API}/users/`
-  if (!personUri.startsWith(prefix)) return undefined
-  const id = personUri.slice(prefix.length)
-  return id && !id.includes('/') ? id : undefined
-}
-
-export interface GroupCrawlResult {
-  /** Groups discovered from pending people that the seed did not have. */
-  groups: W3cGroupRef[]
-  /** Seed groups without specs plus the groups discovered in this run. */
-  specificationGroups: W3cGroupRef[]
-}
-
-/**
- * Fetch the groups of seed people that have no W3C group at all, and collect
- * the groups whose specifications still need to be fetched. People already
- * linked to a W3C group are left alone: with frozen upstream data we treat
- * their existing memberships as fetched, even though that does not discover
- * groups beyond the ones already in the graph.
- *
- * Each account's GitHub id resolves to the W3C user (the numeric W3C id alone
- * is not a valid API path), unless the person URI already is the opaque W3C
- * user URI — then that id is used directly, saving the lookup request.
- */
-export async function listW3cUserGroups(
-  seed: SeedRef,
-): Promise<GroupCrawlResult> {
-  const { accounts, groupIds, groupsWithoutSpecs } = await readDataset(
-    await readSeed(seed),
-  )
-  const pending = accounts.filter((account) => !account.hasW3cGroups)
-
-  const known = new Set(groupIds)
-  const groups = new Map<string, W3cGroupRef>()
-  for (const account of pending) {
-    let opaque = opaqueUserIdFromPersonUri(account.personUri)
-    if (!opaque) {
-      const detail = await fetchW3cUserByGithub(account.githubId)
-      opaque = opaqueUserId(detail)
-    }
-    const userGroups = await fetchW3cList<W3cApiGroupDetail>(
-      `/users/${opaque}/groups`,
-      'groups',
-    )
-    for (const group of userGroups) {
-      if (known.has(group.id)) continue
-      const apiUrl = group._links?.self?.href
-      if (!apiUrl || !Number.isInteger(group.id)) continue
-      const homepage = group._links?.homepage?.href
-      const uri = homepage ?? apiUrl
-      groups.set(uri, {
-        uri,
-        apiUrl,
-        ...(homepage ? { homepage } : {}),
-        id: group.id,
-        name: group.name,
-        ...(group.shortname ? { shortname: group.shortname } : {}),
-        ...(group.type ? { type: group.type } : {}),
-      })
-    }
+/** All W3C groups, regardless of type (wg, cg, bg, ig, tf, …). */
+export async function fetchW3cGroups(): Promise<W3cGroupRef[]> {
+  const groups = await fetchW3cList<W3cApiGroupDetail>('/groups', 'groups')
+  const refs = new Map<string, W3cGroupRef>()
+  for (const group of groups) {
+    const apiUrl = group._links?.self?.href
+    if (!apiUrl || !Number.isInteger(group.id) || !group.name) continue
+    const homepage = group._links?.homepage?.href
+    const uri = homepage ?? apiUrl
+    refs.set(uri, {
+      uri,
+      apiUrl,
+      ...(homepage ? { homepage } : {}),
+      id: group.id,
+      name: group.name,
+      ...(group.shortname ? { shortname: group.shortname } : {}),
+      ...(group.type ? { type: group.type } : {}),
+    })
   }
-
-  const specificationGroups = new Map<number, W3cGroupRef>()
-  for (const group of [...groupsWithoutSpecs, ...groups.values()]) {
-    specificationGroups.set(group.id, group)
-  }
-
-  return {
-    groups: [...groups.values()].sort((a, b) => a.name.localeCompare(b.name)),
-    specificationGroups: [...specificationGroups.values()].sort((a, b) =>
-      a.name.localeCompare(b.name),
-    ),
-  }
+  return [...refs.values()].sort((a, b) => a.name.localeCompare(b.name))
 }
 
 /**
@@ -323,10 +218,10 @@ export async function listW3cUserGroups(
  * "w3c:<id>" siloIds; the GitHub account lets future dumps crawl from them.
  */
 export async function fetchW3cParticipants(
-  groupId: number,
+  group: W3cGroupRef,
 ): Promise<W3cParticipant[]> {
   const users = await fetchW3cList<W3cApiUserDetail>(
-    `/groups/${groupId}/users`,
+    `${group.apiUrl}/users`,
     'users',
   )
   const participants: W3cParticipant[] = []
@@ -371,8 +266,11 @@ async function postNQuads(what: string, nquads: string): Promise<void> {
     body: nquads,
   })
   if (!response.ok) {
+    const detail = (await response.text()).slice(0, 500)
+    console.error('Failed batch preview:')
+    console.error(nquads.split('\n').slice(0, 20).join('\n'))
     throw new Error(
-      `Failed to store ${what} at ${endpoint}: HTTP ${response.status} ${response.statusText}`,
+      `Failed to store ${what} at ${endpoint}: HTTP ${response.status} ${response.statusText}${detail ? `: ${detail}` : ''}`,
     )
   }
 }
@@ -468,10 +366,10 @@ export async function seedBase(seed: SeedRef): Promise<string> {
 
 /** The specifications delivered by one W3C group. */
 export async function fetchW3cSpecifications(
-  groupId: number,
+  group: W3cGroupRef,
 ): Promise<W3cSpecification[]> {
   const specs = await fetchW3cList<W3cApiSpecification>(
-    `/groups/${groupId}/specifications`,
+    `${group.apiUrl}/specifications`,
     'specifications',
   )
   const specifications: W3cSpecification[] = []
@@ -493,9 +391,8 @@ export async function fetchW3cSpecifications(
   )
 }
 
-const fetchEditorList = pThrottle({ limit: 10, interval: 1000 })(
-  (url: string) => fetchW3cList<W3cApiUserDetail>(url, 'editors'),
-)
+const fetchEditorList = (url: string) =>
+  fetchW3cList<W3cApiUserDetail>(url, 'editors')
 
 /**
  * Editors of the latest W3C API version of each specification. The API exposes
@@ -515,65 +412,310 @@ export async function fetchW3cEditors(
       if (!specification.latestVersionUrl) {
         return { specification, editors: [] }
       }
-      const users = await fetchEditorList(
-        `${specification.latestVersionUrl}/editors`,
-      )
-      const editors: W3cEditor[] = []
-      for (const user of users) {
-        const href = user._links?.self?.href
-        if (!href || !Number.isInteger(user.id) || !user.name) continue
-        const github = user['connected-accounts']?.find(
-          (account) => account.service === 'github',
+      try {
+        const users = await fetchEditorList(
+          `${specification.latestVersionUrl}/editors`,
         )
-        editors.push({
-          id: user.id,
-          href,
-          name: user.name,
-          photo: pickPhoto(user),
-          ...(github
-            ? {
-                githubId: github.identifier,
-                githubUsername: github.nickname,
-              }
-            : {}),
-        })
-      }
-      return {
-        specification,
-        editors: editors.sort((a, b) => a.name.localeCompare(b.name)),
+        const editors: W3cEditor[] = []
+        for (const user of users) {
+          const href = user._links?.self?.href
+          if (!href || !Number.isInteger(user.id) || !user.name) continue
+          const github = user['connected-accounts']?.find(
+            (account) => account.service === 'github',
+          )
+          editors.push({
+            id: user.id,
+            href,
+            name: user.name,
+            photo: pickPhoto(user),
+            ...(github
+              ? {
+                  githubId: github.identifier,
+                  githubUsername: github.nickname,
+                }
+              : {}),
+          })
+        }
+        return {
+          specification,
+          editors: editors.sort((a, b) => a.name.localeCompare(b.name)),
+        }
+      } catch (error) {
+        if (isNotFound(error)) {
+          return { specification, editors: [] }
+        }
+        console.warn(
+          `Skipping editors for ${specification.uri}: ${errorMessage(error)}`,
+        )
+        return { specification, editors: [], error: errorMessage(error) }
       }
     }),
   )
 }
 
-/**
- * Add only the groups the dump does not have yet, plus their participants and
- * the specifications for groups that have none. The seed graph is parsed again
- * here (not passed as quads) so people it already knows — including the seed
- * person — keep their URI and name instead of being forked. Specs already in
- * the seed are enriched from Specref too, so an existing dump can gain the
- * bibliography metadata without a full recrawl.
- */
-export async function storeW3cData(
-  seed: SeedRef,
-  groups: W3cGroupParticipants[],
-  specifications: W3cGroupSpecifications[],
-): Promise<string> {
-  const {
-    knownPersonIds,
-    specifications: seedSpecifications,
-    people: seedPeople,
-  } = await readDataset(await readSeed(seed))
+export type W3cStepName =
+  | 'groups'
+  | 'people'
+  | 'specifications'
+  | 'specPeople'
+  | 'citations'
 
-  // Enrich specs already in the seed too, so an existing dump can gain Specref
-  // metadata without a full recrawl. A spec can be delivered by more than one
-  // group, so key by subject and let freshly fetched data win.
-  const specByUri = new Map<string, W3cSpecification>()
-  for (const spec of seedSpecifications) specByUri.set(spec.uri, spec)
-  for (const group of specifications) {
-    for (const spec of group.specifications) specByUri.set(spec.uri, spec)
+export interface W3cStepResult {
+  step: W3cStepName
+  skipped: boolean
+  reason?: string
+  /** Number of quads written by a step that ran. */
+  stored?: number
+  detail?: string
+  /** Per-group or per-spec failures that did not abort the step. */
+  problems?: string[]
+}
+
+export interface CitationStepResult extends W3cStepResult {
+  summary: string
+  report: CitationReport
+}
+
+function skippedStep(step: W3cStepName, reason: string): W3cStepResult {
+  return { step, skipped: true, reason }
+}
+
+function errorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error)
+}
+
+/** A missing sub-resource (e.g. a CG with no /users or /specifications). */
+function isNotFound(error: unknown): boolean {
+  return error instanceof Error && /HTTP 404/.test(error.message)
+}
+
+async function hasAny(query: string): Promise<boolean> {
+  return (await queryRows(`${query}\nLIMIT 1`)).length > 0
+}
+
+async function storeQuads(what: string, quads: Quad[]): Promise<void> {
+  for (const batch of batchNQuads(serializeQuads(quads), STORE_BATCH_SIZE)) {
+    await postNQuads(what, batch)
   }
-  const specs = [...specByUri.values()]
+}
+
+async function fetchCatalogGroups(): Promise<W3cGroupRef[]> {
+  const rows = await queryRows(`SELECT ?group ?name ?siloId ?apiUrl ?shortname ?type WHERE {
+    ?group a <${ORGANIZATION_TYPE}> ; <${NAME}> ?name ; <${SILO_ID}> ?siloId .
+    FILTER(STRSTARTS(STR(?siloId), "${W3C_SILO_PREFIX}"))
+    OPTIONAL { ?group <${W3C_API_URL}> ?apiUrl }
+    OPTIONAL { ?group <${SHORTNAME}> ?shortname }
+    OPTIONAL { ?group <${GROUP_TYPE}> ?type }
+  }`)
+  const groups: W3cGroupRef[] = []
+  for (const row of rows) {
+    if (!row.group || !row.name || !row.siloId) continue
+    const id = Number(row.siloId.slice(W3C_SILO_PREFIX.length))
+    if (!Number.isInteger(id)) continue
+    groups.push({
+      uri: row.group,
+      apiUrl: row.apiUrl ?? row.group,
+      id,
+      name: row.name,
+      ...(row.shortname ? { shortname: row.shortname } : {}),
+      ...(row.type ? { type: row.type } : {}),
+    })
+  }
+  return groups.sort((a, b) => a.name.localeCompare(b.name))
+}
+
+async function fetchStoreSpecifications(): Promise<W3cSpecification[]> {
+  const rows = await queryRows(`SELECT ?spec ?apiUrl ?name ?shortname ?editorDraft ?latestVersionUrl WHERE {
+    ?spec a <${SPECIFICATION_TYPE}> .
+    OPTIONAL { ?spec <${W3C_API_URL}> ?apiUrl }
+    OPTIONAL { ?spec <${NAME}> ?name }
+    OPTIONAL { ?spec <${SHORTNAME}> ?shortname }
+    OPTIONAL { ?spec <${EDITOR_DRAFT}> ?editorDraft }
+    OPTIONAL { ?spec <${W3C_LATEST_VERSION_URL}> ?latestVersionUrl }
+  }`)
+  const specs: W3cSpecification[] = []
+  for (const row of rows) {
+    if (!row.spec) continue
+    specs.push({
+      uri: row.spec,
+      apiUrl: row.apiUrl ?? row.spec,
+      title: row.name ?? row.spec,
+      ...(row.shortname ? { shortname: row.shortname } : {}),
+      ...(row.editorDraft ? { editorDraft: row.editorDraft } : {}),
+      ...(row.latestVersionUrl ? { latestVersionUrl: row.latestVersionUrl } : {}),
+    })
+  }
+  return specs.sort((a, b) => a.uri.localeCompare(b.uri))
+}
+
+async function fetchStorePeople(): Promise<W3cPersonRef[]> {
+  const rows = await queryRows(`SELECT ?person ?name WHERE {
+    ?person a <${PERSON_TYPE}> ; <${NAME}> ?name .
+  }`)
+  const people = new Map<string, string>()
+  for (const row of rows) {
+    if (row.person && row.name) people.set(row.person, row.name)
+  }
+  return [...people.entries()]
+    .map(([uri, name]) => ({ uri, name }))
+    .sort((a, b) => a.uri.localeCompare(b.uri))
+}
+
+async function fetchKnownPersonIds(): Promise<Set<number>> {
+  const rows = await queryRows(`SELECT ?siloId WHERE {
+    ?person a <${PERSON_TYPE}> ; <${SILO_ID}> ?siloId .
+    FILTER(STRSTARTS(STR(?siloId), "${W3C_SILO_PREFIX}"))
+  }`)
+  const ids = new Set<number>()
+  for (const row of rows) {
+    if (!row.siloId) continue
+    const id = Number(row.siloId.slice(W3C_SILO_PREFIX.length))
+    if (Number.isInteger(id)) ids.add(canonicalW3cId(id))
+  }
+  return ids
+}
+
+async function hasW3cGroups(): Promise<boolean> {
+  return hasAny(`SELECT ?group WHERE {
+    ?group a <${ORGANIZATION_TYPE}> ; <${SILO_ID}> ?silo .
+    FILTER(STRSTARTS(STR(?silo), "${W3C_SILO_PREFIX}"))
+  }`)
+}
+
+async function hasW3cPeople(): Promise<boolean> {
+  return hasAny(`SELECT ?person WHERE {
+    ?person a <${PERSON_TYPE}> ; <${SILO_ID}> ?silo .
+    FILTER(STRSTARTS(STR(?silo), "${W3C_SILO_PREFIX}"))
+  }`)
+}
+
+async function hasSpecifications(): Promise<boolean> {
+  return hasAny(`SELECT ?spec WHERE { ?spec a <${SPECIFICATION_TYPE}> }`)
+}
+
+async function hasSpecPeople(): Promise<boolean> {
+  return hasAny(`SELECT ?spec WHERE {
+    ?spec a <${SPECIFICATION_TYPE}> .
+    { ?spec <${BIBO_EDITOR}> ?person }
+    UNION
+    { ?spec <${DCTERMS_CREATOR}> ?person }
+  }`)
+}
+
+async function hasCitations(): Promise<boolean> {
+  return hasAny(`SELECT ?spec WHERE {
+    ?spec a <${SPECIFICATION_TYPE}> .
+    ?spec ?predicate ?target .
+    FILTER(?predicate IN (<${NORMATIVE_REF}>, <${INFORMATIVE_REF}>))
+  }`)
+}
+
+/** Step 1: all W3C groups, regardless of type. */
+export async function storeW3cGroups(): Promise<W3cStepResult> {
+  if (await hasW3cGroups()) {
+    return skippedStep('groups', 'dataset already has W3C groups')
+  }
+  const groups = await fetchW3cGroups()
+  const quads = buildGroupQuads(groups)
+  await storeQuads('W3C groups', quads)
+  return {
+    step: 'groups',
+    skipped: false,
+    stored: quads.length,
+    detail: `${groups.length} groups`,
+  }
+}
+
+/** Step 2: members of every group already in the store. */
+export async function storeW3cGroupPeople(): Promise<W3cStepResult> {
+  if (await hasW3cPeople()) {
+    return skippedStep('people', 'dataset already has W3C people')
+  }
+  const groups = await fetchCatalogGroups()
+  const knownPersonIds = await fetchKnownPersonIds()
+  const problems: string[] = []
+  const fetched: W3cGroupParticipants[] = await Promise.all(
+    groups.map(async (group) => {
+      try {
+        return {
+          group,
+          participants: await fetchW3cParticipants(group),
+        }
+      } catch (error) {
+        if (!isNotFound(error)) {
+          const problem = `${group.name} (${group.apiUrl}): ${errorMessage(error)}`
+          problems.push(problem)
+          console.warn(`Skipping group users: ${problem}`)
+        }
+        return { group, participants: [] }
+      }
+    }),
+  )
+  const quads = buildParticipantQuads(fetched, knownPersonIds)
+  await storeQuads('W3C people', quads)
+  const people = new Set(
+    fetched.flatMap((entry) => entry.participants.map((person) => person.id)),
+  ).size
+  return {
+    step: 'people',
+    skipped: false,
+    stored: quads.length,
+    detail: `${people} people in ${groups.length} groups`,
+    ...(problems.length > 0 ? { problems } : {}),
+  }
+}
+
+/** Step 3: specifications delivered by every group already in the store. */
+export async function storeW3cGroupSpecifications(): Promise<W3cStepResult> {
+  if (await hasSpecifications()) {
+    return skippedStep(
+      'specifications',
+      'dataset already has W3C specifications',
+    )
+  }
+  const groups = await fetchCatalogGroups()
+  const problems: string[] = []
+  const fetched: W3cGroupSpecifications[] = await Promise.all(
+    groups.map(async (group) => {
+      try {
+        return {
+          group,
+          specifications: await fetchW3cSpecifications(group),
+        }
+      } catch (error) {
+        if (!isNotFound(error)) {
+          const problem = `${group.name} (${group.apiUrl}): ${errorMessage(error)}`
+          problems.push(problem)
+          console.warn(`Skipping group specifications: ${problem}`)
+        }
+        return { group, specifications: [] }
+      }
+    }),
+  )
+  const quads = buildSpecificationQuads(fetched)
+  await storeQuads('W3C specifications', quads)
+  const specs = new Set(
+    fetched.flatMap((entry) =>
+      entry.specifications.map((specification) => specification.uri),
+    ),
+  ).size
+  return {
+    step: 'specifications',
+    skipped: false,
+    stored: quads.length,
+    detail: `${specs} specifications in ${groups.length} groups`,
+    ...(problems.length > 0 ? { problems } : {}),
+  }
+}
+
+/** Step 4: latest-version editors plus Specref authors and metadata. */
+export async function storeW3cSpecPeople(): Promise<W3cStepResult> {
+  if (await hasSpecPeople()) {
+    return skippedStep('specPeople', 'dataset already links specs to people')
+  }
+  const specs = await fetchStoreSpecifications()
+  const knownPersonIds = await fetchKnownPersonIds()
+  const seedPeople = await fetchStorePeople()
 
   const [editorData, specref] = await Promise.all([
     fetchW3cEditors(specs),
@@ -582,94 +724,70 @@ export async function storeW3cData(
       process.env.SPECREF_URL ?? DEFAULT_SPECREF_URL,
     ),
   ])
-  const { entries, source } = specref
-
-  const participantIds = new Set(
-    groups.flatMap((group) =>
-      group.participants.map((p) => canonicalW3cId(p.id)),
-    ),
-  )
-  const personIds = new Set([...knownPersonIds, ...participantIds])
-  const people = collectPeople(
-    seedPeople,
-    groups,
-    editorData,
-    knownPersonIds,
-  )
+  const people = collectPeople(seedPeople, [], editorData, knownPersonIds)
   const authorIndex = buildPersonNameIndex(people)
-  const linked = linkSpecifications(specs, entries, { authorIndex })
+  const linked = linkSpecifications(specs, specref.entries, { authorIndex })
 
-  // Replace stale Specref metadata so manual author-map changes take effect on
-  // an existing dump instead of leaving the old literal creator behind.
+  // Replace stale Specref metadata so author-map changes take effect on a
+  // dataset that is being built for the first time.
   const metadataDelete = specrefMetadataDeleteUpdate(
     specs.map((spec) => spec.uri),
   )
   if (metadataDelete) await postUpdate('Specref metadata', metadataDelete)
 
   const quads = [
-    ...buildW3cQuads(groups, knownPersonIds),
-    ...buildSpecificationQuads(specifications),
-    ...buildEditorQuads(editorData, personIds),
+    ...buildEditorQuads(editorData, knownPersonIds),
     ...linked.quads,
   ]
-  for (let i = 0; i < quads.length; i += STORE_BATCH_SIZE) {
-    await postNQuads(
-      'W3C groups',
-      serializeQuads(quads.slice(i, i + STORE_BATCH_SIZE)),
-    )
-  }
-  const participantCount = participantIds.size
+  await storeQuads('W3C spec people', quads)
+
+  const problems = editorData
+    .filter((entry) => entry.error)
+    .map((entry) => `${entry.specification.uri}: ${entry.error}`)
   const editorCount = new Set(
-    editorData.flatMap((entry) => entry.editors.map((editor) => editor.id)),
+    editorData.flatMap((entry) =>
+      entry.editors.map((editor) => editor.id),
+    ),
   ).size
-  const specCount = specifications.reduce(
-    (n, group) => n + group.specifications.length,
-    0,
-  )
-
-  const collisionReport = linked.collisions.map((collision) => ({
-    key: collision.key,
-    spec: collision.target,
-    candidates: collision.candidates.map((candidate) => ({
-      id: candidate.id,
-      title: candidate.title,
-      href: candidate.href,
-      edDraft: candidate.edDraft,
-      status: candidate.status,
-      publisher: candidate.publisher,
-      deliveredBy: candidate.deliveredBy,
-    })),
-  }))
-  if (collisionReport.length > 0) {
+  const authorCounts = {
+    matched: linked.authors.filter((author) => author.status === 'matched')
+      .length,
+    override: linked.authors.filter((author) => author.status === 'override')
+      .length,
+    unmatched: linked.authors.filter((author) => author.status === 'unmatched')
+      .length,
+    ambiguous: linked.authors.filter((author) => author.status === 'ambiguous')
+      .length,
+  }
+  if (linked.collisions.length > 0) {
     console.warn(
-      `Specref collisions:\n${JSON.stringify(collisionReport, null, 2)}`,
+      `Specref collisions (${linked.collisions.length}): ${JSON.stringify(
+        linked.collisions.slice(0, 10),
+        null,
+        2,
+      )}`,
     )
   }
-
   const authorProblems = linked.authors.filter(
     (author) => author.status === 'unmatched' || author.status === 'ambiguous',
   )
-  const authorCounts = {
-    matched: linked.authors.filter((author) => author.status === 'matched').length,
-    override: linked.authors.filter((author) => author.status === 'override').length,
-    unmatched: linked.authors.filter((author) => author.status === 'unmatched').length,
-    ambiguous: linked.authors.filter((author) => author.status === 'ambiguous').length,
+  if (authorProblems.length > 0) {
+    console.warn(
+      `Specref author problems (${authorProblems.length}): ${JSON.stringify(
+        authorProblems.slice(0, 10),
+        null,
+        2,
+      )}`,
+    )
   }
 
-  const enrichment = {
-    source,
-    matched: linked.matches.length,
-    byKey: linked.byKey,
-    collisions: collisionReport,
-    unmatched: linked.unmatched,
-    editors: editorCount,
-    authors: {
-      counts: authorCounts,
-      problems: authorProblems,
-    },
+  return {
+    step: 'specPeople',
+    skipped: false,
+    stored: quads.length,
+    detail: `${editorCount} editors, ${linked.matches.length}/${specs.length} Specref matches, authors ${authorCounts.matched} matched/${authorCounts.override} override/${authorCounts.unmatched} unmatched/${authorCounts.ambiguous} ambiguous`,
+    ...(problems.length > 0 ? { problems } : {}),
   }
-
-  return `Stored ${quads.length} quads for ${participantCount} participants, ${editorCount} editors, ${groups.length} groups and ${specCount} specs in ${specifications.length} groups\nSpecref: ${JSON.stringify(enrichment, null, 2)}`
 }
 
 /**
@@ -680,10 +798,30 @@ export async function storeW3cData(
  * Specs whose fetch or parse failed are not cleared, so their previous edges
  * survive until a later run succeeds. The report is written next to the dump.
  */
-export async function storeW3cCitations(): Promise<{
-  summary: string
-  report: CitationReport
-}> {
+export async function storeW3cCitations(): Promise<CitationStepResult> {
+  const reportPath =
+    process.env.CITATIONS_REPORT_PATH ?? DEFAULT_CITATIONS_REPORT_PATH
+  if (await hasCitations()) {
+    const report: CitationReport = {
+      retrievedAt: new Date().toISOString(),
+      source: 'W3C API latest versions',
+      skipped: true,
+      reason: 'dataset already has citation edges',
+      totals: citationTotals([]),
+      documents: [],
+    }
+    await writeCitationReport(reportPath, report)
+    const summary = summarizeCitations(report)
+    console.error(summary)
+    return {
+      step: 'citations',
+      skipped: true,
+      reason: report.reason,
+      summary,
+      report,
+    }
+  }
+
   const specs = await fetchCatalogSpecifications()
   const { citations, report } = await collectCitations(specs)
   const quads = buildCitationQuads(citations)
@@ -694,12 +832,7 @@ export async function storeW3cCitations(): Promise<{
   const update = citationDeleteUpdate(successful)
   if (update) await postUpdate('citations', update)
 
-  for (const batch of batchNQuads(serializeQuads(quads), STORE_BATCH_SIZE)) {
-    await postNQuads('citations', batch)
-  }
-
-  const reportPath =
-    process.env.CITATIONS_REPORT_PATH ?? DEFAULT_CITATIONS_REPORT_PATH
+  await storeQuads('citations', quads)
   await writeCitationReport(reportPath, report)
 
   const problems = report.documents.filter(
@@ -721,6 +854,13 @@ export async function storeW3cCitations(): Promise<{
       }
     }
   }
-  console.error(summarizeCitations(report))
-  return { summary: summarizeCitations(report), report }
+  const summary = summarizeCitations(report)
+  console.error(summary)
+  return {
+    step: 'citations',
+    skipped: false,
+    stored: quads.length,
+    summary,
+    report,
+  }
 }

@@ -25,18 +25,33 @@ async function run() {
   //     workflowExecutionTimeout: '15 minutes',
   //   })
 
-  // For now the dump is grown from the previous dump (or the fallback
-  // elf-pavlik GitHub account when there is none). With upstream data treated
-  // as frozen, people already linked to a W3C group, groups already present
-  // and groups with specs are skipped; only missing groups, participants and
-  // specifications are fetched from api.w3.org.
+  // The workflow is data-first: groups, group members, group specifications,
+  // spec→people links, then spec→spec citations. Each step checks the live
+  // store and skips when its output is already present, so a run on an
+  // existing dump is a no-op.
   const w3c = (await client.workflow.execute('w3cApiWorkflow', {
     taskQueue: 'w3c',
     workflowId: `w3c-api-${Date.now()}`,
-    workflowExecutionTimeout: '15 minutes',
+    // A W3C API 429 suspends the activity for 12 minutes; the full group
+    // crawl can also take several minutes.
+    workflowExecutionTimeout: '2 hours',
   })) as {
+    steps?: Array<{
+      step: string
+      skipped: boolean
+      reason?: string
+      detail?: string
+    }>
     citations?: { summary: string; report: unknown }
     [key: string]: unknown
+  }
+
+  for (const step of w3c.steps ?? []) {
+    console.log(
+      `${step.step}: ${step.skipped ? 'skipped' : 'stored'}${
+        step.reason ? ` (${step.reason})` : step.detail ? ` (${step.detail})` : ''
+      }`,
+    )
   }
 
   if (w3c.citations?.report) {

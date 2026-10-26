@@ -1,74 +1,45 @@
-// Temporal workflow that grows the dump with W3C group data. The previous dump
-// (or a single fallback GitHub account) seeds the graph. Upstream data is
-// treated as frozen, so existence means fetched: people already linked to a
-// W3C group are skipped, groups already present are skipped, and only groups
-// without any ex:specification link get their specs fetched.
+// Temporal workflow that builds the W3C dataset in dependency order. Every step
+// checks the live store and skips when its output is already present, so a run
+// on an existing dump is a no-op. The previous dump is the only seed; a fresh
+// dataset starts from the complete W3C group list.
 import { proxyActivities } from '@temporalio/workflow'
 import type * as activities from './activities'
-import type { CitationReport } from '../citations/report.ts'
+import type {
+  CitationStepResult,
+  W3cStepResult,
+} from './activities'
 
 const {
   loadSeed,
-  listW3cUserGroups,
-  fetchW3cParticipants,
-  fetchW3cSpecifications,
   seedBase,
-  storeW3cData,
+  storeW3cGroups,
+  storeW3cGroupPeople,
+  storeW3cGroupSpecifications,
+  storeW3cSpecPeople,
   storeW3cCitations,
 } = proxyActivities<typeof activities>({
-  startToCloseTimeout: '10 minutes',
+  // A 429 suspends for 12 minutes inside the activity; the crawl itself can
+  // take several minutes for the full group list.
+  startToCloseTimeout: '30 minutes',
 })
 
 export interface W3cApiResult {
-  source: string
-  people: number
-  /** People with no W3C group in the seed; only these were crawled. */
-  pendingPeople: number
-  knownGroups: number
-  /** Groups fetched in this run (those the seed did not have yet). */
-  groups: number
-  participants: number
-  /** Groups checked for specifications in this run. */
-  specGroups: number
-  specifications: number
-  stored: string
-  citations: { summary: string; report: CitationReport }
+  seed: string
+  steps: W3cStepResult[]
+  citations: CitationStepResult
 }
 
 export async function w3cApiWorkflow(): Promise<W3cApiResult> {
   const seed = await loadSeed()
-  const { groups, specificationGroups } = await listW3cUserGroups(seed)
-
-  // One activity per group: a failing group retries on its own. Specs for
-  // groups that already have them are never requested.
-  const [fetched, specs] = await Promise.all([
-    Promise.all(
-      groups.map(async (group) => ({
-        group,
-        participants: await fetchW3cParticipants(group.id),
-      })),
-    ),
-    Promise.all(
-      specificationGroups.map(async (group) => ({
-        group,
-        specifications: await fetchW3cSpecifications(group.id),
-      })),
-    ),
-  ])
-
   await seedBase(seed)
-  const stored = await storeW3cData(seed, fetched, specs)
+
+  const steps: W3cStepResult[] = [
+    await storeW3cGroups(),
+    await storeW3cGroupPeople(),
+    await storeW3cGroupSpecifications(),
+    await storeW3cSpecPeople(),
+  ]
   const citations = await storeW3cCitations()
-  return {
-    source: seed.source,
-    people: seed.people,
-    pendingPeople: seed.pendingPeople,
-    knownGroups: seed.knownGroups,
-    groups: groups.length,
-    participants: fetched.reduce((n, g) => n + g.participants.length, 0),
-    specGroups: specificationGroups.length,
-    specifications: specs.reduce((n, g) => n + g.specifications.length, 0),
-    stored,
-    citations,
-  }
+
+  return { seed: seed.source, steps, citations }
 }

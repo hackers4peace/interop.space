@@ -70,8 +70,8 @@ const DEFAULT_API_CONCURRENCY = 4
 const DEFAULT_RATE_LIMIT = { limit: 2, interval: 1000 }
 const DEFAULT_API_RATE_LIMIT = { limit: 10, interval: 1000 }
 const MAX_ATTEMPTS = 4
-/** Stop starting new work after this budget; the activity timeout is 10 min. */
-const DEFAULT_MAX_DURATION_MS = 5 * 60_000
+/** Stop starting new work after this budget; the activity timeout is 30 min. */
+const DEFAULT_MAX_DURATION_MS = 20 * 60_000
 /** A hostile Retry-After must not stall the whole run. */
 const MAX_RETRY_AFTER_MS = 5_000
 const DEFAULT_TIMEOUT_MS = 60_000

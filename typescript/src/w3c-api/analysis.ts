@@ -92,6 +92,8 @@ export interface W3cEditor {
 export interface W3cSpecificationEditors {
   specification: W3cSpecification
   editors: W3cEditor[]
+  /** Set when the editors endpoint failed; the step continues. */
+  error?: string
 }
 
 /** A person already present in the seed graph. */
@@ -668,5 +670,7 @@ export function buildSpecificationQuads(
 
 /** N-Quads serialization, the format the SPARQL store accepts. */
 export function serializeQuads(quads: Quad[]): string {
-  return new Writer().quadsToString(quads)
+  // N-Quads requires quoted literals; the default Turtle writer emits bare
+  // booleans, which the store rejects.
+  return new Writer({ format: 'N-Quads' }).quadsToString(quads)
 }

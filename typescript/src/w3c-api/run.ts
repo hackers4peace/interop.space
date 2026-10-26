@@ -1,95 +1,40 @@
-// Standalone CLI (no Temporal): reads the previous dump (or starts from the
-// fallback GitHub account), crawls people with no W3C group yet, fetches only
-// the groups the dump does not contain, and fetches specs for groups that have
-// none. Prints the new RDF (N-Quads) to stdout; a summary goes to stderr.
+// Standalone W3C crawl runner (no Temporal). Loads the dump into a live SPARQL
+// store and runs the same ordered steps as the workflow. Each step skips when
+// the store already has its output.
 //
 // Usage:
-//   bun run src/w3c-api/run.ts                    # ui/public/dump.nq
-//   bun run src/w3c-api/run.ts <dump.nq>          # local dump
-//   DUMP_PATH=<dump.nq> bun run src/w3c-api/run.ts
-import { parseArgs } from 'node:util'
+//   SPARQL_ENDPOINT=http://localhost:7878 DUMP_PATH=../ui/public/dump.nq \
+//     bun run src/w3c-api/run.ts
 import {
-  fetchW3cEditors,
-  fetchW3cParticipants,
-  fetchW3cSpecifications,
-  listW3cUserGroups,
   loadSeed,
-  readSeed,
+  seedBase,
+  storeW3cCitations,
+  storeW3cGroupPeople,
+  storeW3cGroupSpecifications,
+  storeW3cGroups,
+  storeW3cSpecPeople,
 } from './activities.ts'
-import {
-  buildEditorQuads,
-  buildSpecificationQuads,
-  buildW3cQuads,
-  readDataset,
-  serializeQuads,
-} from './analysis.ts'
-import type { W3cSpecification } from './analysis.ts'
-import { canonicalW3cId } from './person-ids.ts'
 
-export async function main(argv: string[]): Promise<void> {
-  const { positionals } = parseArgs({ args: argv, allowPositionals: true })
-  if (positionals[0]) process.env.DUMP_PATH = positionals[0]
-
+export async function main(): Promise<void> {
   const seed = await loadSeed()
-  const { groups, specificationGroups } = await listW3cUserGroups(seed)
-  const [fetched, specs] = await Promise.all([
-    Promise.all(
-      groups.map(async (group) => ({
-        group,
-        participants: await fetchW3cParticipants(group.id),
-      })),
-    ),
-    Promise.all(
-      specificationGroups.map(async (group) => ({
-        group,
-        specifications: await fetchW3cSpecifications(group.id),
-      })),
-    ),
-  ])
-
-  const { knownPersonIds } = await readDataset(await readSeed(seed))
-  const uniqueSpecs = new Map<string, W3cSpecification>()
-  for (const group of specs) {
-    for (const spec of group.specifications) uniqueSpecs.set(spec.uri, spec)
-  }
-  const editorData = await fetchW3cEditors([...uniqueSpecs.values()])
-  const participantIds = new Set(
-    fetched.flatMap((group) =>
-      group.participants.map((p) => canonicalW3cId(p.id)),
-    ),
-  )
-  const personIds = new Set([...knownPersonIds, ...participantIds])
-  const quads = [
-    ...buildW3cQuads(fetched, knownPersonIds),
-    ...buildEditorQuads(editorData, personIds),
-    ...buildSpecificationQuads(specs),
-  ]
-  for (const quad of serializeQuads(quads).trimEnd().split('\n')) {
-    console.log(quad)
-  }
-
   console.error(`seed: ${seed.source}`)
-  console.error(
-    `people: ${seed.people}, pending people: ${seed.pendingPeople}, known groups: ${seed.knownGroups}`,
-  )
-  console.error(`new W3C groups: ${groups.length}`)
-  console.error(
-    `spec checks: ${specificationGroups.length} groups, ${specs.reduce((n, g) => n + g.specifications.length, 0)} specs`,
-  )
-  for (const { group, participants } of fetched) {
-    console.error(
-      `  ${group.name} (w3c:${group.id}): ${participants.length} participants`,
-    )
+  console.log(await seedBase(seed))
+
+  const steps = [
+    storeW3cGroups,
+    storeW3cGroupPeople,
+    storeW3cGroupSpecifications,
+    storeW3cSpecPeople,
+    storeW3cCitations,
+  ]
+  for (const step of steps) {
+    console.log(JSON.stringify(await step(), null, 2))
   }
-  console.error(
-    `editors: ${new Set(editorData.flatMap((entry) => entry.editors.map((editor) => editor.id))).size}`,
-  )
-  console.error(`quads: ${quads.length}`)
 }
 
 if (import.meta.main) {
-  main(process.argv.slice(2)).catch((err) => {
-    console.error(err instanceof Error ? err.message : err)
+  main().catch((error) => {
+    console.error(error instanceof Error ? error.message : error)
     process.exit(1)
   })
 }
