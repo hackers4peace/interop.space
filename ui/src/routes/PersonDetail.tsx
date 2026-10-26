@@ -3,8 +3,10 @@ import { For, Match, Show, Switch, onMount } from 'solid-js'
 import { A, useParams } from '@solidjs/router'
 import { Avatar } from '../components/ui/avatar'
 import { GithubHandle } from '../components/GithubHandle'
+import { GroupCard } from '../components/GroupCard'
 import { SpecificationCard } from '../components/SpecificationCard'
 import { appActor } from '../store/app'
+import { useSdoNav } from '../lib/sdoNav'
 import {
   authoredSpecificationsOf,
   editedSpecificationsOf,
@@ -17,6 +19,7 @@ import {
 
 const PersonDetail: Component = () => {
   const params = useParams<{ id: string }>()
+  const { href } = useSdoNav()
 
   onMount(() => {
     if (peopleSlice().status === 'idle') appActor.send({ type: 'loadPeople' })
@@ -43,7 +46,7 @@ const PersonDetail: Component = () => {
   return (
     <section class="space-y-6">
       <A
-        href="/people"
+        href={href('/people')}
         class="text-sm text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
       >
         ← All people
@@ -181,32 +184,7 @@ const PersonDetail: Component = () => {
                     >
                       <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <For each={groups()}>
-                          {(group) => (
-                            <li>
-                              <A
-                                href={`/groups/${group.id}`}
-                                class="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
-                              >
-                                <span class="space-y-1">
-                                  <span class="block font-semibold">
-                                    {group.name}
-                                  </span>
-                                  <span class="block text-sm text-slate-500 dark:text-slate-400">
-                                    {group.participants.length}
-                                    {group.participants.length === 1
-                                      ? ' participant'
-                                      : ' participants'}
-                                  </span>
-                                </span>
-                                <span
-                                  aria-hidden="true"
-                                  class="text-slate-400 dark:text-slate-500"
-                                >
-                                  →
-                                </span>
-                              </A>
-                            </li>
-                          )}
+                          {(group) => <GroupCard group={group} />}
                         </For>
                       </ul>
                     </Show>

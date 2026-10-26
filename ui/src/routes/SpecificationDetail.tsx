@@ -2,8 +2,10 @@ import type { Component } from 'solid-js'
 import { For, Match, Show, Switch, onMount } from 'solid-js'
 import { A, useParams } from '@solidjs/router'
 import { ContributorSection } from '../components/ContributorChips'
+import { GroupCard } from '../components/GroupCard'
 import { SpecReferenceSection } from '../components/SpecReferences'
 import { appActor } from '../store/app'
+import { useSdoNav } from '../lib/sdoNav'
 import {
   groupByName,
   groupByUri,
@@ -17,36 +19,31 @@ const metaLink =
 
 const SpecificationDetail: Component = () => {
   const params = useParams<{ id: string }>()
+  const { href } = useSdoNav()
 
   onMount(() => {
     if (specificationsSlice().status === 'idle')
       appActor.send({ type: 'loadSpecifications' })
-    // Only needed to turn the "Delivered by" names into links.
+    // Only needed to turn the "Published by" names into links.
     if (w3cGroupsSlice().status === 'idle')
       appActor.send({ type: 'loadW3cGroups' })
   })
 
   const spec = () => specificationById(params.id)
 
-  const deliveredBy = () => {
+  const publishedBy = () => {
     const current = spec()
     if (!current) return []
     if (current.groupUris.length > 0) {
-      return current.groupUris.map((uri) => {
-        const group = groupByUri(uri)
-        return { uri, id: group?.id, name: group?.name ?? uri }
-      })
+      return current.groupUris.map((uri) => groupByUri(uri) ?? { name: uri })
     }
-    return current.groups.map((name) => {
-      const group = groupByName(name)
-      return { uri: group?.uri, id: group?.id, name }
-    })
+    return current.groups.map((name) => groupByName(name) ?? { name })
   }
 
   return (
     <section class="space-y-6">
       <A
-        href="/specifications"
+        href={href('/specifications')}
         class="text-sm text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
       >
         ← All specifications
@@ -75,9 +72,9 @@ const SpecificationDetail: Component = () => {
                 <Show when={s().landingPage || s().editorDraft}>
                   <div class="flex flex-wrap items-center gap-2 pt-1">
                     <Show when={s().landingPage}>
-                      {(href) => (
+                      {(url) => (
                         <a
-                          href={href()}
+                          href={url()}
                           target="_blank"
                           rel="noreferrer"
                           title="Latest published version (TR)"
@@ -88,9 +85,9 @@ const SpecificationDetail: Component = () => {
                       )}
                     </Show>
                     <Show when={s().editorDraft}>
-                      {(href) => (
+                      {(url) => (
                         <a
-                          href={href()}
+                          href={url()}
                           target="_blank"
                           rel="noreferrer"
                           title="Editor's draft (ED)"
@@ -101,6 +98,26 @@ const SpecificationDetail: Component = () => {
                       )}
                     </Show>
                   </div>
+                </Show>
+              </div>
+
+              <div class="space-y-3">
+                <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                  Published by
+                </h2>
+                <Show
+                  when={publishedBy().length > 0}
+                  fallback={
+                    <p class="text-slate-500 dark:text-slate-400">
+                      No group is linked to this specification in the catalog.
+                    </p>
+                  }
+                >
+                  <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <For each={publishedBy()}>
+                      {(group) => <GroupCard group={group} />}
+                    </For>
+                  </ul>
                 </Show>
               </div>
 
@@ -129,46 +146,6 @@ const SpecificationDetail: Component = () => {
                 references={s().citedBy}
                 empty="No catalog specification references this one."
               />
-
-              <div class="space-y-3">
-                <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                  Delivered by
-                </h2>
-                <Show
-                  when={deliveredBy().length > 0}
-                  fallback={
-                    <p class="text-slate-500 dark:text-slate-400">
-                      No group is linked to this specification in the catalog.
-                    </p>
-                  }
-                >
-                  <ul class="flex flex-wrap gap-2">
-                    <For each={deliveredBy()}>
-                      {(group) => (
-                        <li>
-                          <Show
-                            when={group.id}
-                            fallback={
-                              <span class="rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-200">
-                                {group.name}
-                              </span>
-                            }
-                          >
-                            {(id) => (
-                              <A
-                                href={`/groups/${id()}`}
-                                class="rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
-                              >
-                                {group.name}
-                              </A>
-                            )}
-                          </Show>
-                        </li>
-                      )}
-                    </For>
-                  </ul>
-                </Show>
-              </div>
             </>
           )}
         </Match>

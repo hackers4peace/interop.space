@@ -4,6 +4,7 @@ import { A, useParams } from '@solidjs/router'
 import { PersonCard } from '../components/PersonCard'
 import { SpecificationCard } from '../components/SpecificationCard'
 import { personFromParticipant } from '../lib/person'
+import { useSdoNav } from '../lib/sdoNav'
 import { appActor } from '../store/app'
 import {
   groupById,
@@ -14,6 +15,7 @@ import {
 
 const GroupDetail: Component = () => {
   const params = useParams<{ id: string }>()
+  const { href } = useSdoNav()
 
   onMount(() => {
     if (w3cGroupsSlice().status === 'idle')
@@ -27,7 +29,7 @@ const GroupDetail: Component = () => {
   return (
     <section class="space-y-6">
       <A
-        href="/groups"
+        href={href('/groups')}
         class="text-sm text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
       >
         ← All groups

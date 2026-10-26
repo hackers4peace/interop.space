@@ -3,8 +3,11 @@ import { For, Show, onMount } from 'solid-js'
 import { A } from '@solidjs/router'
 import { ArrowRight, Pin } from 'lucide-solid'
 import { PersonCard } from '../components/PersonCard'
+import { SdoPanel } from '../components/SdoPanel'
 import { appActor } from '../store/app'
 import { personFromParticipant } from '../lib/person'
+import { isW3cScope, sdoById, sdoDisplayName } from '../lib/sdos'
+import { useSdoNav } from '../lib/sdoNav'
 import { w3cGroupsSlice } from '../store/selectors'
 import type { W3cGroup, W3cParticipant } from '../worker/protocol'
 
@@ -19,43 +22,46 @@ const idleIcon =
 // the two actions never fight over the same target.
 const GroupCard: Component<{ group: W3cGroup; selected: boolean }> = (
   props,
-) => (
-  <div
-    class={`flex items-center gap-2 rounded-xl border bg-white p-4 shadow-sm transition dark:bg-slate-900 ${props.selected ? 'border-indigo-500 ring-1 ring-indigo-500' : 'border-slate-200 hover:shadow-md dark:border-slate-800'}`}
-  >
-    <button
-      type="button"
-      aria-pressed={props.selected}
-      aria-label={
-        props.selected
-          ? `Unpin ${props.group.name}`
-          : `Pin ${props.group.name}`
-      }
-      title={props.selected ? 'Unpin group' : 'Pin group'}
-      onClick={() =>
-        appActor.send({ type: 'toggleW3cGroup', id: props.group.id })
-      }
-      class={`${iconButton} ${props.selected ? 'bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400' : idleIcon}`}
+) => {
+  const { href } = useSdoNav()
+  return (
+    <div
+      class={`flex items-center gap-2 rounded-xl border bg-white p-4 shadow-sm transition dark:bg-slate-900 ${props.selected ? 'border-indigo-500 ring-1 ring-indigo-500' : 'border-slate-200 hover:shadow-md dark:border-slate-800'}`}
     >
-      <Pin size={18} fill={props.selected ? 'currentColor' : 'none'} />
-    </button>
-    <div class="min-w-0 flex-1 space-y-1">
-      <p class="truncate font-semibold">{props.group.name}</p>
-      <p class="text-sm text-slate-500 dark:text-slate-400">
-        {props.group.participants.length}
-        {props.group.participants.length === 1 ? ' participant' : ' participants'}
-      </p>
+      <button
+        type="button"
+        aria-pressed={props.selected}
+        aria-label={
+          props.selected
+            ? `Unpin ${props.group.name}`
+            : `Pin ${props.group.name}`
+        }
+        title={props.selected ? 'Unpin group' : 'Pin group'}
+        onClick={() =>
+          appActor.send({ type: 'toggleW3cGroup', id: props.group.id })
+        }
+        class={`${iconButton} ${props.selected ? 'bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400' : idleIcon}`}
+      >
+        <Pin size={18} fill={props.selected ? 'currentColor' : 'none'} />
+      </button>
+      <div class="min-w-0 flex-1 space-y-1">
+        <p class="truncate font-semibold">{props.group.name}</p>
+        <p class="text-sm text-slate-500 dark:text-slate-400">
+          {props.group.participants.length}
+          {props.group.participants.length === 1 ? ' participant' : ' participants'}
+        </p>
+      </div>
+      <A
+        href={href(`/groups/${props.group.id}`)}
+        aria-label={`Open ${props.group.name}`}
+        title={`Open ${props.group.name}`}
+        class={`${iconButton} ${idleIcon}`}
+      >
+        <ArrowRight size={18} />
+      </A>
     </div>
-    <A
-      href={`/groups/${props.group.id}`}
-      aria-label={`Open ${props.group.name}`}
-      title={`Open ${props.group.name}`}
-      class={`${iconButton} ${idleIcon}`}
-    >
-      <ArrowRight size={18} />
-    </A>
-  </div>
-)
+  )
+}
 
 const ParticipantList: Component<{
   title: string
@@ -85,11 +91,16 @@ const ParticipantList: Component<{
 )
 
 const Groups: Component = () => {
+  const { sdo } = useSdoNav()
+
   onMount(() => {
     if (w3cGroupsSlice().status === 'idle')
       appActor.send({ type: 'loadW3cGroups' })
   })
 
+  const currentSdo = () => sdoById(sdo())
+  const w3cScope = () => isW3cScope(sdo())
+  const scopeName = () => sdoDisplayName(sdo())
   const groups = () => w3cGroupsSlice().data.groups
   const selectedGroups = () =>
     groups().filter((g) => w3cGroupsSlice().data.selected.includes(g.id))
@@ -109,68 +120,86 @@ const Groups: Component = () => {
 
   return (
     <section class="space-y-6">
+      <Show when={currentSdo()}>{(sdo) => <SdoPanel sdo={sdo()} />}</Show>
+
       <div class="space-y-1">
-        <h1 class="text-3xl font-bold tracking-tight">W3C Groups</h1>
-        <p class="text-slate-600 dark:text-slate-400">
-          Pin the groups you want to compare. Participants are synced from the
-          W3C API into the catalog; with more than one group pinned, the list
-          shows who they have in common. Use the arrow to open a group's page.
-        </p>
+        <h1 class="text-3xl font-bold tracking-tight">
+          {w3cScope() ? 'W3C Groups' : 'Groups'}
+        </h1>
+        <Show when={w3cScope()}>
+          <p class="text-slate-600 dark:text-slate-400">
+            Pin the groups you want to compare. Participants are synced from
+            the W3C API into the catalog; with more than one group pinned, the
+            list shows who they have in common. Use the arrow to open a group's
+            page.
+          </p>
+        </Show>
       </div>
 
-      <Show when={w3cGroupsSlice().status === 'error'}>
-        <p class="text-red-500">
-          Failed to load W3C groups: {w3cGroupsSlice().error}
-        </p>
-      </Show>
-
       <Show
-        when={groups().length > 0}
+        when={w3cScope()}
         fallback={
-          <p class="text-slate-500 dark:text-slate-400">{groupsFallback()}</p>
+          <p class="text-slate-500 dark:text-slate-400">
+            No groups are available for {scopeName()} in the catalog yet.
+          </p>
         }
       >
-        <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <For each={groups()}>
+        <Show when={w3cGroupsSlice().status === 'error'}>
+          <p class="text-red-500">
+            Failed to load W3C groups: {w3cGroupsSlice().error}
+          </p>
+        </Show>
+
+        <Show
+          when={groups().length > 0}
+          fallback={
+            <p class="text-slate-500 dark:text-slate-400">
+              {groupsFallback()}
+            </p>
+          }
+        >
+          <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <For each={groups()}>
+              {(group) => (
+                <li>
+                  <GroupCard
+                    group={group}
+                    selected={w3cGroupsSlice().data.selected.includes(group.id)}
+                  />
+                </li>
+              )}
+            </For>
+          </ul>
+
+          <Show when={w3cGroupsSlice().status === 'loading'}>
+            <p class="text-slate-500 dark:text-slate-400">
+              Loading groups and participants from the catalog…
+            </p>
+          </Show>
+
+          <Show when={selectedGroups().length === 0}>
+            <p class="text-slate-500 dark:text-slate-400">
+              Pin at least one group above.
+            </p>
+          </Show>
+
+          <Show when={singleGroup()}>
             {(group) => (
-              <li>
-                <GroupCard
-                  group={group}
-                  selected={w3cGroupsSlice().data.selected.includes(group.id)}
-                />
-              </li>
+              <ParticipantList
+                title={`Participants of ${group().name}`}
+                note={`${group().participants.length} ${group().participants.length === 1 ? 'participant' : 'participants'} in the catalog. Pin another group to see who they have in common.`}
+                people={group().participants}
+              />
             )}
-          </For>
-        </ul>
+          </Show>
 
-        <Show when={w3cGroupsSlice().status === 'loading'}>
-          <p class="text-slate-500 dark:text-slate-400">
-            Loading groups and participants from the catalog…
-          </p>
-        </Show>
-
-        <Show when={selectedGroups().length === 0}>
-          <p class="text-slate-500 dark:text-slate-400">
-            Pin at least one group above.
-          </p>
-        </Show>
-
-        <Show when={singleGroup()}>
-          {(group) => (
+          <Show when={selectedGroups().length > 1}>
             <ParticipantList
-              title={`Participants of ${group().name}`}
-              note={`${group().participants.length} ${group().participants.length === 1 ? 'participant' : 'participants'} in the catalog. Pin another group to see who they have in common.`}
-              people={group().participants}
+              title={`Common participants (${w3cGroupsSlice().data.common.length})`}
+              note={countNote()}
+              people={w3cGroupsSlice().data.common}
             />
-          )}
-        </Show>
-
-        <Show when={selectedGroups().length > 1}>
-          <ParticipantList
-            title={`Common participants (${w3cGroupsSlice().data.common.length})`}
-            note={countNote()}
-            people={w3cGroupsSlice().data.common}
-          />
+          </Show>
         </Show>
       </Show>
     </section>

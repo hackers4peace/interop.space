@@ -2,6 +2,7 @@ import type { Component } from 'solid-js'
 import { For, Show } from 'solid-js'
 import { A } from '@solidjs/router'
 import { CircleAlert, Info } from 'lucide-solid'
+import { useSdoNav } from '../lib/sdoNav'
 import type { SpecReference } from '../worker/protocol'
 
 const normativeIcon = 'text-amber-600 dark:text-amber-400'
@@ -36,6 +37,7 @@ export const SpecReferenceSection: Component<{
   references: SpecReference[]
   empty: string
 }> = (props) => {
+  const { href } = useSdoNav()
   const normative = () =>
     props.references.filter((reference) => reference.normative).length
   const informative = () =>
@@ -72,7 +74,7 @@ export const SpecReferenceSection: Component<{
                 <NatureIcons reference={reference} />
                 <div class="min-w-0">
                   <A
-                    href={`/specifications/${reference.id}`}
+                    href={href(`/specifications/${reference.id}`)}
                     class="break-words font-medium hover:underline"
                   >
                     {reference.name}

@@ -1,4 +1,4 @@
-import type { Person, W3cParticipant } from '../worker/protocol'
+import type { Person, SpecContributor, W3cParticipant } from '../worker/protocol'
 
 // Tail of a catalog URI, mirroring the worker's `short()` helper, so a group
 // participant resolves to the same /people/:id page as the People directory.
@@ -21,3 +21,18 @@ export const personFromParticipant = (
   github: participant.github,
   w3cId: participant.w3cId,
 })
+
+// Spec contributors resolve to ex:Person nodes too, but literal (unresolved)
+// authors/editors have no page to link to.
+export const personFromContributor = (
+  contributor: SpecContributor,
+): Person | undefined => {
+  if (!contributor.id || !contributor.uri) return undefined
+  return {
+    id: contributor.id,
+    uri: contributor.uri,
+    name: contributor.name,
+    avatarUrl: contributor.avatarUrl ?? '',
+    github: contributor.github,
+  }
+}
