@@ -9,6 +9,7 @@ typescript/src/gen/
 ui/src/gen/
 dotnet/Gen/gen/
 
+
 # .NET
 dotnet/**/bin/
 dotnet/**/obj/

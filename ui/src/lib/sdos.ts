@@ -13,7 +13,6 @@ export type SdoCard = {
 export type SdoSection =
   | { kind: 'chips'; title: string; items: SdoChip[] }
   | { kind: 'cards'; title: string; items: SdoCard[] }
-  | { kind: 'ecosystems'; title: string; source: string }
 
 export type Sdo = {
   id: string
@@ -24,7 +23,8 @@ export type Sdo = {
 }
 
 // Local configuration for now; these records will eventually come from the
-// catalog dataset.
+// catalog dataset. Nothing here is fetched at runtime: the W3C ecosystem list
+// and the IETF areas are snapshots kept in sdos.json.
 export const sdos = rawSdos as Sdo[]
 
 export const sdoById = (id: string | undefined): Sdo | undefined =>

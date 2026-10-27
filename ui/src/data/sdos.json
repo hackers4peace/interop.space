@@ -3,12 +3,40 @@
     "id": "w3c",
     "name": "World Wide Web Consortium",
     "website": "https://www.w3.org/",
-    "logo": "https://www.w3.org/assets/logos/w3c-2025/svg/w3c.svg",
+    "logo": "/logos/w3c.svg",
     "sections": [
       {
-        "kind": "ecosystems",
+        "kind": "chips",
         "title": "Ecosystems",
-        "source": "https://api.w3.org/ecosystems"
+        "items": [
+          {
+            "label": "Web Advertising"
+          },
+          {
+            "label": "E-commerce"
+          },
+          {
+            "label": "Media & Entertainment"
+          },
+          {
+            "label": "Network & Communications"
+          },
+          {
+            "label": "Publishing"
+          },
+          {
+            "label": "Smart Cities"
+          },
+          {
+            "label": "Automotive & Transportation"
+          },
+          {
+            "label": "Web of Things"
+          },
+          {
+            "label": "Data and knowledge"
+          }
+        ]
       }
     ]
   },
@@ -16,19 +44,33 @@
     "id": "ietf",
     "name": "Internet Engineering Task Force",
     "website": "https://www.ietf.org/",
-    "logo": "https://static.ietf.org/logos/ietf.svg",
+    "logo": "/logos/ietf.svg",
     "sections": [
       {
         "kind": "chips",
         "title": "IETF areas",
         "items": [
-          { "label": "Applications and Real-Time Area" },
-          { "label": "General Area" },
-          { "label": "Internet Area" },
-          { "label": "Operations and Management Area" },
-          { "label": "Routing Area" },
-          { "label": "Security Area" },
-          { "label": "Web and Internet Transport Area" }
+          {
+            "label": "Applications and Real-Time Area"
+          },
+          {
+            "label": "General Area"
+          },
+          {
+            "label": "Internet Area"
+          },
+          {
+            "label": "Operations and Management Area"
+          },
+          {
+            "label": "Routing Area"
+          },
+          {
+            "label": "Security Area"
+          },
+          {
+            "label": "Web and Internet Transport Area"
+          }
         ]
       }
     ]
@@ -51,14 +93,14 @@
     "id": "dif",
     "name": "Decentralized Identity Foundation",
     "website": "https://identity.foundation/",
-    "logo": "https://identity.foundation/images/logo-small.png",
+    "logo": "/logos/dif.png",
     "sections": []
   },
   {
     "id": "lf",
     "name": "The Linux Foundation",
     "website": "https://www.linuxfoundation.org/",
-    "logo": "https://www.linuxfoundation.org/hubfs/lf-stacked-color.svg",
+    "logo": "/logos/linux-foundation.svg",
     "sections": [
       {
         "kind": "cards",
@@ -67,17 +109,17 @@
           {
             "name": "Cloud Native Computing Foundation",
             "url": "https://www.cncf.io",
-            "logo": "https://www.cncf.io/wp-content/uploads/2023/04/cncf-main-site-logo.svg"
+            "logo": "/logos/cncf.svg"
           },
           {
             "name": "OpenWallet Foundation",
             "url": "https://openwallet.foundation/",
-            "logo": "https://openwallet.foundation/wp-content/uploads/sites/11/2023/02/OpenWallet_Logo_Color-with-descriptor.svg"
+            "logo": "/logos/openwallet-foundation.svg"
           },
           {
             "name": "Agentic AI Foundation",
             "url": "https://aaif.io/",
-            "logo": "https://cdn.sanity.io/images/4o10fa7h/production/16dd7d8270b673d376cadca831ab3d5ea003bb89-838x203.svg"
+            "logo": "/logos/agentic-ai-foundation.svg"
           }
         ]
       }
@@ -87,14 +129,14 @@
     "id": "apache",
     "name": "The Apache Software Foundation",
     "website": "https://www.apache.org/",
-    "logo": "https://www.apache.org/images/asflogo_horizontal_color.svg",
+    "logo": "/logos/apache-software-foundation.svg",
     "sections": []
   },
   {
     "id": "nlnet",
     "name": "NLnet Foundation",
     "website": "https://nlnet.nl/",
-    "logo": "https://nlnet.nl/logo/banner.svg",
+    "logo": "/logos/nlnet.svg",
     "sections": []
   },
   {

@@ -1,5 +1,5 @@
 import type { Component } from 'solid-js'
-import { For, Match, Switch, createResource } from 'solid-js'
+import { For } from 'solid-js'
 import type { Sdo, SdoCard, SdoChip, SdoSection } from '../lib/sdos'
 
 const chip =
@@ -38,47 +38,9 @@ const Cards: Component<{ items: SdoCard[] }> = (props) => (
   </ul>
 )
 
-type EcosystemsResponse = {
-  _links?: {
-    ecosystems?: { href: string; title: string }[]
-  }
-}
-
-const fetchEcosystems = async (source: string): Promise<string[]> => {
-  const response = await fetch(source, {
-    headers: { Accept: 'application/json' },
-  })
-  if (!response.ok) throw new Error(`W3C API returned ${response.status}`)
-  const data = (await response.json()) as EcosystemsResponse
-  return (data._links?.ecosystems ?? []).map((ecosystem) => ecosystem.title)
-}
-
-const Ecosystems: Component<{ source: string }> = (props) => {
-  const [ecosystems] = createResource(() => props.source, fetchEcosystems)
-  return (
-    <Switch>
-      <Match when={ecosystems.error}>
-        <p class="text-sm text-red-500">
-          Could not load ecosystems from api.w3.org.
-        </p>
-      </Match>
-      <Match when={ecosystems.loading}>
-        <p class="text-sm text-slate-500 dark:text-slate-400">
-          Loading ecosystems…
-        </p>
-      </Match>
-      <Match when={ecosystems()}>
-        {(labels) => <Chips items={labels().map((label) => ({ label }))} />}
-      </Match>
-    </Switch>
-  )
-}
-
 const Section: Component<{ section: SdoSection }> = (props) => {
   if (props.section.kind === 'cards')
     return <Cards items={props.section.items} />
-  if (props.section.kind === 'ecosystems')
-    return <Ecosystems source={props.section.source} />
   return <Chips items={props.section.items} />
 }
 
