@@ -10,6 +10,7 @@ const [appState, appActor] = createActorStore<AppState, Command>(worker, {
   people: { status: 'idle', data: [] },
   projects: { status: 'idle', data: [] },
   software: { status: 'idle', data: [] },
+  useCases: { status: 'idle', data: [] },
   specifications: { status: 'idle', data: [] },
   w3cGroups: {
     status: 'idle',

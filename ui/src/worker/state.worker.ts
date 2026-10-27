@@ -12,6 +12,7 @@ import type {
   SpecContributor,
   SpecReference,
   Specification,
+  UseCase,
   W3cGroup,
   W3cParticipant,
 } from './protocol'
@@ -22,6 +23,7 @@ const state: AppState = {
   people: { status: 'idle', data: [] },
   projects: { status: 'idle', data: [] },
   software: { status: 'idle', data: [] },
+  useCases: { status: 'idle', data: [] },
   specifications: { status: 'idle', data: [] },
   w3cGroups: {
     status: 'idle',
@@ -324,6 +326,39 @@ async function sparqlSoftware(): Promise<Software[]> {
     sw.implements.sort((a, b) => a.name.localeCompare(b.name))
   }
   return [...map.values()].sort((a, b) => a.name.localeCompare(b.name))
+}
+
+async function sparqlUseCases(): Promise<UseCase[]> {
+  const rows = await queryBindings(
+    `PREFIX ex: <${EX}>
+     SELECT ?uc ?name ?description ?spec WHERE {
+       ?uc a ex:UseCase ; ex:name ?name .
+       OPTIONAL { ?uc ex:description ?description }
+       OPTIONAL { ?uc ex:useCaseOf ?spec }
+     }`,
+  )
+  const useCases = new Map<string, UseCase>()
+  for (const b of rows) {
+    const uri = value(b, 'uc')
+    const name = value(b, 'name')
+    if (!uri || !name) continue
+    let useCase = useCases.get(uri)
+    if (!useCase) {
+      useCase = {
+        id: short(uri),
+        uri,
+        name,
+        description: value(b, 'description') ?? '',
+        specificationUris: [],
+      }
+      useCases.set(uri, useCase)
+    }
+    const spec = value(b, 'spec')
+    if (spec && !useCase.specificationUris.includes(spec)) {
+      useCase.specificationUris.push(spec)
+    }
+  }
+  return [...useCases.values()].sort((a, b) => a.name.localeCompare(b.name))
 }
 
 const toSpecContributor = (
@@ -700,6 +735,23 @@ async function loadSoftware() {
   emit({ key: 'software', value: state.software })
 }
 
+async function loadUseCases() {
+  if (state.useCases.status === 'loading') return
+  state.useCases = { status: 'loading', data: state.useCases.data }
+  emit({ key: 'useCases', value: state.useCases })
+  try {
+    const data = await sparqlUseCases()
+    state.useCases = { status: 'ready', data }
+  } catch (e) {
+    state.useCases = {
+      status: 'error',
+      data: state.useCases.data,
+      error: String(e),
+    }
+  }
+  emit({ key: 'useCases', value: state.useCases })
+}
+
 async function loadSpecifications() {
   if (state.specifications.status === 'loading') return
   state.specifications = {
@@ -894,6 +946,9 @@ self.onmessage = (e: MessageEvent<Command>) => {
       break
     case 'loadSoftware':
       loadSoftware()
+      break
+    case 'loadUseCases':
+      loadUseCases()
       break
     case 'loadSpecifications':
       loadSpecifications()

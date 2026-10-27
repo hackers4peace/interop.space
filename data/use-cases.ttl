@@ -1,0 +1,40 @@
+# Portability use cases shared by FEP-73cd (Fediverse migration stories) and
+# the W3C Linked Web Storage use cases.
+#
+# Sources:
+#   https://codeberg.org/fediverse/fep/src/branch/main/fep/73cd/fep-73cd.md
+#   https://w3c.github.io/lws-ucs/spec/
+#
+# Each record is typed ex:UseCase and linked to the specification whose
+# use-case catalog it belongs to with ex:useCaseOf. ex:source points at the
+# Fediverse migration stories the use case was distilled from. Descriptions
+# name the LWS requirements it overlaps with.
+#
+# Seeded with `devbox run seed` (see devbox.json), so the UI reads it from the
+# same Fuseki dataset as the W3C + Specref data.
+
+@prefix ex: <http://example.org#> .
+
+# FEP-73cd 1, 3, 6 ↔ LWS Portable Storage, Storage Portability, Control of
+# Storages, Transfer of Control.
+<urn:uuid:cd7479e8-16e3-4930-93c8-59d2167bd5b1> a ex:UseCase ;
+  ex:name "Whole-dataset relocation to another provider" ;
+  ex:description "A user moves a complete account or storage — profile, content, media, social graph and access-control metadata — to another provider, and may release the original provider from further responsibility." ;
+  ex:useCaseOf <https://www.w3.org/TR/lws-ucs/> ;
+  ex:source <https://codeberg.org/fediverse/fep/src/branch/main/fep/73cd/fep-73cd.md> .
+
+# FEP-73cd 2, 3, 4 ↔ LWS Portable Storage (outage rationale), Scalable Storage
+# Management, Offline Access and Synchronization.
+<urn:uuid:f5506585-3923-4e22-8926-a289777f9d47> a ex:UseCase ;
+  ex:name "Migration from an unavailable or untrusted provider" ;
+  ex:description "A provider shuts down, is cut off, or is defederated, so the source cannot take part in a server-to-server handoff. The user restores from a local export or backup and re-establishes identity and content at the target." ;
+  ex:useCaseOf <https://www.w3.org/TR/lws-ucs/> ;
+  ex:source <https://codeberg.org/fediverse/fep/src/branch/main/fep/73cd/fep-73cd.md> .
+
+# FEP-73cd 4, 5, 7 ↔ LWS Serialization Format, Storage Portability, Data
+# Integrity Verification, Resumable Large Data Transfers, Resource Versioning.
+<urn:uuid:fc0d38e6-2955-48c3-9937-4bdec1372502> a ex:UseCase ;
+  ex:name "Lossless, integrity-preserving export and import" ;
+  ex:description "The dataset is exported to a portable archive (content, media, metadata) and imported at the target with verifiable integrity. Parts the target cannot represent yet can be held and re-imported later without duplication." ;
+  ex:useCaseOf <https://www.w3.org/TR/lws-ucs/> ;
+  ex:source <https://codeberg.org/fediverse/fep/src/branch/main/fep/73cd/fep-73cd.md> .

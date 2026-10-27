@@ -5,6 +5,7 @@ import { ContributorSection } from '../components/ContributorChips'
 import { GroupCard } from '../components/GroupCard'
 import { SoftwareCard } from '../components/SoftwareCard'
 import { SpecReferenceSection } from '../components/SpecReferences'
+import { UseCaseCard } from '../components/UseCaseCard'
 import { appActor } from '../store/app'
 import { useSdoNav } from '../lib/sdoNav'
 import {
@@ -14,6 +15,8 @@ import {
   softwareSlice,
   specificationById,
   specificationsSlice,
+  useCasesOf,
+  useCasesSlice,
   w3cGroupsSlice,
 } from '../store/selectors'
 
@@ -33,6 +36,9 @@ const SpecificationDetail: Component = () => {
     // Software declares the specs it implements, so the join lives there.
     if (softwareSlice().status === 'idle')
       appActor.send({ type: 'loadSoftware' })
+    // Use cases link back to their specification with ex:useCaseOf.
+    if (useCasesSlice().status === 'idle')
+      appActor.send({ type: 'loadUseCases' })
   })
 
   const spec = () => specificationById(params.id)
@@ -182,6 +188,42 @@ const SpecificationDetail: Component = () => {
                     <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                       <For each={softwareImplementing(s())}>
                         {(sw) => <SoftwareCard software={sw} />}
+                      </For>
+                    </ul>
+                  </Match>
+                </Switch>
+              </div>
+
+              <div class="space-y-3">
+                <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                  Use cases
+                </h2>
+                <Switch>
+                  <Match when={useCasesSlice().status === 'error'}>
+                    <p class="text-red-500">
+                      Failed to load use cases: {useCasesSlice().error}
+                    </p>
+                  </Match>
+                  <Match
+                    when={
+                      useCasesOf(s()).length === 0 &&
+                      useCasesSlice().status !== 'ready'
+                    }
+                  >
+                    <p class="text-slate-500 dark:text-slate-400">
+                      Loading use cases…
+                    </p>
+                  </Match>
+                  <Match when={useCasesOf(s()).length === 0}>
+                    <p class="text-slate-500 dark:text-slate-400">
+                      No use cases are linked to this specification in the
+                      catalog.
+                    </p>
+                  </Match>
+                  <Match when={true}>
+                    <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <For each={useCasesOf(s())}>
+                        {(useCase) => <UseCaseCard useCase={useCase} />}
                       </For>
                     </ul>
                   </Match>

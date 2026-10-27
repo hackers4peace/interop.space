@@ -50,6 +50,14 @@ export type Software = {
   dependents: SoftwareRef[] // projects pointing at this one ("dependency of")
 }
 
+export type UseCase = {
+  id: string // short display/URL form (tail of the catalog URI)
+  uri: string // full catalog URI
+  name: string
+  description: string
+  specificationUris: string[] // ex:useCaseOf targets
+}
+
 export type CitationNature = 'normative' | 'informative'
 
 export type SpecReference = {
@@ -114,6 +122,7 @@ export type AppState = {
   people: AsyncSlice<Person[]>
   projects: AsyncSlice<Project[]>
   software: AsyncSlice<Software[]>
+  useCases: AsyncSlice<UseCase[]>
   specifications: AsyncSlice<Specification[]>
   w3cGroups: AsyncSlice<W3cGroupsData>
 }
@@ -124,6 +133,7 @@ export type Command =
   | { type: 'loadProjects' }
   | { type: 'loadProject'; id: string }
   | { type: 'loadSoftware' }
+  | { type: 'loadUseCases' }
   | { type: 'loadSpecifications' }
   | { type: 'loadW3cGroups' }
   | { type: 'toggleW3cGroup'; id: number }
@@ -133,5 +143,6 @@ export type SliceUpdate =
   | { key: 'people'; value: AppState['people'] }
   | { key: 'projects'; value: AppState['projects'] }
   | { key: 'software'; value: AppState['software'] }
+  | { key: 'useCases'; value: AppState['useCases'] }
   | { key: 'specifications'; value: AppState['specifications'] }
   | { key: 'w3cGroups'; value: AppState['w3cGroups'] }
