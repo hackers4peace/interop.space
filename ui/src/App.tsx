@@ -41,7 +41,7 @@ const App: ParentComponent = (props) => {
   return (
     <div class="min-h-screen">
       <header class="border-b border-slate-200 dark:border-slate-800">
-        <nav class="mx-auto flex max-w-4xl flex-wrap items-center gap-2 px-6 py-4">
+        <nav class="mx-auto flex max-w-6xl flex-wrap items-center gap-2 px-6 py-4">
           <A href={href('/')} class="mr-auto text-lg font-semibold tracking-tight">
             interop<span class="text-indigo-500">.space</span>
           </A>
@@ -72,7 +72,7 @@ const App: ParentComponent = (props) => {
           <ThemeToggle />
         </nav>
       </header>
-      <main class="mx-auto max-w-4xl px-6 py-10">{props.children}</main>
+      <main class="mx-auto max-w-6xl px-6 py-10">{props.children}</main>
     </div>
   )
 }
