@@ -1,13 +1,15 @@
 import type { Component } from 'solid-js'
-import { For, Show, onMount } from 'solid-js'
+import { For, Show, createEffect, createSignal, onMount } from 'solid-js'
 import { A } from '@solidjs/router'
 import { ArrowRight, Pin } from 'lucide-solid'
 import { PersonCard } from '../components/PersonCard'
+import { SearchBar } from '../components/SearchBar'
 import { SdoPanel } from '../components/SdoPanel'
 import { appActor } from '../store/app'
 import { personFromParticipant } from '../lib/person'
 import { isW3cScope, sdoById, sdoDisplayName } from '../lib/sdos'
 import { useSdoNav } from '../lib/sdoNav'
+import { matchesQuery } from '../lib/search'
 import { w3cGroupsSlice } from '../store/selectors'
 import type { W3cGroup, W3cParticipant } from '../worker/protocol'
 
@@ -16,6 +18,15 @@ const iconButton =
 
 const idleIcon =
   'text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-500 dark:hover:bg-slate-800 dark:hover:text-slate-200'
+
+const pinnedOnlyBase =
+  'inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition'
+
+const pinnedOnlyActive =
+  'border-indigo-500 bg-indigo-50 text-indigo-700 dark:border-indigo-400 dark:bg-indigo-500/10 dark:text-indigo-300'
+
+const pinnedOnlyIdle =
+  'border-slate-200 bg-white text-slate-600 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800'
 
 // The pin button toggles the group's participation in the comparison; the
 // arrow button opens the group's own page. The card itself is not clickable so
@@ -92,6 +103,22 @@ const ParticipantList: Component<{
 
 const Groups: Component = () => {
   const { sdo } = useSdoNav()
+  const [query, setQuery] = createSignal('')
+  const [pinnedOnly, setPinnedOnly] = createSignal(false)
+  // Snapshot of the pinned ids as they were when the listing was last
+  // refreshed. Pinning does not reorder the cards under the pointer; the next
+  // search or toggle moves pinned groups to the top.
+  const [pinnedOrder, setPinnedOrder] = createSignal<number[]>([])
+
+  // Unpinning drops the group from the order snapshot without adding newly
+  // pinned groups, so a pin click never reorders the list.
+  createEffect(() => {
+    const selected = w3cGroupsSlice().data.selected
+    setPinnedOrder((current) => {
+      const next = current.filter((id) => selected.includes(id))
+      return next.length === current.length ? current : next
+    })
+  })
 
   onMount(() => {
     if (w3cGroupsSlice().status === 'idle')
@@ -102,6 +129,40 @@ const Groups: Component = () => {
   const w3cScope = () => isW3cScope(sdo())
   const scopeName = () => sdoDisplayName(sdo())
   const groups = () => w3cGroupsSlice().data.groups
+  const isPinned = (id: number) => w3cGroupsSlice().data.selected.includes(id)
+  const snapshotPinnedOrder = () =>
+    setPinnedOrder(
+      groups()
+        .filter((group) => isPinned(group.id))
+        .map((group) => group.id),
+    )
+  const handleQuery = (value: string) => {
+    setQuery(value)
+    snapshotPinnedOrder()
+  }
+  const togglePinnedOnly = () => {
+    setPinnedOnly((current) => !current)
+    snapshotPinnedOrder()
+  }
+  const visibleGroups = () =>
+    groups().filter(
+      (group) =>
+        isPinned(group.id) ||
+        (!pinnedOnly() && matchesQuery(group.name, query())),
+    )
+  const orderedGroups = () => {
+    const order = pinnedOrder()
+    const rank = (id: number) =>
+      isPinned(id) ? order.indexOf(id) : -1
+    return [...visibleGroups()].sort((a, b) => {
+      const aRank = rank(a.id)
+      const bRank = rank(b.id)
+      if (aRank === -1 && bRank === -1) return 0
+      if (aRank === -1) return 1
+      if (bRank === -1) return -1
+      return aRank - bRank
+    })
+  }
   const selectedGroups = () =>
     groups().filter((g) => w3cGroupsSlice().data.selected.includes(g.id))
   const singleGroup = () =>
@@ -144,6 +205,32 @@ const Groups: Component = () => {
           </p>
         }
       >
+        <div class="flex flex-wrap items-center gap-3">
+          <SearchBar
+            value={query()}
+            onInput={handleQuery}
+            label="Search groups"
+            placeholder="Search groups…"
+          />
+          <button
+            type="button"
+            aria-pressed={pinnedOnly()}
+            title={
+              pinnedOnly()
+                ? 'Show all groups'
+                : 'Hide all unpinned group cards'
+            }
+            onClick={togglePinnedOnly}
+            class={`${pinnedOnlyBase} ${pinnedOnly() ? pinnedOnlyActive : pinnedOnlyIdle}`}
+          >
+            <Pin
+              size={16}
+              aria-hidden="true"
+              fill={pinnedOnly() ? 'currentColor' : 'none'}
+            />
+            Pinned only
+          </button>
+        </div>
         <Show when={w3cGroupsSlice().status === 'error'}>
           <p class="text-red-500">
             Failed to load W3C groups: {w3cGroupsSlice().error}
@@ -158,18 +245,31 @@ const Groups: Component = () => {
             </p>
           }
         >
-          <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <For each={groups()}>
-              {(group) => (
-                <li>
-                  <GroupCard
-                    group={group}
-                    selected={w3cGroupsSlice().data.selected.includes(group.id)}
-                  />
-                </li>
-              )}
-            </For>
-          </ul>
+          <Show
+            when={visibleGroups().length > 0}
+            fallback={
+              <p class="text-slate-500 dark:text-slate-400">
+                {pinnedOnly()
+                  ? 'No groups are pinned yet.'
+                  : `No groups match “${query().trim()}”.`}
+              </p>
+            }
+          >
+            <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <For each={orderedGroups()}>
+                {(group) => (
+                  <li>
+                    <GroupCard
+                      group={group}
+                      selected={w3cGroupsSlice().data.selected.includes(
+                        group.id,
+                      )}
+                    />
+                  </li>
+                )}
+              </For>
+            </ul>
+          </Show>
 
           <Show when={w3cGroupsSlice().status === 'loading'}>
             <p class="text-slate-500 dark:text-slate-400">

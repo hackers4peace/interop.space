@@ -32,7 +32,8 @@
       "seed": [
         "curl -X POST \"$FUSEKI_URL/data\" -H 'Content-Type: application/n-quads' --data-binary @ui/public/dump.nq",
         "curl -X POST \"$FUSEKI_URL/data\" -H 'Content-Type: text/turtle' --data-binary @data/software.ttl",
-        "curl -X POST \"$FUSEKI_URL/data\" -H 'Content-Type: text/turtle' --data-binary @data/use-cases.ttl"
+        "curl -X POST \"$FUSEKI_URL/data\" -H 'Content-Type: text/turtle' --data-binary @data/use-cases.ttl",
+        "curl -X POST \"$FUSEKI_URL/data\" -H 'Content-Type: text/turtle' --data-binary @data/specs.ttl"
       ],
       "generate": "bun gen.ts",
       "build": "devbox run generate && dotnet build dotnet/Worker/Worker.csproj",

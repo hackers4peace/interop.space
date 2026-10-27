@@ -1,10 +1,19 @@
 import type { Component } from 'solid-js'
-import { For, Match, Show, Switch, onMount } from 'solid-js'
+import { For, Match, Show, Switch, createSignal, onMount } from 'solid-js'
+import { SearchBar } from '../components/SearchBar'
 import { UseCaseCard } from '../components/UseCaseCard'
 import { appActor } from '../store/app'
+import { matchesQuery } from '../lib/search'
 import { useCasesSlice } from '../store/selectors'
 
 const UseCases: Component = () => {
+  const [query, setQuery] = createSignal('')
+
+  const filteredUseCases = () =>
+    useCasesSlice().data.filter((useCase) =>
+      matchesQuery(useCase.name, query()),
+    )
+
   onMount(() => {
     if (useCasesSlice().status === 'idle')
       appActor.send({ type: 'loadUseCases' })
@@ -19,6 +28,12 @@ const UseCases: Component = () => {
           FEP-73cd and the W3C Linked Web Storage use cases.
         </p>
       </div>
+      <SearchBar
+        value={query()}
+        onInput={setQuery}
+        label="Search use cases"
+        placeholder="Search use cases…"
+      />
       <Switch>
         <Match when={useCasesSlice().status === 'error'}>
           <p class="text-red-500">
@@ -41,11 +56,20 @@ const UseCases: Component = () => {
               {useCasesSlice().data.length} use cases linked to specifications
               in the catalog.
             </p>
-            <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <For each={useCasesSlice().data}>
-                {(useCase) => <UseCaseCard useCase={useCase} />}
-              </For>
-            </ul>
+            <Show
+              when={filteredUseCases().length > 0}
+              fallback={
+                <p class="text-slate-500 dark:text-slate-400">
+                  No use cases match “{query().trim()}”.
+                </p>
+              }
+            >
+              <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <For each={filteredUseCases()}>
+                  {(useCase) => <UseCaseCard useCase={useCase} />}
+                </For>
+              </ul>
+            </Show>
           </Show>
         </Match>
       </Switch>

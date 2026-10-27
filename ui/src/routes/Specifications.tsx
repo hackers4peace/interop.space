@@ -1,15 +1,23 @@
 import type { Component } from 'solid-js'
-import { For, Match, Show, Switch, onMount } from 'solid-js'
+import { For, Match, Show, Switch, createSignal, onMount } from 'solid-js'
+import { SearchBar } from '../components/SearchBar'
 import { SpecificationCard } from '../components/SpecificationCard'
 import { appActor } from '../store/app'
 import { isW3cScope, sdoDisplayName } from '../lib/sdos'
 import { useSdoNav } from '../lib/sdoNav'
+import { matchesQuery } from '../lib/search'
 import { specificationsSlice } from '../store/selectors'
 
 const Specifications: Component = () => {
   const { sdo } = useSdoNav()
   const w3cScope = () => isW3cScope(sdo())
   const scopeName = () => sdoDisplayName(sdo())
+  const [query, setQuery] = createSignal('')
+
+  const filteredSpecifications = () =>
+    specificationsSlice().data.filter((spec) =>
+      matchesQuery(spec.name, query()),
+    )
 
   onMount(() => {
     if (specificationsSlice().status === 'idle')
@@ -36,6 +44,12 @@ const Specifications: Component = () => {
           </p>
         }
       >
+        <SearchBar
+          value={query()}
+          onInput={setQuery}
+          label="Search specifications"
+          placeholder="Search specifications…"
+        />
         <Switch>
           <Match when={specificationsSlice().status === 'error'}>
             <p class="text-red-500">
@@ -56,15 +70,24 @@ const Specifications: Component = () => {
                 </p>
               }
             >
-              <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <For each={specificationsSlice().data}>
-                  {(spec) => (
-                    <li>
-                      <SpecificationCard spec={spec} showGroups />
-                    </li>
-                  )}
-                </For>
-              </ul>
+              <Show
+                when={filteredSpecifications().length > 0}
+                fallback={
+                  <p class="text-slate-500 dark:text-slate-400">
+                    No specifications match “{query().trim()}”.
+                  </p>
+                }
+              >
+                <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <For each={filteredSpecifications()}>
+                    {(spec) => (
+                      <li>
+                        <SpecificationCard spec={spec} showGroups />
+                      </li>
+                    )}
+                  </For>
+                </ul>
+              </Show>
             </Show>
           </Match>
         </Switch>

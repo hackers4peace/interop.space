@@ -1,0 +1,25 @@
+# Extra specifications that are not part of the generated W3C + Specref dump.
+#
+# RDF Messages is a Community Group living document, so it has no W3C TR
+# shortlink. The RDF Stream Processing CG itself already comes from the W3C API
+# crawl; this file adds the document and the ex:specification link that puts it
+# on both the group page and the specification list.
+#
+# Source: https://w3c-cg.github.io/rsp/spec/messages
+# Seeded with `devbox run seed` (see devbox.json).
+
+@prefix ex: <http://example.org#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+
+<https://w3c-cg.github.io/rsp/spec/messages> a ex:Specification ;
+  ex:name "RDF Messages" ;
+  ex:shortname "rsp-messages" ;
+  ex:editorDraft <https://w3c-cg.github.io/rsp/spec/messages> ;
+  dcterms:publisher "W3C" ;
+  dcterms:date "22 October 2026" ;
+  bibo:editor <urn:w3c:person:66644> , <urn:w3c:person:158934> ;
+  dcterms:creator <urn:w3c:person:66644> , <urn:w3c:person:158934> .
+
+<https://www.w3.org/community/rsp/> ex:specification
+  <https://w3c-cg.github.io/rsp/spec/messages> .

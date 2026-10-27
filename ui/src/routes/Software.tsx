@@ -1,15 +1,21 @@
 import type { Component } from 'solid-js'
-import { For, Match, Show, Switch, onMount } from 'solid-js'
+import { For, Match, Show, Switch, createSignal, onMount } from 'solid-js'
+import { SearchBar } from '../components/SearchBar'
 import { SoftwareCard } from '../components/SoftwareCard'
 import { appActor } from '../store/app'
 import { isW3cScope, sdoDisplayName } from '../lib/sdos'
 import { useSdoNav } from '../lib/sdoNav'
+import { matchesQuery } from '../lib/search'
 import { softwareSlice } from '../store/selectors'
 
 const Software: Component = () => {
   const { sdo, href } = useSdoNav()
   const w3cScope = () => isW3cScope(sdo())
   const scopeName = () => sdoDisplayName(sdo())
+  const [query, setQuery] = createSignal('')
+
+  const filteredSoftware = () =>
+    softwareSlice().data.filter((sw) => matchesQuery(sw.name, query()))
 
   onMount(() => {
     if (softwareSlice().status === 'idle')
@@ -35,6 +41,12 @@ const Software: Component = () => {
           </p>
         }
       >
+        <SearchBar
+          value={query()}
+          onInput={setQuery}
+          label="Search software"
+          placeholder="Search software…"
+        />
         <Switch>
           <Match when={softwareSlice().status === 'error'}>
             <p class="text-red-500">
@@ -53,11 +65,20 @@ const Software: Component = () => {
                 </p>
               }
             >
-              <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <For each={softwareSlice().data}>
-                  {(sw) => <SoftwareCard software={sw} />}
-                </For>
-              </ul>
+              <Show
+                when={filteredSoftware().length > 0}
+                fallback={
+                  <p class="text-slate-500 dark:text-slate-400">
+                    No software matches “{query().trim()}”.
+                  </p>
+                }
+              >
+                <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <For each={filteredSoftware()}>
+                    {(sw) => <SoftwareCard software={sw} />}
+                  </For>
+                </ul>
+              </Show>
             </Show>
           </Match>
         </Switch>
