@@ -90,13 +90,6 @@
     "sections": []
   },
   {
-    "id": "dif",
-    "name": "Decentralized Identity Foundation",
-    "website": "https://identity.foundation/",
-    "logo": "/logos/dif.png",
-    "sections": []
-  },
-  {
     "id": "lf",
     "name": "The Linux Foundation",
     "website": "https://www.linuxfoundation.org/",
@@ -107,19 +100,29 @@
         "title": "Foundations",
         "items": [
           {
+            "name": "Agentic AI Foundation",
+            "url": "https://aaif.io/",
+            "logo": "/logos/agentic-ai-foundation.svg"
+          },
+          {
             "name": "Cloud Native Computing Foundation",
             "url": "https://www.cncf.io",
             "logo": "/logos/cncf.svg"
           },
           {
+            "name": "Decentralized Identity Foundation",
+            "url": "https://identity.foundation/",
+            "logo": "/logos/dif.png"
+          },
+          {
+            "name": "LF Decentralized Trust",
+            "url": "https://www.lfdecentralizedtrust.org/",
+            "logo": "/logos/lf-decentralized-trust.png"
+          },
+          {
             "name": "OpenWallet Foundation",
             "url": "https://openwallet.foundation/",
             "logo": "/logos/openwallet-foundation.svg"
-          },
-          {
-            "name": "Agentic AI Foundation",
-            "url": "https://aaif.io/",
-            "logo": "/logos/agentic-ai-foundation.svg"
           }
         ]
       }
