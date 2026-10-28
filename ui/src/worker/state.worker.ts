@@ -12,6 +12,7 @@ import type {
   SpecContributor,
   SpecReference,
   Specification,
+  Org,
   UseCase,
   W3cGroup,
   W3cParticipant,
@@ -24,6 +25,7 @@ const state: AppState = {
   projects: { status: 'idle', data: [] },
   software: { status: 'idle', data: [] },
   useCases: { status: 'idle', data: [] },
+  orgs: { status: 'idle', data: [] },
   specifications: { status: 'idle', data: [] },
   w3cGroups: {
     status: 'idle',
@@ -394,6 +396,65 @@ const addSpecContributor = (
   }
 }
 
+async function sparqlOrgs(): Promise<Org[]> {
+  // Organizations that are neither W3C groups (siloId) nor project-like
+  // catalog orgs (subType). Affiliates and proposed use cases are both
+  // optional so an org with only one of the two still appears.
+  const rows = await queryBindings(
+    `PREFIX ex: <${EX}>
+     SELECT ?org ?name ?homepage ?logo ?person ?personName ?personLogo ?personSilo ?uc WHERE {
+       ?org a ex:Organization ; ex:name ?name .
+       FILTER NOT EXISTS { ?org ex:siloId ?siloId }
+       FILTER NOT EXISTS { ?org ex:subType ?subType }
+       OPTIONAL { ?org ex:homepage ?homepage }
+       OPTIONAL { ?org ex:logo ?logo }
+       OPTIONAL {
+         ?person ex:affiliation ?org .
+         OPTIONAL { ?person ex:name ?personName }
+         OPTIONAL { ?person ex:logo ?personLogo }
+         OPTIONAL { ?person ex:siloUsername ?personSilo }
+       }
+       OPTIONAL { ?org ex:proposed ?uc }
+     }`,
+  )
+  const orgs = new Map<string, Org>()
+  for (const b of rows) {
+    const uri = value(b, 'org')
+    const name = value(b, 'name')
+    if (!uri || !name) continue
+    let org = orgs.get(uri)
+    if (!org) {
+      org = {
+        id: short(uri),
+        uri,
+        name,
+        homepage: value(b, 'homepage'),
+        logo: value(b, 'logo'),
+        affiliates: [],
+        proposedUseCaseUris: [],
+      }
+      orgs.set(uri, org)
+    }
+    addSpecContributor(
+      org.affiliates,
+      toSpecContributor(
+        value(b, 'person'),
+        value(b, 'personName'),
+        value(b, 'personLogo'),
+        value(b, 'personSilo'),
+      ),
+    )
+    const useCase = value(b, 'uc')
+    if (useCase && !org.proposedUseCaseUris.includes(useCase)) {
+      org.proposedUseCaseUris.push(useCase)
+    }
+  }
+  for (const org of orgs.values()) {
+    org.affiliates.sort((a, b) => a.name.localeCompare(b.name))
+  }
+  return [...orgs.values()].sort((a, b) => a.name.localeCompare(b.name))
+}
+
 async function sparqlSpecifications(): Promise<Specification[]> {
   const [rows, outgoingRows, incomingRows] = await Promise.all([
     queryBindings(
@@ -752,6 +813,23 @@ async function loadUseCases() {
   emit({ key: 'useCases', value: state.useCases })
 }
 
+async function loadOrgs() {
+  if (state.orgs.status === 'loading') return
+  state.orgs = { status: 'loading', data: state.orgs.data }
+  emit({ key: 'orgs', value: state.orgs })
+  try {
+    const data = await sparqlOrgs()
+    state.orgs = { status: 'ready', data }
+  } catch (e) {
+    state.orgs = {
+      status: 'error',
+      data: state.orgs.data,
+      error: String(e),
+    }
+  }
+  emit({ key: 'orgs', value: state.orgs })
+}
+
 async function loadSpecifications() {
   if (state.specifications.status === 'loading') return
   state.specifications = {
@@ -949,6 +1027,9 @@ self.onmessage = (e: MessageEvent<Command>) => {
       break
     case 'loadUseCases':
       loadUseCases()
+      break
+    case 'loadOrgs':
+      loadOrgs()
       break
     case 'loadSpecifications':
       loadSpecifications()

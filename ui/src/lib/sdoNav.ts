@@ -10,7 +10,9 @@ export const withSdo = (path: string, sdo: string | undefined): string => {
 // The selected sdo is carried in the query string, so every internal link
 // keeps it while the visitor moves around the site.
 export const useSdoNav = () => {
-  const [searchParams] = useSearchParams<{ sdo?: string }>()
+  const [searchParams, setSearchParams] = useSearchParams<{ sdo?: string }>()
   const sdo = () => searchParams.sdo
-  return { sdo, href: (path: string) => withSdo(path, sdo()) }
+  const clearSdo = () =>
+    setSearchParams({ sdo: undefined }, { replace: true })
+  return { sdo, href: (path: string) => withSdo(path, sdo()), clearSdo }
 }

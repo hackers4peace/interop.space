@@ -1,10 +1,15 @@
 import type { Component } from 'solid-js'
 import { For, Match, Show, Switch, onMount } from 'solid-js'
 import { A, useParams } from '@solidjs/router'
+import { OrgLogo } from '../components/OrgLogo'
+import { SdoBanner } from '../components/SdoBanner'
 import { SpecificationCard } from '../components/SpecificationCard'
 import { appActor } from '../store/app'
+import { sdoById } from '../lib/sdos'
 import { useSdoNav } from '../lib/sdoNav'
 import {
+  orgsProposing,
+  orgsSlice,
   specificationByUri,
   specificationsSlice,
   useCaseById,
@@ -13,7 +18,8 @@ import {
 
 const UseCaseDetail: Component = () => {
   const params = useParams<{ id: string }>()
-  const { href } = useSdoNav()
+  const { sdo, href } = useSdoNav()
+  const currentSdo = () => sdoById(sdo())
 
   onMount(() => {
     if (useCasesSlice().status === 'idle')
@@ -21,6 +27,8 @@ const UseCaseDetail: Component = () => {
     // The related-specification cards need the catalog's name and TR/ED links.
     if (specificationsSlice().status === 'idle')
       appActor.send({ type: 'loadSpecifications' })
+    // Proposing organizations are joined through ex:proposed.
+    if (orgsSlice().status === 'idle') appActor.send({ type: 'loadOrgs' })
   })
 
   const useCase = () => useCaseById(params.id)
@@ -33,6 +41,9 @@ const UseCaseDetail: Component = () => {
 
   return (
     <section class="space-y-6">
+      <Show when={currentSdo()}>
+        {(current) => <SdoBanner sdo={current()} />}
+      </Show>
       <A
         href={href('/use-cases')}
         class="text-sm text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
@@ -58,6 +69,51 @@ const UseCaseDetail: Component = () => {
                     {uc().description}
                   </p>
                 </Show>
+              </div>
+
+              <div class="space-y-3">
+                <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                  Proposed by
+                </h2>
+                <Switch>
+                  <Match when={orgsSlice().status === 'error'}>
+                    <p class="text-red-500">
+                      Failed to load organizations: {orgsSlice().error}
+                    </p>
+                  </Match>
+                  <Match
+                    when={
+                      orgsProposing(uc()).length === 0 &&
+                      orgsSlice().status !== 'ready'
+                    }
+                  >
+                    <p class="text-slate-500 dark:text-slate-400">
+                      Loading organizations…
+                    </p>
+                  </Match>
+                  <Match when={orgsProposing(uc()).length === 0}>
+                    <p class="text-slate-500 dark:text-slate-400">
+                      No organization is recorded as proposing this use case.
+                    </p>
+                  </Match>
+                  <Match when={true}>
+                    <ul class="space-y-2">
+                      <For each={orgsProposing(uc())}>
+                        {(org) => (
+                          <li>
+                            <A
+                              href={href(`/orgs/${org.id}`)}
+                              class="flex items-center gap-3 rounded-lg border border-slate-200 bg-white p-3 shadow-sm transition hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
+                            >
+                              <OrgLogo name={org.name} logo={org.logo} />
+                              <span class="font-medium">{org.name}</span>
+                            </A>
+                          </li>
+                        )}
+                      </For>
+                    </ul>
+                  </Match>
+                </Switch>
               </div>
 
               <div class="space-y-3">

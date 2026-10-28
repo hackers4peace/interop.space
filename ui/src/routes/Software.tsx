@@ -1,15 +1,17 @@
 import type { Component } from 'solid-js'
 import { For, Match, Show, Switch, createSignal, onMount } from 'solid-js'
 import { SearchBar } from '../components/SearchBar'
+import { SdoPanel } from '../components/SdoPanel'
 import { SoftwareCard } from '../components/SoftwareCard'
 import { appActor } from '../store/app'
-import { isW3cScope, sdoDisplayName } from '../lib/sdos'
+import { isW3cScope, sdoById, sdoDisplayName } from '../lib/sdos'
 import { useSdoNav } from '../lib/sdoNav'
 import { matchesQuery } from '../lib/search'
 import { softwareSlice } from '../store/selectors'
 
 const Software: Component = () => {
-  const { sdo, href } = useSdoNav()
+  const { sdo, clearSdo } = useSdoNav()
+  const currentSdo = () => sdoById(sdo())
   const w3cScope = () => isW3cScope(sdo())
   const scopeName = () => sdoDisplayName(sdo())
   const [query, setQuery] = createSignal('')
@@ -24,6 +26,9 @@ const Software: Component = () => {
 
   return (
     <section class="space-y-6">
+      <Show when={currentSdo()}>
+        {(current) => <SdoPanel sdo={current()} onUnpin={clearSdo} />}
+      </Show>
       <div class="space-y-1">
         <h1 class="text-3xl font-bold tracking-tight">Software</h1>
         <Show when={w3cScope()}>

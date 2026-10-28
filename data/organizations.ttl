@@ -1,0 +1,19 @@
+# Organizations that are not W3C groups or project-like catalog organizations.
+#
+# FZI is the W3C affiliation of Christoph Braun (GitHub: uvdsl), who proposed
+# https://github.com/w3c/lws-ucs/issues/30 ("Move between service providers").
+# ex:proposed points at the local use-case record distilled from that issue.
+#
+# Source: https://api.w3.org/affiliations/6383
+# Seeded with `devbox run seed` (see devbox.json).
+
+@prefix ex: <http://example.org#> .
+
+<https://api.w3.org/affiliations/6383> a ex:Organization ;
+  ex:name "Forschungszentrum Informatik (FZI)" ;
+  ex:homepage <http://www.fzi.de> ;
+  # Logo: https://www.fzi.de/wp-content/uploads/2020/10/logo-fzi-4c-80.png
+  ex:logo "/logos/fzi.png" ;
+  ex:proposed <urn:uuid:cd7479e8-16e3-4930-93c8-59d2167bd5b1> .
+
+<urn:w3c:person:128292> ex:affiliation <https://api.w3.org/affiliations/6383> .

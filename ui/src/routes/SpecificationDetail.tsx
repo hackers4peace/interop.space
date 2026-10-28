@@ -3,10 +3,12 @@ import { For, Match, Show, Switch, onMount } from 'solid-js'
 import { A, useParams } from '@solidjs/router'
 import { ContributorSection } from '../components/ContributorChips'
 import { GroupCard } from '../components/GroupCard'
+import { SdoBanner } from '../components/SdoBanner'
 import { SoftwareCard } from '../components/SoftwareCard'
 import { SpecReferenceSection } from '../components/SpecReferences'
 import { UseCaseCard } from '../components/UseCaseCard'
 import { appActor } from '../store/app'
+import { sdoById } from '../lib/sdos'
 import { useSdoNav } from '../lib/sdoNav'
 import {
   groupByName,
@@ -25,7 +27,8 @@ const metaLink =
 
 const SpecificationDetail: Component = () => {
   const params = useParams<{ id: string }>()
-  const { href } = useSdoNav()
+  const { sdo, href } = useSdoNav()
+  const currentSdo = () => sdoById(sdo())
 
   onMount(() => {
     if (specificationsSlice().status === 'idle')
@@ -54,6 +57,9 @@ const SpecificationDetail: Component = () => {
 
   return (
     <section class="space-y-6">
+      <Show when={currentSdo()}>
+        {(current) => <SdoBanner sdo={current()} />}
+      </Show>
       <A
         href={href('/specifications')}
         class="text-sm text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"

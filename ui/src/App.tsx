@@ -12,6 +12,8 @@ import Specifications from './routes/Specifications'
 import SpecificationDetail from './routes/SpecificationDetail'
 import UseCases from './routes/UseCases'
 import UseCaseDetail from './routes/UseCaseDetail'
+import Orgs from './routes/Orgs'
+import OrgDetail from './routes/OrgDetail'
 import Groups from './routes/Groups'
 import GroupDetail from './routes/GroupDetail'
 import { ThemeToggle } from './components/ThemeToggle'
@@ -29,6 +31,8 @@ export const routes: RouteDefinition[] = [
   { path: '/specifications/:id', component: SpecificationDetail },
   { path: '/use-cases', component: UseCases },
   { path: '/use-cases/:id', component: UseCaseDetail },
+  { path: '/orgs', component: Orgs },
+  { path: '/orgs/:id', component: OrgDetail },
   { path: '/groups', component: Groups },
   { path: '/groups/:id', component: GroupDetail },
 ]
@@ -67,9 +71,9 @@ const App: ParentComponent = (props) => {
           <span class={inactiveNavLink} aria-disabled="true" title="Not available yet">
             Events
           </span>
-          <span class={inactiveNavLink} aria-disabled="true" title="Not available yet">
+          <A href={href('/orgs')} class={navLink} activeClass="bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white">
             Orgs
-          </span>
+          </A>
           <span class={inactiveNavLink} aria-disabled="true" title="Not available yet">
             Publications
           </span>

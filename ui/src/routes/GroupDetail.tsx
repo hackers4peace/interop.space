@@ -2,8 +2,10 @@ import type { Component } from 'solid-js'
 import { For, Match, Show, Switch, onMount } from 'solid-js'
 import { A, useParams } from '@solidjs/router'
 import { PersonCard } from '../components/PersonCard'
+import { SdoBanner } from '../components/SdoBanner'
 import { SpecificationCard } from '../components/SpecificationCard'
 import { personFromParticipant } from '../lib/person'
+import { sdoById } from '../lib/sdos'
 import { useSdoNav } from '../lib/sdoNav'
 import { appActor } from '../store/app'
 import {
@@ -15,7 +17,8 @@ import {
 
 const GroupDetail: Component = () => {
   const params = useParams<{ id: string }>()
-  const { href } = useSdoNav()
+  const { sdo, href } = useSdoNav()
+  const currentSdo = () => sdoById(sdo())
 
   onMount(() => {
     if (w3cGroupsSlice().status === 'idle')
@@ -28,6 +31,9 @@ const GroupDetail: Component = () => {
 
   return (
     <section class="space-y-6">
+      <Show when={currentSdo()}>
+        {(current) => <SdoBanner sdo={current()} />}
+      </Show>
       <A
         href={href('/groups')}
         class="text-sm text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"

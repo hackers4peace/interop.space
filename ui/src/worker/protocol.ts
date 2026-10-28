@@ -58,6 +58,16 @@ export type UseCase = {
   specificationUris: string[] // ex:useCaseOf targets
 }
 
+export type Org = {
+  id: string // short display/URL form (tail of the catalog URI)
+  uri: string // full catalog URI
+  name: string
+  homepage?: string
+  logo?: string // ex:logo, a public path or absolute URL
+  affiliates: SpecContributor[] // people linked with ex:affiliation
+  proposedUseCaseUris: string[] // ex:proposed targets
+}
+
 export type CitationNature = 'normative' | 'informative'
 
 export type SpecReference = {
@@ -123,6 +133,7 @@ export type AppState = {
   projects: AsyncSlice<Project[]>
   software: AsyncSlice<Software[]>
   useCases: AsyncSlice<UseCase[]>
+  orgs: AsyncSlice<Org[]>
   specifications: AsyncSlice<Specification[]>
   w3cGroups: AsyncSlice<W3cGroupsData>
 }
@@ -134,6 +145,7 @@ export type Command =
   | { type: 'loadProject'; id: string }
   | { type: 'loadSoftware' }
   | { type: 'loadUseCases' }
+  | { type: 'loadOrgs' }
   | { type: 'loadSpecifications' }
   | { type: 'loadW3cGroups' }
   | { type: 'toggleW3cGroup'; id: number }
@@ -144,5 +156,6 @@ export type SliceUpdate =
   | { key: 'projects'; value: AppState['projects'] }
   | { key: 'software'; value: AppState['software'] }
   | { key: 'useCases'; value: AppState['useCases'] }
+  | { key: 'orgs'; value: AppState['orgs'] }
   | { key: 'specifications'; value: AppState['specifications'] }
   | { key: 'w3cGroups'; value: AppState['w3cGroups'] }

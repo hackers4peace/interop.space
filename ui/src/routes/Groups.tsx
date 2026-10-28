@@ -102,7 +102,7 @@ const ParticipantList: Component<{
 )
 
 const Groups: Component = () => {
-  const { sdo } = useSdoNav()
+  const { sdo, clearSdo } = useSdoNav()
   const [query, setQuery] = createSignal('')
   const [pinnedOnly, setPinnedOnly] = createSignal(false)
   // Snapshot of the pinned ids as they were when the listing was last
@@ -181,7 +181,9 @@ const Groups: Component = () => {
 
   return (
     <section class="space-y-6">
-      <Show when={currentSdo()}>{(sdo) => <SdoPanel sdo={sdo()} />}</Show>
+      <Show when={currentSdo()}>
+        {(current) => <SdoPanel sdo={current()} onUnpin={clearSdo} />}
+      </Show>
 
       <div class="space-y-1">
         <h1 class="text-3xl font-bold tracking-tight">

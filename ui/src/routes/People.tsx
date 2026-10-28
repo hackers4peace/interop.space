@@ -2,14 +2,16 @@ import type { Component } from 'solid-js'
 import { For, Match, Show, Switch, createSignal, onMount } from 'solid-js'
 import { PersonCard } from '../components/PersonCard'
 import { SearchBar } from '../components/SearchBar'
+import { SdoPanel } from '../components/SdoPanel'
 import { appActor } from '../store/app'
-import { isW3cScope, sdoDisplayName } from '../lib/sdos'
+import { isW3cScope, sdoById, sdoDisplayName } from '../lib/sdos'
 import { useSdoNav } from '../lib/sdoNav'
 import { matchesQuery } from '../lib/search'
 import { peopleSlice } from '../store/selectors'
 
 const People: Component = () => {
-  const { sdo } = useSdoNav()
+  const { sdo, clearSdo } = useSdoNav()
+  const currentSdo = () => sdoById(sdo())
   const w3cScope = () => isW3cScope(sdo())
   const scopeName = () => sdoDisplayName(sdo())
   const [query, setQuery] = createSignal('')
@@ -25,6 +27,9 @@ const People: Component = () => {
 
   return (
     <section class="space-y-6">
+      <Show when={currentSdo()}>
+        {(current) => <SdoPanel sdo={current()} onUnpin={clearSdo} />}
+      </Show>
       <div class="space-y-1">
         <h1 class="text-3xl font-bold tracking-tight">People</h1>
         <Show when={w3cScope()}>

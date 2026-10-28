@@ -2,6 +2,7 @@ import { appState } from './app'
 import type { Person } from '../worker/protocol'
 import type { Project } from '../worker/protocol'
 import type { Software } from '../worker/protocol'
+import type { Org } from '../worker/protocol'
 import type { UseCase } from '../worker/protocol'
 import type { W3cGroup } from '../worker/protocol'
 import type { Specification } from '../worker/protocol'
@@ -10,6 +11,9 @@ export const peopleSlice = () => appState.people
 export const projectsSlice = () => appState.projects
 export const softwareSlice = () => appState.software
 export const useCasesSlice = () => appState.useCases
+export const orgsSlice = () => appState.orgs
+export const orgById = (id: string): Org | undefined =>
+  appState.orgs.data.find((org) => org.id === id)
 export const specificationsSlice = () => appState.specifications
 export const w3cGroupsSlice = () => appState.w3cGroups
 
@@ -64,6 +68,16 @@ export const softwareById = (id: string): Software | undefined =>
 
 export const useCaseById = (id: string): UseCase | undefined =>
   appState.useCases.data.find((uc) => uc.id === id)
+
+export const useCaseByUri = (uri: string): UseCase | undefined =>
+  appState.useCases.data.find((uc) => uc.uri === uri)
+
+// An organization proposes a use case with ex:proposed; the use-case page
+// asks for the inverse without duplicating triples in the catalog.
+export const orgsProposing = (useCase: UseCase): Org[] =>
+  appState.orgs.data.filter((org) =>
+    org.proposedUseCaseUris.includes(useCase.uri),
+  )
 
 // Use cases declare the specification they belong to through ex:useCaseOf, so
 // the spec page joins on its canonical shortlink.

@@ -1,5 +1,6 @@
 import type { Component } from 'solid-js'
-import { For } from 'solid-js'
+import { For, Show } from 'solid-js'
+import { Pin } from 'lucide-solid'
 import type { Sdo, SdoCard, SdoChip, SdoSection } from '../lib/sdos'
 
 const chip =
@@ -44,9 +45,11 @@ const Section: Component<{ section: SdoSection }> = (props) => {
   return <Chips items={props.section.items} />
 }
 
-// Compact standards-body summary shown on the groups listing when the page is
-// opened with an `sdo` query parameter.
-export const SdoPanel: Component<{ sdo: Sdo }> = (props) => (
+// Compact standards-body summary shown on a listing page when the page is
+// opened with an `sdo` query parameter. The pin clears that scope.
+export const SdoPanel: Component<{ sdo: Sdo; onUnpin: () => void }> = (
+  props,
+) => (
   <section class="space-y-5 rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
     <div class="flex items-center gap-4">
       <div class="flex h-16 w-44 shrink-0 items-center justify-center rounded-lg bg-slate-50 px-2 py-2 dark:bg-white">
@@ -57,6 +60,18 @@ export const SdoPanel: Component<{ sdo: Sdo }> = (props) => (
         />
       </div>
       <h2 class="text-xl font-semibold">{props.sdo.name}</h2>
+      <Show when={props.onUnpin}>
+        <button
+          type="button"
+          aria-pressed="true"
+          aria-label={`Unpin ${props.sdo.name}`}
+          title="Remove this standards-body filter"
+          onClick={() => props.onUnpin()}
+          class="ml-auto flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-indigo-50 text-indigo-600 transition hover:bg-indigo-100 dark:bg-indigo-500/10 dark:text-indigo-400 dark:hover:bg-indigo-500/20"
+        >
+          <Pin size={18} fill="currentColor" aria-hidden="true" />
+        </button>
+      </Show>
     </div>
     <For each={props.sdo.sections}>
       {(section) => (

@@ -82,13 +82,6 @@ const PersonDetail: Component = () => {
                   <Show when={who().github}>
                     {(login) => <GithubHandle username={login()} />}
                   </Show>
-                  {/* The stable W3C user id belongs on the person page, not on
-                      the compact card. */}
-                  <Show when={who().w3cId !== undefined}>
-                    <p class="font-mono text-sm text-slate-500 dark:text-slate-400">
-                      w3c:{who().w3cId}
-                    </p>
-                  </Show>
                 </div>
               </div>
 
