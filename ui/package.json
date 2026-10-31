@@ -3,9 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "VITE_SPARQL_ENDPOINT=https://fuseki-elf-pavlik-dev.apps.rm1.0a51.p1.openshiftapps.com/ds vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prod": "VITE_SPARQL_ENDPOINT=https://sparql.hackers4peace.net/catalog/sparql vite"
   },
   "dependencies": {
     "@ark-ui/solid": "^5.0.0",

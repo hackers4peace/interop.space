@@ -1,3 +1,4 @@
+import { writeFile } from 'node:fs/promises'
 import { setTimeout as sleep } from 'node:timers/promises'
 import { Worker, NativeConnection } from '@temporalio/worker'
 import * as activities from './activities'
@@ -46,6 +47,9 @@ async function run() {
       workflowsPath: new URL('./w3c-api/workflows.ts', import.meta.url).pathname,
       activities: w3cActivities,
     })
+
+    const readyPath = process.env.WORKER_READY_PATH
+    if (readyPath) await writeFile(readyPath, 'ready\n', 'utf8')
 
     await Promise.all([greetingWorker.run(), catalogWorker.run(), w3cWorker.run()])
   } finally {

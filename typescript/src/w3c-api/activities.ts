@@ -1,11 +1,12 @@
 // Temporal activities for the W3C API workflow. Network I/O, seed loading and
 // RDF building live here; the workflow stays deterministic and only sequences.
 //
-// The workflow is data-first: every step checks the live store and skips when
-// its output is already present. On an existing dump all steps skip; a fresh
-// dataset starts with all W3C groups, then their members, specifications,
-// spec→people links and finally spec→spec citation edges.
+// The workflow is stage-file first: every step skips when its .nq already
+// exists. A fresh dataset starts with the W3C groups, then their members,
+// specifications, spec→people links and finally spec→spec citation edges. A
+// failed stage writes a .log and publishes no .nq.
 import { readFile } from 'node:fs/promises'
+import { join } from 'node:path'
 import { setTimeout as sleep } from 'node:timers/promises'
 import pThrottle from 'p-throttle'
 import type { Quad } from 'n3'
@@ -13,8 +14,6 @@ import { endpointFor, sanitizeNQuads } from '../software-dependencies/activities
 import {
   buildCitationQuads,
   citationDeleteUpdate,
-  INFORMATIVE_REF,
-  NORMATIVE_REF,
 } from '../citations/build.ts'
 import { collectCitations } from '../citations/collect.ts'
 import {
@@ -40,9 +39,9 @@ import {
   serializeQuads,
   BIBO_EDITOR,
   EDITOR_DRAFT,
+  GROUP_CLASS,
   GROUP_TYPE,
   NAME,
-  ORGANIZATION_TYPE,
   PERSON_TYPE,
   SHORTNAME,
   SILO_ID,
@@ -66,19 +65,20 @@ import type {
   W3cApiSpecification,
   W3cApiUserDetail,
 } from 'node-w3capi'
-import { canonicalW3cId } from './person-ids.ts'
+import { stagesDir, writeNewIdentities } from './identity.ts'
+import {
+  existingGroupUris,
+  failStage,
+  hasStage,
+  stageSeedFiles,
+  writeStage,
+} from './stages.ts'
 
-/** ui/public/dump.nq in the repo; Dagger mounts it at DUMP_PATH. */
-export const DEFAULT_DUMP_PATH = new URL(
-  '../../../ui/public/dump.nq',
-  import.meta.url,
-).pathname
-
-/** Written next to the dump; Dagger overrides this with CITATIONS_REPORT_PATH. */
-export const DEFAULT_CITATIONS_REPORT_PATH = new URL(
-  '../../../ui/public/citations-report.json',
-  import.meta.url,
-).pathname
+/** Citations report lives next to the W3C stage files. */
+export const DEFAULT_CITATIONS_REPORT_PATH = join(
+  stagesDir(),
+  'citations-report.json',
+)
 
 const W3C_API = 'https://api.w3.org'
 
@@ -89,7 +89,6 @@ const ITEMS_PER_PAGE = 1000
 const W3C_RATE_LIMIT = { limit: 10, interval: 1000 }
 const MAX_W3C_ATTEMPTS = 2
 const W3C_RATE_LIMIT_WAIT_MS = 12 * 60_000
-const DCTERMS_CREATOR = 'http://purl.org/dc/terms/creator'
 
 /**
  * Everything later activities need to reconstruct the seed graph. The dump
@@ -97,26 +96,25 @@ const DCTERMS_CREATOR = 'http://purl.org/dc/terms/creator'
  * blow past Temporal's payload limits.
  */
 export interface SeedRef {
-  /** Dump file on the worker, when the previous dump exists. */
-  path?: string
+  /** Completed stage files on the worker, in dependency order. */
+  paths: string[]
   source: string
 }
 
-/** The seed graph: the dump, or an empty string for a fresh dataset. */
+/** The seed graph: concatenated stage files, or empty for a fresh dataset. */
 export async function readSeed(seed: SeedRef): Promise<string> {
-  return seed.path ? await readFile(seed.path, 'utf-8') : ''
+  const parts = await Promise.all(
+    seed.paths.map((path) => readFile(path, 'utf-8')),
+  )
+  return parts.join('\n')
 }
 
-/** Read the previous dump path; a missing dump means a fresh dataset. */
+/** Completed stage files are the resume seed; missing files mean fresh stages. */
 export async function loadSeed(): Promise<SeedRef> {
-  const path = process.env.DUMP_PATH ?? DEFAULT_DUMP_PATH
-  try {
-    await readFile(path, 'utf-8')
-    return { path, source: path }
-  } catch (error) {
-    if ((error as { code?: string }).code !== 'ENOENT') throw error
-    return { source: 'empty dataset' }
-  }
+  const paths = stageSeedFiles()
+  return paths.length > 0
+    ? { paths, source: paths.join(', ') }
+    : { paths: [], source: 'empty dataset' }
 }
 
 /**
@@ -187,16 +185,32 @@ async function fetchW3cList<T>(path: string, key: string): Promise<T[]> {
   return items
 }
 
+/** Derive the public group page when the W3C API has no homepage link. */
+export function fallbackGroupHomepage(
+  apiUrl: string,
+  shortname: string | undefined,
+): string | undefined {
+  if (!shortname) return undefined
+  const match = /^\/groups\/([^/]+)\//.exec(new URL(apiUrl).pathname)
+  if (!match?.[1]) return undefined
+  return `https://www.w3.org/groups/${match[1]}/${encodeURIComponent(shortname)}/`
+}
+
 /** All W3C groups, regardless of type (wg, cg, bg, ig, tf, …). */
 export async function fetchW3cGroups(): Promise<W3cGroupRef[]> {
   const groups = await fetchW3cList<W3cApiGroupDetail>('/groups', 'groups')
+  // Key by API self link, not homepage: duplicate homepages must stay visible
+  // so the groups stage can fail with a useful log instead of silently
+  // dropping a group.
   const refs = new Map<string, W3cGroupRef>()
   for (const group of groups) {
     const apiUrl = group._links?.self?.href
     if (!apiUrl || !Number.isInteger(group.id) || !group.name) continue
-    const homepage = group._links?.homepage?.href
+    const homepage =
+      group._links?.homepage?.href ??
+      fallbackGroupHomepage(apiUrl, group.shortname)
     const uri = homepage ?? apiUrl
-    refs.set(uri, {
+    refs.set(apiUrl, {
       uri,
       apiUrl,
       ...(homepage ? { homepage } : {}),
@@ -456,7 +470,7 @@ export async function fetchW3cEditors(
 export type W3cStepName =
   | 'groups'
   | 'people'
-  | 'specifications'
+  | 'specs'
   | 'specPeople'
   | 'citations'
 
@@ -467,8 +481,8 @@ export interface W3cStepResult {
   /** Number of quads written by a step that ran. */
   stored?: number
   detail?: string
-  /** Per-group or per-spec failures that did not abort the step. */
-  problems?: string[]
+  /** Published stage file, when the step ran and completed. */
+  file?: string
 }
 
 export interface CitationStepResult extends W3cStepResult {
@@ -489,10 +503,6 @@ function isNotFound(error: unknown): boolean {
   return error instanceof Error && /HTTP 404/.test(error.message)
 }
 
-async function hasAny(query: string): Promise<boolean> {
-  return (await queryRows(`${query}\nLIMIT 1`)).length > 0
-}
-
 async function storeQuads(what: string, quads: Quad[]): Promise<void> {
   for (const batch of batchNQuads(serializeQuads(quads), STORE_BATCH_SIZE)) {
     await postNQuads(what, batch)
@@ -501,7 +511,7 @@ async function storeQuads(what: string, quads: Quad[]): Promise<void> {
 
 async function fetchCatalogGroups(): Promise<W3cGroupRef[]> {
   const rows = await queryRows(`SELECT ?group ?name ?siloId ?apiUrl ?shortname ?type WHERE {
-    ?group a <${ORGANIZATION_TYPE}> ; <${NAME}> ?name ; <${SILO_ID}> ?siloId .
+    ?group a <${GROUP_CLASS}> ; <${NAME}> ?name ; <${SILO_ID}> ?siloId .
     FILTER(STRSTARTS(STR(?siloId), "${W3C_SILO_PREFIX}"))
     OPTIONAL { ?group <${W3C_API_URL}> ?apiUrl }
     OPTIONAL { ?group <${SHORTNAME}> ?shortname }
@@ -561,232 +571,275 @@ async function fetchStorePeople(): Promise<W3cPersonRef[]> {
     .sort((a, b) => a.uri.localeCompare(b.uri))
 }
 
-async function fetchKnownPersonIds(): Promise<Set<number>> {
-  const rows = await queryRows(`SELECT ?siloId WHERE {
-    ?person a <${PERSON_TYPE}> ; <${SILO_ID}> ?siloId .
-    FILTER(STRSTARTS(STR(?siloId), "${W3C_SILO_PREFIX}"))
+async function fetchKnownPersonUris(): Promise<Set<string>> {
+  const rows = await queryRows(`SELECT DISTINCT ?person WHERE {
+    ?person a <${PERSON_TYPE}> .
   }`)
-  const ids = new Set<number>()
+  const uris = new Set<string>()
   for (const row of rows) {
-    if (!row.siloId) continue
-    const id = Number(row.siloId.slice(W3C_SILO_PREFIX.length))
-    if (Number.isInteger(id)) ids.add(canonicalW3cId(id))
+    if (row.person) uris.add(row.person)
   }
-  return ids
-}
-
-async function hasW3cGroups(): Promise<boolean> {
-  return hasAny(`SELECT ?group WHERE {
-    ?group a <${ORGANIZATION_TYPE}> ; <${SILO_ID}> ?silo .
-    FILTER(STRSTARTS(STR(?silo), "${W3C_SILO_PREFIX}"))
-  }`)
-}
-
-async function hasW3cPeople(): Promise<boolean> {
-  return hasAny(`SELECT ?person WHERE {
-    ?person a <${PERSON_TYPE}> ; <${SILO_ID}> ?silo .
-    FILTER(STRSTARTS(STR(?silo), "${W3C_SILO_PREFIX}"))
-  }`)
-}
-
-async function hasSpecifications(): Promise<boolean> {
-  return hasAny(`SELECT ?spec WHERE { ?spec a <${SPECIFICATION_TYPE}> }`)
-}
-
-async function hasSpecPeople(): Promise<boolean> {
-  return hasAny(`SELECT ?spec WHERE {
-    ?spec a <${SPECIFICATION_TYPE}> .
-    { ?spec <${BIBO_EDITOR}> ?person }
-    UNION
-    { ?spec <${DCTERMS_CREATOR}> ?person }
-  }`)
-}
-
-async function hasCitations(): Promise<boolean> {
-  return hasAny(`SELECT ?spec WHERE {
-    ?spec a <${SPECIFICATION_TYPE}> .
-    ?spec ?predicate ?target .
-    FILTER(?predicate IN (<${NORMATIVE_REF}>, <${INFORMATIVE_REF}>))
-  }`)
+  return uris
 }
 
 /** Step 1: all W3C groups, regardless of type. */
 export async function storeW3cGroups(): Promise<W3cStepResult> {
-  if (await hasW3cGroups()) {
-    return skippedStep('groups', 'dataset already has W3C groups')
+  if (hasStage('groups')) {
+    return skippedStep('groups', 'groups.nq already exists')
   }
-  const groups = await fetchW3cGroups()
-  const quads = buildGroupQuads(groups)
-  await storeQuads('W3C groups', quads)
-  return {
-    step: 'groups',
-    skipped: false,
-    stored: quads.length,
-    detail: `${groups.length} groups`,
+  try {
+    const groups = await fetchW3cGroups()
+
+    const missingHomepages = groups
+      .filter((group) => !group.homepage)
+      .map((group) => `${group.name} (${group.apiUrl})`)
+    if (missingHomepages.length > 0) {
+      throw new Error(
+        `groups without ex:w3cApiUrl homepage:\n${missingHomepages.join('\n')}`,
+      )
+    }
+
+    const byUri = new Map<string, W3cGroupRef[]>()
+    for (const group of groups) {
+      const entries = byUri.get(group.uri) ?? []
+      entries.push(group)
+      byUri.set(group.uri, entries)
+    }
+    const existing = existingGroupUris()
+    const crossSdo = groups.filter((group) => existing.has(group.uri))
+    if (crossSdo.length > 0) {
+      throw new Error(
+        `group homepage already used by another SDO:\n${crossSdo
+          .map((group) => `${group.name}: ${group.uri}`)
+          .join('\n')}`,
+      )
+    }
+
+    const duplicates = [...byUri.entries()].filter(
+      ([, entries]) => entries.length > 1,
+    )
+    if (duplicates.length > 0) {
+      const detail = duplicates
+        .map(
+          ([uri, entries]) =>
+            `${uri}: ${entries.map((group) => `${group.name} (${group.apiUrl})`).join(', ')}`,
+        )
+        .join('\n')
+      throw new Error(`duplicate W3C group homepages:\n${detail}`)
+    }
+
+    const quads = buildGroupQuads(groups)
+    if (quads.length === 0) throw new Error('groups stage produced zero quads')
+    await storeQuads('W3C groups', quads)
+    const file = await writeStage('groups', quads)
+    return {
+      step: 'groups',
+      skipped: false,
+      stored: quads.length,
+      file,
+      detail: `${groups.length} groups`,
+    }
+  } catch (error) {
+    failStage('groups', error)
+    throw error
   }
 }
 
 /** Step 2: members of every group already in the store. */
 export async function storeW3cGroupPeople(): Promise<W3cStepResult> {
-  if (await hasW3cPeople()) {
-    return skippedStep('people', 'dataset already has W3C people')
+  if (hasStage('people')) {
+    return skippedStep('people', 'people.nq already exists')
   }
-  const groups = await fetchCatalogGroups()
-  const knownPersonIds = await fetchKnownPersonIds()
-  const problems: string[] = []
-  const fetched: W3cGroupParticipants[] = await Promise.all(
-    groups.map(async (group) => {
-      try {
-        return {
-          group,
-          participants: await fetchW3cParticipants(group),
+  try {
+    const groups = await fetchCatalogGroups()
+    const knownPersonUris = await fetchKnownPersonUris()
+    const problems: string[] = []
+    const fetched: W3cGroupParticipants[] = await Promise.all(
+      groups.map(async (group) => {
+        try {
+          return {
+            group,
+            participants: await fetchW3cParticipants(group),
+          }
+        } catch (error) {
+          if (!isNotFound(error)) {
+            problems.push(
+              `${group.name} (${group.apiUrl}): ${errorMessage(error)}`,
+            )
+          }
+          return { group, participants: [] }
         }
-      } catch (error) {
-        if (!isNotFound(error)) {
-          const problem = `${group.name} (${group.apiUrl}): ${errorMessage(error)}`
-          problems.push(problem)
-          console.warn(`Skipping group users: ${problem}`)
-        }
-        return { group, participants: [] }
-      }
-    }),
-  )
-  const quads = buildParticipantQuads(fetched, knownPersonIds)
-  await storeQuads('W3C people', quads)
-  const people = new Set(
-    fetched.flatMap((entry) => entry.participants.map((person) => person.id)),
-  ).size
-  return {
-    step: 'people',
-    skipped: false,
-    stored: quads.length,
-    detail: `${people} people in ${groups.length} groups`,
-    ...(problems.length > 0 ? { problems } : {}),
+      }),
+    )
+    if (problems.length > 0) {
+      throw new Error(`group participants failed:\n${problems.join('\n')}`)
+    }
+
+    const quads = buildParticipantQuads(fetched, knownPersonUris)
+    if (quads.length === 0) throw new Error('people stage produced zero quads')
+    await storeQuads('W3C people', quads)
+    writeNewIdentities()
+    const file = await writeStage('people', quads)
+    const people = new Set(
+      fetched.flatMap((entry) => entry.participants.map((person) => person.id)),
+    ).size
+    return {
+      step: 'people',
+      skipped: false,
+      stored: quads.length,
+      file,
+      detail: `${people} people in ${groups.length} groups`,
+    }
+  } catch (error) {
+    failStage('people', error)
+    throw error
   }
 }
 
 /** Step 3: specifications delivered by every group already in the store. */
 export async function storeW3cGroupSpecifications(): Promise<W3cStepResult> {
-  if (await hasSpecifications()) {
-    return skippedStep(
-      'specifications',
-      'dataset already has W3C specifications',
-    )
+  if (hasStage('specs')) {
+    return skippedStep('specs', 'specs.nq already exists')
   }
-  const groups = await fetchCatalogGroups()
-  const problems: string[] = []
-  const fetched: W3cGroupSpecifications[] = await Promise.all(
-    groups.map(async (group) => {
-      try {
-        return {
-          group,
-          specifications: await fetchW3cSpecifications(group),
+  try {
+    const groups = await fetchCatalogGroups()
+    const problems: string[] = []
+    const fetched: W3cGroupSpecifications[] = await Promise.all(
+      groups.map(async (group) => {
+        try {
+          return {
+            group,
+            specifications: await fetchW3cSpecifications(group),
+          }
+        } catch (error) {
+          if (!isNotFound(error)) {
+            problems.push(
+              `${group.name} (${group.apiUrl}): ${errorMessage(error)}`,
+            )
+          }
+          return { group, specifications: [] }
         }
-      } catch (error) {
-        if (!isNotFound(error)) {
-          const problem = `${group.name} (${group.apiUrl}): ${errorMessage(error)}`
-          problems.push(problem)
-          console.warn(`Skipping group specifications: ${problem}`)
-        }
-        return { group, specifications: [] }
-      }
-    }),
-  )
-  const quads = buildSpecificationQuads(fetched)
-  await storeQuads('W3C specifications', quads)
-  const specs = new Set(
-    fetched.flatMap((entry) =>
-      entry.specifications.map((specification) => specification.uri),
-    ),
-  ).size
-  return {
-    step: 'specifications',
-    skipped: false,
-    stored: quads.length,
-    detail: `${specs} specifications in ${groups.length} groups`,
-    ...(problems.length > 0 ? { problems } : {}),
+      }),
+    )
+    if (problems.length > 0) {
+      throw new Error(`group specifications failed:\n${problems.join('\n')}`)
+    }
+
+    const quads = buildSpecificationQuads(fetched)
+    if (quads.length === 0) throw new Error('specs stage produced zero quads')
+    await storeQuads('W3C specifications', quads)
+    const file = await writeStage('specs', quads)
+    const specs = new Set(
+      fetched.flatMap((entry) =>
+        entry.specifications.map((specification) => specification.uri),
+      ),
+    ).size
+    return {
+      step: 'specs',
+      skipped: false,
+      stored: quads.length,
+      file,
+      detail: `${specs} specifications in ${groups.length} groups`,
+    }
+  } catch (error) {
+    failStage('specs', error)
+    throw error
   }
 }
 
 /** Step 4: latest-version editors plus Specref authors and metadata. */
 export async function storeW3cSpecPeople(): Promise<W3cStepResult> {
-  if (await hasSpecPeople()) {
-    return skippedStep('specPeople', 'dataset already links specs to people')
+  if (hasStage('specPeople')) {
+    return skippedStep('specPeople', 'spec-people.nq already exists')
   }
-  const specs = await fetchStoreSpecifications()
-  const knownPersonIds = await fetchKnownPersonIds()
-  const seedPeople = await fetchStorePeople()
+  try {
+    const specs = await fetchStoreSpecifications()
+    const knownPersonUris = await fetchKnownPersonUris()
+    const seedPeople = await fetchStorePeople()
 
-  const [editorData, specref] = await Promise.all([
-    fetchW3cEditors(specs),
-    loadSpecrefEntries(
-      process.env.SPECREF_PATH,
-      process.env.SPECREF_URL ?? DEFAULT_SPECREF_URL,
-    ),
-  ])
-  const people = collectPeople(seedPeople, [], editorData, knownPersonIds)
-  const authorIndex = buildPersonNameIndex(people)
-  const linked = linkSpecifications(specs, specref.entries, { authorIndex })
+    const [editorData, specref] = await Promise.all([
+      fetchW3cEditors(specs),
+      loadSpecrefEntries(
+        process.env.SPECREF_PATH,
+        process.env.SPECREF_URL ?? DEFAULT_SPECREF_URL,
+      ),
+    ])
+    const problems = editorData
+      .filter((entry) => entry.error)
+      .map((entry) => `${entry.specification.uri}: ${entry.error}`)
+    if (problems.length > 0) {
+      throw new Error(`spec editors failed:\n${problems.join('\n')}`)
+    }
 
-  // Replace stale Specref metadata so author-map changes take effect on a
-  // dataset that is being built for the first time.
-  const metadataDelete = specrefMetadataDeleteUpdate(
-    specs.map((spec) => spec.uri),
-  )
-  if (metadataDelete) await postUpdate('Specref metadata', metadataDelete)
+    const people = collectPeople(seedPeople, [], editorData, knownPersonUris)
+    const authorIndex = buildPersonNameIndex(people)
+    const linked = linkSpecifications(specs, specref.entries, { authorIndex })
 
-  const quads = [
-    ...buildEditorQuads(editorData, knownPersonIds),
-    ...linked.quads,
-  ]
-  await storeQuads('W3C spec people', quads)
-
-  const problems = editorData
-    .filter((entry) => entry.error)
-    .map((entry) => `${entry.specification.uri}: ${entry.error}`)
-  const editorCount = new Set(
-    editorData.flatMap((entry) =>
-      entry.editors.map((editor) => editor.id),
-    ),
-  ).size
-  const authorCounts = {
-    matched: linked.authors.filter((author) => author.status === 'matched')
-      .length,
-    override: linked.authors.filter((author) => author.status === 'override')
-      .length,
-    unmatched: linked.authors.filter((author) => author.status === 'unmatched')
-      .length,
-    ambiguous: linked.authors.filter((author) => author.status === 'ambiguous')
-      .length,
-  }
-  if (linked.collisions.length > 0) {
-    console.warn(
-      `Specref collisions (${linked.collisions.length}): ${JSON.stringify(
-        linked.collisions.slice(0, 10),
-        null,
-        2,
-      )}`,
+    // Replace stale Specref metadata so author-map changes take effect on a
+    // dataset that is being built for the first time.
+    const metadataDelete = specrefMetadataDeleteUpdate(
+      specs.map((spec) => spec.uri),
     )
-  }
-  const authorProblems = linked.authors.filter(
-    (author) => author.status === 'unmatched' || author.status === 'ambiguous',
-  )
-  if (authorProblems.length > 0) {
-    console.warn(
-      `Specref author problems (${authorProblems.length}): ${JSON.stringify(
-        authorProblems.slice(0, 10),
-        null,
-        2,
-      )}`,
-    )
-  }
+    if (metadataDelete) await postUpdate('Specref metadata', metadataDelete)
 
-  return {
-    step: 'specPeople',
-    skipped: false,
-    stored: quads.length,
-    detail: `${editorCount} editors, ${linked.matches.length}/${specs.length} Specref matches, authors ${authorCounts.matched} matched/${authorCounts.override} override/${authorCounts.unmatched} unmatched/${authorCounts.ambiguous} ambiguous`,
-    ...(problems.length > 0 ? { problems } : {}),
+    const quads = [
+      ...buildEditorQuads(editorData, knownPersonUris),
+      ...linked.quads,
+    ]
+    if (quads.length === 0) {
+      throw new Error('specPeople stage produced zero quads')
+    }
+    await storeQuads('W3C spec people', quads)
+    writeNewIdentities()
+    const file = await writeStage('specPeople', quads)
+
+    if (linked.collisions.length > 0) {
+      console.warn(
+        `Specref collisions (${linked.collisions.length}): ${JSON.stringify(
+          linked.collisions.slice(0, 10),
+          null,
+          2,
+        )}`,
+      )
+    }
+    const authorProblems = linked.authors.filter(
+      (author) => author.status === 'unmatched' || author.status === 'ambiguous',
+    )
+    if (authorProblems.length > 0) {
+      console.warn(
+        `Specref author problems (${authorProblems.length}): ${JSON.stringify(
+          authorProblems.slice(0, 10),
+          null,
+          2,
+        )}`,
+      )
+    }
+
+    const editorCount = new Set(
+      editorData.flatMap((entry) =>
+        entry.editors.map((editor) => editor.id),
+      ),
+    ).size
+    const authorCounts = {
+      matched: linked.authors.filter((author) => author.status === 'matched')
+        .length,
+      override: linked.authors.filter((author) => author.status === 'override')
+        .length,
+      unmatched: linked.authors.filter((author) => author.status === 'unmatched')
+        .length,
+      ambiguous: linked.authors.filter((author) => author.status === 'ambiguous')
+        .length,
+    }
+    return {
+      step: 'specPeople',
+      skipped: false,
+      stored: quads.length,
+      file,
+      detail: `${editorCount} editors, ${linked.matches.length}/${specs.length} Specref matches, authors ${authorCounts.matched} matched/${authorCounts.override} override/${authorCounts.unmatched} unmatched/${authorCounts.ambiguous} ambiguous`,
+    }
+  } catch (error) {
+    failStage('specPeople', error)
+    throw error
   }
 }
 
@@ -794,23 +847,20 @@ export async function storeW3cSpecPeople(): Promise<W3cStepResult> {
  * Extract normative/informative references from the latest rendered version of
  * every catalog spec. Only W3C TR targets already in the catalog become edges;
  * out-of-catalog and non-W3C references are recorded in the report.
- *
- * Specs whose fetch or parse failed are not cleared, so their previous edges
- * survive until a later run succeeds. The report is written next to the dump.
  */
 export async function storeW3cCitations(): Promise<CitationStepResult> {
   const reportPath =
     process.env.CITATIONS_REPORT_PATH ?? DEFAULT_CITATIONS_REPORT_PATH
-  if (await hasCitations()) {
+  if (hasStage('citations')) {
     const report: CitationReport = {
       retrievedAt: new Date().toISOString(),
       source: 'W3C API latest versions',
       skipped: true,
-      reason: 'dataset already has citation edges',
+      reason: 'citations.nq already exists',
       totals: citationTotals([]),
       documents: [],
     }
-    await writeCitationReport(reportPath, report)
+    // Do not overwrite the detailed report from the completed citations run.
     const summary = summarizeCitations(report)
     console.error(summary)
     return {
@@ -822,45 +872,59 @@ export async function storeW3cCitations(): Promise<CitationStepResult> {
     }
   }
 
-  const specs = await fetchCatalogSpecifications()
-  const { citations, report } = await collectCitations(specs)
-  const quads = buildCitationQuads(citations)
+  try {
+    const specs = await fetchCatalogSpecifications()
+    const { citations, report } = await collectCitations(specs)
+    await writeCitationReport(reportPath, report)
 
-  const successful = report.documents
-    .filter((document) => document.status === 'ok')
-    .map((document) => document.spec)
-  const update = citationDeleteUpdate(successful)
-  if (update) await postUpdate('citations', update)
+    // Individual TR pages legitimately fail (429, unsupported markup, old
+    // documents). Those are recorded in citations-report.json; only a run
+    // that produces no citation edges at all is a stage failure.
+    const quads = buildCitationQuads(citations)
+    if (quads.length === 0) {
+      throw new Error('citations stage produced zero quads')
+    }
 
-  await storeQuads('citations', quads)
-  await writeCitationReport(reportPath, report)
+    const successful = report.documents
+      .filter((document) => document.status === 'ok')
+      .map((document) => document.spec)
+    const update = citationDeleteUpdate(successful)
+    if (update) await postUpdate('citations', update)
 
-  const problems = report.documents.filter(
-    (document) =>
-      document.status !== 'ok' || document.unresolved.length > 0,
-  )
-  if (problems.length > 0) {
-    console.error('Citation problems:')
-    for (const document of problems) {
-      if (document.status !== 'ok') {
-        console.error(
-          `  ${document.status} ${document.spec}: ${document.error ?? ''}`,
-        )
-      }
-      for (const unresolved of document.unresolved) {
-        console.error(
-          `  unresolved ${document.spec} ${unresolved.key}: ${unresolved.reason}`,
-        )
+    await storeQuads('citations', quads)
+    const file = await writeStage('citations', quads)
+
+    const problems = report.documents.filter(
+      (document) =>
+        document.status !== 'ok' || document.unresolved.length > 0,
+    )
+    if (problems.length > 0) {
+      console.error('Citation problems:')
+      for (const document of problems) {
+        if (document.status !== 'ok') {
+          console.error(
+            `  ${document.status} ${document.spec}: ${document.error ?? ''}`,
+          )
+        }
+        for (const unresolved of document.unresolved) {
+          console.error(
+            `  unresolved ${document.spec} ${unresolved.key}: ${unresolved.reason}`,
+          )
+        }
       }
     }
-  }
-  const summary = summarizeCitations(report)
-  console.error(summary)
-  return {
-    step: 'citations',
-    skipped: false,
-    stored: quads.length,
-    summary,
-    report,
+    const summary = summarizeCitations(report)
+    console.error(summary)
+    return {
+      step: 'citations',
+      skipped: false,
+      stored: quads.length,
+      file,
+      summary,
+      report,
+    }
+  } catch (error) {
+    failStage('citations', error)
+    throw error
   }
 }

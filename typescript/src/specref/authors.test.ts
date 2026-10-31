@@ -8,6 +8,7 @@ import { resolveAuthorOverride } from './author-map.ts'
 import { linkSpecifications } from './link.ts'
 import type { SpecrefEntry } from './matching.ts'
 import { normalizePersonName } from './names.ts'
+import { resetIdentityCache, resolvePerson } from '../w3c-api/identity.ts'
 
 const people: PersonRef[] = [
   { uri: 'urn:w3c:person:1', name: 'Alice Smith' },
@@ -51,23 +52,37 @@ describe('resolveAuthor', () => {
   })
 
   test('has the verified Pierre-Antoine Champin canonical override', () => {
-    expect(resolveAuthorOverride('json-ld11', 'Pierre-Antoine Champin')).toBe(
-      'urn:w3c:person:129656',
-    )
+    resetIdentityCache()
+    const expected = resolvePerson({
+      w3cId: 129656,
+      name: 'Pierre-Antoine Champin',
+    }).id
+    expect(
+      resolveAuthorOverride('json-ld11', 'Pierre-Antoine Champin'),
+    ).toBe(expected)
   })
 
   test('has the four verified spec-specific overrides', () => {
+    resetIdentityCache()
+    const expected = {
+      webber: resolvePerson({ w3cId: 57007, name: 'Christopher Webber' }).id,
+      grant: resolvePerson({ w3cId: 101398, name: 'Ryan Grant' }).id,
+      mizushima: resolvePerson({
+        w3cId: 98915,
+        name: 'Tomoaki Mizushima',
+      }).id,
+    }
     expect(
       resolveAuthorOverride('activitypub', 'Christopher Webber'),
-    ).toBe('urn:w3c:person:57007')
+    ).toBe(expected.webber)
     expect(resolveAuthorOverride('did-use-cases', 'Ryan Grant')).toBe(
-      'urn:w3c:person:101398',
+      expected.grant,
     )
     expect(resolveAuthorOverride('wot-profile', 'Tomoaki Mizushima')).toBe(
-      'urn:w3c:person:98915',
+      expected.mizushima,
     )
     expect(resolveAuthorOverride('wot-usecases', 'Tomoaki Mizushima')).toBe(
-      'urn:w3c:person:98915',
+      expected.mizushima,
     )
   })
 })

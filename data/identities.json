@@ -1,0 +1,103 @@
+{
+  "people": [
+    {
+      "id": "urn:uuid:56f3974e-45d2-491d-ac1a-86e1c524852c",
+      "name": "Pieter Colpaert",
+      "identifiers": [
+        "w3c:66644",
+        "github:347073",
+        "github-user:pietercolpaert",
+        "url:https://api.w3.org/users/f8zm66ew3gg0ww0gc08ok08k040w8gg"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "urn:uuid:280614ad-3e4c-4412-b0cb-06e4c4bbeacf",
+      "name": "Piotr Sowi\u0144ski",
+      "identifiers": [
+        "w3c:158934",
+        "github:56843159",
+        "github-user:ostrzyciel",
+        "url:https://api.w3.org/users/29xfcyr005q8ggkwwk88cgksw8gsgw8"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "urn:uuid:c1b3af60-802c-41e1-a3cd-f74903a0001f",
+      "name": "Erich Bremer",
+      "identifiers": [
+        "w3c:45759",
+        "github:4094961",
+        "github-user:ebremer",
+        "url:https://api.w3.org/users/1xl67nr2zk9ww8cwo0g0wg0k0ggs0wg"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "urn:uuid:dd2394d1-2567-4c0e-8884-adb8a8ff9172",
+      "name": "Jesse Wright",
+      "identifiers": [
+        "w3c:132252",
+        "github:63333554",
+        "github-user:jeswr",
+        "url:https://api.w3.org/users/b39dpa6cki88csg4ko0scgc0w8oc884"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "urn:uuid:d5fb22a6-cfff-4f2d-998e-24f483b34c03",
+      "name": "Melvin Carvalho",
+      "identifiers": [
+        "w3c:43676",
+        "github:65864",
+        "github-user:melvincarvalho",
+        "url:https://api.w3.org/users/srekwclwff48ws0g4g8wow8ow88cwko"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "urn:uuid:f41d7481-3971-45b1-b647-bbb68abc6d90",
+      "name": "Christoph Braun",
+      "identifiers": [
+        "w3c:128292",
+        "github:25323625",
+        "github-user:uvdsl",
+        "url:https://api.w3.org/users/grqxr20vpm0oogko448occ4cgwcsg4k"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "urn:uuid:01e673bc-a247-4c83-a503-f8a69cc0be0d",
+      "name": "Filip Kola\u0159\u00edk",
+      "identifiers": [
+        "w3c:153257",
+        "github:340018",
+        "github-user:filip26",
+        "url:https://api.w3.org/users/lj0fk4bhj5cowk0goskw8ss0gcg4kkw"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "urn:uuid:061aa10c-c8fe-469f-a960-ee8f5c7db83a",
+      "name": "Muntaser Syed",
+      "identifiers": [
+        "github-user:jemsbhai",
+        "url:https://github.com/jemsbhai",
+        "homepage:https://muntasersyed.com/"
+      ],
+      "reviewed": false
+    }
+  ],
+  "organizations": [
+    {
+      "id": "urn:uuid:f94f29fb-233f-47c8-84d1-8be59cdf26a0",
+      "name": "Forschungszentrum Informatik (FZI)",
+      "identifiers": [
+        "w3c-affiliation:6383",
+        "url:https://api.w3.org/affiliations/6383",
+        "homepage:http://www.fzi.de"
+      ],
+      "reviewed": false
+    }
+  ]
+}

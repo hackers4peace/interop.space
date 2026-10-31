@@ -1,22 +1,20 @@
 // Pure helpers for the W3C API workflow: read the seed graph (the previous
 // dump or a generated start record), find the people whose W3C memberships
 // should be fetched, and turn API group participants into catalog RDF. The
-// catalog's own vocabulary is reused (ex:Organization, ex:Person, ex:name,
-// ex:siloId, ex:member) so the UI queries W3C data like any other catalog data.
+// catalog's own vocabulary is reused (ex:Group, ex:Organization, ex:Person,
+// ex:name, ex:siloId, ex:member) so the UI queries W3C data like any other
+// catalog data.
 import { DataFactory, Parser, Store, Writer } from 'n3'
 import { QueryEngine } from '@comunica/query-sparql-rdfjs'
 import { EX, RDF_TYPE } from '../software-dependencies/analysis.ts'
 import type { Quad } from 'n3'
-import {
-  canonicalPersonUri,
-  canonicalW3cId,
-  isDuplicateW3cId,
-  personUrn,
-} from './person-ids.ts'
+import { canonicalW3cId } from './person-ids.ts'
+import { resolvePerson } from './identity.ts'
+import { W3C_SDO } from './stages.ts'
 
 export const W3C_SILO_PREFIX = 'w3c:'
 export const GITHUB_SILO_PREFIX = 'github:'
-export const ORGANIZATION_TYPE = `${EX}Organization`
+export const GROUP_CLASS = `${EX}Group`
 export const PERSON_TYPE = `${EX}Person`
 export const SILO_ID = `${EX}siloId`
 export const SILO_USERNAME = `${EX}siloUsername`
@@ -30,9 +28,9 @@ export const LANDING_PAGE = `${EX}landingPage`
 export const EDITOR_DRAFT = `${EX}editorDraft`
 export const W3C_API_URL = `${EX}w3cApiUrl`
 export const W3C_LATEST_VERSION_URL = `${EX}w3cLatestVersionUrl`
+export const SDO = `${EX}sdo`
 export const GROUP_TYPE = `${EX}type`
 export const BIBO_EDITOR = 'http://purl.org/ontology/bibo/editor'
-export { W3C_PERSON_URN_PREFIX, personUrn } from './person-ids.ts'
 
 export interface W3cGroupRef {
   /** Canonical public IRI: API homepage when available, API self URI otherwise. */
@@ -113,7 +111,7 @@ export interface W3cGroupSpecifications {
  * turn lists the groups they belong to.
  */
 export interface W3cAccount {
-  /** Person subject in the seed dataset (urn:w3c:person:<id> in new dumps). */
+  /** Person subject in the seed dataset (urn:uuid:… in new dumps). */
   personUri: string
   name: string
   /** GitHub account id from ex:siloId "github:<id>". */
@@ -132,10 +130,10 @@ export interface W3cAccount {
 export interface W3cDataset {
   /** People with a GitHub account, i.e. the W3C API entry points. */
   accounts: W3cAccount[]
-  /** W3C group ids already represented by an ex:Organization record. */
+  /** W3C group ids already represented by an ex:Group record. */
   groupIds: number[]
-  /** Numeric W3C ids of people already present in the seed graph. */
-  knownPersonIds: Set<number>
+  /** Local urn:uuid subjects of people already present in the seed graph. */
+  knownPersonUris: Set<string>
   /** W3C groups that have no ex:specification link yet. */
   groupsWithoutSpecs: W3cGroupRef[]
   /** Specifications already present in the seed graph. */
@@ -185,7 +183,7 @@ export function parseDataset(nquads: string): Promise<Store> {
 async function findPeopleWithW3cGroups(store: Store): Promise<Set<string>> {
   const bindings = await queryEngine().queryBindings(
     `SELECT ?person WHERE {
-       ?group <${RDF_TYPE}> <${ORGANIZATION_TYPE}> ;
+       ?group <${RDF_TYPE}> <${GROUP_CLASS}> ;
               <${SILO_ID}> ?groupSiloId ;
               <${MEMBER}> ?person .
        FILTER (STRSTARTS(STR(?groupSiloId), "${W3C_SILO_PREFIX}"))
@@ -247,22 +245,19 @@ async function findAccounts(store: Store): Promise<W3cAccount[]> {
     .sort((a, b) => a.personUri.localeCompare(b.personUri))
 }
 
-async function findKnownPersonIds(store: Store): Promise<Set<number>> {
+async function findKnownPersonUris(store: Store): Promise<Set<string>> {
   const bindings = await queryEngine().queryBindings(
-    `SELECT ?siloId WHERE {
-       ?person <${RDF_TYPE}> <${PERSON_TYPE}> ; <${SILO_ID}> ?siloId .
-       FILTER (STRSTARTS(STR(?siloId), "${W3C_SILO_PREFIX}"))
+    `SELECT DISTINCT ?person WHERE {
+       ?person <${RDF_TYPE}> <${PERSON_TYPE}> .
      }`,
     { sources: [store] },
   )
-  const ids = new Set<number>()
+  const uris = new Set<string>()
   for await (const binding of bindings) {
-    const siloId = binding.get('siloId')?.value
-    if (!siloId) continue
-    const id = Number(siloId.slice(W3C_SILO_PREFIX.length))
-    if (Number.isInteger(id)) ids.add(canonicalW3cId(id))
+    const uri = binding.get('person')?.value
+    if (uri) uris.add(uri)
   }
-  return ids
+  return uris
 }
 
 async function findPeople(store: Store): Promise<W3cPersonRef[]> {
@@ -276,7 +271,7 @@ async function findPeople(store: Store): Promise<W3cPersonRef[]> {
   for await (const binding of bindings) {
     const uri = binding.get('person')?.value
     const name = binding.get('name')?.value
-    if (uri && name) people.set(canonicalPersonUri(uri), name)
+    if (uri && name) people.set(uri, name)
   }
   return [...people.entries()]
     .map(([uri, name]) => ({ uri, name }))
@@ -286,7 +281,7 @@ async function findPeople(store: Store): Promise<W3cPersonRef[]> {
 async function findGroupIds(store: Store): Promise<number[]> {
   const bindings = await queryEngine().queryBindings(
     `SELECT ?siloId WHERE {
-       ?group <${RDF_TYPE}> <${ORGANIZATION_TYPE}> ; <${SILO_ID}> ?siloId .
+       ?group <${RDF_TYPE}> <${GROUP_CLASS}> ; <${SILO_ID}> ?siloId .
        FILTER (STRSTARTS(STR(?siloId), "${W3C_SILO_PREFIX}"))
      }`,
     { sources: [store] },
@@ -304,7 +299,7 @@ async function findGroupIds(store: Store): Promise<number[]> {
 async function findGroupsWithoutSpecs(store: Store): Promise<W3cGroupRef[]> {
   const bindings = await queryEngine().queryBindings(
     `SELECT ?group ?name ?siloId ?apiUrl ?shortname ?type WHERE {
-       ?group <${RDF_TYPE}> <${ORGANIZATION_TYPE}> ;
+       ?group <${RDF_TYPE}> <${GROUP_CLASS}> ;
               <${NAME}> ?name ;
               <${SILO_ID}> ?siloId .
        FILTER (STRSTARTS(STR(?siloId), "${W3C_SILO_PREFIX}"))
@@ -377,7 +372,7 @@ export async function readDataset(nquads: string): Promise<W3cDataset> {
   return {
     accounts: await findAccounts(store),
     groupIds: await findGroupIds(store),
-    knownPersonIds: await findKnownPersonIds(store),
+    knownPersonUris: await findKnownPersonUris(store),
     groupsWithoutSpecs: await findGroupsWithoutSpecs(store),
     specifications: await findSpecifications(store),
     people: await findPeople(store),
@@ -393,21 +388,34 @@ export function collectPeople(
   seedPeople: W3cPersonRef[],
   groups: W3cGroupParticipants[],
   editorData: W3cSpecificationEditors[],
-  knownPersonIds: ReadonlySet<number>,
+  knownPersonUris: ReadonlySet<string>,
 ): W3cPersonRef[] {
   const people = new Map<string, string>()
   for (const person of seedPeople) people.set(person.uri, person.name)
   for (const group of groups) {
     for (const participant of group.participants) {
-      if (knownPersonIds.has(canonicalW3cId(participant.id))) continue
-      const uri = personUrn(participant.id)
-      if (!people.has(uri)) people.set(uri, participant.name)
+      const entry = resolvePerson({
+        w3cId: participant.id,
+        githubId: participant.githubId,
+        githubUsername: participant.githubUsername,
+        sourceUrl: participant.href,
+        name: participant.name,
+      })
+      if (knownPersonUris.has(entry.id)) continue
+      if (!people.has(entry.id)) people.set(entry.id, participant.name)
     }
   }
   for (const { editors } of editorData) {
     for (const editor of editors) {
-      const uri = personUrn(editor.id)
-      if (!people.has(uri)) people.set(uri, editor.name)
+      const entry = resolvePerson({
+        w3cId: editor.id,
+        githubId: editor.githubId,
+        githubUsername: editor.githubUsername,
+        sourceUrl: editor.href,
+        name: editor.name,
+      })
+      if (knownPersonUris.has(entry.id)) continue
+      if (!people.has(entry.id)) people.set(entry.id, editor.name)
     }
   }
   return [...people.entries()]
@@ -418,8 +426,9 @@ export function collectPeople(
 const { namedNode, literal, quad } = DataFactory
 
 /**
- * RDF for the groups the W3C API returned: the UI's group view selects
- * ex:Organization resources carrying ex:siloId "w3c:<group id>".
+ * RDF for the groups the W3C API returned. The group subject is the full
+ * public homepage URL; ex:Group is the distinct group type and ex:sdo links it
+ * to the standards body.
  */
 export function buildGroupQuads(groups: W3cGroupRef[]): Quad[] {
   const quads: Quad[] = []
@@ -428,7 +437,8 @@ export function buildGroupQuads(groups: W3cGroupRef[]): Quad[] {
     if (seenGroups.has(group.uri)) continue
     seenGroups.add(group.uri)
     const groupNode = namedNode(group.uri)
-    quads.push(quad(groupNode, namedNode(RDF_TYPE), namedNode(ORGANIZATION_TYPE)))
+    quads.push(quad(groupNode, namedNode(RDF_TYPE), namedNode(GROUP_CLASS)))
+    quads.push(quad(groupNode, namedNode(SDO), namedNode(W3C_SDO)))
     quads.push(quad(groupNode, namedNode(W3C_API_URL), namedNode(group.apiUrl)))
     quads.push(quad(groupNode, namedNode(NAME), literal(group.name)))
     quads.push(
@@ -451,7 +461,14 @@ export function buildGroupQuads(groups: W3cGroupRef[]): Quad[] {
  */
 export function buildStartPersonQuads(person: W3cSeedPerson): Quad[] {
   const w3cId = canonicalW3cId(person.w3cId)
-  const personNode = namedNode(personUrn(w3cId))
+  const identity = resolvePerson({
+    w3cId,
+    githubId: person.githubId,
+    githubUsername: person.githubUsername,
+    sourceUrl: person.w3cApiUrl,
+    name: person.name,
+  })
+  const personNode = namedNode(identity.id)
   const quads = [
     quad(personNode, namedNode(RDF_TYPE), namedNode(PERSON_TYPE)),
     quad(personNode, namedNode(NAME), literal(person.name)),
@@ -484,14 +501,13 @@ export function buildStartPersonQuads(person: W3cSeedPerson): Quad[] {
 
 /**
  * RDF for the fetched participants, in the catalog's vocabulary: every
- * participant is linked from its group with ex:member, and every W3C person
- * becomes an ex:Person whose subject is the stable urn:w3c:person:<id>. The
- * W3C API self link is kept as ex:w3cApiUrl, and GitHub identities as
- * ex:siloId / ex:siloUsername.
+ * participant is linked from its group with ex:member, and every person gets
+ * the local urn:uuid identity. External W3C/GitHub ids stay as ex:siloId /
+ * ex:siloUsername provenance.
  */
 export function buildParticipantQuads(
   groups: W3cGroupParticipants[],
-  knownPersonIds: ReadonlySet<number>,
+  knownPersonUris: ReadonlySet<string>,
 ): Quad[] {
   const quads: Quad[] = []
   const seenPeople = new Set<string>()
@@ -500,27 +516,28 @@ export function buildParticipantQuads(
     const groupNode = namedNode(group.uri)
     for (const participant of participants) {
       const canonicalId = canonicalW3cId(participant.id)
-      const duplicate = isDuplicateW3cId(participant.id)
       const siloId = `${W3C_SILO_PREFIX}${canonicalId}`
-      const personUri = personUrn(canonicalId)
-      const personNode = namedNode(personUri)
+      const identity = resolvePerson({
+        w3cId: canonicalId,
+        githubId: participant.githubId,
+        githubUsername: participant.githubUsername,
+        sourceUrl: participant.href,
+        name: participant.name,
+      })
+      const personNode = namedNode(identity.id)
       quads.push(quad(groupNode, namedNode(MEMBER), personNode))
 
-      if (!duplicate && !seenApiUrls.has(personUri)) {
-        seenApiUrls.add(personUri)
+      if (!seenApiUrls.has(identity.id)) {
+        seenApiUrls.add(identity.id)
         quads.push(
           quad(personNode, namedNode(W3C_API_URL), namedNode(participant.href)),
         )
       }
 
-      if (
-        duplicate ||
-        knownPersonIds.has(canonicalId) ||
-        seenPeople.has(personUri)
-      ) {
+      if (knownPersonUris.has(identity.id) || seenPeople.has(identity.id)) {
         continue
       }
-      seenPeople.add(personUri)
+      seenPeople.add(identity.id)
       quads.push(quad(personNode, namedNode(RDF_TYPE), namedNode(PERSON_TYPE)))
       quads.push(quad(personNode, namedNode(NAME), literal(participant.name)))
       quads.push(quad(personNode, namedNode(SILO_ID), literal(siloId)))
@@ -557,7 +574,7 @@ export function buildParticipantQuads(
  */
 export function buildEditorQuads(
   editorData: W3cSpecificationEditors[],
-  personIds: ReadonlySet<number>,
+  knownPersonUris: ReadonlySet<string>,
 ): Quad[] {
   const quads: Quad[] = []
   const seenPeople = new Set<string>()
@@ -565,14 +582,19 @@ export function buildEditorQuads(
     const specNode = namedNode(specification.uri)
     for (const editor of editors) {
       const canonicalId = canonicalW3cId(editor.id)
-      const duplicate = isDuplicateW3cId(editor.id)
-      const personUri = personUrn(canonicalId)
-      const personNode = namedNode(personUri)
+      const identity = resolvePerson({
+        w3cId: canonicalId,
+        githubId: editor.githubId,
+        githubUsername: editor.githubUsername,
+        sourceUrl: editor.href,
+        name: editor.name,
+      })
+      const personNode = namedNode(identity.id)
       quads.push(quad(specNode, namedNode(BIBO_EDITOR), personNode))
 
-      if (duplicate || seenPeople.has(personUri)) continue
-      seenPeople.add(personUri)
-      if (!personIds.has(canonicalId)) {
+      if (seenPeople.has(identity.id)) continue
+      seenPeople.add(identity.id)
+      if (!knownPersonUris.has(identity.id)) {
         quads.push(
           quad(personNode, namedNode(W3C_API_URL), namedNode(editor.href)),
         )
@@ -611,11 +633,11 @@ export function buildEditorQuads(
 /** Group records plus their participants, ready to store as N-Quads. */
 export function buildW3cQuads(
   groups: W3cGroupParticipants[],
-  knownPersonIds: ReadonlySet<number>,
+  knownPersonUris: ReadonlySet<string>,
 ): Quad[] {
   return [
     ...buildGroupQuads(groups.map((group) => group.group)),
-    ...buildParticipantQuads(groups, knownPersonIds),
+    ...buildParticipantQuads(groups, knownPersonUris),
   ]
 }
 
@@ -639,6 +661,7 @@ export function buildSpecificationQuads(
       quads.push(
         quad(specNode, namedNode(RDF_TYPE), namedNode(SPECIFICATION_TYPE)),
       )
+      quads.push(quad(specNode, namedNode(SDO), namedNode(W3C_SDO)))
       quads.push(quad(specNode, namedNode(W3C_API_URL), namedNode(spec.apiUrl)))
       if (spec.latestVersionUrl) {
         quads.push(

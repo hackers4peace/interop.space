@@ -232,6 +232,90 @@ export class DcentQuest {
       )
   }
 
+  /**
+   * W3C staged dump. Each stage writes data/dump/w3c/<stage>.nq only after it
+   * completes; completed files come back through the cache as the resume seed.
+   * A failed stage leaves a .log instead of a .nq in the exported directory.
+   */
+  @func({ cache: "never" })
+  async dumpW3c(source: Directory): Promise<Directory> {
+    const runId = `run-${Date.now().toString(36)}`
+    const temporal = await this.temporal(source, runId)
+    const sparql = this.sparqlService(source)
+    await sparql.id()
+
+    // The worker runs in the same container as the client. Stage files then
+    // live in the container's normal filesystem, which can be returned as a
+    // Directory; Dagger cache mounts cannot be exported and service cache
+    // writes are not visible to an exporter container.
+    const container = dag
+      .container()
+      .from("oven/bun:1.3")
+      .withServiceBinding("temporal", temporal)
+      .withServiceBinding("sparql", sparql)
+      .withEnvVariable("TEMPORAL_ADDRESS", "temporal:7233")
+      .withEnvVariable("SPARQL_ENDPOINT", SPARQL_ENDPOINT)
+      .withEnvVariable("STAGES_DIR", "/stages")
+      .withEnvVariable("ALL_STAGES_DIR", "/all-dumps")
+      .withEnvVariable("IDENTITIES_PATH", "/identities.json")
+      .withEnvVariable("WORKER_READY_PATH", "/stages/worker.ready")
+      .withEnvVariable(
+        "CITATIONS_REPORT_PATH",
+        "/stages/citations-report.json",
+      )
+      .withMountedDirectory(
+        "/seed-stages",
+        source.directory("data/dump/w3c"),
+        { readOnly: true },
+      )
+      .withMountedDirectory(
+        "/all-dumps",
+        source.directory("data/dump"),
+        { readOnly: true },
+      )
+      .withMountedFile(
+        "/identities.json",
+        source.file("data/identities.json"),
+      )
+      .withDirectory("/app", source.directory("typescript"))
+      .withWorkdir("/app")
+      .withExec(["bun", "install"])
+      .withExec([
+        "sh",
+        "-c",
+        [
+          "mkdir -p /stages",
+          "cp -a /seed-stages/. /stages/ 2>/dev/null || true",
+          "rm -f /stages/run.log /stages/client.log /stages/worker.log /stages/worker.ready",
+          "bun run src/worker.ts > /stages/worker.log 2>&1 &",
+          "worker_pid=$!",
+          "trap 'kill $worker_pid 2>/dev/null || true' EXIT",
+          "for i in $(seq 1 60); do",
+          "  [ -f /stages/worker.ready ] && break",
+          "  sleep 1",
+          "done",
+          "if [ ! -f /stages/worker.ready ]; then",
+          "  {",
+          "    printf 'worker failed to start\\n'",
+          "    tail -n 100 /stages/worker.log",
+          "  } > /stages/run.log",
+          "else",
+          "  rm -f /stages/worker.ready",
+          "  if ! bun run src/client.ts > /stages/client.log 2>&1; then",
+          "    {",
+          "      printf 'client workflow failed\\n'",
+          "      cat /stages/client.log",
+          "    } > /stages/run.log",
+          "  else",
+          "    rm -f /stages/run.log",
+          "  fi",
+          "fi",
+        ].join("\n"),
+      ])
+
+    return container.directory("/stages")
+  }
+
   @func({ cache: "never" })
   async temporalWithUi(source: Directory): Promise<Service> {
     const runId = `run-${Date.now().toString(36)}`

@@ -19,10 +19,10 @@ import type {
 // ---------------------------------------------------------------------------
 // SPARQL endpoint
 // ---------------------------------------------------------------------------
-// The catalog is served by Apache Fuseki on the hackers4peace VPS, so the UI
-// queries it directly instead of downloading a snapshot. This is the public,
-// read-only query endpoint proxied by Caddy; writes go through an SSH tunnel
-// (see scripts/fuseki.ts). VITE_SPARQL_ENDPOINT overrides it for local builds.
+// The catalog is served by Apache Fuseki. Production is the hackers4peace VPS;
+// `npm run dev` points at the redhat sandbox, `npm run prod` at production.
+// Vercel builds keep the production default below. VITE_SPARQL_ENDPOINT
+// overrides it for any other build/runtime.
 const SPARQL_ENDPOINT =
   import.meta.env.VITE_SPARQL_ENDPOINT ??
   'https://sparql.hackers4peace.net/catalog/sparql'

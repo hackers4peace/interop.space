@@ -1,7 +1,6 @@
 // Temporal workflow that builds the W3C dataset in dependency order. Every step
-// checks the live store and skips when its output is already present, so a run
-// on an existing dump is a no-op. The previous dump is the only seed; a fresh
-// dataset starts from the complete W3C group list.
+// skips when its stage file already exists; completed stage files are loaded as
+// the seed, so a rerun only executes missing/failed stages.
 import { proxyActivities } from '@temporalio/workflow'
 import type * as activities from './activities'
 import type {

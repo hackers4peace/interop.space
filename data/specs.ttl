@@ -13,13 +13,14 @@
 @prefix bibo: <http://purl.org/ontology/bibo/> .
 
 <https://w3c-cg.github.io/rsp/spec/messages> a ex:Specification ;
+  ex:sdo <https://www.w3.org/> ;
   ex:name "RDF Messages" ;
   ex:shortname "rsp-messages" ;
   ex:editorDraft <https://w3c-cg.github.io/rsp/spec/messages> ;
   dcterms:publisher "W3C" ;
   dcterms:date "22 October 2026" ;
-  bibo:editor <urn:w3c:person:66644> , <urn:w3c:person:158934> ;
-  dcterms:creator <urn:w3c:person:66644> , <urn:w3c:person:158934> .
+  bibo:editor <urn:uuid:56f3974e-45d2-491d-ac1a-86e1c524852c> , <urn:uuid:280614ad-3e4c-4412-b0cb-06e4c4bbeacf> ;
+  dcterms:creator <urn:uuid:56f3974e-45d2-491d-ac1a-86e1c524852c> , <urn:uuid:280614ad-3e4c-4412-b0cb-06e4c4bbeacf> .
 
 <https://www.w3.org/community/rsp/> ex:specification
   <https://w3c-cg.github.io/rsp/spec/messages> .

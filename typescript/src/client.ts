@@ -25,10 +25,9 @@ async function run() {
   //     workflowExecutionTimeout: '15 minutes',
   //   })
 
-  // The workflow is data-first: groups, group members, group specifications,
-  // spec→people links, then spec→spec citations. Each step checks the live
-  // store and skips when its output is already present, so a run on an
-  // existing dump is a no-op.
+  // The workflow is stage-file first: groups, group members, group
+  // specifications, spec→people links, then spec→spec citations. Each stage
+  // skips when its .nq already exists; a failed stage leaves a .log.
   const w3c = (await client.workflow.execute('w3cApiWorkflow', {
     taskQueue: 'w3c',
     workflowId: `w3c-api-${Date.now()}`,
@@ -55,15 +54,18 @@ async function run() {
   }
 
   if (w3c.citations?.report) {
-    const reportPath =
-      process.env.CITATIONS_REPORT_PATH ?? '/tmp/citations-report.json'
-    await writeFile(
-      reportPath,
-      `${JSON.stringify(w3c.citations.report, null, 2)}\n`,
-      'utf8',
-    )
+    const report = w3c.citations.report as { skipped?: boolean }
+    if (!report.skipped) {
+      const reportPath =
+        process.env.CITATIONS_REPORT_PATH ?? '/tmp/citations-report.json'
+      await writeFile(
+        reportPath,
+        `${JSON.stringify(w3c.citations.report, null, 2)}\n`,
+        'utf8',
+      )
+      console.log(`citations report: ${reportPath}`)
+    }
     console.log(w3c.citations.summary)
-    console.log(`citations report: ${reportPath}`)
   }
 
   console.log(

@@ -22,3 +22,6 @@ dotnet/**/*.user
 
 # Generated citation extraction report
 ui/public/citations-report.json
+
+# Stage dumps (resume artifacts; seed reads the .nq files)
+data/dump/

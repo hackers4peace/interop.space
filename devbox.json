@@ -28,10 +28,12 @@
     "init_hook": ["echo 'Welcome to devbox!' > /dev/null"],
     "scripts": {
       "up": "dagger call temporal-with-ui --source=. up --ports=8080:8080",
-      "dump": "dagger call export-dump --source=. -o ./ui/public/",
+      "dump": "mkdir -p data/dump/w3c && dagger call dump-w-3-c --source=. -o ./data/dump/w3c && bun run scripts/stage-status.ts w3c",
+      "dump:w3c": "mkdir -p data/dump/w3c && dagger call dump-w-3-c --source=. -o ./data/dump/w3c && bun run scripts/stage-status.ts w3c",
       "tunnel": "bun run scripts/fuseki.ts tunnel",
       "wipe": "bun run scripts/fuseki.ts wipe",
       "seed": "bun run scripts/fuseki.ts seed",
+      "stages": "bun run scripts/stage-status.ts",
       "generate": "bun gen.ts",
       "build": "devbox run generate && dotnet build dotnet/Worker/Worker.csproj",
       "test": ["echo \"Error: no test specified\" && exit 1"]

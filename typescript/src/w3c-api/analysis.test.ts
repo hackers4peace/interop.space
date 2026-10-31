@@ -1,27 +1,35 @@
-import { describe, expect, test } from 'bun:test'
+import { beforeEach, describe, expect, test } from 'bun:test'
 import {
   buildEditorQuads,
+  buildGroupQuads,
   buildParticipantQuads,
   buildStartPersonQuads,
-  personUrn,
   type W3cGroupRef,
   type W3cSpecification,
 } from './analysis.ts'
+import { resetIdentityCache, resolvePerson } from './identity.ts'
 
 const EX = 'http://example.org#'
+const RDF_TYPE = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
 
-describe('personUrn', () => {
-  test('uses the numeric W3C user id', () => {
-    expect(personUrn(46577)).toBe('urn:w3c:person:46577')
-  })
+const group: W3cGroupRef = {
+  uri: 'https://www.w3.org/groups/wg/example/',
+  homepage: 'https://www.w3.org/groups/wg/example/',
+  apiUrl: 'https://api.w3.org/groups/wg/example',
+  id: 1,
+  name: 'Example Working Group',
+}
 
-  test('rewrites duplicate W3C ids to the canonical account', () => {
-    expect(personUrn(42931)).toBe('urn:w3c:person:129656')
-  })
-})
+const specification: W3cSpecification = {
+  uri: 'https://www.w3.org/TR/example/',
+  apiUrl: 'https://api.w3.org/specifications/example',
+  title: 'Example',
+}
+
+beforeEach(() => resetIdentityCache())
 
 describe('buildStartPersonQuads', () => {
-  test('uses the URN subject and keeps the W3C API URL', () => {
+  test('uses a local urn:uuid subject and keeps external ids', () => {
     const quads = buildStartPersonQuads({
       name: 'Test Person',
       githubId: '123',
@@ -30,22 +38,49 @@ describe('buildStartPersonQuads', () => {
       w3cApiUrl: 'https://api.w3.org/users/opaque',
     })
     const subject = quads[0]?.subject.value
-    expect(subject).toBe('urn:w3c:person:46577')
+    expect(subject).toMatch(/^urn:uuid:/)
     const predicates = new Set(quads.map((item) => item.predicate.value))
     expect(predicates).toContain(`${EX}w3cApiUrl`)
     expect(predicates).toContain(`${EX}siloId`)
     expect(predicates).toContain(`${EX}name`)
+    const siloIds = quads
+      .filter((item) => item.predicate.value === `${EX}siloId`)
+      .map((item) => item.object.value)
+    expect(siloIds).toContain('w3c:46577')
+    expect(siloIds).toContain('github:123')
+  })
+})
+
+describe('buildGroupQuads', () => {
+  test('uses ex:Group and links the W3C SDO', () => {
+    const quads = buildGroupQuads([group])
+    const subject = group.uri
+    expect(
+      quads.find(
+        (item) =>
+          item.subject.value === subject &&
+          item.predicate.value === RDF_TYPE,
+      )?.object.value,
+    ).toBe(`${EX}Group`)
+    expect(
+      quads.find(
+        (item) =>
+          item.subject.value === subject && item.predicate.value === `${EX}sdo`,
+      )?.object.value,
+    ).toBe('https://www.w3.org/')
+    expect(
+      quads.some(
+        (item) =>
+          item.subject.value === subject &&
+          item.predicate.value === RDF_TYPE &&
+          item.object.value === `${EX}Organization`,
+      ),
+    ).toBe(false)
   })
 })
 
 describe('buildParticipantQuads', () => {
-  test('links group members to the person URN', () => {
-    const group: W3cGroupRef = {
-      uri: 'https://www.w3.org/groups/wg/example/',
-      apiUrl: 'https://api.w3.org/groups/wg/example',
-      id: 1,
-      name: 'Example Working Group',
-    }
+  test('links group members to the local person identity', () => {
     const quads = buildParticipantQuads(
       [
         {
@@ -64,30 +99,31 @@ describe('buildParticipantQuads', () => {
       new Set(),
     )
     const member = quads.find((item) => item.predicate.value === `${EX}member`)
-    expect(member?.object.value).toBe('urn:w3c:person:46577')
-    const person = quads.find(
-      (item) =>
-        item.subject.value === 'urn:w3c:person:46577' &&
-        item.predicate.value === 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
-    )
-    expect(person?.object.value).toBe(`${EX}Person`)
-    const apiUrl = quads.find(
-      (item) =>
-        item.subject.value === 'urn:w3c:person:46577' &&
-        item.predicate.value === `${EX}w3cApiUrl`,
-    )
-    expect(apiUrl?.object.value).toBe('https://api.w3.org/users/opaque')
+    const personUri = member?.object.value
+    expect(personUri).toMatch(/^urn:uuid:/)
+    expect(
+      quads.find(
+        (item) =>
+          item.subject.value === personUri &&
+          item.predicate.value === RDF_TYPE,
+      )?.object.value,
+    ).toBe(`${EX}Person`)
+    expect(
+      quads.find(
+        (item) =>
+          item.subject.value === personUri &&
+          item.predicate.value === `${EX}w3cApiUrl`,
+      )?.object.value,
+    ).toBe('https://api.w3.org/users/opaque')
   })
 })
 
 describe('known seed people', () => {
   test('keep their seed properties while still joining groups', () => {
-    const group: W3cGroupRef = {
-      uri: 'https://www.w3.org/groups/wg/example/',
-      apiUrl: 'https://api.w3.org/groups/wg/example',
-      id: 1,
-      name: 'Example Working Group',
-    }
+    const identity = resolvePerson({
+      w3cId: 46577,
+      name: 'Participant Name',
+    })
     const quads = buildParticipantQuads(
       [
         {
@@ -101,15 +137,15 @@ describe('known seed people', () => {
           ],
         },
       ],
-      new Set([46577]),
+      new Set([identity.id]),
     )
     expect(
       quads.find((item) => item.predicate.value === `${EX}member`)?.object.value,
-    ).toBe('urn:w3c:person:46577')
+    ).toBe(identity.id)
     expect(
       quads.some(
         (item) =>
-          item.subject.value === 'urn:w3c:person:46577' &&
+          item.subject.value === identity.id &&
           item.predicate.value === `${EX}name`,
       ),
     ).toBe(false)
@@ -117,13 +153,7 @@ describe('known seed people', () => {
 })
 
 describe('buildEditorQuads', () => {
-  const specification: W3cSpecification = {
-    uri: 'https://www.w3.org/TR/example/',
-    apiUrl: 'https://api.w3.org/specifications/example',
-    title: 'Example',
-  }
-
-  test('links editors to person URNs and creates new people', () => {
+  test('links editors to local identities and creates new people', () => {
     const quads = buildEditorQuads(
       [
         {
@@ -141,29 +171,29 @@ describe('buildEditorQuads', () => {
       ],
       new Set(),
     )
+    const editorUri = quads.find(
+      (item) =>
+        item.predicate.value === 'http://purl.org/ontology/bibo/editor',
+    )?.object.value
+    expect(editorUri).toMatch(/^urn:uuid:/)
     expect(
       quads.find(
         (item) =>
-          item.predicate.value === 'http://purl.org/ontology/bibo/editor',
-      )?.object.value,
-    ).toBe('urn:w3c:person:123')
-    expect(
-      quads.find(
-        (item) =>
-          item.subject.value === 'urn:w3c:person:123' &&
+          item.subject.value === editorUri &&
           item.predicate.value === `${EX}name`,
       )?.object.value,
     ).toBe('Editor Person')
     expect(
       quads.find(
         (item) =>
-          item.subject.value === 'urn:w3c:person:123' &&
+          item.subject.value === editorUri &&
           item.predicate.value === `${EX}w3cApiUrl`,
       )?.object.value,
     ).toBe('https://api.w3.org/users/opaque')
   })
 
   test('does not duplicate properties for existing people', () => {
+    const identity = resolvePerson({ w3cId: 123, name: 'Editor Person' })
     const quads = buildEditorQuads(
       [
         {
@@ -177,12 +207,12 @@ describe('buildEditorQuads', () => {
           ],
         },
       ],
-      new Set([123]),
+      new Set([identity.id]),
     )
     expect(
       quads.some(
         (item) =>
-          item.subject.value === 'urn:w3c:person:123' &&
+          item.subject.value === identity.id &&
           item.predicate.value === `${EX}name`,
       ),
     ).toBe(false)
@@ -196,14 +226,8 @@ describe('buildEditorQuads', () => {
 })
 
 describe('duplicate W3C ids', () => {
-  test('participant references are canonical and duplicate metadata is dropped', () => {
-    const group: W3cGroupRef = {
-      uri: 'https://www.w3.org/groups/wg/example/',
-      apiUrl: 'https://api.w3.org/groups/wg/example',
-      id: 1,
-      name: 'Example Working Group',
-    }
-    const quads = buildParticipantQuads(
+  test('participant and editor references canonicalize to one local identity', () => {
+    const participantQuads = buildParticipantQuads(
       [
         {
           group,
@@ -216,51 +240,34 @@ describe('duplicate W3C ids', () => {
           ],
         },
       ],
-      new Set([129656]),
+      new Set(),
     )
-    expect(
-      quads.some((item) => item.subject.value.includes('42931')),
-    ).toBe(false)
-    expect(
-      quads.some((item) => item.object.value.includes('42931')),
-    ).toBe(false)
-    expect(
-      quads.find((item) => item.predicate.value === `${EX}member`)?.object.value,
-    ).toBe('urn:w3c:person:129656')
-  })
+    const participantUri = participantQuads.find(
+      (item) => item.predicate.value === `${EX}member`,
+    )?.object.value
+    expect(participantUri).toMatch(/^urn:uuid:/)
+    expect(JSON.stringify(participantQuads.map((item) => item.object.value))).not.toContain('42931')
 
-  test('editor references are canonical and duplicate metadata is dropped', () => {
-    const quads = buildEditorQuads(
+    const editorQuads = buildEditorQuads(
       [
         {
-          specification: {
-            uri: 'https://www.w3.org/TR/example/',
-            apiUrl: 'https://api.w3.org/specifications/example',
-            title: 'Example',
-          },
+          specification,
           editors: [
             {
-              id: 42931,
-              href: 'https://api.w3.org/users/duplicate',
+              id: 129656,
+              href: 'https://api.w3.org/users/canonical',
               name: 'Pierre-Antoine Champin',
             },
           ],
         },
       ],
-      new Set([129656]),
+      new Set([participantUri!]),
     )
     expect(
-      quads.some(
-        (item) =>
-          item.subject.value.includes('42931') ||
-          item.object.value.includes('42931'),
-      ),
-    ).toBe(false)
-    expect(
-      quads.find(
+      editorQuads.find(
         (item) =>
           item.predicate.value === 'http://purl.org/ontology/bibo/editor',
       )?.object.value,
-    ).toBe('urn:w3c:person:129656')
+    ).toBe(participantUri)
   })
 })

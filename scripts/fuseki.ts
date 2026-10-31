@@ -1,50 +1,93 @@
-// Read/write helper for the catalog dataset on the hackers4peace VPS.
+// Read/write helper for the catalog datasets.
 //
-// Public, read-only (proxied by Caddy, no credentials):
-//   https://sparql.hackers4peace.net/catalog/sparql   SPARQL query
-//   https://sparql.hackers4peace.net/catalog/data     Graph Store (read)
+// Environments:
+//   development (default) — the Red Hat sandbox Fuseki. It is read-only unless
+//     the rhsandbox write overlay is enabled (`make write-enable` there).
+//   production — the hackers4peace VPS. Writes use an SSH tunnel and the
+//     writer credentials; the public endpoints stay read-only.
 //
-// Writes are not exposed publicly: Fuseki binds to 127.0.0.1:3030 on the VPS
-// and only `/catalog/sparql` + `/catalog/data` are proxied. This script opens
-// an SSH tunnel for writes and authenticates as `writer` against
-// `/catalog/update`. The dataset's Graph Store endpoint is read-only
-// (`fuseki:gsp_r`), so seeding converts the RDF files to `INSERT DATA`
-// payloads instead of POSTing them to /catalog/data.
+// Query endpoints:
+//   development  https://fuseki-elf-pavlik-dev.apps.rm1.0a51.p1.openshiftapps.com/ds
+//   production   https://sparql.hackers4peace.net/catalog/sparql
 //
 // Usage:
-//   bun scripts/fuseki.ts seed     # ui/public/dump.nq + data/*.ttl
-//   bun scripts/fuseki.ts wipe     # CLEAR ALL
-//   bun scripts/fuseki.ts tunnel   # keep the write endpoint forwarded
+//   bun scripts/fuseki.ts seed [development|production]
+//   bun scripts/fuseki.ts wipe [development|production]
+//   bun scripts/fuseki.ts tunnel [production]
+//
+// The devbox scripts default to development; pass production explicitly:
+//   devbox run seed -- production
 //
 // Environment overrides:
-//   FUSEKI_SSH_HOST     default root@5.75.154.192
-//   FUSEKI_UPDATE_URL   default http://127.0.0.1:3030/catalog/update
-//   FUSEKI_USER         default writer
-//   FUSEKI_PASSWORD     default: read the writer entry from the VPS age secret
-//   FUSEKI_PASSWD_FILE  default /run/agenix/fuseki-passwd
+//   FUSEKI_UPDATE_URL   override the update endpoint (both environments)
+//   FUSEKI_SSH_HOST     production SSH host, default root@5.75.154.192
+//   FUSEKI_USER         production user, default writer
+//   FUSEKI_PASSWORD     production password override
+//   FUSEKI_PASSWD_FILE  production password file on the VPS
 
 import { spawn, spawnSync, type ChildProcess } from 'node:child_process'
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { connect } from 'node:net'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { Parser, Writer, type Quad } from 'n3'
 
-const SSH_HOST = process.env.FUSEKI_SSH_HOST ?? 'root@5.75.154.192'
+type Environment = 'development' | 'production'
+
+const DEVELOPMENT_UPDATE =
+  'https://fuseki-elf-pavlik-dev.apps.rm1.0a51.p1.openshiftapps.com/ds/update'
+const PRODUCTION_UPDATE = 'http://127.0.0.1:3030/catalog/update'
+
+const requestedEnvironment = process.argv[3]
+if (
+  requestedEnvironment !== undefined &&
+  requestedEnvironment !== 'development' &&
+  requestedEnvironment !== 'production'
+) {
+  console.error(
+    `unknown environment "${requestedEnvironment}"; use development or production`,
+  )
+  process.exit(1)
+}
+
+const environment: Environment =
+  process.argv[2] === 'tunnel' || requestedEnvironment === 'production'
+    ? 'production'
+    : 'development'
+
+const SSH_HOST =
+  process.env.FUSEKI_SSH_HOST ?? 'root@5.75.154.192'
 const UPDATE_URL =
-  process.env.FUSEKI_UPDATE_URL ?? 'http://127.0.0.1:3030/catalog/update'
+  process.env.FUSEKI_UPDATE_URL ??
+  (environment === 'production' ? PRODUCTION_UPDATE : DEVELOPMENT_UPDATE)
 const USER = process.env.FUSEKI_USER ?? 'writer'
 const VPS_PASSWD_FILE =
   process.env.FUSEKI_PASSWD_FILE ?? '/run/agenix/fuseki-passwd'
 
-// Same files (and order) as the old Graph Store seeding.
-const SEED_FILES = [
-  'ui/public/dump.nq',
+// Curated files are seeded after the generated stage dumps.
+const STATIC_SEED_FILES = [
   'data/software.ttl',
   'data/use-cases.ttl',
   'data/specs.ttl',
   'data/organizations.ttl',
 ]
+
+/** Every completed stage file, in a deterministic SDO/stage order. */
+function stageDumpFiles(): string[] {
+  const root = join(ROOT, 'data/dump')
+  if (!existsSync(root)) return []
+  const files: string[] = []
+  for (const sdo of readdirSync(root, { withFileTypes: true })) {
+    if (!sdo.isDirectory()) continue
+    const dir = join(root, sdo.name)
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      if (entry.isFile() && entry.name.endsWith('.nq')) {
+        files.push(join('data/dump', sdo.name, entry.name))
+      }
+    }
+  }
+  return files.sort()
+}
 
 // INSERT DATA transactions are cheap on TDB2, but each one pays a commit.
 // 5k quads per request keeps the number of transactions (and requests) small
@@ -73,11 +116,12 @@ function isOpen(port: number): Promise<boolean> {
   })
 }
 
-/** Reuse a tunnel opened by `devbox run tunnel`, otherwise start one. */
+/** Reuse a production tunnel opened by `devbox run tunnel`, otherwise start one. */
 async function ensureTunnel(): Promise<{
   close: () => void
   child?: ChildProcess
 }> {
+  if (environment === 'development') return { close: () => {} }
   const url = new URL(UPDATE_URL)
   const local = url.hostname === '127.0.0.1' || url.hostname === 'localhost'
   if (!local) return { close: () => {} }
@@ -167,18 +211,25 @@ function password(): string {
 // ---------------------------------------------------------------------------
 
 async function update(query: string, label: string): Promise<void> {
-  const token = Buffer.from(`${USER}:${password()}`).toString('base64')
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/sparql-update',
+  }
+  if (environment === 'production') {
+    const token = Buffer.from(`${USER}:${password()}`).toString('base64')
+    headers.Authorization = `Basic ${token}`
+  }
   const response = await fetch(UPDATE_URL, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/sparql-update',
-      Authorization: `Basic ${token}`,
-    },
+    headers,
     body: query,
   })
   if (!response.ok) {
+    const hint =
+      environment === 'development' && response.status === 405
+        ? '\n(development is read-only: run `make write-enable` in rhsandbox first)'
+        : ''
     throw new Error(
-      `${label}: ${response.status} ${response.statusText}\n${await response.text()}`,
+      `${label}: ${response.status} ${response.statusText}\n${await response.text()}${hint}`,
     )
   }
 }
@@ -246,12 +297,16 @@ async function updatesFor(path: string, quads: Quad[]): Promise<string[]> {
 }
 
 async function seed(): Promise<void> {
-  for (const relative of SEED_FILES) {
+  const stageFiles = stageDumpFiles()
+  if (stageFiles.length === 0) {
+    throw new Error(
+      'no stage files in data/dump; run `devbox run dump:w3c` first',
+    )
+  }
+  for (const relative of [...stageFiles, ...STATIC_SEED_FILES]) {
     const path = join(ROOT, relative)
     if (!existsSync(path)) {
-      throw new Error(
-        `missing ${relative}; run \`devbox run dump\` first to generate ui/public/dump.nq`,
-      )
+      throw new Error(`missing ${relative}`)
     }
 
     const quads = parseQuads(path)
@@ -273,10 +328,18 @@ async function seed(): Promise<void> {
 // ---------------------------------------------------------------------------
 
 const command = process.argv[2]
-const usage = 'usage: bun scripts/fuseki.ts <seed|wipe|tunnel>'
+const usage =
+  'usage: bun scripts/fuseki.ts <seed|wipe|tunnel> [development|production]'
 
 if (command !== 'seed' && command !== 'wipe' && command !== 'tunnel') {
   console.error(usage)
+  process.exit(1)
+}
+
+if (command === 'tunnel' && requestedEnvironment === 'development') {
+  console.error(
+    'the development environment does not use an SSH tunnel; enable the rhsandbox write overlay with `make write-enable`',
+  )
   process.exit(1)
 }
 

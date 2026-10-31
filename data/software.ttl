@@ -18,6 +18,7 @@
 # Seeded with `devbox run seed` (see devbox.json), so the UI reads it from the
 # same Fuseki dataset as the W3C + Specref data.
 
+
 @prefix doap: <http://usefulinc.com/ns/doap#> .
 @prefix ex: <http://example.org#> .
 
@@ -27,7 +28,7 @@
   doap:name "Halcyon" ;
   doap:shortdesc "Halcyon: Feature Analysis and Management System for Pathology Imaging" ;
   doap:programming-language "Java" ;
-  doap:maintainer <urn:w3c:person:45759> ;
+  doap:maintainer <urn:uuid:c1b3af60-802c-41e1-a3cd-f74903a0001f> ;
   doap:implements <https://www.w3.org/TR/lws10-core/> ;
   doap:homepage <https://halcyon.is> ;
   doap:repository <https://github.com/halcyon-project/Halcyon> ;
@@ -48,7 +49,7 @@
   doap:name "lws-server" ;
   doap:shortdesc "A Linked Web Storage server implementing the W3C LWS Protocol, written as plain Jakarta servlets and bootstrapped (for now) by Spring Boot on an embedded Eclipse Jetty container." ;
   doap:programming-language "Java" ;
-  doap:maintainer <urn:w3c:person:45759> ;
+  doap:maintainer <urn:uuid:c1b3af60-802c-41e1-a3cd-f74903a0001f> ;
   doap:implements <https://www.w3.org/TR/lws10-core/> ;
   doap:homepage <https://ebremer.github.io/lws-server/> ;
   doap:repository <https://github.com/ebremer/lws-server> ;
@@ -68,7 +69,7 @@
   doap:license "MIT" ;
   doap:name "sparq-lws-core" ;
   doap:programming-language "Rust" ;
-  doap:maintainer <urn:w3c:person:132252> ;
+  doap:maintainer <urn:uuid:dd2394d1-2567-4c0e-8884-adb8a8ff9172> ;
   doap:implements <https://www.w3.org/TR/lws10-core/> ;
   doap:repository <https://github.com/sparq-org/sparq> ;
   doap:release <https://github.com/sparq-org/sparq/commit/5501efa> .
@@ -84,7 +85,7 @@
   doap:name "Community Solid Server" ;
   doap:shortdesc "An open and modular implementation of the Solid specifications" ;
   doap:programming-language "TypeScript" ;
-  doap:maintainer <urn:w3c:person:132252> ;
+  doap:maintainer <urn:uuid:dd2394d1-2567-4c0e-8884-adb8a8ff9172> ;
   doap:implements <https://www.w3.org/TR/lws10-core/> ;
   doap:homepage <https://communitysolidserver.github.io/CommunitySolidServer/> ;
   doap:repository <https://github.com/jeswr/CommunitySolidServer> ;
@@ -100,7 +101,7 @@
   doap:name "lws-drupal" ;
   doap:shortdesc "W3C Linked Web Storage Drupal Module" ;
   doap:programming-language "PHP" ;
-  doap:maintainer <urn:w3c:person:45759> ;
+  doap:maintainer <urn:uuid:c1b3af60-802c-41e1-a3cd-f74903a0001f> ;
   doap:implements <https://www.w3.org/TR/lws10-core/> ;
   doap:repository <https://github.com/ebremer/lws-drupal> ;
   doap:release <https://github.com/ebremer/lws-drupal/commit/6f3dbe1> .
@@ -115,7 +116,7 @@
   doap:name "lwsd" ;
   doap:shortdesc "LWS Daemon - Full-featured Linked Web Storage server with authentication" ;
   doap:programming-language "JavaScript" ;
-  doap:maintainer <urn:w3c:person:43676> ;
+  doap:maintainer <urn:uuid:d5fb22a6-cfff-4f2d-998e-24f483b34c03> ;
   doap:implements <https://www.w3.org/TR/lws10-core/> ;
   doap:homepage <https://linkedwebstorage.github.io/lwsd/> ;
   doap:repository <https://github.com/linkedwebstorage/lwsd> ;
@@ -146,7 +147,7 @@
   doap:name "Titanium JSON-LD" ;
   doap:shortdesc "A JSON-LD 1.1 (JSON-based Serialization for Linked Data) Processor & API" ;
   doap:programming-language "Java" ;
-  doap:maintainer <https://github.com/filip26> ;
+  doap:maintainer <urn:uuid:01e673bc-a247-4c83-a503-f8a69cc0be0d> ;
   doap:implements <https://www.w3.org/TR/json-ld11/> ;
   doap:homepage <https://apicatalog.com> ;
   doap:repository <https://github.com/filip26/titanium-json-ld> .
@@ -157,7 +158,7 @@
   doap:name "Titanium RDF N-Quads" ;
   doap:shortdesc "RDF N-Quads reader and writer optimized for efficient parsing, serialization, and handling of large RDF datasets" ;
   doap:programming-language "Java" ;
-  doap:maintainer <https://github.com/filip26> ;
+  doap:maintainer <urn:uuid:01e673bc-a247-4c83-a503-f8a69cc0be0d> ;
   doap:implements <https://www.w3.org/TR/rdf12-n-quads/> ;
   doap:homepage <https://apicatalog.com> ;
   doap:repository <https://github.com/filip26/titanium-rdf-n-quads> .
@@ -170,7 +171,7 @@
   doap:name "Titanium RDF Dataset Canonicalization" ;
   doap:shortdesc "An implementation of W3C Standard RDF Dataset Canonicalization (RDFC 1.0)" ;
   doap:programming-language "Java" ;
-  doap:maintainer <https://github.com/filip26> ;
+  doap:maintainer <urn:uuid:01e673bc-a247-4c83-a503-f8a69cc0be0d> ;
   doap:implements <https://www.w3.org/TR/rdf-canon/> ;
   doap:homepage <https://apicatalog.com> ;
   doap:repository <https://github.com/filip26/titanium-rdf-canon> .
@@ -181,18 +182,10 @@
   doap:name "Titanium RDF Primitives" ;
   doap:shortdesc "RDF primitives, Quad, Triple, Graph, Literal, LangString, ..." ;
   doap:programming-language "Java" ;
-  doap:maintainer <https://github.com/filip26> ;
+  doap:maintainer <urn:uuid:01e673bc-a247-4c83-a503-f8a69cc0be0d> ;
   doap:implements <https://www.w3.org/TR/rdf12-concepts/> ;
   doap:homepage <https://apicatalog.com> ;
   doap:repository <https://github.com/filip26/titanium-rdf-primitives> .
-
-# The maintainer of the Titanium libraries is not in the W3C data, so the
-# GitHub profile is the person IRI; the minimal person record keeps the chip
-# readable (and joins to the catalog if he ever arrives from the W3C API).
-<https://github.com/filip26> a ex:Person ;
-  ex:name "Filip" ;
-  ex:siloUsername "github:filip26" ;
-  ex:landingPage <https://github.com/filip26> .
 
 <https://github.com/filip26/titanium-json-ld> a doap:GitRepository .
 <https://github.com/filip26/titanium-rdf-n-quads> a doap:GitRepository .
@@ -242,7 +235,7 @@
   doap:name "Iridium CBOR-LD" ;
   doap:shortdesc "CBOR-LD 1.0, dictionaries, Verifiable Credential Barcodes" ;
   doap:programming-language "Java" ;
-  doap:maintainer <https://github.com/filip26> ;
+  doap:maintainer <urn:uuid:01e673bc-a247-4c83-a503-f8a69cc0be0d> ;
   doap:implements <https://www.w3.org/TR/cbor-ld-10/> ;
   doap:homepage <https://apicatalog.com> ;
   doap:repository <https://github.com/filip26/iridium-cbor-ld> .
@@ -254,13 +247,13 @@
   doap:name "cborld-ex" ;
   doap:shortdesc "CBOR-LD-related extension for Subjective Logic annotations; not a general-purpose implementation." ;
   doap:programming-language "Rust" ;
-  doap:maintainer <https://github.com/jemsbhai> ;
+  doap:maintainer <urn:uuid:061aa10c-c8fe-469f-a960-ee8f5c7db83a> ;
   doap:implements <https://www.w3.org/TR/cbor-ld-10/> ;
   doap:documentation <https://docs.rs/cborld-ex/latest/cborld_ex/> ;
   doap:repository <https://github.com/jemsbhai/cborld-ex> .
 
 # Maintainer of cborld-ex is a personal GitHub account, not in the W3C data.
-<https://github.com/jemsbhai> a ex:Person ;
+<urn:uuid:061aa10c-c8fe-469f-a960-ee8f5c7db83a> a ex:Person ;
   ex:name "Muntaser Syed" ;
   ex:siloUsername "github:jemsbhai" ;
   ex:landingPage <https://muntasersyed.com/> .

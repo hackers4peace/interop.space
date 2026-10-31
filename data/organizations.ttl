@@ -9,11 +9,12 @@
 
 @prefix ex: <http://example.org#> .
 
-<https://api.w3.org/affiliations/6383> a ex:Organization ;
+<urn:uuid:f94f29fb-233f-47c8-84d1-8be59cdf26a0> a ex:Organization ;
+  ex:siloId "w3c-affiliation:6383" ;
   ex:name "Forschungszentrum Informatik (FZI)" ;
   ex:homepage <http://www.fzi.de> ;
   # Logo: https://www.fzi.de/wp-content/uploads/2020/10/logo-fzi-4c-80.png
   ex:logo "/logos/fzi.png" ;
   ex:proposed <urn:uuid:cd7479e8-16e3-4930-93c8-59d2167bd5b1> .
 
-<urn:w3c:person:128292> ex:affiliation <https://api.w3.org/affiliations/6383> .
+<urn:uuid:f41d7481-3971-45b1-b647-bbb68abc6d90> ex:affiliation <urn:uuid:f94f29fb-233f-47c8-84d1-8be59cdf26a0> .
