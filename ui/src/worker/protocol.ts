@@ -16,6 +16,7 @@ export type Project = {
   name: string
   description: string
   memberIds: string[] // short ids referencing Person.id
+  members: Person[] // member previews resolved for the listing card
 }
 
 export type SoftwareSpec = {
@@ -32,6 +33,7 @@ export type SoftwareRef = {
   uri: string // ex:hasDependencyOn subject or object
   id: string // short display/URL form, matching /software/:id
   name: string // catalog name when the project is in the catalog
+  implements?: string[] // dependency only: doap:implements targets, for pinning
 }
 
 export type Software = {
@@ -103,6 +105,16 @@ export type Specification = {
   citedBy: SpecReference[] // specs that cite this one
 }
 
+// Compact group shape used by listings and cross-page cards. The full roster
+// is only loaded for the group page or when a group is pinned for comparison.
+export type GroupSummary = {
+  id?: number // W3C API group id when the catalog group resolves
+  uri?: string
+  name: string
+  participantCount?: number
+  w3cApiUrl?: string
+}
+
 export type W3cParticipant = {
   uri: string // person URI in the catalog dump (ex:member target)
   name: string
@@ -119,43 +131,159 @@ export type W3cGroup = {
   participants: W3cParticipant[]
 }
 
-export type W3cGroupsData = {
-  groups: W3cGroup[]
-  selected: number[] // W3cGroup.id values the user has checked
-  common: W3cParticipant[] // intersection of the selected groups' participants
+export type AsyncStatus = 'idle' | 'loading' | 'ready' | 'error'
+
+// One paginated listing: the current query, the rows loaded so far, and the
+// cursor/hasMore flags owned by the worker.
+export type ListingState<T> = {
+  status: AsyncStatus
+  query: string
+  data: T[]
+  hasMore: boolean
+  loadingMore: boolean
+  total?: number
+  error?: string
 }
 
-export type AsyncStatus = 'idle' | 'loading' | 'ready' | 'error'
-export type AsyncSlice<T> = { status: AsyncStatus; data: T; error?: string }
+// ---------------------------------------------------------------------------
+// Detail views: each route gets exactly the data it renders, composed by the
+// worker with targeted SPARQL queries.
+// ---------------------------------------------------------------------------
+export type PersonView = {
+  kind: 'person'
+  person: Person
+  groups: GroupSummary[]
+  authored: Specification[]
+  edited: Specification[]
+  software: Software[]
+}
+
+export type ProjectView = {
+  kind: 'project'
+  project: Project
+}
+
+export type SpecificationView = {
+  kind: 'specification'
+  spec: Specification
+  groups: GroupSummary[]
+  software: Software[]
+  useCases: UseCase[]
+}
+
+export type SoftwareView = {
+  kind: 'software'
+  software: Software
+  // Normative/informative references of each implemented specification, keyed
+  // by that specification's URI. Used by the pin-and-compare dependency view.
+  references: Record<string, SpecReference[]>
+}
+
+export type GroupView = {
+  kind: 'group'
+  group: W3cGroup
+  specifications: Specification[]
+}
+
+export type OrgView = {
+  kind: 'org'
+  org: Org
+  proposed: { uri: string; useCase?: UseCase }[]
+}
+
+export type UseCaseView = {
+  kind: 'useCase'
+  useCase: UseCase
+  orgs: Org[]
+  specifications: { uri: string; spec?: Specification }[]
+}
+
+export type DetailView =
+  | PersonView
+  | ProjectView
+  | SpecificationView
+  | SoftwareView
+  | GroupView
+  | OrgView
+  | UseCaseView
+
+export type DetailKind = DetailView['kind']
+
+export type DetailState = {
+  key?: string // `${kind}:${id}` of the currently loaded detail
+  status: AsyncStatus
+  data?: DetailView
+  error?: string
+}
+
+// Group comparison state is separate from the paginated listing, so pinned
+// groups stay visible even when they are not part of the current search page.
+export type GroupSelection = {
+  selected: number[]
+  groups: GroupSummary[]
+  members: Record<number, W3cParticipant[]>
+  loading: number[]
+  common: W3cParticipant[]
+  error?: string
+}
+
+export type ListingKind =
+  | 'people'
+  | 'projects'
+  | 'software'
+  | 'specifications'
+  | 'useCases'
+  | 'orgs'
+  | 'groups'
 
 export type AppState = {
-  people: AsyncSlice<Person[]>
-  projects: AsyncSlice<Project[]>
-  software: AsyncSlice<Software[]>
-  useCases: AsyncSlice<UseCase[]>
-  orgs: AsyncSlice<Org[]>
-  specifications: AsyncSlice<Specification[]>
-  w3cGroups: AsyncSlice<W3cGroupsData>
+  people: ListingState<Person>
+  projects: ListingState<Project>
+  software: ListingState<Software>
+  specifications: ListingState<Specification>
+  useCases: ListingState<UseCase>
+  orgs: ListingState<Org>
+  groups: ListingState<GroupSummary>
+  detail: DetailState
+  groupSelection: GroupSelection
 }
 
-// main -> worker (the actor mailbox): load on demand
+export const emptyListing = <T>(): ListingState<T> => ({
+  status: 'idle',
+  query: '',
+  data: [],
+  hasMore: false,
+  loadingMore: false,
+})
+
+export const initialAppState = (): AppState => ({
+  people: emptyListing(),
+  projects: emptyListing(),
+  software: emptyListing(),
+  specifications: emptyListing(),
+  useCases: emptyListing(),
+  orgs: emptyListing(),
+  groups: emptyListing(),
+  detail: { status: 'idle' },
+  groupSelection: {
+    selected: [],
+    groups: [],
+    members: {},
+    loading: [],
+    common: [],
+  },
+})
+
+export const detailKey = (kind: DetailKind, id: string) => `${kind}:${id}`
+
+// main -> worker (the actor mailbox): search/load on demand
 export type Command =
-  | { type: 'loadPeople' }
-  | { type: 'loadProjects' }
-  | { type: 'loadProject'; id: string }
-  | { type: 'loadSoftware' }
-  | { type: 'loadUseCases' }
-  | { type: 'loadOrgs' }
-  | { type: 'loadSpecifications' }
-  | { type: 'loadW3cGroups' }
-  | { type: 'toggleW3cGroup'; id: number }
+  | { type: 'search'; kind: ListingKind; query: string }
+  | { type: 'loadMore'; kind: ListingKind }
+  | { type: 'loadDetail'; kind: DetailKind; id: string }
+  | { type: 'toggleGroup'; group: GroupSummary }
 
 // worker -> main: one slice at a time (partial snapshot)
-export type SliceUpdate =
-  | { key: 'people'; value: AppState['people'] }
-  | { key: 'projects'; value: AppState['projects'] }
-  | { key: 'software'; value: AppState['software'] }
-  | { key: 'useCases'; value: AppState['useCases'] }
-  | { key: 'orgs'; value: AppState['orgs'] }
-  | { key: 'specifications'; value: AppState['specifications'] }
-  | { key: 'w3cGroups'; value: AppState['w3cGroups'] }
+export type SliceUpdate = {
+  [K in keyof AppState]: { key: K; value: AppState[K] }
+}[keyof AppState]

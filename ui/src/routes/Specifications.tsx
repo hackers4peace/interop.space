@@ -1,30 +1,25 @@
 import type { Component } from 'solid-js'
-import { For, Match, Show, Switch, createSignal, onMount } from 'solid-js'
+import { For, Match, Show, Switch } from 'solid-js'
+import { InfiniteScroll } from '../components/InfiniteScroll'
 import { SearchBar } from '../components/SearchBar'
 import { SdoPanel } from '../components/SdoPanel'
 import { SpecificationCard } from '../components/SpecificationCard'
 import { appActor } from '../store/app'
 import { isW3cScope, sdoById, sdoDisplayName } from '../lib/sdos'
 import { useSdoNav } from '../lib/sdoNav'
-import { matchesQuery } from '../lib/search'
+import { createListingSearch } from '../lib/listing'
 import { specificationsSlice } from '../store/selectors'
 
 const Specifications: Component = () => {
   const { sdo, clearSdo } = useSdoNav()
+  const { query, onInput } = createListingSearch('specifications')
   const currentSdo = () => sdoById(sdo())
   const w3cScope = () => isW3cScope(sdo())
   const scopeName = () => sdoDisplayName(sdo())
-  const [query, setQuery] = createSignal('')
 
-  const filteredSpecifications = () =>
-    specificationsSlice().data.filter((spec) =>
-      matchesQuery(spec.name, query()),
-    )
-
-  onMount(() => {
-    if (specificationsSlice().status === 'idle')
-      appActor.send({ type: 'loadSpecifications' })
-  })
+  const total = () =>
+    specificationsSlice().total ?? specificationsSlice().data.length
+  const isSearch = () => specificationsSlice().query.trim().length > 0
 
   return (
     <section class="space-y-6">
@@ -35,8 +30,8 @@ const Specifications: Component = () => {
         <h1 class="text-3xl font-bold tracking-tight">Specifications</h1>
         <Show when={w3cScope()}>
           <p class="text-slate-600 dark:text-slate-400">
-            {specificationsSlice().data.length} specifications delivered by W3C
-            groups.
+            {total()} {isSearch() ? 'matching' : ''} specifications delivered
+            by W3C groups.
           </p>
         </Show>
       </div>
@@ -51,7 +46,7 @@ const Specifications: Component = () => {
       >
         <SearchBar
           value={query()}
-          onInput={setQuery}
+          onInput={onInput}
           label="Search specifications"
           placeholder="Search specifications…"
         />
@@ -61,7 +56,12 @@ const Specifications: Component = () => {
               Failed to load specifications: {specificationsSlice().error}
             </p>
           </Match>
-          <Match when={specificationsSlice().status === 'loading'}>
+          <Match
+            when={
+              specificationsSlice().status === 'loading' &&
+              specificationsSlice().data.length === 0
+            }
+          >
             <p class="text-slate-500 dark:text-slate-400">
               Loading specifications…
             </p>
@@ -71,28 +71,28 @@ const Specifications: Component = () => {
               when={specificationsSlice().data.length > 0}
               fallback={
                 <p class="text-slate-500 dark:text-slate-400">
-                  No specifications found in the catalog.
+                  {isSearch()
+                    ? `No specifications match “${specificationsSlice().query.trim()}”.`
+                    : 'No specifications found in the catalog.'}
                 </p>
               }
             >
-              <Show
-                when={filteredSpecifications().length > 0}
-                fallback={
-                  <p class="text-slate-500 dark:text-slate-400">
-                    No specifications match “{query().trim()}”.
-                  </p>
+              <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <For each={specificationsSlice().data}>
+                  {(spec) => (
+                    <li>
+                      <SpecificationCard spec={spec} showGroups />
+                    </li>
+                  )}
+                </For>
+              </ul>
+              <InfiniteScroll
+                hasMore={specificationsSlice().hasMore}
+                loading={specificationsSlice().loadingMore}
+                onLoadMore={() =>
+                  appActor.send({ type: 'loadMore', kind: 'specifications' })
                 }
-              >
-                <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <For each={filteredSpecifications()}>
-                    {(spec) => (
-                      <li>
-                        <SpecificationCard spec={spec} showGroups />
-                      </li>
-                    )}
-                  </For>
-                </ul>
-              </Show>
+              />
             </Show>
           </Match>
         </Switch>

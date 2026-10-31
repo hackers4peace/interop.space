@@ -3,18 +3,22 @@ import { For, Match, Show, Switch, createEffect } from 'solid-js'
 import { A, useParams } from '@solidjs/router'
 import { PersonCard } from '../components/PersonCard'
 import { appActor } from '../store/app'
-import { membersOf, projectById, projectsSlice } from '../store/selectors'
+import { detailFor } from '../store/selectors'
 
 const ProjectDetail: Component = () => {
   const params = useParams<{ id: string }>()
 
   // Refetch whenever the :id param changes (navigating between projects reuses
   // this component).
-  createEffect(() => {
-    appActor.send({ type: 'loadProject', id: params.id })
-  })
+  createEffect(() =>
+    appActor.send({ type: 'loadDetail', kind: 'project', id: params.id }),
+  )
 
-  const project = () => projectById(params.id)
+  const state = () => detailFor('project', params.id)
+  const view = () => {
+    const data = state()?.data
+    return data?.kind === 'project' ? data : undefined
+  }
 
   return (
     <section class="space-y-6">
@@ -25,21 +29,23 @@ const ProjectDetail: Component = () => {
         ← All projects
       </A>
       <Switch>
-        <Match when={projectsSlice().status === 'error'}>
+        <Match when={state()?.status === 'error'}>
           <p class="text-red-500">
-            Failed to load project: {projectsSlice().error}
+            Failed to load project: {state()?.error}
           </p>
         </Match>
-        <Match when={!project() && projectsSlice().status === 'loading'}>
+        <Match when={!view() && state()?.status !== 'ready'}>
           <p class="text-slate-500 dark:text-slate-400">Loading project…</p>
         </Match>
-        <Match when={project()}>
-          {(proj) => (
+        <Match when={view()}>
+          {(data) => (
             <>
               <div class="space-y-1">
-                <h1 class="text-3xl font-bold tracking-tight">{proj().name}</h1>
+                <h1 class="text-3xl font-bold tracking-tight">
+                  {data().project.name}
+                </h1>
                 <p class="text-slate-600 dark:text-slate-400">
-                  {proj().description}
+                  {data().project.description}
                 </p>
               </div>
               <div class="space-y-3">
@@ -47,7 +53,7 @@ const ProjectDetail: Component = () => {
                   People in this project
                 </h2>
                 <Show
-                  when={membersOf(params.id).length > 0}
+                  when={data().project.members.length > 0}
                   fallback={
                     <p class="text-slate-500 dark:text-slate-400">
                       No people yet.
@@ -55,7 +61,7 @@ const ProjectDetail: Component = () => {
                   }
                 >
                   <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    <For each={membersOf(params.id)}>
+                    <For each={data().project.members}>
                       {(person) => <PersonCard person={person} />}
                     </For>
                   </ul>
@@ -64,7 +70,7 @@ const ProjectDetail: Component = () => {
             </>
           )}
         </Match>
-        <Match when={!project()}>
+        <Match when={!view()}>
           <p class="text-slate-500 dark:text-slate-400">Project not found.</p>
         </Match>
       </Switch>

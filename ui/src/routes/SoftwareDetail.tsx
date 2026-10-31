@@ -1,22 +1,12 @@
 import type { Component } from 'solid-js'
-import { For, Match, Show, Switch, createSignal, onMount } from 'solid-js'
+import { For, Match, Show, Switch, createEffect, createSignal } from 'solid-js'
 import { A, useParams } from '@solidjs/router'
 import { ArrowRight, Pin } from 'lucide-solid'
 import { ContributorSection } from '../components/ContributorChips'
 import { appActor } from '../store/app'
 import { useSdoNav } from '../lib/sdoNav'
-import {
-  softwareById,
-  softwareSlice,
-  specificationById,
-  specificationsSlice,
-} from '../store/selectors'
-import type {
-  SoftwareRef,
-  SoftwareSpec,
-  SpecReference,
-  Specification,
-} from '../worker/protocol'
+import { detailFor } from '../store/selectors'
+import type { SoftwareRef, SoftwareSpec, SpecReference } from '../worker/protocol'
 
 const metaLink =
   'rounded-md border border-slate-200 px-2.5 py-1 text-sm font-medium text-indigo-600 transition hover:bg-slate-100 dark:border-slate-800 dark:text-indigo-400 dark:hover:bg-slate-800'
@@ -46,39 +36,34 @@ const SoftwareDetail: Component = () => {
   // dependency list is matched against.
   const [pinned, setPinned] = createSignal<string>()
 
-  onMount(() => {
-    if (softwareSlice().status === 'idle')
-      appActor.send({ type: 'loadSoftware' })
-    if (specificationsSlice().status === 'idle')
-      appActor.send({ type: 'loadSpecifications' })
-  })
+  createEffect(() =>
+    appActor.send({ type: 'loadDetail', kind: 'software', id: params.id }),
+  )
 
-  const software = () => softwareById(params.id)
+  const state = () => detailFor('software', params.id)
+  const view = () => {
+    const data = state()?.data
+    return data?.kind === 'software' ? data : undefined
+  }
 
   const pinnedSpec = (): SoftwareSpec | undefined => {
     const uri = pinned()
     if (!uri) return undefined
-    return software()?.implements.find((spec) => spec.uri === uri)
+    return view()?.software.implements.find((spec) => spec.uri === uri)
   }
 
-  const pinnedSpecification = (): Specification | undefined => {
+  const pinnedReferences = (): SpecReference[] => {
     const spec = pinnedSpec()
-    return spec ? specificationById(spec.id) : undefined
+    if (!spec) return []
+    return view()?.references[spec.uri] ?? []
   }
 
   // Normative references of the pinned specification that a dependency
   // declares implementing (doap:implements on the dependency).
-  const referenceMatches = (dep: SoftwareRef): SpecReference[] => {
-    const spec = pinnedSpecification()
-    if (!spec) return []
-    const dependency = softwareById(dep.id)
-    if (!dependency) return []
-    return spec.references.filter(
-      (ref) =>
-        ref.normative &&
-        dependency.implements.some((target) => target.uri === ref.uri),
+  const referenceMatches = (dep: SoftwareRef): SpecReference[] =>
+    pinnedReferences().filter(
+      (ref) => ref.normative && (dep.implements ?? []).includes(ref.uri),
     )
-  }
 
   const togglePin = (spec: SoftwareSpec) =>
     setPinned((current) => (current === spec.uri ? undefined : spec.uri))
@@ -87,7 +72,7 @@ const SoftwareDetail: Component = () => {
   // normative references come first; the rest keep the catalog (name) order.
   // Unpinning restores that order exactly.
   const orderedDependencies = (): SoftwareRef[] => {
-    const dependencies = software()?.dependencies ?? []
+    const dependencies = view()?.software.dependencies ?? []
     if (!pinnedSpec()) return dependencies
     const matched = dependencies.filter(
       (dep) => referenceMatches(dep).length > 0,
@@ -107,27 +92,35 @@ const SoftwareDetail: Component = () => {
         ← All software
       </A>
       <Switch>
-        <Match when={softwareSlice().status === 'error'}>
+        <Match when={state()?.status === 'error'}>
           <p class="text-red-500">
-            Failed to load software: {softwareSlice().error}
+            Failed to load software: {state()?.error}
           </p>
         </Match>
-        <Match when={!software() && softwareSlice().status !== 'ready'}>
+        <Match when={!view() && state()?.status !== 'ready'}>
           <p class="text-slate-500 dark:text-slate-400">Loading software…</p>
         </Match>
-        <Match when={software()}>
-          {(sw) => (
+        <Match when={view()}>
+          {(data) => (
             <>
               <div class="space-y-2">
-                <h1 class="text-3xl font-bold tracking-tight">{sw().name}</h1>
-                <Show when={sw().description}>
+                <h1 class="text-3xl font-bold tracking-tight">
+                  {data().software.name}
+                </h1>
+                <Show when={data().software.description}>
                   <p class="text-slate-600 dark:text-slate-400">
-                    {sw().description}
+                    {data().software.description}
                   </p>
                 </Show>
-                <Show when={sw().homepage || sw().repository || sw().documentation}>
+                <Show
+                  when={
+                    data().software.homepage ||
+                    data().software.repository ||
+                    data().software.documentation
+                  }
+                >
                   <div class="flex flex-wrap items-center gap-2 pt-1">
-                    <Show when={sw().homepage}>
+                    <Show when={data().software.homepage}>
                       {(url) => (
                         <a
                           href={url()}
@@ -140,7 +133,7 @@ const SoftwareDetail: Component = () => {
                         </a>
                       )}
                     </Show>
-                    <Show when={sw().repository}>
+                    <Show when={data().software.repository}>
                       {(url) => (
                         <a
                           href={url()}
@@ -153,7 +146,7 @@ const SoftwareDetail: Component = () => {
                         </a>
                       )}
                     </Show>
-                    <Show when={sw().documentation}>
+                    <Show when={data().software.documentation}>
                       {(url) => (
                         <a
                           href={url()}
@@ -168,11 +161,11 @@ const SoftwareDetail: Component = () => {
                     </Show>
                   </div>
                 </Show>
-                <Show when={sw().license}>
+                <Show when={data().software.license}>
                   <p class="text-sm text-slate-500 dark:text-slate-400">
                     License:{' '}
                     <span class="font-mono text-slate-600 dark:text-slate-300">
-                      {sw().license}
+                      {data().software.license}
                     </span>
                   </p>
                 </Show>
@@ -181,7 +174,7 @@ const SoftwareDetail: Component = () => {
               <div class="space-y-3">
                 <h2 class={sectionTitle}>Programming languages</h2>
                 <Show
-                  when={sw().programmingLanguages.length > 0}
+                  when={data().software.programmingLanguages.length > 0}
                   fallback={
                     <p class="text-slate-500 dark:text-slate-400">
                       No programming language recorded.
@@ -189,7 +182,7 @@ const SoftwareDetail: Component = () => {
                   }
                 >
                   <ul class="flex flex-wrap gap-2">
-                    <For each={sw().programmingLanguages}>
+                    <For each={data().software.programmingLanguages}>
                       {(language) => <li class={tag}>{language}</li>}
                     </For>
                   </ul>
@@ -198,14 +191,14 @@ const SoftwareDetail: Component = () => {
 
               <ContributorSection
                 title="Maintainers"
-                people={sw().maintainers}
+                people={data().software.maintainers}
                 empty="No maintainer recorded."
               />
 
               <div class="space-y-3">
                 <h2 class={sectionTitle}>Implements</h2>
                 <Show
-                  when={sw().implements.length > 0}
+                  when={data().software.implements.length > 0}
                   fallback={
                     <p class="text-slate-500 dark:text-slate-400">
                       No implemented specification recorded.
@@ -213,7 +206,7 @@ const SoftwareDetail: Component = () => {
                   }
                 >
                   <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <For each={sw().implements}>
+                    <For each={data().software.implements}>
                       {(spec) => {
                         const isPinned = () => pinned() === spec.uri
                         return (
@@ -271,7 +264,7 @@ const SoftwareDetail: Component = () => {
                 </Show>
               </div>
 
-              <Show when={sw().dependencies.length > 0}>
+              <Show when={data().software.dependencies.length > 0}>
                 <div class="space-y-3">
                   <h2 class={sectionTitle}>Depends on</h2>
                   <Show
@@ -283,22 +276,11 @@ const SoftwareDetail: Component = () => {
                       </p>
                     }
                   >
-                    <Show
-                      when={pinnedSpecification()}
-                      fallback={
-                        <p class="text-sm text-slate-500 dark:text-slate-400">
-                          No normative references of {pinnedSpec()?.name} are in
-                          the catalog.
-                        </p>
-                      }
-                    >
-                      {(spec) => (
-                        <p class="text-sm text-slate-500 dark:text-slate-400">
-                          Normative references of {spec().name} that each
-                          dependency implements.
-                        </p>
-                      )}
-                    </Show>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">
+                      {pinnedReferences().length > 0
+                        ? `Normative references of ${pinnedSpec()?.name} that each dependency implements.`
+                        : `No normative references of ${pinnedSpec()?.name} are in the catalog.`}
+                    </p>
                   </Show>
                   <ul class="space-y-2">
                     <For each={orderedDependencies()}>
@@ -339,11 +321,11 @@ const SoftwareDetail: Component = () => {
                 </div>
               </Show>
 
-              <Show when={sw().dependents.length > 0}>
+              <Show when={data().software.dependents.length > 0}>
                 <div class="space-y-3">
                   <h2 class={sectionTitle}>Dependency of</h2>
                   <ul class="space-y-2">
-                    <For each={sw().dependents}>
+                    <For each={data().software.dependents}>
                       {(dependent) => (
                         <li>
                           <A
@@ -361,7 +343,7 @@ const SoftwareDetail: Component = () => {
             </>
           )}
         </Match>
-        <Match when={!software()}>
+        <Match when={!view()}>
           <p class="text-slate-500 dark:text-slate-400">Software not found.</p>
         </Match>
       </Switch>

@@ -1,17 +1,18 @@
 import type { Component } from 'solid-js'
-import { For, Show, createEffect, createSignal, onMount } from 'solid-js'
+import { For, Show, createSignal } from 'solid-js'
 import { A } from '@solidjs/router'
 import { ArrowRight, Pin } from 'lucide-solid'
+import { InfiniteScroll } from '../components/InfiniteScroll'
 import { PersonCard } from '../components/PersonCard'
 import { SearchBar } from '../components/SearchBar'
 import { SdoPanel } from '../components/SdoPanel'
 import { appActor } from '../store/app'
+import { createListingSearch } from '../lib/listing'
 import { personFromParticipant } from '../lib/person'
 import { isW3cScope, sdoById, sdoDisplayName } from '../lib/sdos'
 import { useSdoNav } from '../lib/sdoNav'
-import { matchesQuery } from '../lib/search'
-import { w3cGroupsSlice } from '../store/selectors'
-import type { W3cGroup, W3cParticipant } from '../worker/protocol'
+import { groupSelectionSlice, groupsSlice } from '../store/selectors'
+import type { GroupSummary, W3cParticipant } from '../worker/protocol'
 
 const iconButton =
   'flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition'
@@ -31,10 +32,11 @@ const pinnedOnlyIdle =
 // The pin button toggles the group's participation in the comparison; the
 // arrow button opens the group's own page. The card itself is not clickable so
 // the two actions never fight over the same target.
-const GroupCard: Component<{ group: W3cGroup; selected: boolean }> = (
+const GroupCard: Component<{ group: GroupSummary; selected: boolean }> = (
   props,
 ) => {
   const { href } = useSdoNav()
+  const count = () => props.group.participantCount ?? 0
   return (
     <div
       class={`flex items-center gap-2 rounded-xl border bg-white p-4 shadow-sm transition dark:bg-slate-900 ${props.selected ? 'border-indigo-500 ring-1 ring-indigo-500' : 'border-slate-200 hover:shadow-md dark:border-slate-800'}`}
@@ -48,8 +50,13 @@ const GroupCard: Component<{ group: W3cGroup; selected: boolean }> = (
             : `Pin ${props.group.name}`
         }
         title={props.selected ? 'Unpin group' : 'Pin group'}
+        disabled={props.group.id === undefined}
         onClick={() =>
-          appActor.send({ type: 'toggleW3cGroup', id: props.group.id })
+          appActor.send({
+            type: 'toggleGroup',
+            // Solid stores are proxies; clone into a plain, worker-safe object.
+            group: { ...props.group },
+          })
         }
         class={`${iconButton} ${props.selected ? 'bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400' : idleIcon}`}
       >
@@ -58,18 +65,22 @@ const GroupCard: Component<{ group: W3cGroup; selected: boolean }> = (
       <div class="min-w-0 flex-1 space-y-1">
         <p class="truncate font-semibold">{props.group.name}</p>
         <p class="text-sm text-slate-500 dark:text-slate-400">
-          {props.group.participants.length}
-          {props.group.participants.length === 1 ? ' participant' : ' participants'}
+          {count()}
+          {count() === 1 ? ' participant' : ' participants'}
         </p>
       </div>
-      <A
-        href={href(`/groups/${props.group.id}`)}
-        aria-label={`Open ${props.group.name}`}
-        title={`Open ${props.group.name}`}
-        class={`${iconButton} ${idleIcon}`}
-      >
-        <ArrowRight size={18} />
-      </A>
+      <Show when={props.group.id}>
+        {(id) => (
+          <A
+            href={href(`/groups/${id()}`)}
+            aria-label={`Open ${props.group.name}`}
+            title={`Open ${props.group.name}`}
+            class={`${iconButton} ${idleIcon}`}
+          >
+            <ArrowRight size={18} />
+          </A>
+        )}
+      </Show>
     </div>
   )
 }
@@ -103,80 +114,48 @@ const ParticipantList: Component<{
 
 const Groups: Component = () => {
   const { sdo, clearSdo } = useSdoNav()
-  const [query, setQuery] = createSignal('')
+  const { query, onInput } = createListingSearch('groups')
   const [pinnedOnly, setPinnedOnly] = createSignal(false)
-  // Snapshot of the pinned ids as they were when the listing was last
-  // refreshed. Pinning does not reorder the cards under the pointer; the next
-  // search or toggle moves pinned groups to the top.
-  const [pinnedOrder, setPinnedOrder] = createSignal<number[]>([])
-
-  // Unpinning drops the group from the order snapshot without adding newly
-  // pinned groups, so a pin click never reorders the list.
-  createEffect(() => {
-    const selected = w3cGroupsSlice().data.selected
-    setPinnedOrder((current) => {
-      const next = current.filter((id) => selected.includes(id))
-      return next.length === current.length ? current : next
-    })
-  })
-
-  onMount(() => {
-    if (w3cGroupsSlice().status === 'idle')
-      appActor.send({ type: 'loadW3cGroups' })
-  })
 
   const currentSdo = () => sdoById(sdo())
   const w3cScope = () => isW3cScope(sdo())
   const scopeName = () => sdoDisplayName(sdo())
-  const groups = () => w3cGroupsSlice().data.groups
-  const isPinned = (id: number) => w3cGroupsSlice().data.selected.includes(id)
-  const snapshotPinnedOrder = () =>
-    setPinnedOrder(
-      groups()
-        .filter((group) => isPinned(group.id))
-        .map((group) => group.id),
-    )
-  const handleQuery = (value: string) => {
-    setQuery(value)
-    snapshotPinnedOrder()
-  }
-  const togglePinnedOnly = () => {
-    setPinnedOnly((current) => !current)
-    snapshotPinnedOrder()
-  }
-  const visibleGroups = () =>
-    groups().filter(
-      (group) =>
-        isPinned(group.id) ||
-        (!pinnedOnly() && matchesQuery(group.name, query())),
-    )
-  const orderedGroups = () => {
-    const order = pinnedOrder()
-    const rank = (id: number) =>
-      isPinned(id) ? order.indexOf(id) : -1
-    return [...visibleGroups()].sort((a, b) => {
-      const aRank = rank(a.id)
-      const bRank = rank(b.id)
-      if (aRank === -1 && bRank === -1) return 0
-      if (aRank === -1) return 1
-      if (bRank === -1) return -1
-      return aRank - bRank
-    })
-  }
-  const selectedGroups = () =>
-    groups().filter((g) => w3cGroupsSlice().data.selected.includes(g.id))
-  const singleGroup = () =>
-    selectedGroups().length === 1 ? selectedGroups()[0] : undefined
+
+  const listing = () => groupsSlice()
+  const selection = () => groupSelectionSlice()
+
+  const selectedGroups = () => selection().groups
+  const isPinned = (group: GroupSummary) =>
+    group.id !== undefined && selection().selected.includes(group.id)
+  const searchGroups = () =>
+    listing().data.filter((group) => !isPinned(group))
+  const isSearch = () => listing().query.trim().length > 0
+
   const groupsFallback = () => {
-    const status = w3cGroupsSlice().status
+    const status = listing().status
     if (status === 'error') return 'Could not load groups from the catalog.'
-    if (status === 'ready') return 'No W3C groups found in the catalog.'
+    if (status === 'ready') {
+      return isSearch()
+        ? `No groups match “${listing().query.trim()}”.`
+        : 'No W3C groups found in the catalog.'
+    }
     return 'Loading groups from the catalog…'
   }
+
+  const selectedGroup = () =>
+    selectedGroups().length === 1 ? selectedGroups()[0] : undefined
+
+  const rosterOf = (group: GroupSummary) =>
+    group.id === undefined ? undefined : selection().members[group.id]
+
+  const isRosterLoading = (group: GroupSummary) =>
+    group.id !== undefined && selection().loading.includes(group.id)
+
   const countNote = () => {
     const chosen = selectedGroups()
-    if (chosen.length < 2) return ''
-    return `${chosen.map((g) => `${g.participants.length} in ${g.name}`).join(' · ')}; ${w3cGroupsSlice().data.common.length} in all of them.`
+    return `${chosen
+      .map((group) => `${group.participantCount ?? 0} in ${group.name}`)
+      .join(' · ')}; ${selection().common.length} in all of them.`
   }
 
   return (
@@ -210,7 +189,7 @@ const Groups: Component = () => {
         <div class="flex flex-wrap items-center gap-3">
           <SearchBar
             value={query()}
-            onInput={handleQuery}
+            onInput={onInput}
             label="Search groups"
             placeholder="Search groups…"
           />
@@ -222,7 +201,7 @@ const Groups: Component = () => {
                 ? 'Show all groups'
                 : 'Hide all unpinned group cards'
             }
-            onClick={togglePinnedOnly}
+            onClick={() => setPinnedOnly((current) => !current)}
             class={`${pinnedOnlyBase} ${pinnedOnly() ? pinnedOnlyActive : pinnedOnlyIdle}`}
           >
             <Pin
@@ -233,73 +212,118 @@ const Groups: Component = () => {
             Pinned only
           </button>
         </div>
-        <Show when={w3cGroupsSlice().status === 'error'}>
+
+        <Show when={listing().status === 'error'}>
           <p class="text-red-500">
-            Failed to load W3C groups: {w3cGroupsSlice().error}
+            Failed to load W3C groups: {listing().error}
           </p>
         </Show>
 
-        <Show
-          when={groups().length > 0}
-          fallback={
-            <p class="text-slate-500 dark:text-slate-400">
-              {groupsFallback()}
-            </p>
-          }
-        >
-          <Show
-            when={visibleGroups().length > 0}
-            fallback={
-              <p class="text-slate-500 dark:text-slate-400">
-                {pinnedOnly()
-                  ? 'No groups are pinned yet.'
-                  : `No groups match “${query().trim()}”.`}
-              </p>
-            }
-          >
+        <Show when={selectedGroups().length > 0}>
+          <div class="space-y-3">
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+              Pinned groups
+            </h2>
             <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <For each={orderedGroups()}>
+              <For each={selectedGroups()}>
                 {(group) => (
                   <li>
-                    <GroupCard
-                      group={group}
-                      selected={w3cGroupsSlice().data.selected.includes(
-                        group.id,
-                      )}
-                    />
+                    <GroupCard group={group} selected />
                   </li>
                 )}
               </For>
             </ul>
-          </Show>
+          </div>
+        </Show>
 
-          <Show when={w3cGroupsSlice().status === 'loading'}>
-            <p class="text-slate-500 dark:text-slate-400">
-              Loading groups and participants from the catalog…
-            </p>
-          </Show>
+        <Show when={!pinnedOnly()}>
+          <Show
+            when={listing().status !== 'loading' || listing().data.length > 0}
+            fallback={
+              <p class="text-slate-500 dark:text-slate-400">
+                Loading groups from the catalog…
+              </p>
+            }
+          >
+            <Show
+              when={searchGroups().length > 0}
+              fallback={
+                <p class="text-slate-500 dark:text-slate-400">
+                  {selectedGroups().length > 0 && listing().status === 'ready'
+                    ? 'No other groups to show.'
+                    : groupsFallback()}
+                </p>
+              }
+            >
+              <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <For each={searchGroups()}>
+                  {(group) => (
+                    <li>
+                      <GroupCard group={group} selected={isPinned(group)} />
+                    </li>
+                  )}
+                </For>
+              </ul>
+            </Show>
 
-          <Show when={selectedGroups().length === 0}>
-            <p class="text-slate-500 dark:text-slate-400">
-              Pin at least one group above.
-            </p>
+            <InfiniteScroll
+              hasMore={listing().hasMore}
+              loading={listing().loadingMore}
+              onLoadMore={() =>
+                appActor.send({ type: 'loadMore', kind: 'groups' })
+              }
+            />
           </Show>
+        </Show>
 
-          <Show when={singleGroup()}>
-            {(group) => (
-              <ParticipantList
-                title={`Participants of ${group().name}`}
-                note={`${group().participants.length} ${group().participants.length === 1 ? 'participant' : 'participants'} in the catalog. Pin another group to see who they have in common.`}
-                people={group().participants}
-              />
-            )}
-          </Show>
+        <Show when={selection().error}>
+          <p class="text-red-500">
+            Failed to load participants: {selection().error}
+          </p>
+        </Show>
 
-          <Show when={selectedGroups().length > 1}>
+        <Show when={selectedGroups().length === 0}>
+          <p class="text-slate-500 dark:text-slate-400">
+            Pin at least one group above.
+          </p>
+        </Show>
+
+        <Show when={selectedGroup()}>
+          {(group) => (
+            <Show
+              when={rosterOf(group())}
+              fallback={
+                <p class="text-slate-500 dark:text-slate-400">
+                  {isRosterLoading(group())
+                    ? 'Loading participants…'
+                    : 'Participants are not available.'}
+                </p>
+              }
+            >
+              {(people) => (
+                <ParticipantList
+                  title={`Participants of ${group().name}`}
+                  note={`${people().length} ${people().length === 1 ? 'participant' : 'participants'} in the catalog. Pin another group to see who they have in common.`}
+                  people={people()}
+                />
+              )}
+            </Show>
+          )}
+        </Show>
+
+        <Show when={selectedGroups().length > 1}>
+          <Show
+            when={selection().loading.length === 0}
+            fallback={
+              <p class="text-slate-500 dark:text-slate-400">
+                Loading participants…
+              </p>
+            }
+          >
             <ParticipantList
-              title={`Common participants (${w3cGroupsSlice().data.common.length})`}
+              title={`Common participants (${selection().common.length})`}
               note={countNote()}
-              people={w3cGroupsSlice().data.common}
+              people={selection().common}
             />
           </Show>
         </Show>

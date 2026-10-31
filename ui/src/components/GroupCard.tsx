@@ -8,6 +8,7 @@ export type GroupCardData = {
   id?: number
   name: string
   participants?: readonly unknown[]
+  participantCount?: number
 }
 
 const card =
@@ -15,26 +16,28 @@ const card =
 
 const GroupCardContent: Component<{ group: GroupCardData; linked: boolean }> = (
   props,
-) => (
-  <>
-    <span class="space-y-1">
-      <span class="block font-semibold">{props.group.name}</span>
-      <Show when={props.group.participants}>
-        {(participants) => (
+) => {
+  const count = () =>
+    props.group.participants?.length ?? props.group.participantCount
+  return (
+    <>
+      <span class="space-y-1">
+        <span class="block font-semibold">{props.group.name}</span>
+        <Show when={count() !== undefined}>
           <span class="block text-sm text-slate-500 dark:text-slate-400">
-            {participants().length}
-            {participants().length === 1 ? ' participant' : ' participants'}
+            {count()}
+            {count() === 1 ? ' participant' : ' participants'}
           </span>
-        )}
-      </Show>
-    </span>
-    <Show when={props.linked}>
-      <span aria-hidden="true" class="text-slate-400 dark:text-slate-500">
-        →
+        </Show>
       </span>
-    </Show>
-  </>
-)
+      <Show when={props.linked}>
+        <span aria-hidden="true" class="text-slate-400 dark:text-slate-500">
+          →
+        </span>
+      </Show>
+    </>
+  )
+}
 
 // Group summary card shared by the person and specification pages: links to
 // the group page when the catalog resolves it, otherwise shows the bare name.

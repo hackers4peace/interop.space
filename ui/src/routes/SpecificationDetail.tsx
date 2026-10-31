@@ -1,5 +1,5 @@
 import type { Component } from 'solid-js'
-import { For, Match, Show, Switch, onMount } from 'solid-js'
+import { For, Match, Show, Switch, createEffect } from 'solid-js'
 import { A, useParams } from '@solidjs/router'
 import { ContributorSection } from '../components/ContributorChips'
 import { GroupCard } from '../components/GroupCard'
@@ -10,49 +10,31 @@ import { UseCaseCard } from '../components/UseCaseCard'
 import { appActor } from '../store/app'
 import { sdoById } from '../lib/sdos'
 import { useSdoNav } from '../lib/sdoNav'
-import {
-  groupByName,
-  groupByUri,
-  softwareImplementing,
-  softwareSlice,
-  specificationById,
-  specificationsSlice,
-  useCasesOf,
-  useCasesSlice,
-  w3cGroupsSlice,
-} from '../store/selectors'
+import { detailFor } from '../store/selectors'
 
 const metaLink =
   'rounded-md border border-slate-200 px-2.5 py-1 text-sm font-medium text-indigo-600 transition hover:bg-slate-100 dark:border-slate-800 dark:text-indigo-400 dark:hover:bg-slate-800'
+
+const sectionTitle =
+  'text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400'
 
 const SpecificationDetail: Component = () => {
   const params = useParams<{ id: string }>()
   const { sdo, href } = useSdoNav()
   const currentSdo = () => sdoById(sdo())
 
-  onMount(() => {
-    if (specificationsSlice().status === 'idle')
-      appActor.send({ type: 'loadSpecifications' })
-    // Only needed to turn the "Published by" names into links.
-    if (w3cGroupsSlice().status === 'idle')
-      appActor.send({ type: 'loadW3cGroups' })
-    // Software declares the specs it implements, so the join lives there.
-    if (softwareSlice().status === 'idle')
-      appActor.send({ type: 'loadSoftware' })
-    // Use cases link back to their specification with ex:useCaseOf.
-    if (useCasesSlice().status === 'idle')
-      appActor.send({ type: 'loadUseCases' })
-  })
+  createEffect(() =>
+    appActor.send({
+      type: 'loadDetail',
+      kind: 'specification',
+      id: params.id,
+    }),
+  )
 
-  const spec = () => specificationById(params.id)
-
-  const publishedBy = () => {
-    const current = spec()
-    if (!current) return []
-    if (current.groupUris.length > 0) {
-      return current.groupUris.map((uri) => groupByUri(uri) ?? { name: uri })
-    }
-    return current.groups.map((name) => groupByName(name) ?? { name })
+  const state = () => detailFor('specification', params.id)
+  const view = () => {
+    const data = state()?.data
+    return data?.kind === 'specification' ? data : undefined
   }
 
   return (
@@ -67,29 +49,33 @@ const SpecificationDetail: Component = () => {
         ← All specifications
       </A>
       <Switch>
-        <Match when={specificationsSlice().status === 'error'}>
+        <Match when={state()?.status === 'error'}>
           <p class="text-red-500">
-            Failed to load specifications: {specificationsSlice().error}
+            Failed to load specification: {state()?.error}
           </p>
         </Match>
-        <Match when={!spec() && specificationsSlice().status !== 'ready'}>
+        <Match when={!view() && state()?.status !== 'ready'}>
           <p class="text-slate-500 dark:text-slate-400">
             Loading specification…
           </p>
         </Match>
-        <Match when={spec()}>
-          {(s) => (
+        <Match when={view()}>
+          {(data) => (
             <>
               <div class="space-y-2">
-                <h1 class="text-3xl font-bold tracking-tight">{s().name}</h1>
-                <Show when={s().shortname}>
+                <h1 class="text-3xl font-bold tracking-tight">
+                  {data().spec.name}
+                </h1>
+                <Show when={data().spec.shortname}>
                   <p class="font-mono text-sm text-slate-500 dark:text-slate-400">
-                    {s().shortname}
+                    {data().spec.shortname}
                   </p>
                 </Show>
-                <Show when={s().landingPage || s().editorDraft}>
+                <Show
+                  when={data().spec.landingPage || data().spec.editorDraft}
+                >
                   <div class="flex flex-wrap items-center gap-2 pt-1">
-                    <Show when={s().landingPage}>
+                    <Show when={data().spec.landingPage}>
                       {(url) => (
                         <a
                           href={url()}
@@ -102,7 +88,7 @@ const SpecificationDetail: Component = () => {
                         </a>
                       )}
                     </Show>
-                    <Show when={s().editorDraft}>
+                    <Show when={data().spec.editorDraft}>
                       {(url) => (
                         <a
                           href={url()}
@@ -120,11 +106,9 @@ const SpecificationDetail: Component = () => {
               </div>
 
               <div class="space-y-3">
-                <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                  Published by
-                </h2>
+                <h2 class={sectionTitle}>Published by</h2>
                 <Show
-                  when={publishedBy().length > 0}
+                  when={data().groups.length > 0}
                   fallback={
                     <p class="text-slate-500 dark:text-slate-400">
                       No group is linked to this specification in the catalog.
@@ -132,7 +116,7 @@ const SpecificationDetail: Component = () => {
                   }
                 >
                   <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <For each={publishedBy()}>
+                    <For each={data().groups}>
                       {(group) => <GroupCard group={group} />}
                     </For>
                   </ul>
@@ -141,104 +125,70 @@ const SpecificationDetail: Component = () => {
 
               <ContributorSection
                 title="Editors"
-                people={s().editors}
+                people={data().spec.editors}
                 empty="No editors recorded in the catalog."
               />
 
               <ContributorSection
                 title="Authors"
-                people={s().authors}
+                people={data().spec.authors}
                 empty="No authors recorded in the catalog."
               />
 
               <SpecReferenceSection
                 id="references"
                 title="References"
-                references={s().references}
+                references={data().spec.references}
                 empty="No W3C references resolved from the latest version."
               />
 
               <SpecReferenceSection
                 id="referenced-by"
                 title="Referenced by"
-                references={s().citedBy}
+                references={data().spec.citedBy}
                 empty="No catalog specification references this one."
               />
 
               <div class="space-y-3">
-                <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                  Implemented by
-                </h2>
-                <Switch>
-                  <Match when={softwareSlice().status === 'error'}>
-                    <p class="text-red-500">
-                      Failed to load software: {softwareSlice().error}
-                    </p>
-                  </Match>
-                  <Match
-                    when={
-                      softwareImplementing(s()).length === 0 &&
-                      softwareSlice().status !== 'ready'
-                    }
-                  >
-                    <p class="text-slate-500 dark:text-slate-400">
-                      Loading software…
-                    </p>
-                  </Match>
-                  <Match when={softwareImplementing(s()).length === 0}>
+                <h2 class={sectionTitle}>Implemented by</h2>
+                <Show
+                  when={data().software.length > 0}
+                  fallback={
                     <p class="text-slate-500 dark:text-slate-400">
                       No software in the catalog declares this specification.
                     </p>
-                  </Match>
-                  <Match when={true}>
-                    <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                      <For each={softwareImplementing(s())}>
-                        {(sw) => <SoftwareCard software={sw} />}
-                      </For>
-                    </ul>
-                  </Match>
-                </Switch>
+                  }
+                >
+                  <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <For each={data().software}>
+                      {(sw) => <SoftwareCard software={sw} />}
+                    </For>
+                  </ul>
+                </Show>
               </div>
 
               <div class="space-y-3">
-                <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                  Use cases
-                </h2>
-                <Switch>
-                  <Match when={useCasesSlice().status === 'error'}>
-                    <p class="text-red-500">
-                      Failed to load use cases: {useCasesSlice().error}
-                    </p>
-                  </Match>
-                  <Match
-                    when={
-                      useCasesOf(s()).length === 0 &&
-                      useCasesSlice().status !== 'ready'
-                    }
-                  >
-                    <p class="text-slate-500 dark:text-slate-400">
-                      Loading use cases…
-                    </p>
-                  </Match>
-                  <Match when={useCasesOf(s()).length === 0}>
+                <h2 class={sectionTitle}>Use cases</h2>
+                <Show
+                  when={data().useCases.length > 0}
+                  fallback={
                     <p class="text-slate-500 dark:text-slate-400">
                       No use cases are linked to this specification in the
                       catalog.
                     </p>
-                  </Match>
-                  <Match when={true}>
-                    <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                      <For each={useCasesOf(s())}>
-                        {(useCase) => <UseCaseCard useCase={useCase} />}
-                      </For>
-                    </ul>
-                  </Match>
-                </Switch>
+                  }
+                >
+                  <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <For each={data().useCases}>
+                      {(useCase) => <UseCaseCard useCase={useCase} />}
+                    </For>
+                  </ul>
+                </Show>
               </div>
             </>
           )}
         </Match>
-        <Match when={!spec()}>
+        <Match when={!view()}>
           <p class="text-slate-500 dark:text-slate-400">
             Specification not found.
           </p>

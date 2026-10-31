@@ -2,28 +2,24 @@ import type { Component } from 'solid-js'
 import { For, Match, Show, Switch, onMount } from 'solid-js'
 import { A } from '@solidjs/router'
 import { Avatar } from '../components/ui/avatar'
+import { InfiniteScroll } from '../components/InfiniteScroll'
 import { appActor } from '../store/app'
-import { membersOf, peopleSlice, projectsSlice } from '../store/selectors'
+import { projectsSlice } from '../store/selectors'
 
 // W3C groups in the catalog have hundreds of participants; a card only has
 // room for a handful of avatars, the rest is summarized as "+N".
 const MAX_MEMBER_AVATARS = 8
 
 const Projects: Component = () => {
-  onMount(() => {
-    if (projectsSlice().status === 'idle')
-      appActor.send({ type: 'loadProjects' })
-    // The cards show member avatars, so we need the people slice too.
-    if (peopleSlice().status === 'idle') appActor.send({ type: 'loadPeople' })
-  })
+  onMount(() => appActor.send({ type: 'search', kind: 'projects', query: '' }))
+
+  const total = () => projectsSlice().total ?? projectsSlice().data.length
 
   return (
     <section class="space-y-6">
       <div class="space-y-1">
         <h1 class="text-3xl font-bold tracking-tight">Projects</h1>
-        <p class="text-slate-600 dark:text-slate-400">
-          {projectsSlice().data.length} projects.
-        </p>
+        <p class="text-slate-600 dark:text-slate-400">{total()} projects.</p>
       </div>
       <Switch>
         <Match when={projectsSlice().status === 'error'}>
@@ -31,15 +27,26 @@ const Projects: Component = () => {
             Failed to load projects: {projectsSlice().error}
           </p>
         </Match>
-        <Match when={projectsSlice().status === 'loading'}>
+        <Match
+          when={
+            projectsSlice().status === 'loading' &&
+            projectsSlice().data.length === 0
+          }
+        >
           <p class="text-slate-500 dark:text-slate-400">Loading projects…</p>
         </Match>
         <Match when={projectsSlice().status === 'ready'}>
-          <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <For each={projectsSlice().data}>
-              {(project) => {
-                const members = () => membersOf(project.id)
-                return (
+          <Show
+            when={projectsSlice().data.length > 0}
+            fallback={
+              <p class="text-slate-500 dark:text-slate-400">
+                No projects found in the catalog.
+              </p>
+            }
+          >
+            <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <For each={projectsSlice().data}>
+                {(project) => (
                   <li>
                     <A
                       href={`/projects/${project.id}`}
@@ -52,7 +59,7 @@ const Projects: Component = () => {
                         </p>
                       </div>
                       <Show
-                        when={members().length > 0}
+                        when={project.members.length > 0}
                         fallback={
                           <p class="text-xs text-slate-400">
                             {project.memberIds.length} members
@@ -61,7 +68,7 @@ const Projects: Component = () => {
                       >
                         <div class="flex items-center">
                           <div class="flex -space-x-3">
-                            <For each={members().slice(0, MAX_MEMBER_AVATARS)}>
+                            <For each={project.members.slice(0, MAX_MEMBER_AVATARS)}>
                               {(person) => (
                                 <div class="ring-2 ring-white dark:ring-slate-900 rounded-full">
                                   <Avatar
@@ -72,19 +79,26 @@ const Projects: Component = () => {
                               )}
                             </For>
                           </div>
-                          <Show when={members().length > MAX_MEMBER_AVATARS}>
+                          <Show when={project.members.length > MAX_MEMBER_AVATARS}>
                             <span class="ml-3 text-xs text-slate-400">
-                              +{members().length - MAX_MEMBER_AVATARS}
+                              +{project.members.length - MAX_MEMBER_AVATARS}
                             </span>
                           </Show>
                         </div>
                       </Show>
                     </A>
                   </li>
-                )
-              }}
-            </For>
-          </ul>
+                )}
+              </For>
+            </ul>
+            <InfiniteScroll
+              hasMore={projectsSlice().hasMore}
+              loading={projectsSlice().loadingMore}
+              onLoadMore={() =>
+                appActor.send({ type: 'loadMore', kind: 'projects' })
+              }
+            />
+          </Show>
         </Match>
       </Switch>
     </section>

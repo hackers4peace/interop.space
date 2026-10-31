@@ -1,28 +1,24 @@
 import type { Component } from 'solid-js'
-import { For, Match, Show, Switch, createSignal, onMount } from 'solid-js'
+import { For, Match, Show, Switch } from 'solid-js'
+import { InfiniteScroll } from '../components/InfiniteScroll'
 import { SearchBar } from '../components/SearchBar'
 import { SdoPanel } from '../components/SdoPanel'
 import { SoftwareCard } from '../components/SoftwareCard'
 import { appActor } from '../store/app'
 import { isW3cScope, sdoById, sdoDisplayName } from '../lib/sdos'
 import { useSdoNav } from '../lib/sdoNav'
-import { matchesQuery } from '../lib/search'
+import { createListingSearch } from '../lib/listing'
 import { softwareSlice } from '../store/selectors'
 
 const Software: Component = () => {
   const { sdo, clearSdo } = useSdoNav()
+  const { query, onInput } = createListingSearch('software')
   const currentSdo = () => sdoById(sdo())
   const w3cScope = () => isW3cScope(sdo())
   const scopeName = () => sdoDisplayName(sdo())
-  const [query, setQuery] = createSignal('')
 
-  const filteredSoftware = () =>
-    softwareSlice().data.filter((sw) => matchesQuery(sw.name, query()))
-
-  onMount(() => {
-    if (softwareSlice().status === 'idle')
-      appActor.send({ type: 'loadSoftware' })
-  })
+  const total = () => softwareSlice().total ?? softwareSlice().data.length
+  const isSearch = () => softwareSlice().query.trim().length > 0
 
   return (
     <section class="space-y-6">
@@ -33,7 +29,8 @@ const Software: Component = () => {
         <h1 class="text-3xl font-bold tracking-tight">Software</h1>
         <Show when={w3cScope()}>
           <p class="text-slate-600 dark:text-slate-400">
-            {softwareSlice().data.length} software entries in the catalog.
+            {total()} {isSearch() ? 'matching' : ''} software entries in the
+            catalog.
           </p>
         </Show>
       </div>
@@ -48,7 +45,7 @@ const Software: Component = () => {
       >
         <SearchBar
           value={query()}
-          onInput={setQuery}
+          onInput={onInput}
           label="Search software"
           placeholder="Search software…"
         />
@@ -58,7 +55,12 @@ const Software: Component = () => {
               Failed to load software: {softwareSlice().error}
             </p>
           </Match>
-          <Match when={softwareSlice().status === 'loading'}>
+          <Match
+            when={
+              softwareSlice().status === 'loading' &&
+              softwareSlice().data.length === 0
+            }
+          >
             <p class="text-slate-500 dark:text-slate-400">Loading software…</p>
           </Match>
           <Match when={softwareSlice().status === 'ready'}>
@@ -66,24 +68,24 @@ const Software: Component = () => {
               when={softwareSlice().data.length > 0}
               fallback={
                 <p class="text-slate-500 dark:text-slate-400">
-                  No software entries in the catalog yet.
+                  {isSearch()
+                    ? `No software matches “${softwareSlice().query.trim()}”.`
+                    : 'No software entries in the catalog yet.'}
                 </p>
               }
             >
-              <Show
-                when={filteredSoftware().length > 0}
-                fallback={
-                  <p class="text-slate-500 dark:text-slate-400">
-                    No software matches “{query().trim()}”.
-                  </p>
+              <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <For each={softwareSlice().data}>
+                  {(sw) => <SoftwareCard software={sw} />}
+                </For>
+              </ul>
+              <InfiniteScroll
+                hasMore={softwareSlice().hasMore}
+                loading={softwareSlice().loadingMore}
+                onLoadMore={() =>
+                  appActor.send({ type: 'loadMore', kind: 'software' })
                 }
-              >
-                <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <For each={filteredSoftware()}>
-                    {(sw) => <SoftwareCard software={sw} />}
-                  </For>
-                </ul>
-              </Show>
+              />
             </Show>
           </Match>
         </Switch>
