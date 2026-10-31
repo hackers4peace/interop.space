@@ -21,21 +21,17 @@
   },
   "env": {
     "_EXPERIMENTAL_DAGGER_RUNNER_HOST": "docker-container://dagger-engine-v0.21.9",
-    "FUSEKI_URL": "https://fuseki-elf-pavlik-dev.apps.rm1.0a51.p1.openshiftapps.com/ds"
+    "FUSEKI_URL": "https://sparql.hackers4peace.net/catalog",
+    "FUSEKI_SSH_HOST": "root@5.75.154.192"
   },
   "shell": {
     "init_hook": ["echo 'Welcome to devbox!' > /dev/null"],
     "scripts": {
       "up": "dagger call temporal-with-ui --source=. up --ports=8080:8080",
       "dump": "dagger call export-dump --source=. -o ./ui/public/",
-      "wipe": "curl -X POST \"$FUSEKI_URL/update\" -H 'Content-Type: application/sparql-update' --data 'CLEAR ALL'",
-      "seed": [
-        "curl -X POST \"$FUSEKI_URL/data\" -H 'Content-Type: application/n-quads' --data-binary @ui/public/dump.nq",
-        "curl -X POST \"$FUSEKI_URL/data\" -H 'Content-Type: text/turtle' --data-binary @data/software.ttl",
-        "curl -X POST \"$FUSEKI_URL/data\" -H 'Content-Type: text/turtle' --data-binary @data/use-cases.ttl",
-        "curl -X POST \"$FUSEKI_URL/data\" -H 'Content-Type: text/turtle' --data-binary @data/specs.ttl",
-        "curl -X POST \"$FUSEKI_URL/data\" -H 'Content-Type: text/turtle' --data-binary @data/organizations.ttl"
-      ],
+      "tunnel": "bun run scripts/fuseki.ts tunnel",
+      "wipe": "bun run scripts/fuseki.ts wipe",
+      "seed": "bun run scripts/fuseki.ts seed",
       "generate": "bun gen.ts",
       "build": "devbox run generate && dotnet build dotnet/Worker/Worker.csproj",
       "test": ["echo \"Error: no test specified\" && exit 1"]

@@ -38,12 +38,14 @@ const emit = (u: SliceUpdate) => self.postMessage(u)
 // ---------------------------------------------------------------------------
 // SPARQL endpoint
 // ---------------------------------------------------------------------------
-// The catalog is served by Apache Fuseki, so the UI queries it directly
-// instead of downloading the (previously public/dump.nq) snapshot. Query over
-// HTTPS: the http:// URL answers with a 302, and following that redirect drops
-// a POSTed query body.
+// The catalog is served by Apache Fuseki on the hackers4peace VPS, so the UI
+// queries it directly instead of downloading the (previously public/dump.nq)
+// snapshot. This is the public, read-only query endpoint proxied by Caddy;
+// writes go through an SSH tunnel (see scripts/fuseki.ts). VITE_SPARQL_ENDPOINT
+// overrides the endpoint for local or preview builds.
 const SPARQL_ENDPOINT =
-  'https://fuseki-elf-pavlik-dev.apps.rm1.0a51.p1.openshiftapps.com/ds'
+  import.meta.env.VITE_SPARQL_ENDPOINT ??
+  'https://sparql.hackers4peace.net/catalog/sparql'
 
 // POST keeps long queries out of the URL. Fuseki replies with SPARQL JSON.
 const fetcher = new SparqlEndpointFetcher({ method: 'POST' })
