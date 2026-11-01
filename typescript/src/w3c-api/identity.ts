@@ -1,9 +1,10 @@
 // Local identity map: every person and organization gets a stable urn:uuid:
 // subject. External identifiers (W3C, GitHub, source URLs) are only used to
 // look the local identity up; they never become the subject.
-import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { canonicalW3cId } from './person-ids.ts'
+import { W3C_AFFILIATION_SILO, W3C_PERSON_SILO } from './silo-ids.ts'
 
 export interface IdentityEntry {
   /** Stable local subject: urn:uuid:… */
@@ -51,6 +52,8 @@ const emptyMap = (): IdentityMap => ({ people: [], organizations: [] })
 
 let map: IdentityMap | undefined
 let indexes: Record<Kind, Map<string, IdentityEntry>> | undefined
+/** Committed entries as read from disk, before the stage file is merged in. */
+let committed: Record<Kind, Map<string, IdentityEntry>> | undefined
 const dirty = new Set<string>()
 
 const identitiesPath = () =>
@@ -114,6 +117,18 @@ function mergeMaps(base: IdentityMap, extra: IdentityMap): IdentityMap {
 function ensureLoaded(): IdentityMap {
   if (map && indexes) return map
   map = readMap(identitiesPath())
+  // Snapshot, not a reference: resolve() appends identifiers in place.
+  const snapshot = (entries: IdentityEntry[]) =>
+    new Map(
+      entries.map((entry) => [
+        entry.id,
+        { ...entry, identifiers: [...entry.identifiers] },
+      ]),
+    )
+  committed = {
+    people: snapshot(map.people),
+    organizations: snapshot(map.organizations),
+  }
   const unmergedPath = newIdentitiesPath()
   if (unmergedPath !== identitiesPath() && existsSync(unmergedPath)) {
     map = mergeMaps(map, readMap(unmergedPath))
@@ -139,6 +154,7 @@ function ensureLoaded(): IdentityMap {
 export function resetIdentityCache(): void {
   map = undefined
   indexes = undefined
+  committed = undefined
   dirty.clear()
 }
 
@@ -147,7 +163,7 @@ const normalizeGithubUsername = (username: string) => username.toLowerCase()
 function personIdentifiers(input: PersonIdentityInput): string[] {
   const identifiers = new Set<string>()
   if (input.w3cId !== undefined) {
-    identifiers.add(`w3c:${canonicalW3cId(input.w3cId)}`)
+    identifiers.add(`${W3C_PERSON_SILO}${canonicalW3cId(input.w3cId)}`)
   }
   if (input.githubId) identifiers.add(`github:${input.githubId}`)
   if (input.githubUsername) {
@@ -162,7 +178,7 @@ function organizationIdentifiers(
 ): string[] {
   const identifiers = new Set<string>()
   if (input.w3cAffiliationId !== undefined) {
-    identifiers.add(`w3c-affiliation:${input.w3cAffiliationId}`)
+    identifiers.add(`${W3C_AFFILIATION_SILO}${input.w3cAffiliationId}`)
   }
   if (input.sourceUrl) identifiers.add(`url:${input.sourceUrl}`)
   if (input.homepage) identifiers.add(`homepage:${input.homepage}`)
@@ -230,38 +246,57 @@ export function resolveOrganization(
   )
 }
 
-/** Entries created or extended during this worker run. */
-export function dirtyIdentities(): IdentityMap {
-  const current = ensureLoaded()
-  const ids = dirty
-  return {
-    people: current.people.filter((entry) => ids.has(entry.id)),
-    organizations: current.organizations.filter((entry) => ids.has(entry.id)),
-  }
+/**
+ * True when the entry is absent from the committed map or learned external
+ * identifiers after it was committed. Entries the crawl merely re-resolved
+ * against committed data are not a delta.
+ */
+function isDelta(kind: Kind, entry: IdentityEntry): boolean {
+  const base = committed?.[kind].get(entry.id)
+  if (!base) return true
+  return entry.identifiers.some(
+    (identifier) => !base.identifiers.includes(identifier),
+  )
 }
 
 /**
- * Write the new/updated identities next to the stage files. This file is
- * merged into the committed data/identities.json manually. Existing entries in
- * the output file are preserved so later stages can append to it.
+ * Entries created or extended during this worker run. Entries that already
+ * match the committed map are left out: they are not a merge candidate.
+ */
+export function dirtyIdentities(): IdentityMap {
+  const current = ensureLoaded()
+  const pick = (kind: Kind) =>
+    current[kind].filter((entry) => dirty.has(entry.id) && isDelta(kind, entry))
+  return { people: pick('people'), organizations: pick('organizations') }
+}
+
+/**
+ * Write the new/extended identities next to the stage files. This file is
+ * merged into the committed data/identities.json with
+ * scripts/merge-identities.ts. Entries already present in both files are
+ * dropped, so the file only holds the pending delta; an empty delta removes
+ * the file instead of leaving a stale copy behind.
  */
 export function writeNewIdentities(): string | undefined {
-  const additions = dirtyIdentities()
-  if (additions.people.length === 0 && additions.organizations.length === 0) {
-    return undefined
-  }
-
   const path = newIdentitiesPath()
+  const additions = dirtyIdentities()
   const previous = readMap(path)
   const merge = (kind: Kind) => {
     const entries = new Map<string, IdentityEntry>()
     for (const entry of previous[kind]) entries.set(entry.id, entry)
     for (const entry of additions[kind]) entries.set(entry.id, entry)
-    return [...entries.values()].sort((a, b) => a.id.localeCompare(b.id))
+    return [...entries.values()]
+      .filter((entry) => isDelta(kind, entry))
+      .sort((a, b) => a.id.localeCompare(b.id))
   }
   const output: IdentityMap = {
     people: merge('people'),
     organizations: merge('organizations'),
+  }
+
+  if (output.people.length === 0 && output.organizations.length === 0) {
+    rmSync(path, { force: true })
+    return undefined
   }
 
   mkdirSync(dirname(path), { recursive: true })

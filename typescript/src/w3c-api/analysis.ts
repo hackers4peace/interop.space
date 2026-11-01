@@ -9,10 +9,15 @@ import { QueryEngine } from '@comunica/query-sparql-rdfjs'
 import { EX, RDF_TYPE } from '../software-dependencies/analysis.ts'
 import type { Quad } from 'n3'
 import { canonicalW3cId } from './person-ids.ts'
+import {
+  W3C_GROUP_SILO,
+  W3C_PERSON_SILO,
+  parseW3cSiloId,
+  w3cSiloPrefixFilter,
+} from './silo-ids.ts'
 import { resolvePerson } from './identity.ts'
 import { W3C_SDO } from './stages.ts'
 
-export const W3C_SILO_PREFIX = 'w3c:'
 export const GITHUB_SILO_PREFIX = 'github:'
 export const GROUP_CLASS = `${EX}Group`
 export const PERSON_TYPE = `${EX}Person`
@@ -46,7 +51,7 @@ export interface W3cGroupRef {
 }
 
 export interface W3cParticipant {
-  /** W3C API user id (the numeric IPP id the catalog stores as "w3c:<id>"). */
+  /** W3C API user id (stored as siloId "urn:w3c:person:<id>"). */
   id: number
   /** API user URI; identifies people the seed does not know yet. */
   href: string
@@ -186,7 +191,7 @@ async function findPeopleWithW3cGroups(store: Store): Promise<Set<string>> {
        ?group <${RDF_TYPE}> <${GROUP_CLASS}> ;
               <${SILO_ID}> ?groupSiloId ;
               <${MEMBER}> ?person .
-       FILTER (STRSTARTS(STR(?groupSiloId), "${W3C_SILO_PREFIX}"))
+       FILTER (${w3cSiloPrefixFilter('?groupSiloId', 'group')})
      }`,
     { sources: [store] },
   )
@@ -200,7 +205,7 @@ async function findPeopleWithW3cGroups(store: Store): Promise<Set<string>> {
 
 /**
  * People the workflow can start from: ex:Person records carrying a GitHub
- * siloId. Other siloIds (e.g. the numeric "w3c:<id>") are collected too so the
+ * siloId. Other siloIds (e.g. "urn:w3c:person:<id>") are collected too so the
  * person can be matched by their stable W3C id.
  */
 async function findAccounts(store: Store): Promise<W3cAccount[]> {
@@ -228,9 +233,9 @@ async function findAccounts(store: Store): Promise<W3cAccount[]> {
     entry.name ??= binding.get('name')?.value
     if (siloId.startsWith(GITHUB_SILO_PREFIX)) {
       entry.githubId ??= siloId.slice(GITHUB_SILO_PREFIX.length)
-    } else if (siloId.startsWith(W3C_SILO_PREFIX)) {
-      const id = Number(siloId.slice(W3C_SILO_PREFIX.length))
-      if (Number.isInteger(id)) entry.w3cId ??= canonicalW3cId(id)
+    } else {
+      const id = parseW3cSiloId(siloId, 'person')
+      if (id !== undefined) entry.w3cId ??= canonicalW3cId(id)
     }
   }
   return [...people.entries()]
@@ -282,16 +287,14 @@ async function findGroupIds(store: Store): Promise<number[]> {
   const bindings = await queryEngine().queryBindings(
     `SELECT ?siloId WHERE {
        ?group <${RDF_TYPE}> <${GROUP_CLASS}> ; <${SILO_ID}> ?siloId .
-       FILTER (STRSTARTS(STR(?siloId), "${W3C_SILO_PREFIX}"))
+       FILTER (${w3cSiloPrefixFilter('?siloId', 'group')})
      }`,
     { sources: [store] },
   )
   const ids = new Set<number>()
   for await (const binding of bindings) {
-    const siloId = binding.get('siloId')?.value
-    if (!siloId) continue
-    const id = Number(siloId.slice(W3C_SILO_PREFIX.length))
-    if (Number.isInteger(id)) ids.add(id)
+    const id = parseW3cSiloId(binding.get('siloId')?.value, 'group')
+    if (id !== undefined) ids.add(id)
   }
   return [...ids].sort((a, b) => a - b)
 }
@@ -302,7 +305,7 @@ async function findGroupsWithoutSpecs(store: Store): Promise<W3cGroupRef[]> {
        ?group <${RDF_TYPE}> <${GROUP_CLASS}> ;
               <${NAME}> ?name ;
               <${SILO_ID}> ?siloId .
-       FILTER (STRSTARTS(STR(?siloId), "${W3C_SILO_PREFIX}"))
+       FILTER (${w3cSiloPrefixFilter('?siloId', 'group')})
        FILTER NOT EXISTS { ?group <${SPECIFICATION}> ?spec }
        OPTIONAL { ?group <${W3C_API_URL}> ?apiUrl }
        OPTIONAL { ?group <${SHORTNAME}> ?shortname }
@@ -315,9 +318,9 @@ async function findGroupsWithoutSpecs(store: Store): Promise<W3cGroupRef[]> {
     const uri = binding.get('group')?.value
     const name = binding.get('name')?.value
     const siloId = binding.get('siloId')?.value
-    if (!uri || !name || !siloId) continue
-    const id = Number(siloId.slice(W3C_SILO_PREFIX.length))
-    if (!Number.isInteger(id)) continue
+    if (!uri || !name) continue
+    const id = parseW3cSiloId(siloId, 'group')
+    if (id === undefined) continue
     const apiUrl = binding.get('apiUrl')?.value ?? uri
     const shortname = binding.get('shortname')?.value
     const type = binding.get('type')?.value
@@ -442,7 +445,7 @@ export function buildGroupQuads(groups: W3cGroupRef[]): Quad[] {
     quads.push(quad(groupNode, namedNode(W3C_API_URL), namedNode(group.apiUrl)))
     quads.push(quad(groupNode, namedNode(NAME), literal(group.name)))
     quads.push(
-      quad(groupNode, namedNode(SILO_ID), literal(`${W3C_SILO_PREFIX}${group.id}`)),
+      quad(groupNode, namedNode(SILO_ID), literal(`${W3C_GROUP_SILO}${group.id}`)),
     )
     if (group.shortname) {
       quads.push(quad(groupNode, namedNode(SHORTNAME), literal(group.shortname)))
@@ -480,7 +483,7 @@ export function buildStartPersonQuads(person: W3cSeedPerson): Quad[] {
     quad(
       personNode,
       namedNode(SILO_ID),
-      literal(`${W3C_SILO_PREFIX}${w3cId}`),
+      literal(`${W3C_PERSON_SILO}${w3cId}`),
     ),
     quad(
       personNode,
@@ -516,7 +519,7 @@ export function buildParticipantQuads(
     const groupNode = namedNode(group.uri)
     for (const participant of participants) {
       const canonicalId = canonicalW3cId(participant.id)
-      const siloId = `${W3C_SILO_PREFIX}${canonicalId}`
+      const siloId = `${W3C_PERSON_SILO}${canonicalId}`
       const identity = resolvePerson({
         w3cId: canonicalId,
         githubId: participant.githubId,
@@ -601,7 +604,11 @@ export function buildEditorQuads(
         quads.push(quad(personNode, namedNode(RDF_TYPE), namedNode(PERSON_TYPE)))
         quads.push(quad(personNode, namedNode(NAME), literal(editor.name)))
         quads.push(
-          quad(personNode, namedNode(SILO_ID), literal(`${W3C_SILO_PREFIX}${canonicalId}`)),
+          quad(
+            personNode,
+            namedNode(SILO_ID),
+            literal(`${W3C_PERSON_SILO}${canonicalId}`),
+          ),
         )
         if (editor.githubId) {
           quads.push(

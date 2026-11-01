@@ -34,6 +34,11 @@
       "wipe": "bun run scripts/fuseki.ts wipe",
       "seed": "bun run scripts/fuseki.ts seed",
       "stages": "bun run scripts/stage-status.ts",
+      "identities": "bun run scripts/merge-identities.ts",
+      "identities:write": "bun run scripts/merge-identities.ts --write",
+      "identities:remap": "bun run scripts/remap-identities.ts",
+      "identities:verify": "bun run scripts/verify-identities.ts",
+      "identities:duplicates": "bun run scripts/confirm-duplicates.ts",
       "generate": "bun gen.ts",
       "build": "devbox run generate && dotnet build dotnet/Worker/Worker.csproj",
       "test": ["echo \"Error: no test specified\" && exit 1"]

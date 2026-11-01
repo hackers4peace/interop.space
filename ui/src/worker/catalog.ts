@@ -95,14 +95,24 @@ const short = (uri: string) => {
 const robohash = (seed: string) =>
   `https://robohash.org/${seed}?set=set4&size=128x128`
 
-// Groups and people both use ex:siloId "w3c:<numeric id>" for the stable W3C
-// identifier; ex:w3cApiUrl keeps the opaque API self link.
-const W3C_SILO_PREFIX = 'w3c:'
+// ex:siloId carries the stable W3C ids as URNs (urn:w3c:person:, urn:w3c:group:,
+// urn:w3c:affiliation:); ex:w3cApiUrl keeps the opaque API self link. The
+// pre-migration "w3c:<id>" spelling is still parsed so this UI also works
+// against a dataset seeded before the migration.
+const W3C_PERSON_SILO = ['urn:w3c:person:', 'w3c:']
+const W3C_GROUP_SILO = ['urn:w3c:group:', 'w3c:']
 
-const parseW3cId = (siloId: string | undefined): number | undefined => {
-  if (!siloId?.startsWith(W3C_SILO_PREFIX)) return undefined
-  const id = Number(siloId.slice(W3C_SILO_PREFIX.length))
-  return Number.isInteger(id) ? id : undefined
+const parseSiloId = (
+  siloId: string | undefined,
+  prefixes: string[],
+): number | undefined => {
+  if (!siloId) return undefined
+  for (const prefix of prefixes) {
+    if (!siloId.startsWith(prefix)) continue
+    const id = Number(siloId.slice(prefix.length))
+    if (Number.isInteger(id)) return id
+  }
+  return undefined
 }
 
 // ex:siloUsername carries the connected GitHub account as "github:<login>".
@@ -349,7 +359,7 @@ async function peopleByUris(uris: string[]): Promise<Map<string, Person>> {
     }
     const github = parseGithubUsername(value(b, 'siloUsername'))
     if (github && person.github === undefined) person.github = github
-    const w3cId = parseW3cId(value(b, 'siloId'))
+    const w3cId = parseSiloId(value(b, 'siloId'), W3C_PERSON_SILO)
     if (w3cId !== undefined && person.w3cId === undefined) person.w3cId = w3cId
   }
   return people
@@ -403,13 +413,13 @@ async function projectsByUris(uris: string[]): Promise<Map<string, Project>> {
         logo: value(b, 'memberLogo'),
       })
       member.github = parseGithubUsername(value(b, 'memberSiloUsername'))
-      member.w3cId = parseW3cId(value(b, 'memberSiloId'))
+      member.w3cId = parseSiloId(value(b, 'memberSiloId'), W3C_PERSON_SILO)
       project.members.push(member)
       project.memberIds.push(short(memberUri))
     } else {
       const github = parseGithubUsername(value(b, 'memberSiloUsername'))
       if (github && member.github === undefined) member.github = github
-      const w3cId = parseW3cId(value(b, 'memberSiloId'))
+      const w3cId = parseSiloId(value(b, 'memberSiloId'), W3C_PERSON_SILO)
       if (w3cId !== undefined && member.w3cId === undefined)
         member.w3cId = w3cId
     }
@@ -933,7 +943,7 @@ async function groupMembers(uri: string): Promise<W3cParticipant[]> {
     }
     const github = parseGithubUsername(value(b, 'siloUsername'))
     if (github && participant.github === undefined) participant.github = github
-    const w3cId = parseW3cId(value(b, 'siloId'))
+    const w3cId = parseSiloId(value(b, 'siloId'), W3C_PERSON_SILO)
     if (w3cId !== undefined && participant.w3cId === undefined) {
       participant.w3cId = w3cId
     }
@@ -1157,10 +1167,11 @@ async function resolveGroup(
   // Legacy numeric W3C group links from before groups used full URLs.
   const groupId = Number(id)
   if (!Number.isInteger(groupId)) return undefined
+  const candidates = W3C_GROUP_SILO.map((prefix) => `STR(?siloId) = ${lit(`${prefix}${groupId}`)}`)
   const legacy = await queryBindings(`${PREFIXES}
     SELECT ?s WHERE {
       ?s a ex:Group ; ex:siloId ?siloId .
-      FILTER (STR(?siloId) = ${lit(`${W3C_SILO_PREFIX}${groupId}`)})
+      FILTER (${candidates.join(' || ')})
     }
     LIMIT 1`)
   return legacy[0] ? value(legacy[0], 's') : undefined

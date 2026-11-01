@@ -46,7 +46,7 @@ describe('buildStartPersonQuads', () => {
     const siloIds = quads
       .filter((item) => item.predicate.value === `${EX}siloId`)
       .map((item) => item.object.value)
-    expect(siloIds).toContain('w3c:46577')
+    expect(siloIds).toContain('urn:w3c:person:46577')
     expect(siloIds).toContain('github:123')
   })
 })

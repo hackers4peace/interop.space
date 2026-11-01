@@ -7,7 +7,7 @@ export type Person = {
   avatarUrl: string
   handle?: string // ex:forumHandle when present
   github?: string // connected GitHub login, from ex:siloUsername "github:<login>"
-  w3cId?: number // stable W3C user id, from ex:siloId "w3c:<id>"
+  w3cId?: number // stable W3C user id, from ex:siloId "urn:w3c:person:<id>"
 }
 
 export type Project = {
@@ -121,7 +121,7 @@ export type W3cParticipant = {
   name: string
   avatarUrl: string
   github?: string // connected GitHub login, from ex:siloUsername "github:<login>"
-  w3cId?: number // stable W3C user id, from ex:siloId "w3c:<id>"
+  w3cId?: number // stable W3C user id, from ex:siloId "urn:w3c:person:<id>"
 }
 
 export type W3cGroup = {

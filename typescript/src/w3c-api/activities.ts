@@ -48,8 +48,8 @@ import {
   SPECIFICATION_TYPE,
   W3C_API_URL,
   W3C_LATEST_VERSION_URL,
-  W3C_SILO_PREFIX,
 } from './analysis.ts'
+import { parseW3cSiloId, w3cSiloPrefixFilter } from './silo-ids.ts'
 import type {
   W3cEditor,
   W3cGroupParticipants,
@@ -229,7 +229,8 @@ export async function fetchW3cGroups(): Promise<W3cGroupRef[]> {
  * `embed` returns each participant's numeric W3C user id, name, self link,
  * photos and connected accounts in the same response, so one request per
  * 1000 participants is enough. The numeric W3C id joins against the seed's
- * "w3c:<id>" siloIds; the GitHub account lets future dumps crawl from them.
+ * "urn:w3c:person:<id>" siloIds; the GitHub account lets future dumps crawl
+ * from them.
  */
 export async function fetchW3cParticipants(
   group: W3cGroupRef,
@@ -512,16 +513,16 @@ async function storeQuads(what: string, quads: Quad[]): Promise<void> {
 async function fetchCatalogGroups(): Promise<W3cGroupRef[]> {
   const rows = await queryRows(`SELECT ?group ?name ?siloId ?apiUrl ?shortname ?type WHERE {
     ?group a <${GROUP_CLASS}> ; <${NAME}> ?name ; <${SILO_ID}> ?siloId .
-    FILTER(STRSTARTS(STR(?siloId), "${W3C_SILO_PREFIX}"))
+    FILTER(${w3cSiloPrefixFilter('?siloId', 'group')})
     OPTIONAL { ?group <${W3C_API_URL}> ?apiUrl }
     OPTIONAL { ?group <${SHORTNAME}> ?shortname }
     OPTIONAL { ?group <${GROUP_TYPE}> ?type }
   }`)
   const groups: W3cGroupRef[] = []
   for (const row of rows) {
-    if (!row.group || !row.name || !row.siloId) continue
-    const id = Number(row.siloId.slice(W3C_SILO_PREFIX.length))
-    if (!Number.isInteger(id)) continue
+    if (!row.group || !row.name) continue
+    const id = parseW3cSiloId(row.siloId, 'group')
+    if (id === undefined) continue
     groups.push({
       uri: row.group,
       apiUrl: row.apiUrl ?? row.group,

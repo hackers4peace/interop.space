@@ -10,7 +10,7 @@
 @prefix ex: <http://example.org#> .
 
 <urn:uuid:f94f29fb-233f-47c8-84d1-8be59cdf26a0> a ex:Organization ;
-  ex:siloId "w3c-affiliation:6383" ;
+  ex:siloId "urn:w3c:affiliation:6383" ;
   ex:name "Forschungszentrum Informatik (FZI)" ;
   ex:homepage <http://www.fzi.de> ;
   # Logo: https://www.fzi.de/wp-content/uploads/2020/10/logo-fzi-4c-80.png
