@@ -44,6 +44,12 @@ devbox run seed -- production
 devbox run wipe -- production
 ```
 
+Devbox passes everything after `--` as positional parameters to the script
+file, not to the command inside it. Scripts that take arguments therefore end
+with `"$@"` in `devbox.json` (e.g. `bun run scripts/fuseki.ts seed "$@"`);
+without it `devbox run seed -- production` silently seeds development. The
+same applies to `identities:remap -- --pair=…`.
+
 The development Fuseki is read-only unless the sandbox write overlay is
 enabled (`make write-enable` in `rhsandbox`). Production writes use the SSH
 tunnel and the existing writer credentials.
