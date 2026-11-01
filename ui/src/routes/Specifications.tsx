@@ -5,17 +5,15 @@ import { SearchBar } from '../components/SearchBar'
 import { SdoPanel } from '../components/SdoPanel'
 import { SpecificationCard } from '../components/SpecificationCard'
 import { appActor } from '../store/app'
-import { isW3cScope, sdoById, sdoDisplayName } from '../lib/sdos'
+import { sdoById } from '../lib/sdos'
 import { useSdoNav } from '../lib/sdoNav'
 import { createListingSearch } from '../lib/listing'
 import { specificationsSlice } from '../store/selectors'
 
 const Specifications: Component = () => {
   const { sdo, clearSdo } = useSdoNav()
-  const { query, onInput } = createListingSearch('specifications')
+  const { query, onInput } = createListingSearch('specifications', () => sdo())
   const currentSdo = () => sdoById(sdo())
-  const w3cScope = () => isW3cScope(sdo())
-  const scopeName = () => sdoDisplayName(sdo())
 
   const total = () =>
     specificationsSlice().total ?? specificationsSlice().data.length
@@ -28,23 +26,12 @@ const Specifications: Component = () => {
       </Show>
       <div class="space-y-1">
         <h1 class="text-3xl font-bold tracking-tight">Specifications</h1>
-        <Show when={w3cScope()}>
-          <p class="text-slate-600 dark:text-slate-400">
-            {total()} {isSearch() ? 'matching' : ''} specifications delivered
-            by W3C groups.
-          </p>
-        </Show>
+        <p class="text-slate-600 dark:text-slate-400">
+          {total()} {isSearch() ? 'matching' : ''} specifications in the
+          catalog.
+        </p>
       </div>
-      <Show
-        when={w3cScope()}
-        fallback={
-          <p class="text-slate-500 dark:text-slate-400">
-            No specifications are available for {scopeName()} in the catalog
-            yet.
-          </p>
-        }
-      >
-        <SearchBar
+      <SearchBar
           value={query()}
           onInput={onInput}
           label="Search specifications"
@@ -95,8 +82,7 @@ const Specifications: Component = () => {
               />
             </Show>
           </Match>
-        </Switch>
-      </Show>
+      </Switch>
     </section>
   )
 }

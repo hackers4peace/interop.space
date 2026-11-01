@@ -5,7 +5,7 @@ import { useSdoNav } from '../lib/sdoNav'
 
 // Minimal shape shared by a resolved W3C group and a catalog-only group name.
 export type GroupCardData = {
-  id?: number
+  id?: string
   name: string
   participants?: readonly unknown[]
   participantCount?: number
@@ -54,7 +54,7 @@ export const GroupCard: Component<{ group: GroupCardData }> = (props) => {
         }
       >
         {(id) => (
-          <A href={href(`/groups/${id()}`)} class={`${card} hover:shadow-md`}>
+          <A href={href(`/groups/${encodeURIComponent(id())}`)} class={`${card} hover:shadow-md`}>
             <GroupCardContent group={props.group} linked={true} />
           </A>
         )}

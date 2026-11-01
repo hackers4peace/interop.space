@@ -9,17 +9,24 @@ import { sdoById } from '../lib/sdos'
 import { useSdoNav } from '../lib/sdoNav'
 import { appActor } from '../store/app'
 import { detailFor } from '../store/selectors'
+import { routeParam } from '../lib/route'
 
 const GroupDetail: Component = () => {
   const params = useParams<{ id: string }>()
   const { sdo, href } = useSdoNav()
   const currentSdo = () => sdoById(sdo())
+  const groupId = () => routeParam(params.id)
 
   createEffect(() =>
-    appActor.send({ type: 'loadDetail', kind: 'group', id: params.id }),
+    appActor.send({
+      type: 'loadDetail',
+      kind: 'group',
+      id: groupId(),
+      sdo: sdo(),
+    }),
   )
 
-  const state = () => detailFor('group', params.id)
+  const state = () => detailFor('group', groupId(), sdo())
   const view = () => {
     const data = state()?.data
     return data?.kind === 'group' ? data : undefined
@@ -53,7 +60,6 @@ const GroupDetail: Component = () => {
                   {data().group.name}
                 </h1>
                 <p class="text-slate-600 dark:text-slate-400">
-                  W3C group {data().group.id} ·{' '}
                   {data().group.participants.length}
                   {data().group.participants.length === 1
                     ? ' participant'

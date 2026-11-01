@@ -65,6 +65,7 @@ const TAX = 'https://solidproject.solidcommunity.net/catalog/taxonomy#'
 const DOAP = 'http://usefulinc.com/ns/doap#'
 const DCTERMS = 'http://purl.org/dc/terms/'
 const BIBO = 'http://purl.org/ontology/bibo/'
+const SDO = 'ex:sdo'
 
 const PREFIXES = `PREFIX ex: <${EX}>
 PREFIX tax: <${TAX}>
@@ -215,11 +216,20 @@ const LISTING_BODY: Record<ListingKind, string> = {
   specifications: `?id a ex:Specification ; ex:name ?name .`,
   useCases: `?id a ex:UseCase ; ex:name ?name .`,
   orgs: `?id a ex:Organization ; ex:name ?name .
-    FILTER NOT EXISTS { ?id ex:siloId ?siloId }
     FILTER NOT EXISTS { ?id ex:subType ?subType }`,
-  groups: `?id a ex:Organization ; ex:name ?name ; ex:siloId ?siloId .
-    FILTER (STRSTARTS(STR(?siloId), "${W3C_SILO_PREFIX}"))`,
+  groups: `?id a ex:Group ; ex:name ?name .`,
 }
+
+// Only specs, groups and use cases belong to an SDO. People, projects,
+// organizations and software are SDO-independent.
+const SDO_LISTINGS = new Set<ListingKind>([
+  'specifications',
+  'useCases',
+  'groups',
+])
+
+const sdoFilter = (kind: ListingKind, sdo: string | undefined) =>
+  sdo && SDO_LISTINGS.has(kind) ? `?id ${SDO} ${iri(sdo)} .` : ''
 
 const searchFilter = (query: string) => {
   const normalized = query.trim()
@@ -238,11 +248,13 @@ const idPageQuery = (
   query: string,
   cursor: ListingCursor | null,
   limit: number,
+  sdo?: string,
 ) => `${PREFIXES}
 SELECT ?id ?sortKey WHERE {
   {
     SELECT DISTINCT ?id (LCASE(STR(?name)) AS ?sortKey) WHERE {
       ${LISTING_BODY[kind]}
+      ${sdoFilter(kind, sdo)}
       ${searchFilter(query)}
     }
   }
@@ -251,9 +263,10 @@ SELECT ?id ?sortKey WHERE {
 ORDER BY ?sortKey STR(?id)
 LIMIT ${limit}`
 
-const countQuery = (kind: ListingKind, query: string) => `${PREFIXES}
+const countQuery = (kind: ListingKind, query: string, sdo?: string) => `${PREFIXES}
 SELECT (COUNT(DISTINCT ?id) AS ?total) WHERE {
   ${LISTING_BODY[kind]}
+  ${sdoFilter(kind, sdo)}
   ${searchFilter(query)}
 }`
 
@@ -271,11 +284,14 @@ async function fetchIdPage(
   query: string,
   cursor: ListingCursor | null,
   limit: number,
+  sdo?: string,
 ): Promise<IdPage> {
   const withTotal = cursor === null
   const [rows, totalRows] = await Promise.all([
-    queryBindings(idPageQuery(kind, query, cursor, limit + 1)),
-    withTotal ? queryBindings(countQuery(kind, query)) : Promise.resolve([]),
+    queryBindings(idPageQuery(kind, query, cursor, limit + 1, sdo)),
+    withTotal
+      ? queryBindings(countQuery(kind, query, sdo))
+      : Promise.resolve([]),
   ])
 
   // DISTINCT should already keep subjects unique; this guards against a
@@ -873,26 +889,21 @@ async function groupSummariesByUris(
   const groups = new Map<string, GroupSummary>()
   if (!uris.length) return groups
   const rows = await queryBindings(`${PREFIXES}
-    SELECT ?group ?name ?siloId ?w3cApiUrl (COUNT(DISTINCT ?member) AS ?count)
+    SELECT ?group ?name ?w3cApiUrl (COUNT(DISTINCT ?member) AS ?count)
     WHERE {
       VALUES ?group { ${uris.map(iri).join(' ')} }
-      ?group a ex:Organization ; ex:name ?name ; ex:siloId ?siloId .
-      FILTER (STRSTARTS(STR(?siloId), "${W3C_SILO_PREFIX}"))
+      ?group a ex:Group ; ex:name ?name .
       OPTIONAL { ?group ex:w3cApiUrl ?w3cApiUrl }
       OPTIONAL { ?group ex:member ?member }
     }
-    GROUP BY ?group ?name ?siloId ?w3cApiUrl`)
+    GROUP BY ?group ?name ?w3cApiUrl`)
   for (const b of rows) {
     const uri = value(b, 'group')
     const name = value(b, 'name')
-    const siloId = value(b, 'siloId')
-    if (!uri || !name || !siloId) continue
-    const id = parseW3cId(siloId)
-    if (id === undefined) continue
+    if (!uri || !name) continue
     const count = value(b, 'count')
     groups.set(uri, {
-      id,
-      uri,
+      id: uri,
       name,
       w3cApiUrl: value(b, 'w3cApiUrl'),
       participantCount: count === undefined ? 0 : Number(count),
@@ -935,8 +946,8 @@ export const fetchGroupMembers = (uri: string) => groupMembers(uri)
 async function groupFull(uri: string): Promise<W3cGroup | undefined> {
   const [baseRows, participants] = await Promise.all([
     queryBindings(`${PREFIXES}
-      SELECT ?name ?siloId ?w3cApiUrl WHERE {
-        ${iri(uri)} a ex:Organization ; ex:name ?name ; ex:siloId ?siloId .
+      SELECT ?name ?w3cApiUrl WHERE {
+        ${iri(uri)} a ex:Group ; ex:name ?name .
         OPTIONAL { ${iri(uri)} ex:w3cApiUrl ?w3cApiUrl }
       }
       LIMIT 1`),
@@ -945,13 +956,9 @@ async function groupFull(uri: string): Promise<W3cGroup | undefined> {
   const binding = baseRows[0]
   if (!binding) return undefined
   const name = value(binding, 'name')
-  const siloId = value(binding, 'siloId')
-  if (!name || !siloId) return undefined
-  const id = parseW3cId(siloId)
-  if (id === undefined) return undefined
+  if (!name) return undefined
   return {
-    id,
-    uri,
+    id: uri,
     name,
     w3cApiUrl: value(binding, 'w3cApiUrl'),
     participants,
@@ -960,26 +967,21 @@ async function groupFull(uri: string): Promise<W3cGroup | undefined> {
 
 async function groupsOfPerson(uri: string): Promise<GroupSummary[]> {
   const rows = await queryBindings(`${PREFIXES}
-    SELECT ?group ?name ?siloId ?w3cApiUrl (COUNT(DISTINCT ?member) AS ?count)
+    SELECT ?group ?name ?w3cApiUrl (COUNT(DISTINCT ?member) AS ?count)
     WHERE {
-      ?group a ex:Organization ; ex:name ?name ; ex:siloId ?siloId ; ex:member ${iri(uri)} .
-      FILTER (STRSTARTS(STR(?siloId), "${W3C_SILO_PREFIX}"))
+      ?group a ex:Group ; ex:name ?name ; ex:member ${iri(uri)} .
       OPTIONAL { ?group ex:w3cApiUrl ?w3cApiUrl }
       OPTIONAL { ?group ex:member ?member }
     }
-    GROUP BY ?group ?name ?siloId ?w3cApiUrl`)
+    GROUP BY ?group ?name ?w3cApiUrl`)
   const groups: GroupSummary[] = []
   for (const b of rows) {
     const groupUri = value(b, 'group')
     const name = value(b, 'name')
-    const siloId = value(b, 'siloId')
-    if (!groupUri || !name || !siloId) continue
-    const id = parseW3cId(siloId)
-    if (id === undefined) continue
+    if (!groupUri || !name) continue
     const count = value(b, 'count')
     groups.push({
-      id,
-      uri: groupUri,
+      id: groupUri,
       name,
       w3cApiUrl: value(b, 'w3cApiUrl'),
       participantCount: count === undefined ? 0 : Number(count),
@@ -990,26 +992,21 @@ async function groupsOfPerson(uri: string): Promise<GroupSummary[]> {
 
 async function groupsDeliveringSpec(uri: string): Promise<GroupSummary[]> {
   const rows = await queryBindings(`${PREFIXES}
-    SELECT ?group ?name ?siloId ?w3cApiUrl (COUNT(DISTINCT ?member) AS ?count)
+    SELECT ?group ?name ?w3cApiUrl (COUNT(DISTINCT ?member) AS ?count)
     WHERE {
-      ?group a ex:Organization ; ex:specification ${iri(uri)} ; ex:name ?name ; ex:siloId ?siloId .
-      FILTER (STRSTARTS(STR(?siloId), "${W3C_SILO_PREFIX}"))
+      ?group a ex:Group ; ex:specification ${iri(uri)} ; ex:name ?name .
       OPTIONAL { ?group ex:w3cApiUrl ?w3cApiUrl }
       OPTIONAL { ?group ex:member ?member }
     }
-    GROUP BY ?group ?name ?siloId ?w3cApiUrl`)
+    GROUP BY ?group ?name ?w3cApiUrl`)
   const groups: GroupSummary[] = []
   for (const b of rows) {
     const groupUri = value(b, 'group')
     const name = value(b, 'name')
-    const siloId = value(b, 'siloId')
-    if (!groupUri || !name || !siloId) continue
-    const id = parseW3cId(siloId)
-    if (id === undefined) continue
+    if (!groupUri || !name) continue
     const count = value(b, 'count')
     groups.push({
-      id,
-      uri: groupUri,
+      id: groupUri,
       name,
       w3cApiUrl: value(b, 'w3cApiUrl'),
       participantCount: count === undefined ? 0 : Number(count),
@@ -1025,8 +1022,9 @@ export async function fetchListingPage(
   kind: ListingKind,
   query: string,
   cursor: ListingCursor | null,
+  sdo?: string,
 ): Promise<ListingPage> {
-  const page = await fetchIdPage(kind, query, cursor, PAGE_SIZE[kind])
+  const page = await fetchIdPage(kind, query, cursor, PAGE_SIZE[kind], sdo)
   const ids = page.rows.map((row) => row.id)
 
   const result = (
@@ -1116,6 +1114,7 @@ const shortIdFilter = (id: string, person = false) => {
 async function resolveSubject(
   kind: 'person' | 'project' | 'specification' | 'software' | 'org' | 'useCase',
   id: string,
+  sdo?: string,
 ): Promise<string | undefined> {
   const body = {
     person: `?s a ex:Person .`,
@@ -1124,29 +1123,47 @@ async function resolveSubject(
     specification: `?s a ex:Specification .`,
     software: `{ ?s a doap:Project } UNION { ?s a ex:Software }`,
     org: `?s a ex:Organization .
-      FILTER NOT EXISTS { ?s ex:siloId ?siloId }
       FILTER NOT EXISTS { ?s ex:subType ?subType }`,
     useCase: `?s a ex:UseCase .`,
   }[kind]
+  const scoped =
+    sdo && (kind === 'specification' || kind === 'useCase')
+      ? `?s ${SDO} ${iri(sdo)} .`
+      : ''
   const rows = await queryBindings(`${PREFIXES}
     SELECT ?s WHERE {
       ${body}
+      ${scoped}
       FILTER (${shortIdFilter(id, kind === 'person')})
     }
     LIMIT 1`)
   return rows[0] ? value(rows[0], 's') : undefined
 }
 
-async function resolveGroup(id: string): Promise<string | undefined> {
-  const groupId = Number(id)
-  if (!Number.isInteger(groupId)) return undefined
+async function resolveGroup(
+  id: string,
+  sdo?: string,
+): Promise<string | undefined> {
+  const scoped = sdo ? `?s ${SDO} ${iri(sdo)} .` : ''
   const rows = await queryBindings(`${PREFIXES}
     SELECT ?s WHERE {
-      ?s a ex:Organization ; ex:siloId ?siloId .
+      ?s a ex:Group .
+      ${scoped}
+      FILTER (STR(?s) = ${lit(id)})
+    }
+    LIMIT 1`)
+  if (rows[0]) return value(rows[0], 's')
+
+  // Legacy numeric W3C group links from before groups used full URLs.
+  const groupId = Number(id)
+  if (!Number.isInteger(groupId)) return undefined
+  const legacy = await queryBindings(`${PREFIXES}
+    SELECT ?s WHERE {
+      ?s a ex:Group ; ex:siloId ?siloId .
       FILTER (STR(?siloId) = ${lit(`${W3C_SILO_PREFIX}${groupId}`)})
     }
     LIMIT 1`)
-  return rows[0] ? value(rows[0], 's') : undefined
+  return legacy[0] ? value(legacy[0], 's') : undefined
 }
 
 async function personDetail(id: string) {
@@ -1221,8 +1238,8 @@ async function projectDetail(id: string) {
   return { kind: 'project' as const, project }
 }
 
-async function specificationDetail(id: string) {
-  const uri = await resolveSubject('specification', id)
+async function specificationDetail(id: string, sdo?: string) {
+  const uri = await resolveSubject('specification', id, sdo)
   if (!uri) return undefined
 
   const [specs, outgoing, groups, softwareUris, useCaseUris] = await Promise.all([
@@ -1291,8 +1308,8 @@ async function softwareDetail(id: string) {
   return { kind: 'software' as const, software: entry, references }
 }
 
-async function groupDetail(id: string) {
-  const uri = await resolveGroup(id)
+async function groupDetail(id: string, sdo?: string) {
+  const uri = await resolveGroup(id, sdo)
   if (!uri) return undefined
   const group = await groupFull(uri)
   if (!group) return undefined
@@ -1332,8 +1349,8 @@ async function orgDetail(id: string) {
   }
 }
 
-async function useCaseDetail(id: string) {
-  const uri = await resolveSubject('useCase', id)
+async function useCaseDetail(id: string, sdo?: string) {
+  const uri = await resolveSubject('useCase', id, sdo)
   if (!uri) return undefined
   const useCases = await useCasesByUris([uri])
   const useCase = useCases.get(uri)
@@ -1377,6 +1394,7 @@ export type DetailResult =
 export async function fetchDetail(
   kind: DetailKind,
   id: string,
+  sdo?: string,
 ): Promise<DetailResult> {
   switch (kind) {
     case 'person':
@@ -1384,14 +1402,14 @@ export async function fetchDetail(
     case 'project':
       return projectDetail(id)
     case 'specification':
-      return specificationDetail(id)
+      return specificationDetail(id, sdo)
     case 'software':
       return softwareDetail(id)
     case 'group':
-      return groupDetail(id)
+      return groupDetail(id, sdo)
     case 'org':
       return orgDetail(id)
     case 'useCase':
-      return useCaseDetail(id)
+      return useCaseDetail(id, sdo)
   }
 }

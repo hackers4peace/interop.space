@@ -15,10 +15,15 @@ const UseCaseDetail: Component = () => {
   const currentSdo = () => sdoById(sdo())
 
   createEffect(() =>
-    appActor.send({ type: 'loadDetail', kind: 'useCase', id: params.id }),
+    appActor.send({
+      type: 'loadDetail',
+      kind: 'useCase',
+      id: params.id,
+      sdo: sdo(),
+    }),
   )
 
-  const state = () => detailFor('useCase', params.id)
+  const state = () => detailFor('useCase', params.id, sdo())
   const view = () => {
     const data = state()?.data
     return data?.kind === 'useCase' ? data : undefined

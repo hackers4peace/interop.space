@@ -18,7 +18,8 @@ export const detailSlice = () => appState.detail
 export const detailFor = (
   kind: DetailKind,
   id: string,
+  sdo?: string,
 ): DetailState | undefined => {
   const detail = appState.detail
-  return detail.key === detailKey(kind, id) ? detail : undefined
+  return detail.key === detailKey(kind, id, sdo) ? detail : undefined
 }

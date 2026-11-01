@@ -28,10 +28,11 @@ const SpecificationDetail: Component = () => {
       type: 'loadDetail',
       kind: 'specification',
       id: params.id,
+      sdo: sdo(),
     }),
   )
 
-  const state = () => detailFor('specification', params.id)
+  const state = () => detailFor('specification', params.id, sdo())
   const view = () => {
     const data = state()?.data
     return data?.kind === 'specification' ? data : undefined

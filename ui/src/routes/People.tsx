@@ -3,45 +3,25 @@ import { For, Match, Show, Switch } from 'solid-js'
 import { InfiniteScroll } from '../components/InfiniteScroll'
 import { PersonCard } from '../components/PersonCard'
 import { SearchBar } from '../components/SearchBar'
-import { SdoPanel } from '../components/SdoPanel'
 import { appActor } from '../store/app'
-import { isW3cScope, sdoById, sdoDisplayName } from '../lib/sdos'
-import { useSdoNav } from '../lib/sdoNav'
 import { createListingSearch } from '../lib/listing'
 import { peopleSlice } from '../store/selectors'
 
 const People: Component = () => {
-  const { sdo, clearSdo } = useSdoNav()
   const { query, onInput } = createListingSearch('people')
-  const currentSdo = () => sdoById(sdo())
-  const w3cScope = () => isW3cScope(sdo())
-  const scopeName = () => sdoDisplayName(sdo())
 
   const total = () => peopleSlice().total ?? peopleSlice().data.length
   const isSearch = () => peopleSlice().query.trim().length > 0
 
   return (
     <section class="space-y-6">
-      <Show when={currentSdo()}>
-        {(current) => <SdoPanel sdo={current()} onUnpin={clearSdo} />}
-      </Show>
       <div class="space-y-1">
         <h1 class="text-3xl font-bold tracking-tight">People</h1>
-        <Show when={w3cScope()}>
-          <p class="text-slate-600 dark:text-slate-400">
-            {total()} {isSearch() ? 'matching' : ''} people in the directory.
-          </p>
-        </Show>
+        <p class="text-slate-600 dark:text-slate-400">
+          {total()} {isSearch() ? 'matching' : ''} people in the directory.
+        </p>
       </div>
-      <Show
-        when={w3cScope()}
-        fallback={
-          <p class="text-slate-500 dark:text-slate-400">
-            No people are available for {scopeName()} in the catalog yet.
-          </p>
-        }
-      >
-        <SearchBar
+      <SearchBar
           value={query()}
           onInput={onInput}
           label="Search people"
@@ -86,8 +66,7 @@ const People: Component = () => {
               />
             </Show>
           </Match>
-        </Switch>
-      </Show>
+      </Switch>
     </section>
   )
 }

@@ -12,7 +12,7 @@ import { useCasesSlice } from '../store/selectors'
 
 const UseCases: Component = () => {
   const { sdo, clearSdo } = useSdoNav()
-  const { query, onInput } = createListingSearch('useCases')
+  const { query, onInput } = createListingSearch('useCases', () => sdo())
   const currentSdo = () => sdoById(sdo())
 
   const total = () => useCasesSlice().total ?? useCasesSlice().data.length

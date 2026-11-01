@@ -107,12 +107,13 @@ export type Specification = {
 
 // Compact group shape used by listings and cross-page cards. The full roster
 // is only loaded for the group page or when a group is pinned for comparison.
+// `id` is the full public group URL, which is also the route key.
 export type GroupSummary = {
-  id?: number // W3C API group id when the catalog group resolves
-  uri?: string
+  id?: string
   name: string
   participantCount?: number
   w3cApiUrl?: string
+  sdo?: string
 }
 
 export type W3cParticipant = {
@@ -124,8 +125,7 @@ export type W3cParticipant = {
 }
 
 export type W3cGroup = {
-  id: number // W3C API group id, from the catalog's ex:siloId "w3c:<id>"
-  uri: string // canonical public homepage
+  id: string // full public group URL, also the route key
   name: string
   w3cApiUrl?: string // W3C API self link
   participants: W3cParticipant[]
@@ -210,7 +210,7 @@ export type DetailView =
 export type DetailKind = DetailView['kind']
 
 export type DetailState = {
-  key?: string // `${kind}:${id}` of the currently loaded detail
+  key?: string // `${kind}:${sdo ?? ''}:${id}` of the currently loaded detail
   status: AsyncStatus
   data?: DetailView
   error?: string
@@ -219,10 +219,10 @@ export type DetailState = {
 // Group comparison state is separate from the paginated listing, so pinned
 // groups stay visible even when they are not part of the current search page.
 export type GroupSelection = {
-  selected: number[]
+  selected: string[] // full group URLs
   groups: GroupSummary[]
-  members: Record<number, W3cParticipant[]>
-  loading: number[]
+  members: Record<string, W3cParticipant[]>
+  loading: string[]
   common: W3cParticipant[]
   error?: string
 }
@@ -274,13 +274,14 @@ export const initialAppState = (): AppState => ({
   },
 })
 
-export const detailKey = (kind: DetailKind, id: string) => `${kind}:${id}`
+export const detailKey = (kind: DetailKind, id: string, sdo?: string) =>
+  `${kind}:${sdo ?? ''}:${id}`
 
 // main -> worker (the actor mailbox): search/load on demand
 export type Command =
-  | { type: 'search'; kind: ListingKind; query: string }
+  | { type: 'search'; kind: ListingKind; query: string; sdo?: string }
   | { type: 'loadMore'; kind: ListingKind }
-  | { type: 'loadDetail'; kind: DetailKind; id: string }
+  | { type: 'loadDetail'; kind: DetailKind; id: string; sdo?: string }
   | { type: 'toggleGroup'; group: GroupSummary }
 
 // worker -> main: one slice at a time (partial snapshot)

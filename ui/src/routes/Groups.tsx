@@ -9,7 +9,7 @@ import { SdoPanel } from '../components/SdoPanel'
 import { appActor } from '../store/app'
 import { createListingSearch } from '../lib/listing'
 import { personFromParticipant } from '../lib/person'
-import { isW3cScope, sdoById, sdoDisplayName } from '../lib/sdos'
+import { sdoById } from '../lib/sdos'
 import { useSdoNav } from '../lib/sdoNav'
 import { groupSelectionSlice, groupsSlice } from '../store/selectors'
 import type { GroupSummary, W3cParticipant } from '../worker/protocol'
@@ -72,7 +72,7 @@ const GroupCard: Component<{ group: GroupSummary; selected: boolean }> = (
       <Show when={props.group.id}>
         {(id) => (
           <A
-            href={href(`/groups/${id()}`)}
+            href={href(`/groups/${encodeURIComponent(id())}`)}
             aria-label={`Open ${props.group.name}`}
             title={`Open ${props.group.name}`}
             class={`${iconButton} ${idleIcon}`}
@@ -114,12 +114,10 @@ const ParticipantList: Component<{
 
 const Groups: Component = () => {
   const { sdo, clearSdo } = useSdoNav()
-  const { query, onInput } = createListingSearch('groups')
+  const { query, onInput } = createListingSearch('groups', () => sdo())
   const [pinnedOnly, setPinnedOnly] = createSignal(false)
 
   const currentSdo = () => sdoById(sdo())
-  const w3cScope = () => isW3cScope(sdo())
-  const scopeName = () => sdoDisplayName(sdo())
 
   const listing = () => groupsSlice()
   const selection = () => groupSelectionSlice()
@@ -137,7 +135,7 @@ const Groups: Component = () => {
     if (status === 'ready') {
       return isSearch()
         ? `No groups match “${listing().query.trim()}”.`
-        : 'No W3C groups found in the catalog.'
+        : 'No groups found in the catalog.'
     }
     return 'Loading groups from the catalog…'
   }
@@ -165,28 +163,15 @@ const Groups: Component = () => {
       </Show>
 
       <div class="space-y-1">
-        <h1 class="text-3xl font-bold tracking-tight">
-          {w3cScope() ? 'W3C Groups' : 'Groups'}
-        </h1>
-        <Show when={w3cScope()}>
-          <p class="text-slate-600 dark:text-slate-400">
-            Pin the groups you want to compare. Participants are synced from
-            the W3C API into the catalog; with more than one group pinned, the
-            list shows who they have in common. Use the arrow to open a group's
-            page.
-          </p>
-        </Show>
+        <h1 class="text-3xl font-bold tracking-tight">Groups</h1>
+        <p class="text-slate-600 dark:text-slate-400">
+          Pin the groups you want to compare. With more than one group pinned,
+          the list shows who they have in common. Use the arrow to open a
+          group's page.
+        </p>
       </div>
 
-      <Show
-        when={w3cScope()}
-        fallback={
-          <p class="text-slate-500 dark:text-slate-400">
-            No groups are available for {scopeName()} in the catalog yet.
-          </p>
-        }
-      >
-        <div class="flex flex-wrap items-center gap-3">
+      <div class="flex flex-wrap items-center gap-3">
           <SearchBar
             value={query()}
             onInput={onInput}
@@ -215,7 +200,7 @@ const Groups: Component = () => {
 
         <Show when={listing().status === 'error'}>
           <p class="text-red-500">
-            Failed to load W3C groups: {listing().error}
+            Failed to load groups: {listing().error}
           </p>
         </Show>
 
@@ -327,7 +312,6 @@ const Groups: Component = () => {
             />
           </Show>
         </Show>
-      </Show>
     </section>
   )
 }

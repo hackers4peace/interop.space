@@ -35,7 +35,11 @@ const emit = (key: keyof AppState, value: AppState[keyof AppState]) =>
 // The cursor never leaves the worker: the UI only asks for "more" and reads
 // hasMore/loadingMore. A new search bumps the token so late responses from the
 // previous query cannot land in the current list.
-type ListingMeta = { cursor: ListingCursor | null; token: number }
+type ListingMeta = {
+  cursor: ListingCursor | null
+  token: number
+  sdo?: string
+}
 
 const listingMeta: Record<ListingKind, ListingMeta> = {
   people: { cursor: null, token: 0 },
@@ -62,9 +66,10 @@ const itemKey = (item: unknown): string => {
   return String(value.id ?? '')
 }
 
-async function search(kind: ListingKind, query: string) {
+async function search(kind: ListingKind, query: string, sdo?: string) {
   const token = ++listingMeta[kind].token
   listingMeta[kind].cursor = null
+  listingMeta[kind].sdo = sdo
   setListing(kind, {
     status: 'loading',
     query,
@@ -74,7 +79,7 @@ async function search(kind: ListingKind, query: string) {
   })
 
   try {
-    const page = await fetchListingPage(kind, query, null)
+    const page = await fetchListingPage(kind, query, null, sdo)
     if (token !== listingMeta[kind].token) return
     listingMeta[kind].cursor = page.cursor
     setListing(kind, {
@@ -115,7 +120,12 @@ async function loadMore(kind: ListingKind) {
   setListing(kind, { ...current, loadingMore: true, error: undefined })
 
   try {
-    const page = await fetchListingPage(kind, current.query, cursor)
+    const page = await fetchListingPage(
+      kind,
+      current.query,
+      cursor,
+      listingMeta[kind].sdo,
+    )
     if (token !== listingMeta[kind].token) return
 
     const latest = listing(kind)
@@ -149,14 +159,14 @@ async function loadMore(kind: ListingKind) {
 // ---------------------------------------------------------------------------
 let detailToken = 0
 
-async function loadDetail(kind: DetailKind, id: string) {
+async function loadDetail(kind: DetailKind, id: string, sdo?: string) {
   const token = ++detailToken
-  const key = detailKey(kind, id)
+  const key = detailKey(kind, id, sdo)
   state.detail = { key, status: 'loading' }
   emit('detail', state.detail)
 
   try {
-    const data = (await fetchDetail(kind, id)) as DetailView | undefined
+    const data = (await fetchDetail(kind, id, sdo)) as DetailView | undefined
     if (token !== detailToken) return
     state.detail = { key, status: 'ready', data }
   } catch (error) {
@@ -172,8 +182,8 @@ async function loadDetail(kind: DetailKind, id: string) {
 // The listing only carries participant counts. Rosters are fetched when a
 // group is pinned, and the common set is recomputed from the cached rosters.
 function computeCommon(
-  selected: number[],
-  members: Record<number, W3cParticipant[]>,
+  selected: string[],
+  members: Record<string, W3cParticipant[]>,
 ): W3cParticipant[] {
   if (selected.length < 2) return []
   const lists = selected.map((id) => members[id])
@@ -233,18 +243,9 @@ function toggleGroup(group: GroupSummary) {
 async function loadGroupRoster(group: GroupSummary) {
   const id = group.id
   if (id === undefined) return
-  if (!group.uri) {
-    const current = state.groupSelection
-    setGroupSelection({
-      ...current,
-      loading: current.loading.filter((item) => item !== id),
-      error: `No catalog URI for ${group.name}`,
-    })
-    return
-  }
 
   try {
-    const participants = await fetchGroupMembers(group.uri)
+    const participants = await fetchGroupMembers(id)
     if (!state.groupSelection.selected.includes(id)) return
     const current = state.groupSelection
     const members = { ...current.members, [id]: participants }
@@ -274,13 +275,13 @@ self.onmessage = (event: MessageEvent<Command>) => {
   const command = event.data
   switch (command.type) {
     case 'search':
-      void search(command.kind, command.query)
+      void search(command.kind, command.query, command.sdo)
       break
     case 'loadMore':
       void loadMore(command.kind)
       break
     case 'loadDetail':
-      void loadDetail(command.kind, command.id)
+      void loadDetail(command.kind, command.id, command.sdo)
       break
     case 'toggleGroup':
       toggleGroup(command.group)

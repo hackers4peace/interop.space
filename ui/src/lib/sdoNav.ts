@@ -1,4 +1,5 @@
 import { useSearchParams } from '@solidjs/router'
+import { normalizeSdoId } from './sdos'
 
 // Append the current standards-body filter to an internal path.
 export const withSdo = (path: string, sdo: string | undefined): string => {
@@ -11,7 +12,7 @@ export const withSdo = (path: string, sdo: string | undefined): string => {
 // keeps it while the visitor moves around the site.
 export const useSdoNav = () => {
   const [searchParams, setSearchParams] = useSearchParams<{ sdo?: string }>()
-  const sdo = () => searchParams.sdo
+  const sdo = () => normalizeSdoId(searchParams.sdo)
   const clearSdo = () =>
     setSearchParams({ sdo: undefined }, { replace: true })
   return { sdo, href: (path: string) => withSdo(path, sdo()), clearSdo }

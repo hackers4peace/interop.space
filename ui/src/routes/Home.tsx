@@ -2,6 +2,7 @@ import type { Component } from 'solid-js'
 import { For } from 'solid-js'
 import { A } from '@solidjs/router'
 import { sdos } from '../lib/sdos'
+import { withSdo } from '../lib/sdoNav'
 
 const Home: Component = () => {
   return (
@@ -19,7 +20,7 @@ const Home: Component = () => {
           {(organization) => (
             <li>
               <A
-                href={`/groups?sdo=${organization.id}`}
+                href={withSdo('/groups', organization.id)}
                 class="block overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
               >
                 <div class="flex h-28 items-center justify-center bg-slate-50 px-6 py-5 dark:bg-white">
