@@ -4,7 +4,7 @@
 
 export type CitationNature = 'normative' | 'informative'
 
-export type CitationGenerator = 'bikeshed' | 'respec' | 'unknown'
+export type CitationGenerator = 'bikeshed' | 'respec' | 'xml2rfc' | 'unknown'
 
 /** One bibliography entry as it appears in a rendered references section. */
 export interface ExtractedReference {

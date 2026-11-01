@@ -38,6 +38,14 @@ function detectGenerator($: CheerioAPI): GeneratorInfo {
   return { generator: 'unknown' }
 }
 
+/** xml2rfc output has no generator meta but named reference sections. */
+function isXml2rfc($: CheerioAPI): boolean {
+  return (
+    $('#name-normative-references').length > 0 ||
+    $('#name-informative-references').length > 0
+  )
+}
+
 function hasRawRespec($: CheerioAPI): boolean {
   return $('script[src]').toArray().some((element) => {
     const src = $(element).attr('src') ?? ''
@@ -63,6 +71,23 @@ function referenceList(
   ).first()
   if (bikeshedHeading.length > 0) {
     return bikeshedHeading.nextAll('dl').first()
+  }
+
+  // xml2rfc (rfc2html / draft rendering): <section id="name-*-references">
+  // holding a <dl class="references">; both the normative and the informative
+  // block are named, and URI references live in `name-uri-references`.
+  const xml2rfc = $(
+    nature === 'normative'
+      ? '#name-normative-references'
+      : '#name-informative-references',
+  ).first()
+  if (xml2rfc.length > 0) {
+    // rfc2html puts the id on the <h3> and the list in the next sibling <dl>;
+    // some renderers put it on the <section> that contains the <dl>.
+    const inside = xml2rfc.find('dl').first()
+    if (inside.length > 0) return inside
+    const sibling = xml2rfc.nextAll('dl').first()
+    if (sibling.length > 0) return sibling
   }
 
   return undefined
@@ -142,8 +167,13 @@ export function extractDocument(html: string): DocumentExtraction {
     return false
   })
 
+  const resolvedGenerator =
+    generator.generator === 'unknown' && isXml2rfc($)
+      ? { generator: 'xml2rfc' as const }
+      : generator
+
   return {
-    ...generator,
+    ...resolvedGenerator,
     hasNormativeSection: Boolean(normativeList),
     hasInformativeSection: Boolean(informativeList),
     references: [...normative, ...informativeOnly],

@@ -5,6 +5,7 @@ import * as activities from './activities'
 import * as fediverseActivities from './protocols/fediverse/activities'
 import * as catalogActivities from './software-dependencies/activities'
 import * as w3cActivities from './w3c-api/activities'
+import * as ietfActivities from './ietf-api/activities'
 
 async function connectWithRetry(address: string) {
   while (true) {
@@ -48,10 +49,25 @@ async function run() {
       activities: w3cActivities,
     })
 
+    // IETF stages run on their own queue so each SDO can be dumped, resumed and
+    // debugged independently (see ietf-plan.md §6).
+    const ietfWorker = await Worker.create({
+      connection,
+      namespace: 'default',
+      taskQueue: 'ietf',
+      workflowsPath: new URL('./ietf-api/workflows.ts', import.meta.url).pathname,
+      activities: ietfActivities,
+    })
+
     const readyPath = process.env.WORKER_READY_PATH
     if (readyPath) await writeFile(readyPath, 'ready\n', 'utf8')
 
-    await Promise.all([greetingWorker.run(), catalogWorker.run(), w3cWorker.run()])
+    await Promise.all([
+      greetingWorker.run(),
+      catalogWorker.run(),
+      w3cWorker.run(),
+      ietfWorker.run(),
+    ])
   } finally {
     await connection.close()
   }

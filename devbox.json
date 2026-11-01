@@ -2,16 +2,24 @@
   "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.17.2/.schema/devbox.schema.json",
   "packages": {
     "github:dagger/nix#packages.aarch64-darwin.dagger": {
-      "platforms": ["aarch64-darwin"]
+      "platforms": [
+        "aarch64-darwin"
+      ]
     },
     "github:dagger/nix#packages.x86_64-darwin.dagger": {
-      "platforms": ["x86_64-darwin"]
+      "platforms": [
+        "x86_64-darwin"
+      ]
     },
     "github:dagger/nix#packages.aarch64-linux.dagger": {
-      "platforms": ["aarch64-linux"]
+      "platforms": [
+        "aarch64-linux"
+      ]
     },
     "github:dagger/nix#packages.x86_64-linux.dagger": {
-      "platforms": ["x86_64-linux"]
+      "platforms": [
+        "x86_64-linux"
+      ]
     },
     "grpcurl": "latest",
     "bun": "latest",
@@ -25,11 +33,17 @@
     "FUSEKI_SSH_HOST": "root@5.75.154.192"
   },
   "shell": {
-    "init_hook": ["echo 'Welcome to devbox!' > /dev/null"],
+    "init_hook": [
+      "echo 'Welcome to devbox!' > /dev/null"
+    ],
     "scripts": {
       "up": "dagger call temporal-with-ui --source=. up --ports=8080:8080",
       "dump": "mkdir -p data/dump/w3c && dagger call dump-w-3-c --source=. -o ./data/dump/w3c && bun run scripts/stage-status.ts w3c",
       "dump:w3c": "mkdir -p data/dump/w3c && dagger call dump-w-3-c --source=. -o ./data/dump/w3c && bun run scripts/stage-status.ts w3c",
+      "dump:ietf": "mkdir -p data/dump/ietf && dagger call dump-ietf --source=. -o ./data/dump/ietf && bun run scripts/stage-status.ts ietf",
+      "dump:w3c-references": "mkdir -p data/dump/w3c && dagger call dump-w-3-c-references --source=. -o ./data/dump/w3c",
+      "dump:ietf-references": "mkdir -p data/dump/ietf && dagger call dump-ietf-references --source=. -o ./data/dump/ietf",
+      "dump:cross": "mkdir -p data/dump/cross && dagger call dump-cross --source=. -o ./data/dump/cross && bun run scripts/stage-status.ts cross",
       "tunnel": "bun run scripts/fuseki.ts tunnel",
       "wipe": "bun run scripts/fuseki.ts wipe",
       "seed": "bun run scripts/fuseki.ts seed",
@@ -41,7 +55,9 @@
       "identities:duplicates": "bun run scripts/confirm-duplicates.ts",
       "generate": "bun gen.ts",
       "build": "devbox run generate && dotnet build dotnet/Worker/Worker.csproj",
-      "test": ["echo \"Error: no test specified\" && exit 1"]
+      "test": [
+        "echo \"Error: no test specified\" && exit 1"
+      ]
     }
   }
 }

@@ -55,3 +55,18 @@ describe('stage files', () => {
     expect(log).toContain('"groups"')
   })
 })
+
+describe('stage IRI guard', () => {
+  test('refuses to publish a quad with an unparseable IRI', async () => {
+    setup()
+    const quads = [
+      quad(
+        namedNode('https://example.org/a b'),
+        namedNode('http://example.org#name'),
+        literal('Broken'),
+      ),
+    ]
+    await expect(writeStage('groups', quads)).rejects.toThrow('invalid IRI')
+    expect(existsSync(stageFile('groups'))).toBe(false)
+  })
+})

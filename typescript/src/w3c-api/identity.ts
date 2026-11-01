@@ -4,6 +4,7 @@
 import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { canonicalW3cId } from './person-ids.ts'
+import { IETF_PERSON_SILO } from '../ietf-api/silo-ids.ts'
 import { W3C_AFFILIATION_SILO, W3C_PERSON_SILO } from './silo-ids.ts'
 
 export interface IdentityEntry {
@@ -33,8 +34,12 @@ export const DEFAULT_STAGES_DIR = new URL(
 
 export interface PersonIdentityInput {
   w3cId?: number
+  /** Datatracker numeric person id (`urn:ietf:person:<id>`). */
+  ietfPersonId?: number
   githubId?: string
   githubUsername?: string
+  /** ORCID identifier, published by Datatracker `personextresource`. */
+  orcid?: string
   sourceUrl?: string
   name?: string
 }
@@ -165,6 +170,10 @@ function personIdentifiers(input: PersonIdentityInput): string[] {
   if (input.w3cId !== undefined) {
     identifiers.add(`${W3C_PERSON_SILO}${canonicalW3cId(input.w3cId)}`)
   }
+  if (input.ietfPersonId !== undefined) {
+    identifiers.add(`${IETF_PERSON_SILO}${input.ietfPersonId}`)
+  }
+  if (input.orcid) identifiers.add(`orcid:${input.orcid}`)
   if (input.githubId) identifiers.add(`github:${input.githubId}`)
   if (input.githubUsername) {
     identifiers.add(`github-user:${normalizeGithubUsername(input.githubUsername)}`)

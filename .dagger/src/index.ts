@@ -233,12 +233,14 @@ export class DcentQuest {
   }
 
   /**
-   * W3C staged dump. Each stage writes data/dump/w3c/<stage>.nq only after it
-   * completes; completed files come back through the cache as the resume seed.
-   * A failed stage leaves a .log instead of a .nq in the exported directory.
+   * Shared staged dump used by every SDO: Temporal + Oxigraph + one container
+   * that runs the worker and the client. A stage writes <stage>.nq only after
+   * it completes, and completed files are copied back in as the resume seed;
+   * a failed stage leaves a .log instead of a .nq in the exported directory.
+   *
+   * Not exported as a @func: each SDO has its own entry point below.
    */
-  @func({ cache: "never" })
-  async dumpW3c(source: Directory): Promise<Directory> {
+  async stagedDump(source: Directory, sdo: string): Promise<Directory> {
     const runId = `run-${Date.now().toString(36)}`
     const temporal = await this.temporal(source, runId)
     const sparql = this.sparqlService(source)
@@ -255,6 +257,7 @@ export class DcentQuest {
       .withServiceBinding("sparql", sparql)
       .withEnvVariable("TEMPORAL_ADDRESS", "temporal:7233")
       .withEnvVariable("SPARQL_ENDPOINT", SPARQL_ENDPOINT)
+      .withEnvVariable("SDO", sdo)
       .withEnvVariable("STAGES_DIR", "/stages")
       .withEnvVariable("ALL_STAGES_DIR", "/all-dumps")
       .withEnvVariable("IDENTITIES_PATH", "/identities.json")
@@ -263,9 +266,10 @@ export class DcentQuest {
         "CITATIONS_REPORT_PATH",
         "/stages/citations-report.json",
       )
+      .withEnvVariable("AUTHORS_REPORT_PATH", "/stages/authors-report.json")
       .withMountedDirectory(
         "/seed-stages",
-        source.directory("data/dump/w3c"),
+        source.directory(`data/dump/${sdo}`),
         { readOnly: true },
       )
       .withMountedDirectory(
@@ -314,6 +318,96 @@ export class DcentQuest {
       ])
 
     return container.directory("/stages")
+  }
+
+  /**
+   * W3C staged dump. Writes data/dump/w3c/<stage>.nq, the citation report and
+   * the pending identity delta.
+   */
+  @func({ cache: "never" })
+  async dumpW3c(source: Directory): Promise<Directory> {
+    return this.stagedDump(source, "w3c")
+  }
+
+  /**
+   * IETF staged dump. Same contract as W3C; stage order is documented in
+   * ietf-plan.md §7. Run `dump-w-3-c` first: the group stage refuses group
+   * homepages that another SDO already published.
+   */
+  @func({ cache: "never" })
+  async dumpIetf(source: Directory): Promise<Directory> {
+    return this.stagedDump(source, "ietf")
+  }
+
+  /**
+   * Reference evidence for one SDO: crawl the rendered documents and record the
+   * URLs their references point at. Plain container, resumable through the
+   * checkpoint file inside the stage directory (no Temporal, §6.1 D10).
+   */
+  private async referencesDump(
+    source: Directory,
+    sdo: string,
+    entry: string,
+  ): Promise<Directory> {
+    return dag
+      .container()
+      .from("oven/bun:1.3")
+      .withEnvVariable("STAGES_DIR", "/stages")
+      .withMountedDirectory("/seed", source.directory(`data/dump/${sdo}`), {
+        readOnly: true,
+      })
+      .withDirectory("/app", source.directory("typescript"))
+      .withWorkdir("/app")
+      .withExec(["bun", "install"])
+      .withExec([
+        "sh",
+        "-c",
+        [
+          "mkdir -p /stages",
+          "cp -a /seed/. /stages/ 2>/dev/null || true",
+          `bun run ${entry}`,
+        ].join("\n"),
+      ])
+      .directory("/stages")
+  }
+
+  /** W3C reference evidence (`data/dump/w3c/references.json`). */
+  @func({ cache: "never" })
+  async dumpW3cReferences(source: Directory): Promise<Directory> {
+    return this.referencesDump(source, "w3c", "src/w3c-api/references.ts")
+  }
+
+  /** IETF reference evidence (`data/dump/ietf/references.json`). */
+  @func({ cache: "never" })
+  async dumpIetfReferences(source: Directory): Promise<Directory> {
+    return this.referencesDump(source, "ietf", "src/ietf-api/references.ts")
+  }
+
+  /**
+   * Cross-SDO reference linker. Reads both reference files and writes
+   * `data/dump/cross/{refs.nq,cross-report.json}`; no network access.
+   */
+  @func({ cache: "never" })
+  async dumpCross(source: Directory): Promise<Directory> {
+    return dag
+      .container()
+      .from("oven/bun:1.3")
+      .withMountedDirectory("/dumps", source.directory("data/dump"), {
+        readOnly: true,
+      })
+      .withDirectory("/app", source.directory("typescript"))
+      .withWorkdir("/app")
+      .withExec(["bun", "install"])
+      .withExec([
+        "sh",
+        "-c",
+        [
+          "mkdir -p /work/dump",
+          "cp -a /dumps/. /work/dump/",
+          "CROSS_DUMP_ROOT=/work/dump bun run src/crossref.ts",
+        ].join("\n"),
+      ])
+      .directory("/work/dump/cross")
   }
 
   @func({ cache: "never" })

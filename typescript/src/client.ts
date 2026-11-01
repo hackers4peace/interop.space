@@ -1,12 +1,49 @@
 import { writeFile } from 'node:fs/promises'
 import { Client, Connection } from '@temporalio/client'
 
+/** Which SDO workflow to run: `SDO=w3c` (default) or `SDO=ietf`. */
+const SDO = (process.env.SDO ?? 'w3c').toLowerCase()
+
+interface StepSummary {
+  step: string
+  skipped: boolean
+  reason?: string
+  detail?: string
+}
+
+function logSteps(steps: StepSummary[] | undefined): void {
+  for (const step of steps ?? []) {
+    console.log(
+      `${step.step}: ${step.skipped ? 'skipped' : 'stored'}${
+        step.reason ? ` (${step.reason})` : step.detail ? ` (${step.detail})` : ''
+      }`,
+    )
+  }
+}
+
+async function runIetf(client: Client): Promise<void> {
+  const result = (await client.workflow.execute('ietfApiWorkflow', {
+    taskQueue: 'ietf',
+    workflowId: `ietf-api-${Date.now()}`,
+    // Stage-by-stage: each stage is one paginated Datatracker sweep. The
+    // citations stage will need its own budget once it lands.
+    workflowExecutionTimeout: '1 hour',
+  })) as { steps?: StepSummary[] }
+
+  logSteps(result.steps)
+  console.log('ietf api workflow result:', JSON.stringify(result))
+}
+
 async function run() {
   const address = process.env.TEMPORAL_ADDRESS ?? 'temporal:7233'
   const connection = await Connection.connect({ address })
 
   const client = new Client({ connection, namespace: 'default' })
 
+  if (SDO === 'ietf') {
+    await runIetf(client)
+    return
+  }
   //   const handle = await client.workflow.execute('greetingWorkflow', {
   //     taskQueue: 'greeting',
   //     args: [ID],
