@@ -57,6 +57,7 @@ export type UseCase = {
   uri: string // full catalog URI
   name: string
   description: string
+  sdo?: string // ex:sdo, URL of the standards body that owns the use case
   specificationUris: string[] // ex:useCaseOf targets
 }
 
@@ -77,6 +78,7 @@ export type SpecReference = {
   uri: string // canonical shortlink of the referenced spec
   name: string
   shortname?: string
+  sdo?: string // ex:sdo, URL of the standards body that owns the spec
   normative: boolean
   informative: boolean
 }
@@ -100,6 +102,7 @@ export type Specification = {
   editors: SpecContributor[]
   groups: string[] // names of W3C groups that deliver the spec
   groupUris: string[] // canonical group IRIs that deliver the spec
+  sdo?: string // ex:sdo, URL of the standards body that owns the spec
   w3cApiUrl?: string // W3C API self link
   references: SpecReference[] // specs this one cites (normative/informative)
   citedBy: SpecReference[] // specs that cite this one

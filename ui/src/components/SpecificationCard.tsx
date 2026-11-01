@@ -2,6 +2,7 @@ import type { Component } from 'solid-js'
 import { For, Show } from 'solid-js'
 import { A } from '@solidjs/router'
 import { ContributorChips } from './ContributorChips'
+import { SdoLogo } from './SdoLogo'
 import { useSdoNav } from '../lib/sdoNav'
 import type { Specification } from '../worker/protocol'
 
@@ -22,18 +23,21 @@ export const SpecificationCard: Component<SpecificationCardProps> = (props) => {
 
   return (
     <div class="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-      <div class="space-y-1">
-        <A
-          href={href(`/specifications/${props.spec.id}`)}
-          class="text-lg font-semibold hover:underline"
-        >
-          {props.spec.name}
-        </A>
-        <Show when={props.spec.shortname}>
-          <p class="font-mono text-xs text-slate-500 dark:text-slate-400">
-            {props.spec.shortname}
-          </p>
-        </Show>
+      <div class="flex items-start justify-between gap-4">
+        <div class="min-w-0 space-y-1">
+          <A
+            href={href(`/specifications/${props.spec.id}`)}
+            class="text-lg font-semibold hover:underline"
+          >
+            {props.spec.name}
+          </A>
+          <Show when={props.spec.shortname}>
+            <p class="font-mono text-xs text-slate-500 dark:text-slate-400">
+              {props.spec.shortname}
+            </p>
+          </Show>
+        </div>
+        <SdoLogo sdo={props.spec.sdo} />
       </div>
 
       <Show when={props.spec.landingPage || props.spec.editorDraft}>

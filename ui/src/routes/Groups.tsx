@@ -5,6 +5,7 @@ import { ArrowRight, Pin } from 'lucide-solid'
 import { InfiniteScroll } from '../components/InfiniteScroll'
 import { PersonCard } from '../components/PersonCard'
 import { SearchBar } from '../components/SearchBar'
+import { SdoLogo } from '../components/SdoLogo'
 import { SdoPanel } from '../components/SdoPanel'
 import { appActor } from '../store/app'
 import { createListingSearch } from '../lib/listing'
@@ -39,7 +40,7 @@ const GroupCard: Component<{ group: GroupSummary; selected: boolean }> = (
   const count = () => props.group.participantCount ?? 0
   return (
     <div
-      class={`flex items-center gap-2 rounded-xl border bg-white p-4 shadow-sm transition dark:bg-slate-900 ${props.selected ? 'border-indigo-500 ring-1 ring-indigo-500' : 'border-slate-200 hover:shadow-md dark:border-slate-800'}`}
+      class={`flex items-center gap-3 rounded-xl border bg-white p-4 shadow-sm transition dark:bg-slate-900 ${props.selected ? 'border-indigo-500 ring-1 ring-indigo-500' : 'border-slate-200 hover:shadow-md dark:border-slate-800'}`}
     >
       <button
         type="button"
@@ -62,6 +63,7 @@ const GroupCard: Component<{ group: GroupSummary; selected: boolean }> = (
       >
         <Pin size={18} fill={props.selected ? 'currentColor' : 'none'} />
       </button>
+      <SdoLogo sdo={props.group.sdo} />
       <div class="min-w-0 flex-1 space-y-1">
         <p class="truncate font-semibold">{props.group.name}</p>
         <p class="text-sm text-slate-500 dark:text-slate-400">

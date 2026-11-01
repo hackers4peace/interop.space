@@ -436,7 +436,7 @@ async function specificationsByUris(
   const specs = new Map<string, Specification>()
   if (!uris.length) return specs
   const rows = await queryBindings(`${PREFIXES}
-    SELECT ?spec ?name ?shortname ?landingPage ?editorDraft ?w3cApiUrl
+    SELECT ?spec ?name ?shortname ?landingPage ?editorDraft ?w3cApiUrl ?sdo
            ?group ?groupName
            ?author ?authorName ?authorLogo ?authorSilo
            ?editor ?editorName ?editorLogo ?editorSilo
@@ -447,6 +447,7 @@ async function specificationsByUris(
       OPTIONAL { ?spec ex:landingPage ?landingPage }
       OPTIONAL { ?spec ex:editorDraft ?editorDraft }
       OPTIONAL { ?spec ex:w3cApiUrl ?w3cApiUrl }
+      OPTIONAL { ?spec ex:sdo ?sdo }
       OPTIONAL {
         ?group a ex:Organization ; ex:specification ?spec ; ex:name ?groupName .
       }
@@ -480,6 +481,7 @@ async function specificationsByUris(
         editors: [],
         groups: [],
         groupUris: [],
+        sdo: value(b, 'sdo'),
         w3cApiUrl: value(b, 'w3cApiUrl'),
         references: [],
         citedBy: [],
@@ -489,6 +491,7 @@ async function specificationsByUris(
     spec.shortname ??= value(b, 'shortname')
     spec.landingPage ??= value(b, 'landingPage')
     spec.editorDraft ??= value(b, 'editorDraft')
+    spec.sdo ??= value(b, 'sdo')
     spec.w3cApiUrl ??= value(b, 'w3cApiUrl')
     addSpecContributor(
       spec.authors,
@@ -536,6 +539,7 @@ const addReference = (
   otherUri: string,
   otherName: string | undefined,
   otherShortname: string | undefined,
+  otherSdo: string | undefined,
   predicate: string | undefined,
 ) => {
   if (!predicate) return
@@ -551,11 +555,13 @@ const addReference = (
       uri: otherUri,
       name: otherName ?? short(otherUri),
       ...(otherShortname ? { shortname: otherShortname } : {}),
+      sdo: otherSdo,
       normative: false,
       informative: false,
     }
     references.set(otherUri, reference)
   }
+  reference.sdo ??= otherSdo
   if (predicate === `${EX}normativeRef`) reference.normative = true
   if (predicate === `${EX}informativeRef`) reference.informative = true
 }
@@ -566,13 +572,14 @@ async function outgoingReferences(
   const result: Record<string, SpecReference[]> = {}
   if (!specUris.length) return result
   const rows = await queryBindings(`${PREFIXES}
-    SELECT ?spec ?target ?targetName ?targetShortname ?predicate WHERE {
+    SELECT ?spec ?target ?targetName ?targetShortname ?targetSdo ?predicate WHERE {
       VALUES ?spec { ${specUris.map(iri).join(' ')} }
       VALUES ?predicate { ex:normativeRef ex:informativeRef }
       ?spec ?predicate ?target .
       ?target a ex:Specification .
       OPTIONAL { ?target ex:name ?targetName }
       OPTIONAL { ?target ex:shortname ?targetShortname }
+      OPTIONAL { ?target ex:sdo ?targetSdo }
     }`)
   const index = new Map<string, Map<string, SpecReference>>()
   for (const b of rows) {
@@ -585,6 +592,7 @@ async function outgoingReferences(
       target,
       value(b, 'targetName'),
       value(b, 'targetShortname'),
+      value(b, 'targetSdo'),
       value(b, 'predicate'),
     )
   }
@@ -596,12 +604,13 @@ async function outgoingReferences(
 
 async function incomingReferences(uri: string): Promise<SpecReference[]> {
   const rows = await queryBindings(`${PREFIXES}
-    SELECT ?source ?sourceName ?sourceShortname ?predicate WHERE {
+    SELECT ?source ?sourceName ?sourceShortname ?sourceSdo ?predicate WHERE {
       VALUES ?predicate { ex:normativeRef ex:informativeRef }
       ?source ?predicate ${iri(uri)} .
       ?source a ex:Specification .
       OPTIONAL { ?source ex:name ?sourceName }
       OPTIONAL { ?source ex:shortname ?sourceShortname }
+      OPTIONAL { ?source ex:sdo ?sourceSdo }
     }`)
   const index = new Map<string, Map<string, SpecReference>>()
   for (const b of rows) {
@@ -613,6 +622,7 @@ async function incomingReferences(uri: string): Promise<SpecReference[]> {
       source,
       value(b, 'sourceName'),
       value(b, 'sourceShortname'),
+      value(b, 'sourceSdo'),
       value(b, 'predicate'),
     )
   }
@@ -788,10 +798,11 @@ async function useCasesByUris(uris: string[]): Promise<Map<string, UseCase>> {
   const useCases = new Map<string, UseCase>()
   if (!uris.length) return useCases
   const rows = await queryBindings(`${PREFIXES}
-    SELECT ?uc ?name ?description ?spec WHERE {
+    SELECT ?uc ?name ?description ?sdo ?spec WHERE {
       VALUES ?uc { ${uris.map(iri).join(' ')} }
       ?uc a ex:UseCase ; ex:name ?name .
       OPTIONAL { ?uc ex:description ?description }
+      OPTIONAL { ?uc ex:sdo ?sdo }
       OPTIONAL { ?uc ex:useCaseOf ?spec }
     }`)
   for (const b of rows) {
@@ -805,6 +816,7 @@ async function useCasesByUris(uris: string[]): Promise<Map<string, UseCase>> {
         uri,
         name,
         description: value(b, 'description') ?? '',
+        sdo: value(b, 'sdo'),
         specificationUris: [],
       }
       useCases.set(uri, useCase)
@@ -812,6 +824,7 @@ async function useCasesByUris(uris: string[]): Promise<Map<string, UseCase>> {
     if (!useCase.description && value(b, 'description')) {
       useCase.description = value(b, 'description')!
     }
+    useCase.sdo ??= value(b, 'sdo')
     const spec = value(b, 'spec')
     if (spec && !useCase.specificationUris.includes(spec)) {
       useCase.specificationUris.push(spec)
@@ -899,14 +912,15 @@ async function groupSummariesByUris(
   const groups = new Map<string, GroupSummary>()
   if (!uris.length) return groups
   const rows = await queryBindings(`${PREFIXES}
-    SELECT ?group ?name ?w3cApiUrl (COUNT(DISTINCT ?member) AS ?count)
+    SELECT ?group ?name ?w3cApiUrl ?sdo (COUNT(DISTINCT ?member) AS ?count)
     WHERE {
       VALUES ?group { ${uris.map(iri).join(' ')} }
       ?group a ex:Group ; ex:name ?name .
       OPTIONAL { ?group ex:w3cApiUrl ?w3cApiUrl }
+      OPTIONAL { ?group ex:sdo ?sdo }
       OPTIONAL { ?group ex:member ?member }
     }
-    GROUP BY ?group ?name ?w3cApiUrl`)
+    GROUP BY ?group ?name ?w3cApiUrl ?sdo`)
   for (const b of rows) {
     const uri = value(b, 'group')
     const name = value(b, 'name')
@@ -916,6 +930,7 @@ async function groupSummariesByUris(
       id: uri,
       name,
       w3cApiUrl: value(b, 'w3cApiUrl'),
+      sdo: value(b, 'sdo'),
       participantCount: count === undefined ? 0 : Number(count),
     })
   }
@@ -977,13 +992,14 @@ async function groupFull(uri: string): Promise<W3cGroup | undefined> {
 
 async function groupsOfPerson(uri: string): Promise<GroupSummary[]> {
   const rows = await queryBindings(`${PREFIXES}
-    SELECT ?group ?name ?w3cApiUrl (COUNT(DISTINCT ?member) AS ?count)
+    SELECT ?group ?name ?w3cApiUrl ?sdo (COUNT(DISTINCT ?member) AS ?count)
     WHERE {
       ?group a ex:Group ; ex:name ?name ; ex:member ${iri(uri)} .
       OPTIONAL { ?group ex:w3cApiUrl ?w3cApiUrl }
+      OPTIONAL { ?group ex:sdo ?sdo }
       OPTIONAL { ?group ex:member ?member }
     }
-    GROUP BY ?group ?name ?w3cApiUrl`)
+    GROUP BY ?group ?name ?w3cApiUrl ?sdo`)
   const groups: GroupSummary[] = []
   for (const b of rows) {
     const groupUri = value(b, 'group')
@@ -994,6 +1010,7 @@ async function groupsOfPerson(uri: string): Promise<GroupSummary[]> {
       id: groupUri,
       name,
       w3cApiUrl: value(b, 'w3cApiUrl'),
+      sdo: value(b, 'sdo'),
       participantCount: count === undefined ? 0 : Number(count),
     })
   }
@@ -1002,13 +1019,14 @@ async function groupsOfPerson(uri: string): Promise<GroupSummary[]> {
 
 async function groupsDeliveringSpec(uri: string): Promise<GroupSummary[]> {
   const rows = await queryBindings(`${PREFIXES}
-    SELECT ?group ?name ?w3cApiUrl (COUNT(DISTINCT ?member) AS ?count)
+    SELECT ?group ?name ?w3cApiUrl ?sdo (COUNT(DISTINCT ?member) AS ?count)
     WHERE {
       ?group a ex:Group ; ex:specification ${iri(uri)} ; ex:name ?name .
       OPTIONAL { ?group ex:w3cApiUrl ?w3cApiUrl }
+      OPTIONAL { ?group ex:sdo ?sdo }
       OPTIONAL { ?group ex:member ?member }
     }
-    GROUP BY ?group ?name ?w3cApiUrl`)
+    GROUP BY ?group ?name ?w3cApiUrl ?sdo`)
   const groups: GroupSummary[] = []
   for (const b of rows) {
     const groupUri = value(b, 'group')
@@ -1019,6 +1037,7 @@ async function groupsDeliveringSpec(uri: string): Promise<GroupSummary[]> {
       id: groupUri,
       name,
       w3cApiUrl: value(b, 'w3cApiUrl'),
+      sdo: value(b, 'sdo'),
       participantCount: count === undefined ? 0 : Number(count),
     })
   }

@@ -1,18 +1,20 @@
 import type { Component } from 'solid-js'
 import { Show } from 'solid-js'
 import { A } from '@solidjs/router'
+import { SdoLogo } from './SdoLogo'
 import { useSdoNav } from '../lib/sdoNav'
 
 // Minimal shape shared by a resolved W3C group and a catalog-only group name.
 export type GroupCardData = {
   id?: string
   name: string
+  sdo?: string
   participants?: readonly unknown[]
   participantCount?: number
 }
 
 const card =
-  'flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition dark:border-slate-800 dark:bg-slate-900'
+  'flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition dark:border-slate-800 dark:bg-slate-900'
 
 const GroupCardContent: Component<{ group: GroupCardData; linked: boolean }> = (
   props,
@@ -21,7 +23,8 @@ const GroupCardContent: Component<{ group: GroupCardData; linked: boolean }> = (
     props.group.participants?.length ?? props.group.participantCount
   return (
     <>
-      <span class="space-y-1">
+      <SdoLogo sdo={props.group.sdo} />
+      <span class="min-w-0 flex-1 space-y-1">
         <span class="block font-semibold">{props.group.name}</span>
         <Show when={count() !== undefined}>
           <span class="block text-sm text-slate-500 dark:text-slate-400">

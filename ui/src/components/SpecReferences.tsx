@@ -2,6 +2,7 @@ import type { Component } from 'solid-js'
 import { For, Show } from 'solid-js'
 import { A } from '@solidjs/router'
 import { CircleAlert, Info } from 'lucide-solid'
+import { SdoLogo } from './SdoLogo'
 import { useSdoNav } from '../lib/sdoNav'
 import type { SpecReference } from '../worker/protocol'
 
@@ -72,7 +73,7 @@ export const SpecReferenceSection: Component<{
             {(reference) => (
               <li class="flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-3 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                 <NatureIcons reference={reference} />
-                <div class="min-w-0">
+                <div class="min-w-0 flex-1">
                   <A
                     href={href(`/specifications/${reference.id}`)}
                     class="break-words font-medium hover:underline"
@@ -87,6 +88,7 @@ export const SpecReferenceSection: Component<{
                     )}
                   </Show>
                 </div>
+                <SdoLogo sdo={reference.sdo} />
               </li>
             )}
           </For>
