@@ -169,5 +169,12 @@
     "website": "https://atmosphere.community/",
     "logo": "/logos/atmosphere.webp",
     "sections": []
+  },
+  {
+    "id": "https://www.mozilla.org/",
+    "name": "Mozilla",
+    "website": "https://www.mozilla.org/",
+    "logo": "/logos/mozilla.svg",
+    "sections": []
   }
 ]

@@ -1,12 +1,15 @@
-# Local-group presence by city/region, from the Atmosphere community list.
+# Local-group presence by city/region, from the Atmosphere and Mozilla
+# community directories.
 #
 # ex:Location is the place (city, area or country); one ex:LocalGroup
 # per group there. The groups carry their own ex:sdo, so a location can
-# host several standards bodies and the UI derives its SDO icon list
-# from the groups present. Online-only communities are not locations and
-# are intentionally omitted.
+# host several standards bodies and the UI derives its SDO icon list from
+# the groups present. Online-only communities are not locations and are
+# intentionally omitted.
 #
-# Source: https://atmosphere.community/communities
+# Sources:
+#   https://atmosphere.community/communities
+#   https://community.mozilla.org/en/groups/
 # Seeded with `devbox run seed` (see devbox.json).
 
 @prefix ex: <http://example.org#> .
@@ -192,7 +195,7 @@
   ex:region "North America — Canada" ;
   ex:latitude 43.6532 ;
   ex:longitude -79.3832 ;
-  ex:source <https://atmosphere.community/communities> .
+  ex:source <https://atmosphere.community/communities> , <https://community.mozilla.org/en/groups/> .
 
 <urn:uuid:357381c2-2138-4f55-ab4b-925d3cc53cb4> a ex:LocalGroup ;
   ex:location <urn:uuid:18d8bc04-1b16-498a-8e73-f7f8285ffc8d> ;
@@ -202,6 +205,14 @@
   ex:homepage <https://bsky.app/profile/atproto.to> ;
   ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:4wsmpuh2ma2vrp6rkm3veymn/bafkreib733eoavmaafh2o7rmryqqax5mbllhljnn74hqauctnyrsqa4jki> ;
   ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:ecc4289f-58a6-5399-a0d7-b8b12f20d084> a ex:LocalGroup ;
+  ex:location <urn:uuid:18d8bc04-1b16-498a-8e73-f7f8285ffc8d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Toronto Rustaceans" ;
+  ex:description "We are the Toronto Rust ( developer community. Connect with and learn from fellow Rustaceans of all skill and experience levels. We run regular meetups around downtown Toronto for all to attend. Please visit our…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/toronto-rustaceans> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
 
 <urn:uuid:fb0b11ce-aa7c-4013-8c0f-83406a2d9151> a ex:Location ;
   ex:name "Vancouver, BC" ;
@@ -240,7 +251,7 @@
   ex:region "Europe" ;
   ex:latitude 52.3676 ;
   ex:longitude 4.9041 ;
-  ex:source <https://atmosphere.community/communities> .
+  ex:source <https://atmosphere.community/communities> , <https://community.mozilla.org/en/groups/> .
 
 <urn:uuid:1f645b2b-8521-4540-83db-6893a0c7cdf7> a ex:LocalGroup ;
   ex:location <urn:uuid:7c2f9c90-09fd-478d-8f57-b7b7d7a0acef> ;
@@ -251,12 +262,20 @@
   ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:bs2glhnim6sqt3f4ccllwxej/bafkreifrmzztdzozm6pf3lvxsa6xymgdqsxosnhvke74i3ne3t7htj3usq> ;
   ex:source <https://atmosphere.community/communities> .
 
+<urn:uuid:6a215a66-bad2-5806-bfbb-0c549fd178c4> a ex:LocalGroup ;
+  ex:location <urn:uuid:7c2f9c90-09fd-478d-8f57-b7b7d7a0acef> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "XPaths" ;
+  ex:description "The idea was to organize a group of expats willing to contribute, and promote contributing, to the community." ;
+  ex:homepage <https://community.mozilla.org/en/groups/xpaths> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
 <urn:uuid:35211208-a08a-4617-a1cd-e5065d65eea7> a ex:Location ;
   ex:name "Barcelona, ES" ;
   ex:region "Europe" ;
   ex:latitude 41.3874 ;
   ex:longitude 2.1686 ;
-  ex:source <https://atmosphere.community/communities> .
+  ex:source <https://atmosphere.community/communities> , <https://community.mozilla.org/en/groups/> .
 
 <urn:uuid:68da903a-9040-4042-84b9-832817abf497> a ex:LocalGroup ;
   ex:location <urn:uuid:35211208-a08a-4617-a1cd-e5065d65eea7> ;
@@ -266,6 +285,14 @@
   ex:homepage <https://bsky.app/profile/atproto.barcelona> ;
   ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:ktf7tvvzhi5nszz2xtlerbhr/bafkreib4ymqox7gtsd3ueqh7s6y64cyflsn3poxxq5uwa63vgo3a3i4ysm> ;
   ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:edf87ae7-3bc5-57a8-a996-0e4475ed249d> a ex:LocalGroup ;
+  ex:location <urn:uuid:35211208-a08a-4617-a1cd-e5065d65eea7> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Desarrolladores de Mozilla de habla hispana" ;
+  ex:description "Nos apasiona Firefox y Mozilla, y nos encantaría hablar con otras personas en español. Trabajamos dentro y fuera de la web, y algunos somos floristas o conductores. Lo que nos une es nuestra pasión por el código…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/desarrolladores-de-mozilla-de-habla-hispana> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
 
 <urn:uuid:f4ec049e-b525-42a1-8277-a113d9c98ff5> a ex:Location ;
   ex:name "Belgium" ;
@@ -288,7 +315,7 @@
   ex:region "Europe" ;
   ex:latitude 52.52 ;
   ex:longitude 13.405 ;
-  ex:source <https://atmosphere.community/communities> .
+  ex:source <https://atmosphere.community/communities> , <https://community.mozilla.org/en/groups/> .
 
 <urn:uuid:bb63d40b-228e-4d89-9b26-e603c43f554a> a ex:LocalGroup ;
   ex:location <urn:uuid:ec0f30fc-cea2-4f7d-b80b-50be521fa360> ;
@@ -299,12 +326,28 @@
   ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:oalsdauozmx7wgt4fsb6hzhm/bafkreig43prabu6lv4hexmkolxipq67dkvfv3plqp7xi5twrz5wobgqvzq> ;
   ex:source <https://atmosphere.community/communities> .
 
+<urn:uuid:14f89721-17ab-55fa-98e3-331c569cd4c0> a ex:LocalGroup ;
+  ex:location <urn:uuid:ec0f30fc-cea2-4f7d-b80b-50be521fa360> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Firefox-Neuigkeiten auf Deutsch" ;
+  ex:description "Wir sind Entwickler mit Leidenschaft für Mozilla und Firefox und möchten uns jede Woche austauschen, um unser Wissen zu verbessern und kostenlose Browser zu fördern" ;
+  ex:homepage <https://community.mozilla.org/en/groups/firefox-neuigkeiten-auf-deutsch> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:abe24990-f271-5a82-bed0-2291fe510486> a ex:LocalGroup ;
+  ex:location <urn:uuid:ec0f30fc-cea2-4f7d-b80b-50be521fa360> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Berlin" ;
+  ex:description "Mozillians in Berlin meeting up regularly in the Mozilla Berlin office, involving the community and interested Mozillians-to-be. We are hosting different events, including a bi-weekly informal meetup in the Mozilla…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-berlin> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
 <urn:uuid:8196bc57-0552-4057-a5db-92c983a754b7> a ex:Location ;
   ex:name "France" ;
   ex:region "Europe" ;
   ex:latitude 46.2276 ;
   ex:longitude 2.2137 ;
-  ex:source <https://atmosphere.community/communities> .
+  ex:source <https://atmosphere.community/communities> , <https://community.mozilla.org/en/groups/> .
 
 <urn:uuid:dc51629e-b79e-4841-bb4c-da41ce96fa88> a ex:LocalGroup ;
   ex:location <urn:uuid:8196bc57-0552-4057-a5db-92c983a754b7> ;
@@ -314,6 +357,22 @@
   ex:homepage <https://bsky.app/profile/atproto.fr> ;
   ex:logo <https://cdn.bsky.app/img/avatar/plain/did:web:did.atproto.fr/bafkreifvha6jywgxcds2jkfpdzvn5dilstu6uvakxzgcpwgpmlijethugm> ;
   ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:5067acbc-6198-526c-8fd1-62bf8137fe2c> a ex:LocalGroup ;
+  ex:location <urn:uuid:8196bc57-0552-4057-a5db-92c983a754b7> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Communication groupe Mozilla" ;
+  ex:description "Publication planning and communication management maps of the Mozilla Francophone community" ;
+  ex:homepage <https://community.mozilla.org/en/groups/communication-groupe-mozilla> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:4663cee7-a390-54ba-8823-38816ff29482> a ex:LocalGroup ;
+  ex:location <urn:uuid:8196bc57-0552-4057-a5db-92c983a754b7> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "MDN fr" ;
+  ex:description "Translate in French the documentation" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mdn-fr> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
 
 <urn:uuid:dbeeeb24-7629-43e6-b5fb-a0bd3d9474d7> a ex:Location ;
   ex:name "Frankfurt, DE" ;
@@ -368,7 +427,7 @@
   ex:region "Europe" ;
   ex:latitude 51.5072 ;
   ex:longitude -0.1276 ;
-  ex:source <https://atmosphere.community/communities> .
+  ex:source <https://atmosphere.community/communities> , <https://community.mozilla.org/en/groups/> .
 
 <urn:uuid:164f0d2e-6162-4867-a034-d086803b1815> a ex:LocalGroup ;
   ex:location <urn:uuid:53c7811d-f374-49b9-90c9-5891b376f543> ;
@@ -378,6 +437,22 @@
   ex:homepage <https://bsky.app/profile/atproto.london> ;
   ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:k4ondt3633cvrstq4dsejokn/bafkreicdjwvyncddrnf5aeqwc56iqq4pgx4stgo5fw5miibkfhwktzyfky> ;
   ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:87b433ce-27c2-51a8-ad53-771c41902e26> a ex:LocalGroup ;
+  ex:location <urn:uuid:53c7811d-f374-49b9-90c9-5891b376f543> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "UK MD" ;
+  ex:description "This is group on developers who work on project for UK MD Developers with goal to code and achieve implementation of UK MD app and consolidation of the community of UK MD Developers." ;
+  ex:homepage <https://community.mozilla.org/en/groups/uk-md> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:90889eaa-f82a-5e03-87d7-06de8ed75893> a ex:LocalGroup ;
+  ex:location <urn:uuid:53c7811d-f374-49b9-90c9-5891b376f543> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "UK MD Develeopers" ;
+  ex:description "This is group on developers who work on project for UK MD Developers with goal to code and achieve implementation of UK MD app and consolidation of the community of UK MD Developers." ;
+  ex:homepage <https://community.mozilla.org/en/groups/uk-md-develeopers> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
 
 <urn:uuid:337223c9-b9a3-44b4-b798-b72397b0ae17> a ex:Location ;
   ex:name "Norway" ;
@@ -410,3 +485,2855 @@
   ex:homepage <https://bsky.app/profile/atproto.wien> ;
   ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:vao7qd2l2hy3tpolrqrkk4cj/bafkreiffi244jcfaxxhof4oxqffnyzzmhyqjcymzz5jzju4ci6jnn45qyq> ;
   ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:a20b39ac-3338-5e4c-bf42-3be7e4f9a0aa> a ex:Location ;
+  ex:name "Adelaide, Australia" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:3dd9483d-3438-592b-8549-f923bf4a13fb> a ex:LocalGroup ;
+  ex:location <urn:uuid:a20b39ac-3338-5e4c-bf42-3be7e4f9a0aa> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Open Source Collective" ;
+  ex:description "Open Source Collective is a community of more than 500 members from the university of Adelaide who are passionate about open source technologies and inclusiveness of all students with an interest in technology." ;
+  ex:homepage <https://community.mozilla.org/en/groups/open-source-collective> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:66952c5e-0106-514b-8408-d0a53604b19f> a ex:Location ;
+  ex:name "Agartala, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:b8f6cacc-c64e-579f-b998-2e68050489a4> a ex:LocalGroup ;
+  ex:location <urn:uuid:66952c5e-0106-514b-8408-d0a53604b19f> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla India" ;
+  ex:description "A group of like-minded developers." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-india-1832770682> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:f48a52ef-3926-5ad5-b9ca-5b8efc24c950> a ex:Location ;
+  ex:name "Ahmedabad, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:d7b03001-32c2-5ea3-8664-278788be72a8> a ex:LocalGroup ;
+  ex:location <urn:uuid:f48a52ef-3926-5ad5-b9ca-5b8efc24c950> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Ahmedabad" ;
+  ex:description "A group for curious Mozilla lovers in Ahmedabad." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-ahmedabad> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:7d71d6a9-ee82-5b31-866d-0d539fb57871> a ex:Location ;
+  ex:name "Ajmer, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:516bbc1d-a3bb-55e7-a0e5-adea98e86f62> a ex:LocalGroup ;
+  ex:location <urn:uuid:7d71d6a9-ee82-5b31-866d-0d539fb57871> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Student Club,ECA" ;
+  ex:description "Student Club In Govt. Engineering College, Ajmer." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-student-clubeca> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:1bbdeac8-06d5-5853-9a27-e9e701d2be05> a ex:Location ;
+  ex:name "Alcalá de Henares, Spain" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:efb55489-8cab-591e-bff9-7af14700ff4f> a ex:LocalGroup ;
+  ex:location <urn:uuid:1bbdeac8-06d5-5853-9a27-e9e701d2be05> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Days UAH" ;
+  ex:description "Grupo creado para acercar Mozilla a la Universidad de Alcalá." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-days-uah> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:6d84b002-8cae-5a60-8eb1-005b77f4fab4> a ex:Location ;
+  ex:name "Alexandria, Egypt" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:f0584397-2b9b-5602-8b7c-8916f537bc67> a ex:LocalGroup ;
+  ex:location <urn:uuid:6d84b002-8cae-5a60-8eb1-005b77f4fab4> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "fro3zilla" ;
+  ex:description "fro3zilla is agroup for who love firefox browser" ;
+  ex:homepage <https://community.mozilla.org/en/groups/fro3zilla> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:e3a873c5-77fd-5c72-ab37-1b1071791e77> a ex:Location ;
+  ex:name "Aligarh, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:cd1d4f12-13c0-5d32-983c-b8be911ff672> a ex:LocalGroup ;
+  ex:location <urn:uuid:e3a873c5-77fd-5c72-ab37-1b1071791e77> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Computer Science Society" ;
+  ex:description "The Computer Science Society - CSS (Formerly the Area of Dominant Coders Club - ADC) is an initiative of the students of the Department of Computer Science, Aligarh Muslim University, Aligarh. It is a platform to…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/computer-science-society> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:216a44d8-4beb-5d50-894a-4e3e5c96c84c> a ex:LocalGroup ;
+  ex:location <urn:uuid:e3a873c5-77fd-5c72-ab37-1b1071791e77> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla ZHCET" ;
+  ex:description "This group is meant to promote contributing to open source softwares in ZHCET, AMU, Aligarh. We will make use of the best practices possible and will try our best in order to instill our passion inside the students…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-zhcet> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:fd122a40-11ad-5ce5-beac-18fd69cdd495> a ex:Location ;
+  ex:name "Allahabad, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:d359adea-34a6-58e0-8624-aef9db5350f4> a ex:LocalGroup ;
+  ex:location <urn:uuid:fd122a40-11ad-5ce5-beac-18fd69cdd495> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Allahabad" ;
+  ex:description "Mozilla Allahabad is an online community for those who want to code or can say want to make his career in the field of computer science. It does not matter what is your programming level we welcome every single one…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/codengers> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:172faab5-e24e-5691-8d3e-ca83edf5614f> a ex:Location ;
+  ex:name "Amaravati, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:454f07b7-af5b-5fb4-900d-528d40b2be17> a ex:LocalGroup ;
+  ex:location <urn:uuid:172faab5-e24e-5691-8d3e-ca83edf5614f> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Open Source Community: VIT AP" ;
+  ex:description "The Open Source Community, VIT-AP is a year and half old. Our major goal is to write free software and to collaborate with student developers, to create a community of excellent programmers. Innovation is what we aim…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/open-source-community> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:06ba6ed4-8a1a-5833-852b-9756dd1bf89c> a ex:Location ;
+  ex:name "Ankara, Turkey" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:7ec2045a-37cd-57f7-8546-60fbc30b6f27> a ex:LocalGroup ;
+  ex:location <urn:uuid:06ba6ed4-8a1a-5833-852b-9756dd1bf89c> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "ACM Gazi" ;
+  ex:description "ACM Gazi Student Community is a student community that was founded in 2019, which supports and conducts studies in different sub-branches of computer science and tries to solve the problems with technology rather…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/acm-gazi> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:dc038473-d275-539f-8cf7-c3cc1c4e4452> a ex:Location ;
+  ex:name "Asunción, Paraguay" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:1e4437dd-4acf-5343-bf95-638c44d7b9d3> a ex:LocalGroup ;
+  ex:location <urn:uuid:dc038473-d275-539f-8cf7-c3cc1c4e4452> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Paraguay" ;
+  ex:description "Mozilla Paraguay community. We are a non-profit organization focused on expanding knowledge, the philosophy of freedom on the web and its advantages as a multiplatform development both individually and as a country /…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-paraguay> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:e749235c-3390-5e68-b1db-4889ed35723b> a ex:Location ;
+  ex:name "Aurangabad, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:e0d6ec46-2112-5700-8821-8a0907752a0f> a ex:LocalGroup ;
+  ex:location <urn:uuid:e749235c-3390-5e68-b1db-4889ed35723b> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Developers Aurangabad" ;
+  ex:description "We are a community of developers and technology enthusiasts who are passionate about the open-source principles of the Mozilla project. Our goal is to collaborate on projects, share knowledge, and support each other…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-aurangabad> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:1befe89a-9c4b-5d6b-ae50-4e2aea67700b> a ex:Location ;
+  ex:name "Badulla, Sri Lanka" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:1518ebd0-bcab-5179-9f75-d37ccc4ee645> a ex:LocalGroup ;
+  ex:location <urn:uuid:1befe89a-9c4b-5d6b-ae50-4e2aea67700b> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Campus Club – Uva Wellassa University" ;
+  ex:description "Mozilla Campus Club - UWU is a community organization that supports students to contribute Free and Open Source Software (FOSS) projects to make the global web better." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-campus-club-uva-wellassa-university> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:62a2acc2-6581-5be8-ab6c-587e94d71831> a ex:Location ;
+  ex:name "Baku, Azerbaijan" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:650db9e3-8508-509a-ab5c-b306b21c5677> a ex:LocalGroup ;
+  ex:location <urn:uuid:62a2acc2-6581-5be8-ab6c-587e94d71831> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Azerbaijan" ;
+  ex:description "Mozilla Azerbaijan is a local Mozilla community that provides support for local users and maintains localization of Mozilla products in Azerbaijani" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-azerbaijan> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:51ca3a5b-e4b7-5012-a600-00b63d0f98dd> a ex:Location ;
+  ex:name "Bali, Indonesia" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:5df9121c-647b-5fb3-81a2-e69d3f3a36eb> a ex:LocalGroup ;
+  ex:location <urn:uuid:51ca3a5b-e4b7-5012-a600-00b63d0f98dd> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Pola Slot IDN Paling Gacor BATASTOTO" ;
+  ex:description "BATASTOTO Solusi Terbaik Togel Singapore & Togel Hongkong Sebagai salah satu bentuk permainan tebak angka yang sangat populer, togel (toto gelap) telah mengalami banyak perubahan dan perkembangan sejak diperkenalkan…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/pola-slot-idn-paling-gacor-batastoto> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:a9625cb4-a5b8-5eda-9d5c-3f4b25d6f27d> a ex:Location ;
+  ex:name "Bangkok, Thailand" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:71767363-b170-5e8e-a3c5-4061a4da0d43> a ex:LocalGroup ;
+  ex:location <urn:uuid:a9625cb4-a5b8-5eda-9d5c-3f4b25d6f27d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozillian Community Thailand" ;
+  ex:description "We are a group of Thai speakers working in all areas of the Thai language, e.g., Firefox localization, bug fixing, and Common Voice." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozillian-community-thailand> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:d38e98e6-757d-5859-ae59-5c9571237702> a ex:Location ;
+  ex:name "Bathinda, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:945ed9f8-f8f4-553f-afa9-f7ed4eafefcf> a ex:LocalGroup ;
+  ex:location <urn:uuid:d38e98e6-757d-5859-ae59-5c9571237702> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "CODEMASTERZ CLUB (Punjab)" ;
+  ex:description "\"Code Masterz\" is one of the top functioning technical societies at Baba Farid College of Engineering and Technology, dedicated to Computer Science and Technology. We have initiated this coding society for students…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/codemasterz-club-punjab> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:e953f4e5-4d71-56e6-b992-c7d914518e14> a ex:Location ;
+  ex:name "Bengaluru, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:7bcf2790-ce4e-5c86-9e8d-4df048b90e95> a ex:LocalGroup ;
+  ex:location <urn:uuid:e953f4e5-4d71-56e6-b992-c7d914518e14> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Dev Club" ;
+  ex:description "It is a formed group, there are different sub group pursuing different tech stack like there's flutter club, AI/ML club , blockchain club, etc. And together all these club combine to form the coding community. My…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/dev-club> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:ee45bdae-c2b1-509c-8255-83e1dc211e10> a ex:LocalGroup ;
+  ex:location <urn:uuid:e953f4e5-4d71-56e6-b992-c7d914518e14> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "GLUG MVIT" ;
+  ex:description "A community of free and open source software enthusiasts from Sir M Visvesvaraya Institute of Technology, Bangalore. We are open to all free software enthusiasts looking for a place to learn and grow together." ;
+  ex:homepage <https://community.mozilla.org/en/groups/glug-mvit> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:1d6aa5d1-300d-5eb4-bcea-dcc72b4e3e86> a ex:LocalGroup ;
+  ex:location <urn:uuid:e953f4e5-4d71-56e6-b992-c7d914518e14> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Moziety" ;
+  ex:description "MOZIETY is an official Mozilla Campus Club started in CMRIT in the year 2016. Objectives of the club: To ensure the Internet is a global public resource, open and accessible to all. Building and innovating on open…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/moziety> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:2c479376-4654-5156-92b4-50e608fb8983> a ex:LocalGroup ;
+  ex:location <urn:uuid:e953f4e5-4d71-56e6-b992-c7d914518e14> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla India Swag Warehouse" ;
+  ex:description "India Swag Warehouse is a local Mozilla Swag warehouse initiative operated from Bangalore, India. This helps volunteers for access to Mozilla Swags for their events, talks and initiative. Mozilla WIki (Under…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-india-swag-warehouse> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:2265d790-572c-5704-a411-77ee8c2feb9a> a ex:LocalGroup ;
+  ex:location <urn:uuid:e953f4e5-4d71-56e6-b992-c7d914518e14> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Karnataka" ;
+  ex:description "We are opensource contributors, AI enthusiast, we love to solve real world problems with mozilla network." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-karnataka> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:56f02766-1fc4-53f1-bded-87c96e566cfe> a ex:LocalGroup ;
+  ex:location <urn:uuid:e953f4e5-4d71-56e6-b992-c7d914518e14> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Karnataka (BLR)" ;
+  ex:description "A group for active Mozillians in Bangalore and Karnataka. Community Participation Guidelines:" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-karnataka-blr> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:8393d775-8d9d-58bc-85da-cabc01925e14> a ex:LocalGroup ;
+  ex:location <urn:uuid:e953f4e5-4d71-56e6-b992-c7d914518e14> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Student Forum" ;
+  ex:description "We are a group of Tech enthusiasts, teaching each other, discussing over technology and serving the community" ;
+  ex:homepage <https://community.mozilla.org/en/groups/student-forum> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:569facd6-ecd9-5f75-b6ce-7c8528b65396> a ex:Location ;
+  ex:name "Bhilai, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:ca0892d7-f1f7-5419-9eaa-f037e9c81c92> a ex:LocalGroup ;
+  ex:location <urn:uuid:569facd6-ecd9-5f75-b6ce-7c8528b65396> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Dev-X" ;
+  ex:description "A Family of student innovators and learners who envisions technology as a tool that can solve community's day to day problems as well as spreading the word of knowledge to other fellow mates." ;
+  ex:homepage <https://community.mozilla.org/en/groups/dev-x> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:ed72f748-4d2c-519c-98da-286ad3235713> a ex:Location ;
+  ex:name "Bhopal, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:3b31620d-b0a3-503f-bdbc-64d99ad9bb7f> a ex:LocalGroup ;
+  ex:location <urn:uuid:ed72f748-4d2c-519c-98da-286ad3235713> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Code_Rate" ;
+  ex:description "this group is for young tech enthusiasts, learners helping and sharing there with their innovative idea." ;
+  ex:homepage <https://community.mozilla.org/en/groups/code_rate> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:8ef68096-3037-518d-a685-f62286ed511f> a ex:LocalGroup ;
+  ex:location <urn:uuid:ed72f748-4d2c-519c-98da-286ad3235713> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "MozFox India" ;
+  ex:description "Mozilla Firefox Club VIT is one of the largest developers' communities in VIT University aiding you to change your ideas into reality. It is a technical club dedicated to expanding the technical know-how and…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-firefox-vitb> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:bbb3db9c-6240-5828-bbd2-4a82160e1bf8> a ex:LocalGroup ;
+  ex:location <urn:uuid:ed72f748-4d2c-519c-98da-286ad3235713> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Bhopal" ;
+  ex:description "A group for curious Mozilla lovers in Bhopal." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-bhopal-449472510> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:33d1038f-f916-5b38-a5b2-af85c31a172a> a ex:LocalGroup ;
+  ex:location <urn:uuid:ed72f748-4d2c-519c-98da-286ad3235713> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Bhopal" ;
+  ex:description "Mozilla open source community of Bhopal." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-bhopal> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:a9b25d7d-aba1-501c-aee0-93d1503da8c6> a ex:LocalGroup ;
+  ex:location <urn:uuid:ed72f748-4d2c-519c-98da-286ad3235713> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Firefox Club-VIT Bhopal" ;
+  ex:description "The Mozilla Firefox VIT Bhopal is an interactive club targeting web development. As we know that Web development has a high scope in the upcoming times and our college has many talented students. Most students don't…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-firefox-club-vit-bhopal> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:199e09f7-8bf7-5138-98e8-21e9992cfa4a> a ex:LocalGroup ;
+  ex:location <urn:uuid:ed72f748-4d2c-519c-98da-286ad3235713> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla UIT RGPV Bhopal" ;
+  ex:description "Mozilla open source community of UIT RGPV Bhopal." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-uit-rgpv-bhopal> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:fbc0c0ab-8ef6-5207-8066-d51de37a72c4> a ex:Location ;
+  ex:name "Bhubaneswar, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:fb3dbb3e-161e-5a0e-9430-f4e1b2565b75> a ex:LocalGroup ;
+  ex:location <urn:uuid:fbc0c0ab-8ef6-5207-8066-d51de37a72c4> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Emisha" ;
+  ex:description "It's not just another Tech Community! We know Why we do What we do. We're not the biggest or the best community but yes we truly impact people around us." ;
+  ex:homepage <https://community.mozilla.org/en/groups/emisha> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:cb85c7bb-291d-5dd1-9361-6137edf8ef3d> a ex:LocalGroup ;
+  ex:location <urn:uuid:fbc0c0ab-8ef6-5207-8066-d51de37a72c4> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla C V Raman" ;
+  ex:description "Students of C V Raman Global University" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-c-v-raman> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:be003111-3ea5-5487-a74f-1370c6c36fd6> a ex:LocalGroup ;
+  ex:location <urn:uuid:fbc0c0ab-8ef6-5207-8066-d51de37a72c4> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Club BBSR" ;
+  ex:description "We believe in open source contribution by making the community aware about it and parallelly enhancing the skills in order to eradicate technology as a barrier for the community." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-club-bbsr> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:0c653708-0035-545a-aecb-40d51cd4b60d> a ex:LocalGroup ;
+  ex:location <urn:uuid:fbc0c0ab-8ef6-5207-8066-d51de37a72c4> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Odisha" ;
+  ex:description "Hi. We’re Mozilla, proud activists of Open Web Movement. Manifesto: CoC: We conduct organized workshops, speakers session, coding events, localization, hackathons and various other stuffs to promote Mozilla mission…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-odisha> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:757cfab9-0866-538a-96f8-8d192d9f1fcc> a ex:LocalGroup ;
+  ex:location <urn:uuid:fbc0c0ab-8ef6-5207-8066-d51de37a72c4> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "SPECTRUM" ;
+  ex:description "Spectrum is all about bringing together people in the field of tech and open source.We are a community of makers, who want to solve problems and improve our world using open source projects." ;
+  ex:homepage <https://community.mozilla.org/en/groups/spectrum> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:af377781-3c00-5538-8f7a-093ca9244408> a ex:Location ;
+  ex:name "Bikaner, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:ce7b0a76-b2a6-5792-a735-da55b7cde69c> a ex:LocalGroup ;
+  ex:location <urn:uuid:af377781-3c00-5538-8f7a-093ca9244408> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Bikaner" ;
+  ex:description "seminars and making projects" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-bikaner> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:9f12c433-3854-514a-8cf4-0ef118d16bd8> a ex:Location ;
+  ex:name "Bilaspur, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:62549f68-5434-5100-ba1c-96e573ea9044> a ex:LocalGroup ;
+  ex:location <urn:uuid:9f12c433-3854-514a-8cf4-0ef118d16bd8> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Android Buzz" ;
+  ex:description "About This club is aimed at inspiring and training students who will encourage other students on their campuses to learn newer areas of technologies that will equip them with the right skill sets as they step out of…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/android-buzz> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:e49f7e5b-d06e-5132-900f-747a0a115580> a ex:LocalGroup ;
+  ex:location <urn:uuid:9f12c433-3854-514a-8cf4-0ef118d16bd8> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Student Developers, GGV, Bilaspur" ;
+  ex:description "We are a group of enthusiastic developers interested in developing the tools and technologies being used by tons of developers around the world. Our Targets : - Praticipating in active OpenSource competitions -…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-student-developers-ggv-bilaspur> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:9bed57af-43e1-5b3d-9691-bac761cc9a8c> a ex:Location ;
+  ex:name "Bogotá, Colombia" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:94bf6720-184b-5d97-bec3-a5cc94fc3705> a ex:LocalGroup ;
+  ex:location <urn:uuid:9bed57af-43e1-5b3d-9691-bac761cc9a8c> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Colombia" ;
+  ex:description "Promovemos las tecnologías web abiertas y llevamos el mensaje de la Fundación Mozilla" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-colombia> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:69c7d9aa-f3bf-547a-9509-2adb5cee361e> a ex:Location ;
+  ex:name "Budapest, Hungary" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:58b3b887-a9b5-54d9-a2fa-d5bb25eb66b9> a ex:LocalGroup ;
+  ex:location <urn:uuid:69c7d9aa-f3bf-547a-9509-2adb5cee361e> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Hungary" ;
+  ex:description "Hungarian Mozilla community" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-hungary> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:803d944e-cfdc-5603-a2b0-c7536e9ae5e4> a ex:Location ;
+  ex:name "Buenos Aires, Argentina" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:2006fca5-ca30-53ea-8201-3a1bce086aad> a ex:LocalGroup ;
+  ex:location <urn:uuid:803d944e-cfdc-5603-a2b0-c7536e9ae5e4> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Argentina" ;
+  ex:description "Nos reunimos para debatir sobre código, lenguajes, paradigmas, política y religión, así es, en esta mesa se puede hablar de todo. Acompañamos el proyecto Mozilla y nos alineamos en la búsqueda de un internet libre y…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-argentina> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:cb6bb2f6-bedf-5cc8-aee3-c622849270e7> a ex:Location ;
+  ex:name "Buffalo, United States" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:d51e3a24-bac0-5fbd-ba38-94839020886c> a ex:LocalGroup ;
+  ex:location <urn:uuid:cb6bb2f6-bedf-5cc8-aee3-c622849270e7> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Automation For All" ;
+  ex:description "AFA explores the implementation and design of physical and computational automation. It is composed of 3 objectives: 1. Identifying where automation could be applied 2. Implementing automated solutions 3. Hosting…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/automation-for-all> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:831cb487-3691-5a81-8121-847729547e21> a ex:Location ;
+  ex:name "Cairo, 6 October, Mansoura, Alexandria, Egypt" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:30ea6cda-8d9d-5eef-949c-decf4bff330e> a ex:LocalGroup ;
+  ex:location <urn:uuid:831cb487-3691-5a81-8121-847729547e21> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Egypt" ;
+  ex:description "The official group for the Mozilla Community in Egypt." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-egypt> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:5946bc1a-5eb1-58d0-bbc3-1c4717985142> a ex:Location ;
+  ex:name "Cali, Colombia" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:1f82d17e-da92-50a4-8ead-cdc80a9ddfb0> a ex:LocalGroup ;
+  ex:location <urn:uuid:5946bc1a-5eb1-58d0-bbc3-1c4717985142> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Cali Colombia" ;
+  ex:description "Promovemos las tecnologías web abiertas y llevamos el mensaje de la Fundación Mozilla. Comunidad Mozilla En Cali- Colombia, somos un grupo de personas sin ánimos de lucro que nos gusta compartir nuestros…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-cali-colombia> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:e56d46d8-4429-5775-a94a-b3bc185a1299> a ex:Location ;
+  ex:name "Campbellton, Canada" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:d98a67c2-a0e2-53ee-a39d-db75158ffaf7> a ex:LocalGroup ;
+  ex:location <urn:uuid:e56d46d8-4429-5775-a94a-b3bc185a1299> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "NEW Brunswick Poli sci" ;
+  ex:description "REAL POLITIK" ;
+  ex:homepage <https://community.mozilla.org/en/groups/new-brunswick-poli-sci> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:b7f1e79a-3c87-54c8-be02-bf82ffd2a4aa> a ex:Location ;
+  ex:name "Chandigarh, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:213bde66-713b-5fda-8ecf-829e5aa66dfc> a ex:LocalGroup ;
+  ex:location <urn:uuid:b7f1e79a-3c87-54c8-be02-bf82ffd2a4aa> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Chandigarh Blockchain Enthusiasts" ;
+  ex:description "Lets come together to spread awareness and share our knowledge about Blockchain." ;
+  ex:homepage <https://community.mozilla.org/en/groups/chandigarh-blockchain-enthusiasts> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:13c07c5d-572a-5b6e-912a-3c9d7297ff10> a ex:LocalGroup ;
+  ex:location <urn:uuid:b7f1e79a-3c87-54c8-be02-bf82ffd2a4aa> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Chandigarh Open-Source Devs" ;
+  ex:description "Open Source community with enthusiast working on issues by tech giants open sourcing their projects. We also create tools and full-stack frameworks mainly focusing on Web and Android." ;
+  ex:homepage <https://community.mozilla.org/en/groups/chandigarh-open-source-devs> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:3205c4bf-e6c9-5012-b8a9-0b07772ee2e8> a ex:LocalGroup ;
+  ex:location <urn:uuid:b7f1e79a-3c87-54c8-be02-bf82ffd2a4aa> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Chandigarh University" ;
+  ex:description "This Group will help you know the basics for the community" ;
+  ex:homepage <https://community.mozilla.org/en/groups/chandigarh-university> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:001521e0-6348-5c24-b971-f040bcd15145> a ex:LocalGroup ;
+  ex:location <urn:uuid:b7f1e79a-3c87-54c8-be02-bf82ffd2a4aa> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "HackClub CGC" ;
+  ex:description "HackClub CGC is a community which believes in learning together. It is not just a technical club but it is a community filled with passionate technophiles who are always looking forwards towards exploring new things." ;
+  ex:homepage <https://community.mozilla.org/en/groups/hackclub-cgc> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:0a982c38-a2cc-59f9-a2e4-2e6c3568c157> a ex:LocalGroup ;
+  ex:location <urn:uuid:b7f1e79a-3c87-54c8-be02-bf82ffd2a4aa> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Chandigarh" ;
+  ex:description "A group for anyone and everyone who wants to grow their knowledge in a peer-to-peer learning environment and build effective solutions for the betterment of technology world. We primarily focus on upcoming latest…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-chandigarh> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:ed3664bc-7c10-50ca-8c0d-cb275f53e9b7> a ex:LocalGroup ;
+  ex:location <urn:uuid:b7f1e79a-3c87-54c8-be02-bf82ffd2a4aa> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Chandigarh University" ;
+  ex:description "This group supports collaboration among students of Chandigarh University to incourage their interest in problem solving and contributing to open source projects to make a difference. Mozilla Chandigarh University…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-chandigarh-university> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:79dcb3de-3c28-5d89-8e58-65dacd8265c7> a ex:Location ;
+  ex:name "Chennai, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:19239a4f-defb-5e07-b924-0f1c859bb3a2> a ex:LocalGroup ;
+  ex:location <urn:uuid:79dcb3de-3c28-5d89-8e58-65dacd8265c7> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "CodeRizz" ;
+  ex:description "PURPOSE OF PROPOSED CLUB : ● To learn how to code. ● To conduct activities which promote good competitive coding skills among students. ● To conduct webinars and workshops and make students aware of current cutting…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/coderizz> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:3fd09b28-43cf-58d5-a7ac-45a74daceac3> a ex:LocalGroup ;
+  ex:location <urn:uuid:79dcb3de-3c28-5d89-8e58-65dacd8265c7> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "CODEZILLA" ;
+  ex:description "Codezilla is for the misfits - those who contribute to society and bring different perspectives to the community. We welcome anyone with a will to learn and work towards the benefit of the world. We focus on the…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/codezilla> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:33d46586-3832-5341-b2f5-c80d897560ed> a ex:LocalGroup ;
+  ex:location <urn:uuid:79dcb3de-3c28-5d89-8e58-65dacd8265c7> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Cuboids Club" ;
+  ex:description "This will helps you unlocks your hidden talent and will introduce the ninja hidden in you" ;
+  ex:homepage <https://community.mozilla.org/en/groups/cuboids-club> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:cb7d8fc2-8e75-588e-9d2e-3f017f5ec65c> a ex:LocalGroup ;
+  ex:location <urn:uuid:79dcb3de-3c28-5d89-8e58-65dacd8265c7> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "MGR FOXES." ;
+  ex:description "About MGR FOXES. MGR FOXES Developers' Club, is a community intended to provide a room for college students to learn and collaborate on a plethora of projects among themselves as well as with mentors. It is open for…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mgr-foxes> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:6bf3abf7-94cc-56b9-a11b-830defdc0c57> a ex:LocalGroup ;
+  ex:location <urn:uuid:79dcb3de-3c28-5d89-8e58-65dacd8265c7> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla VITC" ;
+  ex:description "We're collective minds of people who believe in Open Source, Diversity, and Community-driven efforts. The heart of our Community is people. We put people first and do our best to recognize, appreciate and respect the…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-vitc> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:b11a7d3c-662c-578f-8f2b-4231b906ad0a> a ex:LocalGroup ;
+  ex:location <urn:uuid:79dcb3de-3c28-5d89-8e58-65dacd8265c7> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "SRMKZILLA" ;
+  ex:description "We are SRMKZILLA, the official Mozilla Campus Club of SRMIST: A team of extraordinary people from different backgrounds but with the same desire to innovate and educate. With this collective goal in mind, we make…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/srmkzilla> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:57e3d8cc-2f07-5d61-a7cd-1f2e84b67eae> a ex:LocalGroup ;
+  ex:location <urn:uuid:79dcb3de-3c28-5d89-8e58-65dacd8265c7> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "VITCodeZilla" ;
+  ex:description "A small initiative" ;
+  ex:homepage <https://community.mozilla.org/en/groups/vitcodezilla> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:ff183e82-0e1f-5a5e-bde9-4b4686712db2> a ex:LocalGroup ;
+  ex:location <urn:uuid:79dcb3de-3c28-5d89-8e58-65dacd8265c7> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "VuefoxCoders" ;
+  ex:description "We are a group of like minded people, try to solve real world problems and to share our knowledge with others." ;
+  ex:homepage <https://community.mozilla.org/en/groups/vuefoxcoders> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:8956f86e-5657-5141-8e04-18640fa2b152> a ex:Location ;
+  ex:name "Cheruthuruthy, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:349e6c26-a353-5b3a-88d4-85b2c8082bc6> a ex:LocalGroup ;
+  ex:location <urn:uuid:8956f86e-5657-5141-8e04-18640fa2b152> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla JEC" ;
+  ex:description "Mozilla JEC is a community based club stands for teaching, learning, contributing to Mozilla Foundation and aims to create a prosperous knowledge society where no caste, religion, gender barrier, rich and poor what…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-jec> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:f769c482-4b45-5284-8f62-25ab88ffeaa7> a ex:Location ;
+  ex:name "China" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:906ba4b9-11e6-5fa3-b8c4-85e0b79fba34> a ex:LocalGroup ;
+  ex:location <urn:uuid:f769c482-4b45-5284-8f62-25ab88ffeaa7> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla China L10N" ;
+  ex:description "We are Mozillians who are contributing to the localization (L10N) of Simplified Chinese We are proud that we help build an open and accessible, secure and trust-worthy internet. We are happy that we help…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-china-l10n> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:843ed08a-f84c-5e1e-b65d-c2288b1d5c2b> a ex:Location ;
+  ex:name "Colombo, Sri Lanka" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:12b20b59-c70e-5489-a955-4a9dad1b7a39> a ex:LocalGroup ;
+  ex:location <urn:uuid:843ed08a-f84c-5e1e-b65d-c2288b1d5c2b> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Campus Club NSBM LK" ;
+  ex:description "Mozilla’s mission is to ensure the Internet is a global public resource, open and accessible to all. A Mozilla University & College Club is a group of students with a passion for technology who meet regularly to…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-campus-club-nsbm-lk> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:09504986-2936-50a6-a22f-55e111033b0c> a ex:LocalGroup ;
+  ex:location <urn:uuid:843ed08a-f84c-5e1e-b65d-c2288b1d5c2b> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Club of IIT" ;
+  ex:description "We are the Mozilla Campus Club for Informatics Institute of Technology, Sri Lanka." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-club-of-iit> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:1bc95393-8ff4-52e9-a748-b0f3be5b206b> a ex:Location ;
+  ex:name "Cuenca, Ecuador" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:249312a2-21da-575e-a03c-bd86ae3cb0f5> a ex:LocalGroup ;
+  ex:location <urn:uuid:1bc95393-8ff4-52e9-a748-b0f3be5b206b> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "0-day Mozilla Ecuador" ;
+  ex:description "+ Evangelizar las ventajas y desventajas de las tecnologías modernas + Visibilizar las problematícas por falta de conocimiento + Impulsar la infrestructura tecnológica del país + Ciberseguridad como segundo idioma…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/0-day-mozilla-ecuador> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:149383c4-12da-5a63-b21c-eac1494312a4> a ex:Location ;
+  ex:name "Dehradun, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:e37c0913-720f-5b68-9a93-5022b1822927> a ex:LocalGroup ;
+  ex:location <urn:uuid:149383c4-12da-5a63-b21c-eac1494312a4> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "DevNation Community" ;
+  ex:description "DevNation is a team of creative and innovative people where we are focused to promote the culture of coding among students. We are all set to accelerate the spark of competitive programming in the young minds…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/devnation> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:8fd2dccb-549e-517e-b40a-89b6deb37c1a> a ex:LocalGroup ;
+  ex:location <urn:uuid:149383c4-12da-5a63-b21c-eac1494312a4> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Student Club" ;
+  ex:description "A team of passionate programmers" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-student-developers-1715684623> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:90d89b1c-25f1-5372-a315-6193404cd487> a ex:LocalGroup ;
+  ex:location <urn:uuid:149383c4-12da-5a63-b21c-eac1494312a4> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Student Community" ;
+  ex:description "A community of creative hardrworking ad creative individuals." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-student-community> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:f5096729-d948-54f9-a121-6a93e4ce58cd> a ex:LocalGroup ;
+  ex:location <urn:uuid:149383c4-12da-5a63-b21c-eac1494312a4> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Student Developers" ;
+  ex:description "Mozilla Student Developers is a group of tech-enthusiasts gathered together to eradicate technology as a barrier and to promote Open-Source in the community. We curate events and workshops for overall development…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-student-developers> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:f9ba8ab1-00e7-5325-b852-77d01ac9db8c> a ex:LocalGroup ;
+  ex:location <urn:uuid:149383c4-12da-5a63-b21c-eac1494312a4> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Uttarakhand" ;
+  ex:description "We collect idea's and minds of coder who believe in Open Source and Community driven efforts. Mozilla Uttarakhand is a Open source contributor Community club for mozillan in Dehradun,Uttarakhand." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-uttarakhand> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:6f718826-bd9e-5bcd-b613-47ba8ca4fadf> a ex:LocalGroup ;
+  ex:location <urn:uuid:149383c4-12da-5a63-b21c-eac1494312a4> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Storms In Brewing" ;
+  ex:description "FOSS Community based in University of Petroleum and Energy Studies, Dehradun. Focuses on open source projects and spreading awareness about latest technologies. Inspired multiple students of our college to take the…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/storms-in-brewing> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:401e4b08-a762-5f4e-97ac-3b6b703df5e9> a ex:Location ;
+  ex:name "Delhi NCR, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:d6ec5c15-da75-5dda-a33a-60d75d226552> a ex:LocalGroup ;
+  ex:location <urn:uuid:401e4b08-a762-5f4e-97ac-3b6b703df5e9> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Delhi" ;
+  ex:description "Mozpacers are the active Mozillians of the Delhi Mozilla Community. Ever since then, the Community has been deluged with contributors from diverse disciplines. We strongly believe in building up an Open and Dynamic…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-delhi> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:0f7635f3-88c4-59c7-a706-daea490df0a7> a ex:Location ;
+  ex:name "Delhi, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:06152338-6e62-5331-ba85-dc95afe8b32e> a ex:LocalGroup ;
+  ex:location <urn:uuid:0f7635f3-88c4-59c7-a706-daea490df0a7> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Denedut" ;
+  ex:description "Our group is a meeting place for people who are interested in and enthusiastic about coding and contributing to open source projects." ;
+  ex:homepage <https://community.mozilla.org/en/groups/denedut> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:dc089b74-4042-5ce2-863e-5aa212c0d2b7> a ex:LocalGroup ;
+  ex:location <urn:uuid:0f7635f3-88c4-59c7-a706-daea490df0a7> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "GNOME Users Group, Delhi – NCR" ;
+  ex:description "We are GNOME Users Group Delhi - NCR, we host events to bring together - Open Source, Free software, and GNOME lovers together. We are NOT a part of GNOME and act as a separate entity" ;
+  ex:homepage <https://community.mozilla.org/en/groups/gnome-users-group-delhi-ncr> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:005342cc-fc19-5886-85cc-1025e22a777a> a ex:Location ;
+  ex:name "Derabassi, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:60c300de-f603-5238-a726-7b373ad6b0a8> a ex:LocalGroup ;
+  ex:location <urn:uuid:005342cc-fc19-5886-85cc-1025e22a777a> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla TIET" ;
+  ex:description "Mozilla TIET aims to improve the coding culture at Thapar. It organises many technical events including Hackathons, Coding Competitions, etc." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-tiet> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:62cd2117-342c-553f-ad61-24706d68723d> a ex:Location ;
+  ex:name "Dhaka, Bangladesh" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:a478a605-979f-5590-bfca-bd10cfc0d9f2> a ex:LocalGroup ;
+  ex:location <urn:uuid:62cd2117-342c-553f-ad61-24706d68723d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "BRAC UNIVERSITY COMPUTER CLUB (BUCC)" ;
+  ex:description "Official group of BRAC UNIVERSITY COMPUTER CLUB (BUCC)" ;
+  ex:homepage <https://community.mozilla.org/en/groups/brac-university-computer-club-bucc> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:3e55faaa-e91c-57c6-a4f8-7e3b75b0729e> a ex:LocalGroup ;
+  ex:location <urn:uuid:62cd2117-342c-553f-ad61-24706d68723d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Bangladesh" ;
+  ex:description "Mozilla Bangladesh is the official community of Mozillians in Bangladesh. Mozilla Bangladesh working towards open web and open internet as an active community in Bangladesh for the last several years. A handful of…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-bangladesh> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:dc6a1627-32ae-5dc2-851e-404950ca355c> a ex:LocalGroup ;
+  ex:location <urn:uuid:62cd2117-342c-553f-ad61-24706d68723d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Firefox Jahangirnagar University" ;
+  ex:description "Attempting to have an impact of open web in Jahangirnagar University through the club." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-firefox-jahangirnagar-university> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:9cd8c425-bc32-5f4f-a38e-c7abfc305e28> a ex:Location ;
+  ex:name "Dhanbad, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:aa572c2c-dbe4-5fa2-8b7b-5779d0f586a3> a ex:LocalGroup ;
+  ex:location <urn:uuid:9cd8c425-bc32-5f4f-a38e-c7abfc305e28> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Hackathon and Coding Club, BIT Sindri" ;
+  ex:description "Hackathon and Coding Club (HnCC) is the official coding and development club of BIT Sindri. It was started with an initial motto to inculcate and improve collaborative coding culture in college. Our team (consisting…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/hackathon-and-coding-club-bit-sindri> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:398a017b-9ff7-580f-8f49-173549e2f8cc> a ex:Location ;
+  ex:name "Douala, Cameroon" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:687d01b3-f5d8-5b3b-af86-66573ec7b31f> a ex:LocalGroup ;
+  ex:location <urn:uuid:398a017b-9ff7-580f-8f49-173549e2f8cc> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Community Mozilla Firefox Douala" ;
+  ex:description "Community Mozilla Firefox Douala est un groupe de développeurs, d'innovateurs et de jeunes entrepreneurs qui favorisent l'apprentissage des technologies informatiques mobiles et web en général et des technologies de…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/community-mozilla-firefox-douala> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:e2c66eba-f755-50eb-abef-1d2fc7661aa1> a ex:Location ;
+  ex:name "Dresden, Germany" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:188b95bc-2a67-56d8-8d31-b9ef532a2e8a> a ex:LocalGroup ;
+  ex:location <urn:uuid:e2c66eba-f755-50eb-abef-1d2fc7661aa1> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Dresden" ;
+  ex:description "Mozillians and Rustaceans in Dresden meeting up regularly, involving the community and interested people who want to join. We are hosting different events, which are covering Mozilla specific topics and of course the…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-dresden> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:c7095933-7337-5c3a-ac7c-4c51582e54d6> a ex:Location ;
+  ex:name "Dubai, United Arab Emirates" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:77ea7e43-6a39-5c02-892e-90beafee1dea> a ex:LocalGroup ;
+  ex:location <urn:uuid:c7095933-7337-5c3a-ac7c-4c51582e54d6> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Community Dubai , UAE" ;
+  ex:description "To be updated soon" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-community-dubai-uae> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:0a1e2a35-1ceb-55f9-96e9-c2e7fc750d7a> a ex:Location ;
+  ex:name "Durg, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:14e5db14-0756-5dc1-9ac4-1f0941f6f929> a ex:LocalGroup ;
+  ex:location <urn:uuid:0a1e2a35-1ceb-55f9-96e9-c2e7fc750d7a> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Durg" ;
+  ex:description "At Mozilla Durg, we aim to bring developers together, collaborate and learn new things. We want to help people get better development opportunities and meet like minded people so that everyone grows together." ;
+  ex:homepage <https://community.mozilla.org/en/groups/moziila-durg-community> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:d570d8e0-8b54-5be2-ba31-cc1a9e6acd0f> a ex:Location ;
+  ex:name "El Jadida, Morocco" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:26eb2916-4818-5e1c-b07d-8a53159cb18a> a ex:LocalGroup ;
+  ex:location <urn:uuid:d570d8e0-8b54-5be2-ba31-cc1a9e6acd0f> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Morocco" ;
+  ex:description "A group for active Mozillians in Morocco" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-morocco> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:e20a03d1-0ce9-56b7-8fd6-10f46a24f19a> a ex:Location ;
+  ex:name "El Salvador" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:8b4fbb1c-0026-5427-bcbc-7e9597429592> a ex:LocalGroup ;
+  ex:location <urn:uuid:e20a03d1-0ce9-56b7-8fd6-10f46a24f19a> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla El Salvador" ;
+  ex:description "Comunidad Mozilla El Salvador, somos un grupo de personas sin ánimos de lucro que nos gusta compartir nuestros conocimientos sobre las tecnologías de Mozilla con los demás. Creemos que el Internet debe ser público…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-el-salvador> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:f385f8ae-86ec-55bc-af1c-ee9855055bfa> a ex:Location ;
+  ex:name "Ernakulam, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:39dba769-4fba-5d2f-8ddd-97daba3adef5> a ex:LocalGroup ;
+  ex:location <urn:uuid:f385f8ae-86ec-55bc-af1c-ee9855055bfa> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla KMEA" ;
+  ex:description "The Mozilla KMEA of KMEA Engineering College brings together student developers from different aspects of engineering and provides them a platform to collaborate and create, together." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-kmea> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:37b9a452-6a8c-5998-b1d0-929f7a4fcb3b> a ex:Location ;
+  ex:name "Ghaziabad, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:b16a39d1-6de5-5067-bbf1-50b9e4faaa17> a ex:LocalGroup ;
+  ex:location <urn:uuid:37b9a452-6a8c-5998-b1d0-929f7a4fcb3b> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "AI-ZILLA" ;
+  ex:description "We are a project-based organization committed to bringing together students of all backgrounds Students can join or lead project groups and/or study groups that help them advance their skills in the Every field, and…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/ai-zilla> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:4064e2c4-5cff-52ab-bab0-e783718176de> a ex:LocalGroup ;
+  ex:location <urn:uuid:37b9a452-6a8c-5998-b1d0-929f7a4fcb3b> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "AIZILLA" ;
+  ex:description "We are a project-based organization committed to bringing together students of all backgrounds Students can join or lead project groups and/or study groups that help them advance their skills in the Every field, and…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/aizilla> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:7d518d3a-c0cc-56be-9233-581175b5b9fc> a ex:LocalGroup ;
+  ex:location <urn:uuid:37b9a452-6a8c-5998-b1d0-929f7a4fcb3b> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "FOSS Community United" ;
+  ex:description "We are an Open to all community aimed at improving development and Open Source culture. We provide a platform where students can discuss their ideas, new trends or anything that they find interesting." ;
+  ex:homepage <https://community.mozilla.org/en/groups/foss-community-united> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:dc5e5699-cc1f-575b-9270-3fd075eb08fa> a ex:Location ;
+  ex:name "Guatemala" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:01e4b57a-09e2-5da4-80c7-8f99cd98e090> a ex:LocalGroup ;
+  ex:location <urn:uuid:dc5e5699-cc1f-575b-9270-3fd075eb08fa> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Guatemala" ;
+  ex:description "We are a group of people interested in collaborating, learning and sharing experiences of new technologies." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-guatemala> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:4798dcbc-a7c0-563c-8039-65743fd29be9> a ex:Location ;
+  ex:name "Guna, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:bb82b484-3c86-5959-ac7b-b28d6dc06418> a ex:LocalGroup ;
+  ex:location <urn:uuid:4798dcbc-a7c0-563c-8039-65743fd29be9> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Phoenix Club JUET (Mozilla Guna)" ;
+  ex:description "We're the community of student Mozillians, which function as the Mozilla Guna within the region and within the campus, we're Mozilla Phoenix Club JUET." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-guna> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:5801da3c-33c5-526b-b7c1-ca3ab2bb94b6> a ex:Location ;
+  ex:name "Gweru, Zimbabwe" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:854155b7-03e8-5e91-97b4-71c60472f91c> a ex:LocalGroup ;
+  ex:location <urn:uuid:5801da3c-33c5-526b-b7c1-ca3ab2bb94b6> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Open Source – MSU" ;
+  ex:description "Open Source Group for developers at MSU.Started under the GDSC leadership but will also be likely to extend to other clubs and individuals within the MSU community" ;
+  ex:homepage <https://community.mozilla.org/en/groups/open-source-msu> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:7ee08b0c-5a04-5dcd-81ed-a4feebed5b28> a ex:Location ;
+  ex:name "Hajipur, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:2b2b48d0-3ba0-528c-9f76-e33492ce6fef> a ex:LocalGroup ;
+  ex:location <urn:uuid:7ee08b0c-5a04-5dcd-81ed-a4feebed5b28> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Hajipur" ;
+  ex:description "Mozilla Hajipur is a regional community under the global non-profit organization Mozilla. We conduct organized workshops, speakers sessions, coding events, hackathons, and various other stuff to promote Mozilla's…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-hajipur> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:e8489bfe-a5f6-5f41-afa9-948f21ee2a9e> a ex:Location ;
+  ex:name "Haldia, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:5a99b79f-e4ff-56b6-ab16-1f737736a43a> a ex:LocalGroup ;
+  ex:location <urn:uuid:e8489bfe-a5f6-5f41-afa9-948f21ee2a9e> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Haldia" ;
+  ex:description "Mozilla Haldia, a group for active Mozillians in the Haldia Institute Of Technology is a community intended to provide a room for college students to learn and collaborate on a plethora of projects. We aim to bring…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-haldia-910376124> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:a68ab370-f99f-5a88-9fc1-7ebfeadf323c> a ex:Location ;
+  ex:name "Hamirpur, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:3fc534c9-bf42-5ba5-a687-36ea681282c4> a ex:LocalGroup ;
+  ex:location <urn:uuid:a68ab370-f99f-5a88-9fc1-7ebfeadf323c> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Developer’s Ocean" ;
+  ex:description "We are the Mozilla Community Group for NIT Hamirpur students. We are a community builder and developer. We apply our knowledge to develop applications for the future. We believe in collaborating to remove technology…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-developers-ocean-2113219054> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:be011790-16bf-5b11-9bb4-cca04505521b> a ex:LocalGroup ;
+  ex:location <urn:uuid:a68ab370-f99f-5a88-9fc1-7ebfeadf323c> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Developer’s Ocean" ;
+  ex:description "We are the Mozilla Community Group for NIT Hamirpur students. We are a community builder and developer. We apply our knowledge to develop applications for the future. We believe in collaborating to remove technology…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-developers-ocean> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:4706ff07-4d82-5f35-99c6-a0d0b78f115b> a ex:LocalGroup ;
+  ex:location <urn:uuid:a68ab370-f99f-5a88-9fc1-7ebfeadf323c> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla NIT-Hamirpur" ;
+  ex:description "An open group for anyone and everyone who wants to learn new aspects of technology and actively contribute to various projects to help in finding a solution for different problems. We believe that practical…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-nit-hamirpur> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:ef431d88-a5c9-5bb8-88fd-94d3be7fb4a4> a ex:Location ;
+  ex:name "Hong Kong" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:14b460c8-b598-55fa-bb5d-a0958d9960a5> a ex:LocalGroup ;
+  ex:location <urn:uuid:ef431d88-a5c9-5bb8-88fd-94d3be7fb4a4> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Hong Kong Community" ;
+  ex:description "Mozilla community in Hong Kong hosts activities and communications in Hong Kong eg. moz.hk starting from Firefox 3 Release Party." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-hong-kong-community> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:e171244f-7170-5df8-a1f4-a4d846f64f98> a ex:Location ;
+  ex:name "Hyderabad, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:4cdd6385-16ba-5faa-872e-2c1832f8bfb3> a ex:LocalGroup ;
+  ex:location <urn:uuid:e171244f-7170-5df8-a1f4-a4d846f64f98> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla BIET" ;
+  ex:description "Mozilla BIET is a group started by the undergraduate students of Bharat Institute of Engineering and Technology, Hyderabad. We at BIET share a common ideology and contribute towards the free software movement…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-biet> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:bd931299-22d1-5c04-abb3-f4ffc148d0d9> a ex:LocalGroup ;
+  ex:location <urn:uuid:e171244f-7170-5df8-a1f4-a4d846f64f98> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Hyderabad" ;
+  ex:description "BEING/HAVE BEEN in the era of information technology and automation, we have understood that nothing is impossible, just nothing. The computing machines which actually are little chips remember our information, they…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-hyderabad> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:675b2a49-e9fe-57e0-8fa2-b5901b96cd85> a ex:LocalGroup ;
+  ex:location <urn:uuid:e171244f-7170-5df8-a1f4-a4d846f64f98> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Telangana Mozillians" ;
+  ex:description "We help possible people of Telangana to be open for web. We help students to learn and utilize the web. Just contactus @ srikarmarupaka.4s@gmail.com" ;
+  ex:homepage <https://community.mozilla.org/en/groups/telangana-mozillians> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:34fe1015-d037-590f-8923-dedb7581ef5d> a ex:Location ;
+  ex:name "Ibadan, Nigeria" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:5ede24c1-d3ed-5c8c-89de-8deb23fa0186> a ex:LocalGroup ;
+  ex:location <urn:uuid:34fe1015-d037-590f-8923-dedb7581ef5d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "AnorakS" ;
+  ex:description "We a small team of Developers evangelizing the gospel of technology to students in University of Ibadan and its environs" ;
+  ex:homepage <https://community.mozilla.org/en/groups/anoraks> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:9e801f62-df15-5dbd-b1c9-1f9f126f4080> a ex:Location ;
+  ex:name "Ichalkaranji, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:9d783883-5421-5034-8947-1e0353b9ff77> a ex:LocalGroup ;
+  ex:location <urn:uuid:9e801f62-df15-5dbd-b1c9-1f9f126f4080> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "SITCOE" ;
+  ex:description "We at SITCOE, running a students association named COMPESA i.e. Computer Science and Engineering Students Association." ;
+  ex:homepage <https://community.mozilla.org/en/groups/sitcoe> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:beebf296-ef15-5f5e-ad8e-06ff89b8d58d> a ex:Location ;
+  ex:name "India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:e74e1fc2-c499-553d-9cc1-5c5c7c49a8bb> a ex:LocalGroup ;
+  ex:location <urn:uuid:beebf296-ef15-5f5e-ad8e-06ff89b8d58d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "DevCom X" ;
+  ex:description "Our Developers community help learners to gain new skills, learn new technologies and showcase their talents through various events and competitions." ;
+  ex:homepage <https://community.mozilla.org/en/groups/devcom> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:72f1f511-ccca-5b74-8062-d8e64ca5fe4d> a ex:LocalGroup ;
+  ex:location <urn:uuid:beebf296-ef15-5f5e-ad8e-06ff89b8d58d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Firefox India" ;
+  ex:description "We are Firefox India, proud activists of open web movement. Firefox: The Evolution Of A Brand Firefox Design Assets:" ;
+  ex:homepage <https://community.mozilla.org/en/groups/firefox-india> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:c03d1b1a-7223-5935-8b95-f27797d236f1> a ex:LocalGroup ;
+  ex:location <urn:uuid:beebf296-ef15-5f5e-ad8e-06ff89b8d58d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "GODZILLA" ;
+  ex:description "Mozilla community in India" ;
+  ex:homepage <https://community.mozilla.org/en/groups/godzilla-155464526> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:94fc0611-182c-5665-b797-d073789b6490> a ex:LocalGroup ;
+  ex:location <urn:uuid:beebf296-ef15-5f5e-ad8e-06ff89b8d58d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "GODZILLA" ;
+  ex:description "Mozilla community in India" ;
+  ex:homepage <https://community.mozilla.org/en/groups/godzilla> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:d6564484-ff44-5cc7-a219-32ddd475be58> a ex:LocalGroup ;
+  ex:location <urn:uuid:beebf296-ef15-5f5e-ad8e-06ff89b8d58d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "IITM BSc Open Source Community" ;
+  ex:description "Platform for providing exposure to the open source ecosystem for the students of IITM BSc Degree Programme." ;
+  ex:homepage <https://community.mozilla.org/en/groups/iitm-bsc-open-source-community> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:e35c20fb-2c56-5ab0-bdcd-cc9ebfe6f391> a ex:LocalGroup ;
+  ex:location <urn:uuid:beebf296-ef15-5f5e-ad8e-06ff89b8d58d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla India" ;
+  ex:description "Our mission is to ensure the Internet is a global public resource, open and accessible to all. An Internet that truly puts people first, where individuals can shape their own experience and are empowered, safe and…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-india> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:f1f0c356-2cba-5054-9caf-dadb3e2f1286> a ex:LocalGroup ;
+  ex:location <urn:uuid:beebf296-ef15-5f5e-ad8e-06ff89b8d58d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Jharkhand" ;
+  ex:description "Mozilla Jharkhand" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-jharkhand> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:b9b72cda-15c4-5226-8f8c-ff3f80229851> a ex:LocalGroup ;
+  ex:location <urn:uuid:beebf296-ef15-5f5e-ad8e-06ff89b8d58d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Tamil Nadu" ;
+  ex:description "Mozilla Tamil Nadu is a non-profit group created to support the open-source community. Our primary aim is to develop and help others to develop the solution for real-world problems. Moreover, it will also welcome the…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-tamil-nadu> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:26cc2b9d-c91a-5f3e-87f6-09fa135e50f4> a ex:LocalGroup ;
+  ex:location <urn:uuid:beebf296-ef15-5f5e-ad8e-06ff89b8d58d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla – India" ;
+  ex:description "Share and explore new opportunities in UI and web security awareness!" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-india-498295308> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:23dcba55-cd86-55e9-b8db-d2089d0f5575> a ex:LocalGroup ;
+  ex:location <urn:uuid:beebf296-ef15-5f5e-ad8e-06ff89b8d58d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Rustasians" ;
+  ex:description "Rustasians is a rust community" ;
+  ex:homepage <https://community.mozilla.org/en/groups/rustasians> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:15c0a064-caa1-59c4-8478-3881ba869d9e> a ex:Location ;
+  ex:name "Indonesia" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:051a8512-a82d-5afe-9a9f-f143d544c964> a ex:LocalGroup ;
+  ex:location <urn:uuid:15c0a064-caa1-59c4-8478-3881ba869d9e> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "BATASTOTO" ;
+  ex:description "BATASTOTO , merupakan Situs Bandar Online Terbaik , Saat Ini Dengan HADIAH Togel 4D Terbesar Sampai 10 Juta , Terpercaya , Batastoto.shop Merupakan Situs Dengan Berbagai Macam Game Slot Mulai Dari PG Soft , Top…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/batastoto> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:6fd30d46-2deb-5ef7-92cf-117098f6e58d> a ex:LocalGroup ;
+  ex:location <urn:uuid:15c0a064-caa1-59c4-8478-3881ba869d9e> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Ide Gamis Modern Terbaru Lebaran Tahun Ini" ;
+  ex:description "Memilih gamis kombinasi kekinian tidaklah mudah, karena banyak pilihan model dan warna yang ditawarkan. Namun, ada beberapa tips yang dapat membantu Anda dalam memilih gamis kombinasi yang sesuai dengan keinginan dan…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/ide-gamis-modern> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:e26b586f-71f2-594a-8d3e-68da7fb6e2f9> a ex:Location ;
+  ex:name "Indore, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:226a56b6-bbb3-58ef-93e2-b48328f8f89f> a ex:LocalGroup ;
+  ex:location <urn:uuid:e26b586f-71f2-594a-8d3e-68da7fb6e2f9> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "AlgoSquad" ;
+  ex:description "Led by the students of Sri Aurobindo Institute of Technology, Indore, AlgoSquad is SAIT's first-ever student tech club aimed towards developing impeccable skills in the field of IT and Computer Science." ;
+  ex:homepage <https://community.mozilla.org/en/groups/algosquad> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:44e78c04-6de4-514c-9d15-852f6b8d312a> a ex:LocalGroup ;
+  ex:location <urn:uuid:e26b586f-71f2-594a-8d3e-68da7fb6e2f9> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Indore Mozillians" ;
+  ex:description "Mozilla Kolkata is a regional community under the global non-profit organization, Mozilla that is founded on the roots of Free & Open Source Software. Mozilla works to promote & develop the web and to make it a…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/indore-mozillians> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:1bf361a5-4f66-53fa-9daa-35999c82a54c> a ex:LocalGroup ;
+  ex:location <urn:uuid:e26b586f-71f2-594a-8d3e-68da7fb6e2f9> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Campus Club AITR" ;
+  ex:description "It's a community of tech enthusiasts at the campus. We meet once in a week to have conversations, share experiences with new technology, discuss about how's are competitive coding is going , how many contributions…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-campus-club-aitr> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:c44b470f-bf06-5757-b4d3-0ce650847298> a ex:LocalGroup ;
+  ex:location <urn:uuid:e26b586f-71f2-594a-8d3e-68da7fb6e2f9> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Enthusiast Indore" ;
+  ex:description "This group help tech enthusiast to grow on a right path.With the help of this group we will spare awareness about the open source internet browser as well as promote the mozilla which is the one of the safest browser…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-enthusiast-indore> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:c611b73e-d30c-545d-885c-65c8d87f719c> a ex:LocalGroup ;
+  ex:location <urn:uuid:e26b586f-71f2-594a-8d3e-68da7fb6e2f9> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Indore" ;
+  ex:description "Learn together Grow together" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-indore> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:b9d757a1-18b9-5147-bc2c-1b1eddd49058> a ex:LocalGroup ;
+  ex:location <urn:uuid:e26b586f-71f2-594a-8d3e-68da7fb6e2f9> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Madhya Pradesh" ;
+  ex:description "Community group for Mozillians in Madhya Pradesh. Putting in our efforts for an open internet." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-madhya-pradesh> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:81be1cd9-7250-5e59-ae34-589b074cf2e2> a ex:LocalGroup ;
+  ex:location <urn:uuid:e26b586f-71f2-594a-8d3e-68da7fb6e2f9> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "MozillaCaucusMU" ;
+  ex:description "A community for zealots in the field working on various technical domains such as Machine Learning, Cyber security, Web Development, Mobile Development etc." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilacaucusmu> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:50962303-54be-54fd-89b9-5305706b9400> a ex:Location ;
+  ex:name "Infopark, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:aa1bd6bd-1e14-5267-a459-b3c11361abff> a ex:LocalGroup ;
+  ex:location <urn:uuid:50962303-54be-54fd-89b9-5305706b9400> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "CLUB.css" ;
+  ex:description "CLUB.css is a Student Developers Club by the students of Jain(Deemed-to-be) University Kochi" ;
+  ex:homepage <https://community.mozilla.org/en/groups/club-css> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:d2724ac2-adef-51dc-a907-1383f48ed702> a ex:Location ;
+  ex:name "Israel" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:cbd06671-1fea-5b69-938a-c4007899947b> a ex:LocalGroup ;
+  ex:location <urn:uuid:d2724ac2-adef-51dc-a907-1383f48ed702> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Israel" ;
+  ex:description "🇮🇱" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-israel> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:b23c44e1-c6b3-5a40-8e37-aaf565e61714> a ex:Location ;
+  ex:name "Italy" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:8c33a38c-88b6-5f2c-852d-38a77f5a4ab5> a ex:LocalGroup ;
+  ex:location <urn:uuid:b23c44e1-c6b3-5a40-8e37-aaf565e61714> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Italia" ;
+  ex:description "Il gruppo dei membri della comunità Mozilla Italia. Ci trovate su Telegram usando il bot @mozitabot o sul nostro forum Vuoi sapere e partecipare ad eventi della comunità Rust in Italia? Guarda qui maggiori informazioni:" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-italia> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:fa498350-71ad-5ec2-a8dc-25a12bd63978> a ex:LocalGroup ;
+  ex:location <urn:uuid:b23c44e1-c6b3-5a40-8e37-aaf565e61714> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Rust Italia" ;
+  ex:description "Gruppo italiano della comunità di Rust in Italia. Slack Ecco i contatti delle comunità locali: Torino * Telegram * Twitter * GitHub Roma * Meetup Milano * Meetup Veneto * Telegram Vuoi sapere e partecipare ad eventi…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/rust-italia> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:c2974f14-a29c-55bd-b8b0-bedd42e16721> a ex:Location ;
+  ex:name "Izmir, Turkey" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:a7b6b075-e517-5a8d-a965-73536f7f2aef> a ex:LocalGroup ;
+  ex:location <urn:uuid:c2974f14-a29c-55bd-b8b0-bedd42e16721> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Turkey" ;
+  ex:description "Mozilla Türkiye Gönüllü Topluluğu" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-turkey> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:fa2c5d04-b689-51e2-afc0-aaf87ea97886> a ex:Location ;
+  ex:name "Jabalpur, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:9f050dab-00c9-56d5-b1ee-47d6d7edba08> a ex:LocalGroup ;
+  ex:location <urn:uuid:fa2c5d04-b689-51e2-afc0-aaf87ea97886> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Jabalpur" ;
+  ex:description "The Mozilla Group Jabalpur is designed to bring together individuals who share a passion for technology and innovation and provide them with the resources and support they need to grow their skills and achieve their…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-jabalpur> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:5363188f-a40a-51fe-b616-9ee814f801b4> a ex:Location ;
+  ex:name "Jaipur, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:f7517878-1194-5370-853c-7c7ed6bbd92a> a ex:LocalGroup ;
+  ex:location <urn:uuid:5363188f-a40a-51fe-b616-9ee814f801b4> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "IIIT Kota CodeBase" ;
+  ex:description "IIIT Kota CodeBase is a community of open-source enthusiasts from IIIT Kota aiming to build a healthy FOSS development culture in the Institute. At CodeBase, we explore our technical interests and enhance our…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/iiitkota-codebase> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:3bd1aa32-6e73-51a4-b2f5-341991d3a81b> a ex:LocalGroup ;
+  ex:location <urn:uuid:5363188f-a40a-51fe-b616-9ee814f801b4> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozila MUJ" ;
+  ex:description "We are a group of passionate technology enthusiasts who would love to help others to discover and learn. We design, develop open-sourced apps to make the internet a more free and open place. According to us…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozila-muj> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:e780f050-3eb4-5924-8179-2114098bec1e> a ex:LocalGroup ;
+  ex:location <urn:uuid:5363188f-a40a-51fe-b616-9ee814f801b4> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Community Rajasthan" ;
+  ex:description "Rajasthan is the largest state in Indian subcontinent. It is located on the northern side of the country. Rajasthan is one of the fastest growing region in terms of technology and opportunities. Mozilla Community…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-community-rajasthan> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:6041b77f-f86d-5a95-8c99-ad5b2986532e> a ex:LocalGroup ;
+  ex:location <urn:uuid:5363188f-a40a-51fe-b616-9ee814f801b4> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Jaipur" ;
+  ex:description "Mozilla Jaipur is a community for the people of Jaipur who are interested in Web, Open-Source and building a healthy supporting community for the locals." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-jaipur> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:51f6b9ac-7736-5cd4-b5a2-75887c25d8db> a ex:LocalGroup ;
+  ex:location <urn:uuid:5363188f-a40a-51fe-b616-9ee814f801b4> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla@aiet" ;
+  ex:description "Mozilla@aiet is a coding club which enables the beginners in the field of coding and experts to enhance there skills. This group awares the people about the different types of technologies and aware them how these…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozillaaiet> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:4ae05ec7-60e3-54b1-9980-bf12eab945fa> a ex:Location ;
+  ex:name "Jakarta, Indonesia" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:adf54895-5ad6-55f3-b8dd-db9b1c203494> a ex:LocalGroup ;
+  ex:location <urn:uuid:4ae05ec7-60e3-54b1-9980-bf12eab945fa> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "MAMIBET" ;
+  ex:description "MAMIBET yaitu situs judi yang sudah mempunyai kualitas terbaik dan tidak perlu diragukan, apalagi perihal bandar dan layanan. Pada era seperti sekarang ini memang banyak sekali agen judi slot online yang bermunculan…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mamibet> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:cfe0f045-833f-567f-8ff4-a6228de5dda1> a ex:LocalGroup ;
+  ex:location <urn:uuid:4ae05ec7-60e3-54b1-9980-bf12eab945fa> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "MozCamp Indonesia" ;
+  ex:description "MozCamp is Local groups of students in Indonesia with a passion for technology working together to build the open web on University and College campuses worldwide." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozcamp-indonesia> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:ac0d9d52-a227-5582-8625-8e28ea4b79bf> a ex:LocalGroup ;
+  ex:location <urn:uuid:4ae05ec7-60e3-54b1-9980-bf12eab945fa> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Indonesia" ;
+  ex:description "Komunitas Mozilla Indonesia adalah bagian dari komunitas global Mozilla yang berada di banyak belahan dunia. Mozilla didukung oleh banyak sukarelawan dan kontributor yang menggunakan, mengembangkan, membagikan, dan…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-indonesia> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:21f9b36c-4460-5b35-a489-eaee309cb480> a ex:Location ;
+  ex:name "Jalandhar, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:272b2b03-2adc-56c7-9764-29bc0ac501e2> a ex:LocalGroup ;
+  ex:location <urn:uuid:21f9b36c-4460-5b35-a489-eaee309cb480> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Punjab" ;
+  ex:description "We're collective minds of people who believe in Open Source, Diversity and Community driven efforts. The heart of our Community is people. We put people first and do our best to recognize, appreciate and respect the…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-punjab> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:e385b616-6110-5f64-b4d5-d1f5f315ae66> a ex:Location ;
+  ex:name "Jammu, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:0db70aab-1bbf-5ae9-b2bd-1116dd066b35> a ex:LocalGroup ;
+  ex:location <urn:uuid:e385b616-6110-5f64-b4d5-d1f5f315ae66> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Student Club Jammu" ;
+  ex:description "A Mozilla-sponsored student community to aid students in growing their talents and studying design as one of the most important components when visualizing a notion without a complex backend procedure." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-student-club-jammu> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:a83b2a6a-0e42-50e7-a4a4-e3c936cd5ca8> a ex:Location ;
+  ex:name "Jamuhar, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:9df1a85e-beb5-59b8-b9b7-1c8918817164> a ex:LocalGroup ;
+  ex:location <urn:uuid:a83b2a6a-0e42-50e7-a4a4-e3c936cd5ca8> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "TechTantra" ;
+  ex:description "TechTantra is a club for all the misfits, the people who have the drive to contribute to the coding society and those who are able to see things from a different perspective. Our members are code-contributors for…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/techtantra> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:b59cf203-0fce-5487-98b0-b5f82d8f2625> a ex:Location ;
+  ex:name "Jepara, Indonesia" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:d953c0ae-5324-5214-9613-a34e04591f8f> a ex:LocalGroup ;
+  ex:location <urn:uuid:b59cf203-0fce-5487-98b0-b5f82d8f2625> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Komunitas Mebel Jepara" ;
+  ex:description "grup yang dibuat dengan tujuan untuk komunitas penjual furniture jepara online yang dapat berbagi dan sharring masaah penjualan mebel untuk perkembangan sumberdaya masyarakat jepara guna menumbuhkan ekonomi dan…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/komunitas-mebel-jepara> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:017ef1ac-eb8e-5ca6-806e-496c751daabf> a ex:Location ;
+  ex:name "Jodhpur, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:ed98e52d-d6f6-50e9-bbf5-37774e801f8a> a ex:LocalGroup ;
+  ex:location <urn:uuid:017ef1ac-eb8e-5ca6-806e-496c751daabf> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla MBM" ;
+  ex:description "Our club put a strong emphasis on learning and growing together since we value our members and want them to get through \"TUTORIAL HELL.\" The club's focus is on its members, we guide them to understand which skills…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-mbm> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:51baa318-c94a-5b61-b449-cca1edcabe2b> a ex:Location ;
+  ex:name "Kandy, Sri Lanka" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:cef55e2a-b114-5bd3-9cad-66792975cc18> a ex:LocalGroup ;
+  ex:location <urn:uuid:51baa318-c94a-5b61-b449-cca1edcabe2b> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Campus Club – NIBM Kandy" ;
+  ex:description "Moz club of NIBM Kandy. --Educating, Building, and Innovating on open source projects that keep the web open." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-campus-club-nibm-kandy> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:1a4616ed-0020-596b-9a45-cae3fbe1a873> a ex:Location ;
+  ex:name "Kapurthala, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:9314de3e-4509-5557-9c3e-aa7cc81257e6> a ex:LocalGroup ;
+  ex:location <urn:uuid:1a4616ed-0020-596b-9a45-cae3fbe1a873> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "IKGPTU Mozilla Group" ;
+  ex:description "The purpose of of this group is to create a healthy and co-operative environment for machine learning and data science in IKGPTU Main Campus, Kapurthala. Anyone from campus irrespective of their branch and course can…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/ikgptu-mozilla-group> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:63f00069-f3af-5030-94da-7f3ab95d03c9> a ex:Location ;
+  ex:name "Katubedda, Sri Lanka" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:00c3d2ed-e9d2-5443-8250-81b8822cdbd7> a ex:LocalGroup ;
+  ex:location <urn:uuid:63f00069-f3af-5030-94da-7f3ab95d03c9> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mora Mozilla Campus Club" ;
+  ex:description "Mora Mozilla Campus Club is an initiative to build a platform for tech enthusiasts to raise awareness about Free and Open Source Software and Mozilla products." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mora-mozilla-campus-club> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:cc60362c-d1d5-507d-9e58-807126cc207c> a ex:Location ;
+  ex:name "Kerala, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:eb48967c-5ff7-5219-9207-2cd7c3df427a> a ex:LocalGroup ;
+  ex:location <urn:uuid:cc60362c-d1d5-507d-9e58-807126cc207c> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Kerala" ;
+  ex:description "Mozilla Kerala is a regional community under the global non-profit organization, Mozilla that is founded on the roots of Free & Open Source Software. Mozilla works to promote & develop the web and to make it a better…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-kerala> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:14d7d3e5-7547-5ff3-93d9-e8c1c1353c48> a ex:Location ;
+  ex:name "Kochi, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:ab856d47-564f-586e-8ec5-0e48c40da324> a ex:LocalGroup ;
+  ex:location <urn:uuid:14d7d3e5-7547-5ff3-93d9-e8c1c1353c48> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Base8 Digital Society" ;
+  ex:description "Base8 Digital Society is a student-focused learning group, dedicated to revolutionize technical education." ;
+  ex:homepage <https://community.mozilla.org/en/groups/base8-digital-society> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:976bebb4-c22e-561b-951b-e0a9b65fda00> a ex:LocalGroup ;
+  ex:location <urn:uuid:14d7d3e5-7547-5ff3-93d9-e8c1c1353c48> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Kerala Rustaceans" ;
+  ex:description "A Rust enthusiast meet-up community, we love to do stuff with rust-lang and show it off to the rest of us!" ;
+  ex:homepage <https://community.mozilla.org/en/groups/kerala-rustaceans> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:22333d0f-0c3f-58d9-a56b-7c4649891610> a ex:LocalGroup ;
+  ex:location <urn:uuid:14d7d3e5-7547-5ff3-93d9-e8c1c1353c48> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "MEC Developer Community" ;
+  ex:description "The Developer Community of Model Engineering College brings together student developers from different aspects of engineering and provides them a platform to collaborate and create, together." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mec-developer-community> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:d33b0411-e546-58c9-a7d1-b563da152dab> a ex:LocalGroup ;
+  ex:location <urn:uuid:14d7d3e5-7547-5ff3-93d9-e8c1c1353c48> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla CUSAT" ;
+  ex:description "Mozilla CUSAT is part of campus moz club. We conduct offline meetings and activities to provide tech fundamentals to beginners and help devs get started with OpenSource Contributions." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-cusat> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:904622a2-966a-5080-9e64-980ca351d135> a ex:Location ;
+  ex:name "Kolkata, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:9ef82d0c-c7dc-5b63-aeb1-46369cc5e320> a ex:LocalGroup ;
+  ex:location <urn:uuid:904622a2-966a-5080-9e64-980ca351d135> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Club UEMK" ;
+  ex:description "We work as a Team !" ;
+  ex:homepage <https://community.mozilla.org/en/groups/qx-research-uem> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:db4b5af6-ad3c-5fea-b6f9-962b069047db> a ex:LocalGroup ;
+  ex:location <urn:uuid:904622a2-966a-5080-9e64-980ca351d135> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "community culture" ;
+  ex:description "A community that spreads awareness about Computer Science" ;
+  ex:homepage <https://community.mozilla.org/en/groups/community-culture> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:0081e69f-e73b-5e1c-abb0-e78d95d5f90f> a ex:LocalGroup ;
+  ex:location <urn:uuid:904622a2-966a-5080-9e64-980ca351d135> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Kolkata" ;
+  ex:description "Mozilla Kolkata is a regional community under the global non-profit organization, Mozilla that is founded on the roots of Free & Open Source Software. Mozilla works to promote & develop the web and to make it a…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-kolkata> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:47f419a8-cfd0-5576-a1c5-6d7f5713246c> a ex:LocalGroup ;
+  ex:location <urn:uuid:904622a2-966a-5080-9e64-980ca351d135> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "UEM Mozilla Campus" ;
+  ex:description "Projects Development as a TEAM !" ;
+  ex:homepage <https://community.mozilla.org/en/groups/qx-research> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:b17c95ee-ca4f-53d5-8977-24e600de54a4> a ex:Location ;
+  ex:name "Kothamangalam, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:c13ce9ab-ef22-5c71-aab5-205e20300f72> a ex:LocalGroup ;
+  ex:location <urn:uuid:b17c95ee-ca4f-53d5-8977-24e600de54a4> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Mace" ;
+  ex:description "The club aims to develop a community of open source enthusiasts and to teach web literacy, which encompasses the mechanics, culture and citizenship of the web. It is dedicated to empowering others so they have agency…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-club-mace> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:6a0c9fea-45b0-53b6-8761-6dfeaa6debd0> a ex:LocalGroup ;
+  ex:location <urn:uuid:b17c95ee-ca4f-53d5-8977-24e600de54a4> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "NetX MACE" ;
+  ex:description "We are a community of students passionate about growth through learning, primarily focusing on Free and Open Source Software." ;
+  ex:homepage <https://community.mozilla.org/en/groups/netx-mace> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:27ee6f39-d3cf-5828-aa57-c40cdf12c6be> a ex:Location ;
+  ex:name "Kuala Lumpur, Malaysia" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:acc08373-5e92-5468-b098-aadf36528bc8> a ex:LocalGroup ;
+  ex:location <urn:uuid:27ee6f39-d3cf-5828-aa57-c40cdf12c6be> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "mozilla malaysia" ;
+  ex:description "welcome to mozilla malaysia group" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-malaysia> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:33879927-cc16-5319-bcba-be5ab6c4e99c> a ex:LocalGroup ;
+  ex:location <urn:uuid:27ee6f39-d3cf-5828-aa57-c40cdf12c6be> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Malaysia" ;
+  ex:description "Komuniti Mozilla Malaysia adalah sebahagian daripada komuniti Mozilla global yang terdapat di banyak bahagian dunia. Mozilla disokong oleh banyak sukarelawan dan penyumbang yang menggunakan, mengembangkan, berkongsi…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-malaysia-1817542261> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:8eef73a1-90f9-53c4-b4d5-fdbd930d4741> a ex:Location ;
+  ex:name "Lima, Peru" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:5f316d21-c1bf-567a-9ca1-024419d0e085> a ex:LocalGroup ;
+  ex:location <urn:uuid:8eef73a1-90f9-53c4-b4d5-fdbd930d4741> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Perú" ;
+  ex:description "Mozilla Perú es la comunidad de usuarios, entusiastas y público en general que se identifica con el manifiesto de Mozilla, un proyecto con la misión de propiciar el desarrollo y la innovación en Internet como bien…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-peru> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:ce605acf-e8e1-5951-a6e8-03367106ecd6> a ex:Location ;
+  ex:name "Lucknow, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:72f7e082-5f1d-5297-9349-8ae9e34f20bc> a ex:LocalGroup ;
+  ex:location <urn:uuid:ce605acf-e8e1-5951-a6e8-03367106ecd6> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "1gne0u5" ;
+  ex:description "A bunch of people from IIIT Lucknow trying to make a fun community for all the tech enthusiasts around the world. We want to learn,teach and grow together and make an open community for everyone to join.Let's…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/1gne0u5> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:f562eabd-4bad-57c9-9865-4d52a3fad2f3> a ex:LocalGroup ;
+  ex:location <urn:uuid:ce605acf-e8e1-5951-a6e8-03367106ecd6> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Moz club IIIT Lucknow" ;
+  ex:description "We're collective minds of people who believe in Open Source, Diversity and Community driven efforts.We are committed to an Community that includes all the peoples of the earth — where a person’s characteristics do…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/moz-club-iiit-lucknow> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:3e0b0fa6-4afa-5408-9d63-ab11e192eab6> a ex:Location ;
+  ex:name "Madhya Pradesh, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:af836c6f-5e13-5215-a8e8-93d1ab79445a> a ex:LocalGroup ;
+  ex:location <urn:uuid:3e0b0fa6-4afa-5408-9d63-ab11e192eab6> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Linux Open Source Development Club" ;
+  ex:description "Just discovering new things." ;
+  ex:homepage <https://community.mozilla.org/en/groups/linux-open-source-development-club> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:51a0701e-4194-5e86-a875-12254592f656> a ex:LocalGroup ;
+  ex:location <urn:uuid:3e0b0fa6-4afa-5408-9d63-ab11e192eab6> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Linux Open Source Development Engine" ;
+  ex:description "We intend to spread awareness regarding the Linux operating system and open source projects among the college students." ;
+  ex:homepage <https://community.mozilla.org/en/groups/linux-open-source-development-engine> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:340473a4-f2e5-52d8-bbf9-ce1c16c736f4> a ex:Location ;
+  ex:name "Malabe, Sri Lanka" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:230afa56-53da-53f3-9772-63813a57824f> a ex:LocalGroup ;
+  ex:location <urn:uuid:340473a4-f2e5-52d8-bbf9-ce1c16c736f4> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Campus Club of SLIIT" ;
+  ex:description "Firefox Student Ambassadors of Sri Lanka Institute of Information Technology" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-campus-club-of-sliit> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:a4755bec-4007-5d6e-aaca-e4ebaeff7e0b> a ex:Location ;
+  ex:name "Malang, Indonesia" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:92803424-1564-5b0b-bb24-6d412045352d> a ex:LocalGroup ;
+  ex:location <urn:uuid:a4755bec-4007-5d6e-aaca-e4ebaeff7e0b> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Bettingan" ;
+  ex:description "Bettingan adalah situs judi Slot online gacor Terpercaya dengan berbagai permainan via deposit pulsa tanpa potongan." ;
+  ex:homepage <https://community.mozilla.org/en/groups/bettingan> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:c909b659-cebe-5347-a199-d412cb28ffde> a ex:LocalGroup ;
+  ex:location <urn:uuid:a4755bec-4007-5d6e-aaca-e4ebaeff7e0b> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "POROS" ;
+  ex:description "POROS Organization of Open Source in Brawijaya University" ;
+  ex:homepage <https://community.mozilla.org/en/groups/poros> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:09a5e51c-c655-565a-beed-7b669c3d1b6b> a ex:Location ;
+  ex:name "Managua, Nicaragua" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:a4ba4e68-4c81-5a82-be98-ff017327a919> a ex:LocalGroup ;
+  ex:location <urn:uuid:09a5e51c-c655-565a-beed-7b669c3d1b6b> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Nicaragua" ;
+  ex:description "Official group for members of Nicaragua. We are a non-profit group of people focused learning and sharing experiences about new technologies and freedom on the web, our main goal is contribute to Mozilla's mission…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-nicaragua> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:6cb09d43-eaa8-550b-9ca4-b8bcbbc63fb8> a ex:Location ;
+  ex:name "Mangaluru, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:d2e9b41c-eef1-5b4c-80fc-e54946992ea2> a ex:LocalGroup ;
+  ex:location <urn:uuid:6cb09d43-eaa8-550b-9ca4-b8bcbbc63fb8> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Mangaluru" ;
+  ex:description "Our technical club is a group of passionate professionals and students who come together to explore and learn about the latest technologies and trends in our field. We host regular events and workshops, featuring…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-mangaluru> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:4190ead8-ec1d-59de-ad9f-d23f3fbe8f0b> a ex:LocalGroup ;
+  ex:location <urn:uuid:6cb09d43-eaa8-550b-9ca4-b8bcbbc63fb8> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla SOSC" ;
+  ex:description "A community driven by tech enthusiasts and open-source contributors, to help young students to be part of the open-source ecosystem by providing training and skill development." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-club-sahyadri> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:bfabbae9-789d-56ec-9ece-7023d7b7a8bd> a ex:LocalGroup ;
+  ex:location <urn:uuid:6cb09d43-eaa8-550b-9ca4-b8bcbbc63fb8> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla – Delta SJEC" ;
+  ex:description "A group of enthusiasts who develop applications using FOSS and help the fellow students to learn and practice emerging new Technologies." ;
+  ex:homepage <https://community.mozilla.org/en/groups/delta-sjec> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:6ad5a3a4-b1e7-5410-b237-3925b8b844e0> a ex:Location ;
+  ex:name "Manipal, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:75761283-95bb-5ba0-b2b7-4ac7c97e87e3> a ex:LocalGroup ;
+  ex:location <urn:uuid:6ad5a3a4-b1e7-5410-b237-3925b8b844e0> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Xtressials Open Initiative" ;
+  ex:description "An avid community of student developers with an aspiration to create and support the development of revolutionizing projects in their pursuit to learn, explore, excel in different technical domains of their interest…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/xtressials-open-initiative> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:dba94050-83ff-5286-afe9-4084d71edbf1> a ex:Location ;
+  ex:name "Mannar, Sri Lanka" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:738375c2-8e55-5c2b-963b-c153c0a08902> a ex:LocalGroup ;
+  ex:location <urn:uuid:dba94050-83ff-5286-afe9-4084d71edbf1> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozila Mannar" ;
+  ex:description "A Mozilla Community which helps people who are in trouble because of Digital Divide & Non-English regional issues. Community has been working on Localization & Translations for beneficiary of respective people." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozila-mannar> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:405eec80-8dcd-53c6-8f8d-62470622d6cd> a ex:Location ;
+  ex:name "Mansoura, Egypt" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:fe3a7af1-df2b-51e9-923c-70b86ce55c46> a ex:LocalGroup ;
+  ex:location <urn:uuid:405eec80-8dcd-53c6-8f8d-62470622d6cd> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "El7lwazilla" ;
+  ex:description "Mozilla's friends in Egypt in Mansoura" ;
+  ex:homepage <https://community.mozilla.org/en/groups/el7lwazilla> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:1852557a-8ee4-56c3-9881-7de1001e339c> a ex:Location ;
+  ex:name "Mexico" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:dd109095-cc64-555f-8109-579bd728981c> a ex:LocalGroup ;
+  ex:location <urn:uuid:1852557a-8ee4-56c3-9881-7de1001e339c> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Mexico" ;
+  ex:description "Comunidad Mozilla México. Creemos que Internet debe permanecer público, abierto y accesible." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-mexico> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:c83fe88c-d5a1-5293-a445-0fda8874aad7> a ex:Location ;
+  ex:name "Mirzapur, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:49f63bad-095a-5435-b2e2-87b381cfae1d> a ex:LocalGroup ;
+  ex:location <urn:uuid:c83fe88c-d5a1-5293-a445-0fda8874aad7> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Mirzapur" ;
+  ex:description "Mozilla Community based in Mirzapur" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-mirzapur> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:689c1f09-f8ed-55de-9195-182529949ece> a ex:Location ;
+  ex:name "Mombasa, Kenya" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:157598e5-364d-59ab-b417-8e9769abbef9> a ex:LocalGroup ;
+  ex:location <urn:uuid:689c1f09-f8ed-55de-9195-182529949ece> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Mombasa" ;
+  ex:description "Mozilla Mombasa is a regional community under the global non-profit organization, Mozilla that is founded on the roots of Free & Open Source Software. Mozilla works to promote & develop the web and to make it a…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-mombasa> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:c0a32469-79a3-50bc-a2d8-6dce18937ffa> a ex:Location ;
+  ex:name "Monastir, Tunisia" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:9058af09-65d4-5ae5-b4bb-ab0fdcca86a0> a ex:LocalGroup ;
+  ex:location <urn:uuid:c0a32469-79a3-50bc-a2d8-6dce18937ffa> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla University ISSATSO" ;
+  ex:description "Tunisian Mozilla community students" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-university-issatso> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:1f690e6c-1383-52a8-ad3d-01bd609d0bd9> a ex:Location ;
+  ex:name "Mumbai, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:fa54cbf6-c2b4-516d-abc7-80ae5bd21f6c> a ex:LocalGroup ;
+  ex:location <urn:uuid:1f690e6c-1383-52a8-ad3d-01bd609d0bd9> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Data Science" ;
+  ex:description "Join our group to get updated for Data Science, Artificial Intelligence and Machine Learning!" ;
+  ex:homepage <https://community.mozilla.org/en/groups/data-science> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:791064e1-a125-5e0a-82d9-b4a69dd47a8c> a ex:LocalGroup ;
+  ex:location <urn:uuid:1f690e6c-1383-52a8-ad3d-01bd609d0bd9> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla BVP Navi-Mumbai" ;
+  ex:description "This club is intended to establish a coding and tech culture in the campus , whilst creating a platform where students with different interests such as coding, App development, Machine Learning, and Web Designing can…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/bvp-tech-club-navi-mumbai> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:c7617bc3-7b2c-570d-96f8-2488e4b98a6d> a ex:LocalGroup ;
+  ex:location <urn:uuid:1f690e6c-1383-52a8-ad3d-01bd609d0bd9> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Mumbai" ;
+  ex:description "Its Mozilla Mumbai, we will focus on all aspects of technology like AI, Big Data, Blockchain, AR/VR, Web, App and others but we will majorly be focusing on AI technologies. We will hold meetups about these…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-mumbai> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:8b8a54da-628b-5109-8d6d-e497887a7d87> a ex:LocalGroup ;
+  ex:location <urn:uuid:1f690e6c-1383-52a8-ad3d-01bd609d0bd9> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozillians" ;
+  ex:description "Our group is an offline community where we meet and discuss about new technologies from Mozilla. Our group's main aim is to discuss, learn and teach new technologies to our members of the group." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozillians> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:476a64e7-a135-564a-8d64-46dc723e17c2> a ex:LocalGroup ;
+  ex:location <urn:uuid:1f690e6c-1383-52a8-ad3d-01bd609d0bd9> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "NMIMS Mozilla Community" ;
+  ex:description "We believe in building something worth working on and creating valuable projects and educating people about free and open source softwares. We believe in commutating our plans openly and clearly." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mpstme-mozilla-community> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:b00c8242-9cda-5c45-83a5-66bc9679f507> a ex:Location ;
+  ex:name "Muscat, Oman" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:3a236522-aada-519f-a655-0fc430953190> a ex:LocalGroup ;
+  ex:location <urn:uuid:b00c8242-9cda-5c45-83a5-66bc9679f507> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Middle East College Mozilla Campus Community" ;
+  ex:description "Middle East College \"MEC\" Mozilla Community Campus group is the first Mozilla Community within the GCC. Mozilla Community Group at MEC are people who meet regularly and work collaboratively to enhance the student and…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/middle-east-college-mozilla-campus-club> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:314a018f-22ae-55ae-873b-59dd151c5788> a ex:Location ;
+  ex:name "Mysore, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:ef2a3478-aee0-5a96-a337-e6e68a627742> a ex:LocalGroup ;
+  ex:location <urn:uuid:314a018f-22ae-55ae-873b-59dd151c5788> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla NIE" ;
+  ex:description "We are coding enthusiasts who love using the firefox browser and hence would like to contribute to the mozilla community. Our team consists of young and talented developers. We love to learn and code together!" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-nie> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:ef97ed51-7ffc-5353-bf72-27ffb797e109> a ex:Location ;
+  ex:name "Nagpur, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:44b53b01-1ea5-527c-ad77-098d6ff31ca3> a ex:LocalGroup ;
+  ex:location <urn:uuid:ef97ed51-7ffc-5353-bf72-27ffb797e109> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Nagpur" ;
+  ex:description "Its Mozilla Nagpur, we will focus on all aspects of technology like AI, Big Data, Blockchain, AR/VR, Web, App and others but we will majorly be focusing on AI technologies. We will hold meetups about these…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-nagpur> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:3cd028c9-317e-50be-a51b-bcb2c63e533a> a ex:LocalGroup ;
+  ex:location <urn:uuid:ef97ed51-7ffc-5353-bf72-27ffb797e109> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Nagpur Student Club (MNSC)" ;
+  ex:description "This is the Official Mozilla Nagpur Chapter. Our group is a meeting place for people who are interested in and enthusiastic about coding and contributing to open source projects." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-nagpur-student-club-mnsc> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:64d81b12-3688-5b74-baff-a70c0eb43a77> a ex:Location ;
+  ex:name "Nashik, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:73dd223f-6640-51ad-9ab6-70e12e6f8262> a ex:LocalGroup ;
+  ex:location <urn:uuid:64d81b12-3688-5b74-baff-a70c0eb43a77> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Cesa Club SITRC" ;
+  ex:description "CESA Club is a Computer engineering Student community inside the Sandip Institute of Technology & Research Center. We have more than 120 active community members and 18 event organizers." ;
+  ex:homepage <https://community.mozilla.org/en/groups/cesa-club-sitrc> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:d3505992-7ff3-57d7-b193-18a238fc9da7> a ex:LocalGroup ;
+  ex:location <urn:uuid:64d81b12-3688-5b74-baff-a70c0eb43a77> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla nashik" ;
+  ex:description "Nashik Mozilla community constantly contributes to make people aware about Open development and to achieve equilibrium knowledge by sharing the skills and by providing the collaborative development work flow over the…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-nashik> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:ccdb1d85-ec25-5131-9c90-e74bfb2c21a1> a ex:LocalGroup ;
+  ex:location <urn:uuid:64d81b12-3688-5b74-baff-a70c0eb43a77> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "NewPros" ;
+  ex:description "We believe in transforming NEWbies into PROfessionals." ;
+  ex:homepage <https://community.mozilla.org/en/groups/newpros> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:a9da76af-1ad6-5ae6-a36e-44c33c63603d> a ex:Location ;
+  ex:name "New Delhi, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:98ab32f7-7ebb-5731-8537-5dc1fcfdd265> a ex:LocalGroup ;
+  ex:location <urn:uuid:a9da76af-1ad6-5ae6-a36e-44c33c63603d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "ProGection" ;
+  ex:description "ProGection Technical Club is an initiative to grow their knowledge of developer technologies and more through peer to peer workshops and events." ;
+  ex:homepage <https://community.mozilla.org/en/groups/progection> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:e1d6942a-fdd0-518e-b9ee-38ff64e9c7ad> a ex:LocalGroup ;
+  ex:location <urn:uuid:a9da76af-1ad6-5ae6-a36e-44c33c63603d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "ProGection" ;
+  ex:description "ProGection Technical Club is an initiative to grow their knowledge of developer technologies and more through peer to peer workshops and events." ;
+  ex:homepage <https://community.mozilla.org/en/groups/progection-1906022619> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:f735c3f4-0363-5357-9006-f98c4c8c44f8> a ex:LocalGroup ;
+  ex:location <urn:uuid:a9da76af-1ad6-5ae6-a36e-44c33c63603d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "The Geeky Way" ;
+  ex:description "Group for sharing resources." ;
+  ex:homepage <https://community.mozilla.org/en/groups/the-geeky-way> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:2231fa32-20af-5910-a74e-7325dfc8c780> a ex:LocalGroup ;
+  ex:location <urn:uuid:a9da76af-1ad6-5ae6-a36e-44c33c63603d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "The Mozilla Mavericks" ;
+  ex:description "Our Mozilla group is a community of passionate individuals who advocate for an open and accessible internet. We believe in the power of Mozilla Firefox as a browser that respects user privacy and promotes a healthy…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/the-mozilla-mavericks-970262537> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:94fc06e3-1788-5dae-9303-bd565cf11acf> a ex:LocalGroup ;
+  ex:location <urn:uuid:a9da76af-1ad6-5ae6-a36e-44c33c63603d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "The Mozilla Mavericks" ;
+  ex:description "Our Mozilla group is a community of passionate individuals who advocate for an open and accessible internet. We believe in the power of Mozilla Firefox as a browser that respects user privacy and promotes a healthy…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/the-mozilla-mavericks> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:ce8f6061-6670-57b5-abff-e3d92bcb3777> a ex:LocalGroup ;
+  ex:location <urn:uuid:a9da76af-1ad6-5ae6-a36e-44c33c63603d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "The Women Of Mozilla" ;
+  ex:description "The Women Of Mozilla is a community that co-creates a collaborative space for women to learn coding and language from and through each other. Regular meetups, workshops and informal spaces are led by women in the…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/the-women-of-mozilla> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:f12bbcc6-91c5-55c2-b7ec-84cc2af17640> a ex:LocalGroup ;
+  ex:location <urn:uuid:a9da76af-1ad6-5ae6-a36e-44c33c63603d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Wildfire" ;
+  ex:description "Wildfire is a Delhi-based tech company. Our ideology and vision aligns with Mozilla's. We hold regular workshops / meetups / hands-on sessions / talks related to digital privacy, web publishing, digital archiving…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/wildfire> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:99b82f30-6a00-500f-85fb-c106388bdad6> a ex:Location ;
+  ex:name "Nicaragua" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:2b7163ce-6df7-5cf6-bad9-5faa64ea9bfc> a ex:LocalGroup ;
+  ex:location <urn:uuid:99b82f30-6a00-500f-85fb-c106388bdad6> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Centroamérica" ;
+  ex:description "We are a group of enthusiasts who support Mozilla's mission and promote participation and innovation in the Central America region and the different countries that make up (Guatemala, Honduras, El Salvador…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-centroamerica> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:a25ea6c5-218f-5ad7-95ff-370022f90739> a ex:Location ;
+  ex:name "Nigeria" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:0f3c35b9-0cef-57a5-964e-d1b7635db336> a ex:LocalGroup ;
+  ex:location <urn:uuid:a25ea6c5-218f-5ad7-95ff-370022f90739> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Micro Nigeria" ;
+  ex:description "Community for developers" ;
+  ex:homepage <https://community.mozilla.org/en/groups/micro-nigeria-887876671> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:6444d412-36e6-5e14-998d-8cb1990c8d24> a ex:Location ;
+  ex:name "Noida, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:998d1749-0160-550e-8e3d-f21038e9c1ac> a ex:LocalGroup ;
+  ex:location <urn:uuid:6444d412-36e6-5e14-998d-8cb1990c8d24> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Club JSS" ;
+  ex:description "Mozilla Club of JSS Academy of Technical Education, Noida" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-club-jss> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:53f9c500-000b-5649-a87e-9d569c828d7a> a ex:Location ;
+  ex:name "Oakland, United States" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:0ecd0725-9907-50fc-8a26-9047e71f68eb> a ex:LocalGroup ;
+  ex:location <urn:uuid:53f9c500-000b-5649-a87e-9d569c828d7a> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozillavisualpsych" ;
+  ex:description "This group talks about the views of the consumer on the interface of mozilla firefox. This is strongly empowered by Matt Johnson from magicmushroomsdepo.com/mushrooms/ a place where people order shrooms online if you…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozillavisualpsych> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:6326bd14-051d-542b-9f8d-28c0374ca3d5> a ex:Location ;
+  ex:name "Oluvil, Sri Lanka" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:acc18417-1c3c-5729-90fb-6c4789c9b011> a ex:LocalGroup ;
+  ex:location <urn:uuid:6326bd14-051d-542b-9f8d-28c0374ca3d5> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Campus Club of SEUSL" ;
+  ex:description "Mozilla Campus Club of SEUSL" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-campus-club-of-seusl> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:8d99d224-07e5-5cae-9882-4680d573be73> a ex:Location ;
+  ex:name "Omsk, Russia" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:734a5f95-16d8-5feb-a77d-49a47d7e7654> a ex:LocalGroup ;
+  ex:location <urn:uuid:8d99d224-07e5-5cae-9882-4680d573be73> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Tester Group" ;
+  ex:description "Group for testing Mozilla." ;
+  ex:homepage <https://community.mozilla.org/en/groups/tester-group> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:929e997e-0219-5847-8fab-95745484224a> a ex:Location ;
+  ex:name "Pakistan" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:37bcef9b-7747-501a-b6f2-857f1bac76ce> a ex:LocalGroup ;
+  ex:location <urn:uuid:929e997e-0219-5847-8fab-95745484224a> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Pakistan" ;
+  ex:description "We are part of the global community of Mozilla Foundation, founded to manifest state of Mozilla community in Pakistan." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-pakistan> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:66fd2c68-a3d2-56a7-9390-d17e720b3915> a ex:Location ;
+  ex:name "Panamá, Panama" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:844b1b80-e0bb-5456-a9ac-98024684b587> a ex:LocalGroup ;
+  ex:location <urn:uuid:66fd2c68-a3d2-56a7-9390-d17e720b3915> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Panama" ;
+  ex:description "Mozilla Panamá buscamos fomentar el uso de tecnologías web abiertas y llevamos el mensaje de la Fundación Mozilla en el pais." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-panama> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:8320de03-808d-59d5-bd21-98741977daee> a ex:Location ;
+  ex:name "Patiala, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:6a1a302f-cc23-5bdd-bbf2-1b37d20af866> a ex:LocalGroup ;
+  ex:location <urn:uuid:8320de03-808d-59d5-bd21-98741977daee> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Chitkara University" ;
+  ex:description "This is a technical group by Chitkara University Students for open source enthusiasts." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-chitkara-university> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:bc14926d-086d-52eb-b4ac-979e13dfe43c> a ex:Location ;
+  ex:name "Patna, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:529db0d7-e7d6-5793-be76-42e0879dac15> a ex:LocalGroup ;
+  ex:location <urn:uuid:bc14926d-086d-52eb-b4ac-979e13dfe43c> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "HackSlash" ;
+  ex:description "HackSlash Developer Club, NIT Patna is a community intended to provide a room for college students to learn and collaborate on a plethora of projects among themselves as well as with mentors. It is open for every…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/hackslash> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:a3c489c8-704b-5465-a8ef-0076017a6533> a ex:LocalGroup ;
+  ex:location <urn:uuid:bc14926d-086d-52eb-b4ac-979e13dfe43c> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "IEEE SB NIT PATNA" ;
+  ex:description "IEEE Student Branch, NITP was established with a vision of making students aware of new developments in various engineering fields and to provide support in implementing new innovative ideas of future engineers which…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/ieee-sb-nit-patna> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:0ccafcdb-5184-533c-9904-a51ab1ecbeb8> a ex:LocalGroup ;
+  ex:location <urn:uuid:bc14926d-086d-52eb-b4ac-979e13dfe43c> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla IIBM-ZHI Patna" ;
+  ex:description "Mozilla IIBM-ZHI Patna is for the tech enthusiasts - students who are willing to learn and share. Be it organising a hackathon or talking about any new technology/projects you are more than welcome to join this group…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-iibm-zhi-patna> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:bdde00ba-461f-5e32-a29e-0ffc1605ecf4> a ex:Location ;
+  ex:name "Philippines" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:7ac1e493-7fbe-50b6-8f1b-c427d0acb61b> a ex:LocalGroup ;
+  ex:location <urn:uuid:bdde00ba-461f-5e32-a29e-0ffc1605ecf4> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Philippines" ;
+  ex:description "Community Portal group for Mozillians in the Philippines. Community Code of Conduct:" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-philippines> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:91b3af49-4aea-5b4b-aeaa-e6276d80bde5> a ex:Location ;
+  ex:name "Prayagraj, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:700d2ae9-5ad4-5df9-b06c-2a7a9b46ad06> a ex:LocalGroup ;
+  ex:location <urn:uuid:91b3af49-4aea-5b4b-aeaa-e6276d80bde5> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Prayagraj" ;
+  ex:description "Entwicklers is a community of Programming, Automation, Cloud Computing, Administrators, Security geeks from all around the corners. We strive to bridge the gap between industry and academia where we learn and develop…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/entwicklersx> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:eebb8130-06d1-5a53-9e2d-7e6c97984891> a ex:Location ;
+  ex:name "Puducherry, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:6fdc585a-fdda-503c-acbd-60f2bbd642d6> a ex:LocalGroup ;
+  ex:location <urn:uuid:eebb8130-06d1-5a53-9e2d-7e6c97984891> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "SMVECZILLA" ;
+  ex:description "SMVECZILLA community is a place to make the techies to meet the beginners to enrich their skills, powers and much more in the trending technologies. Join us to improve more and learn a lot from others. Together we…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/smvec-zilla> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:c12daee8-09c8-54b7-bbc0-8826d2547a90> a ex:Location ;
+  ex:name "Pune, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:cd184b7d-305d-50f0-9347-a851895485ad> a ex:LocalGroup ;
+  ex:location <urn:uuid:c12daee8-09c8-54b7-bbc0-8826d2547a90> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "AIT OSS Club" ;
+  ex:description "The Open Source Software Club has been actively doing various open source projects for more than 4 years. The main agenda of club is to provide help and involve students from various background. We do have a team of…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/ait-oss-club> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:757e27c8-0068-5c68-af38-6fb7013038fa> a ex:LocalGroup ;
+  ex:location <urn:uuid:c12daee8-09c8-54b7-bbc0-8826d2547a90> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "CodersEra – Mozilla Campus Club MIT WPU" ;
+  ex:description "We are the official coding club of MIT World Peace University, Pune. We organize community events like workshops, competitions, seminars, guest lectures etc." ;
+  ex:homepage <https://community.mozilla.org/en/groups/codersera-mozilla-campus-club-mit-wpu> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:cd929915-e853-5575-8d9a-6b5f09134634> a ex:LocalGroup ;
+  ex:location <urn:uuid:c12daee8-09c8-54b7-bbc0-8826d2547a90> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Campus Club BVDUCOEP" ;
+  ex:description "The world is constantly changing. Be it creativity, strategic thinking or Open Source contributions, it is necessary to solidify and enhance the connection between people and technology. Mozilla Campus Club BVDUCOEP…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-campus-club-bvducoep> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:3b0a03ee-561c-5601-b6db-c924b1c816eb> a ex:LocalGroup ;
+  ex:location <urn:uuid:c12daee8-09c8-54b7-bbc0-8826d2547a90> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Campus Club CCEW" ;
+  ex:description "We as a campus club work towards Mozilla's mission of ensuring the Internet is a global public resource, open and accessible to all. We organize events and talks on different Open Source technologies and ways to…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-campus-club-cummins> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:b03cfea9-652d-5bae-8e58-8e6c66ff64c8> a ex:LocalGroup ;
+  ex:location <urn:uuid:c12daee8-09c8-54b7-bbc0-8826d2547a90> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Club MITAOE" ;
+  ex:description "Mozilla Club MITAOE is 6 years old. It actively participates in group activities like testing, open source dissemination." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-club-mitaoe> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:7f0335ed-abbd-5b57-9db6-5904e03e126b> a ex:LocalGroup ;
+  ex:location <urn:uuid:c12daee8-09c8-54b7-bbc0-8826d2547a90> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Pune" ;
+  ex:description "Mozilla Pune is a community of enthusiastic contributors promoting projects and ideas of Mozilla. We work together to promote openness, opportunity and innovation on the web." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-pune> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:db9e3cab-78c5-509a-929b-71bb81852ac7> a ex:LocalGroup ;
+  ex:location <urn:uuid:c12daee8-09c8-54b7-bbc0-8826d2547a90> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "SKNCOE Mozilla Club" ;
+  ex:description "Smt. Kashibai Navale College of Engineering, Pune, has formed this club to teach students the web development and various programming languages related to it. Students are taught about the good practices in coding…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/skncoe-mozilla-club> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:377658d3-7a16-5225-88e4-fdf5b8474533> a ex:LocalGroup ;
+  ex:location <urn:uuid:c12daee8-09c8-54b7-bbc0-8826d2547a90> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Tech Seeker" ;
+  ex:description "We are a group of Tech enthusiast" ;
+  ex:homepage <https://community.mozilla.org/en/groups/tech-seeker> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:02355adc-34f7-55fb-8d1e-c602bec6b7ac> a ex:Location ;
+  ex:name "Puntarenas, Costa Rica" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:247b1faa-5c8f-55c8-b3c1-5905bafd519d> a ex:LocalGroup ;
+  ex:location <urn:uuid:02355adc-34f7-55fb-8d1e-c602bec6b7ac> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Costa Rica" ;
+  ex:description "We are a community with the objective of studying, researching, promoting and sharing all knowledge of free software as well as of mozilla within Costa Rica." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-costa-rica> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:2a4655b3-8078-51a8-987c-062f8482a97d> a ex:Location ;
+  ex:name "Raigarh, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:1def9b41-bc7d-5f41-b988-849e3b51eab4> a ex:LocalGroup ;
+  ex:location <urn:uuid:2a4655b3-8078-51a8-987c-062f8482a97d> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "OPJU Mozilla Campus Club" ;
+  ex:description "O. P. Jindal University Mozilla Campus Club is dedicate to promote and contribute to Mozilla's mission to ensure the Internet is a global public resource, open and accessible to all. The OPJU Mozilla Campus Club…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/opju-mozilla-campus-club> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:1860f1bf-a44e-58b5-a797-680eb6eb9ad6> a ex:Location ;
+  ex:name "Rajpura, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:7161f115-bc3a-593f-8b60-f7002f1ea630> a ex:LocalGroup ;
+  ex:location <urn:uuid:1860f1bf-a44e-58b5-a797-680eb6eb9ad6> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla CIET" ;
+  ex:description "Our aim to provide each and every student the exposure to community and hackathons" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-ciet> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:8b5d3aa0-4177-5612-a557-8d3f6f024269> a ex:Location ;
+  ex:name "Ranchi, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:f58bf43c-e8b4-5479-bffe-56ccf68350f1> a ex:LocalGroup ;
+  ex:location <urn:uuid:8b5d3aa0-4177-5612-a557-8d3f6f024269> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "osDFS" ;
+  ex:description "A Mozillian's community group for osDFS. A special interest group that supports women & men who study or are interested in Computer and Information Science. We are Open Source Digital Freedom Society. We are an…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/osdfs> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:9dc9aa04-46e6-5f2d-b963-eadbbb3aa172> a ex:Location ;
+  ex:name "Romania" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:38bbc5bd-687c-5215-8cef-eecb3fe37f98> a ex:LocalGroup ;
+  ex:location <urn:uuid:9dc9aa04-46e6-5f2d-b963-eadbbb3aa172> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla România" ;
+  ex:description "Meeting space for Romanian Mozillians." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-romania> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:eb867c71-29fd-5a8c-881f-26f797fab3df> a ex:Location ;
+  ex:name "Russia" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:07ed1a48-ef75-5888-8b05-f12e6dbead0d> a ex:LocalGroup ;
+  ex:location <urn:uuid:eb867c71-29fd-5a8c-881f-26f797fab3df> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Russia" ;
+  ex:description "We are working on localizing mozilla apps" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-%d1%80%d0%be%d1%81%d1%81%d0%b8%d1%8f> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:866fe316-4a43-5379-8d5b-f743d40f4e23> a ex:Location ;
+  ex:name "Salem, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:5468ce5b-1ce0-5fe5-9d9c-67f67283c378> a ex:LocalGroup ;
+  ex:location <urn:uuid:866fe316-4a43-5379-8d5b-f743d40f4e23> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla – Techforge" ;
+  ex:description "Techforge is Salem ( India ) India based Software company and developer community. Helping Startups to build good products also helping students to lean coding with various skill building activity. This community…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-techforge> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:0abfcce1-e4fc-537c-b0c5-90eb7dc00382> a ex:Location ;
+  ex:name "Santa Cruz, Bolivia" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:18359fae-8e9e-51bb-9fd2-e8eed88b9f5d> a ex:LocalGroup ;
+  ex:location <urn:uuid:0abfcce1-e4fc-537c-b0c5-90eb7dc00382> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Bolivia" ;
+  ex:description "Grupo de la Comunidad de Mozilla Bolivia." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-bolivia> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:ea823449-3484-5a5a-a965-3cc19d49321f> a ex:Location ;
+  ex:name "Santiago, Chile" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:db906594-5ba8-5b1f-a531-839d22616b13> a ex:LocalGroup ;
+  ex:location <urn:uuid:ea823449-3484-5a5a-a965-3cc19d49321f> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Chile" ;
+  ex:description "Welcome to the Mozilla Chile community—a dynamic and revitalized group that emerged in 2013 following the reformation of ChileMoz and firefox.cl. Our mission is clear: to champion the Mozilla cause across Chile. Our…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-chile> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:f8c8a3dd-5d26-5f70-8a31-ecaa1373cbcc> a ex:Location ;
+  ex:name "Scarsdale, United States" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:36d0737d-5923-5106-9ff4-853fded8164e> a ex:LocalGroup ;
+  ex:location <urn:uuid:f8c8a3dd-5d26-5f70-8a31-ecaa1373cbcc> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Aren Group" ;
+  ex:description "Members of the MDN project; handle bug reports making Mozilla more equitable and suitable for all." ;
+  ex:homepage <https://community.mozilla.org/en/groups/aren-group> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:a7f69db3-bd95-52b9-b15b-017942d0f84f> a ex:Location ;
+  ex:name "Shegaon, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:2c2c81c0-4294-5dbf-b0f8-0027d5e713d0> a ex:LocalGroup ;
+  ex:location <urn:uuid:a7f69db3-bd95-52b9-b15b-017942d0f84f> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Campus Club, SSGMCE" ;
+  ex:description "Mozilla Open Source Community, SSGMCE is a regional community under the global non-profit organization, Mozilla that is founded on the roots of Free & Open Source Software. Mozilla works to promote & develop the web…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-campus-club-ssgmce-1149030641> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:f8f9ae41-c7f0-5ce8-918a-53abc6a1ddb9> a ex:Location ;
+  ex:name "Shimoga, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:d9b3cf88-26ff-573b-bcac-3a2c9608c905> a ex:LocalGroup ;
+  ex:location <urn:uuid:f8f9ae41-c7f0-5ce8-918a-53abc6a1ddb9> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Tech House" ;
+  ex:description "Tech House is a Student Club organized by students who wanna help other students in coding skills. Successively conducting events by partnering with Coding Ninja, Microsoft and many more. Creating a better future for…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/tech-house> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:d02b8221-bac5-5550-b455-8eb1df131386> a ex:Location ;
+  ex:name "Siliguri, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:56fd046c-4600-588f-8332-97f864d325f7> a ex:LocalGroup ;
+  ex:location <urn:uuid:d02b8221-bac5-5550-b455-8eb1df131386> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "The Dev Byte" ;
+  ex:description "Learn Help and Grow" ;
+  ex:homepage <https://community.mozilla.org/en/groups/the-dev-byte> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:3a265853-bd96-5ec7-8aee-714e862ba704> a ex:Location ;
+  ex:name "Sivakasi, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:72e0043e-263a-5a24-b368-9c23ffdd30a0> a ex:LocalGroup ;
+  ex:location <urn:uuid:3a265853-bd96-5ec7-8aee-714e862ba704> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Sivakasi" ;
+  ex:description "Mozilla Sivakasi is a club for all the misfits, the people who have the drive to contribute to the coding society and those who are able to see things from a different perspective. Our members are code-contributors…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-sivakasi> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:574d64d0-9ed0-5dc7-9d08-892fd1266574> a ex:Location ;
+  ex:name "Sri Lanka" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:9645ecd7-bc6a-56f9-9779-00d5b7241753> a ex:LocalGroup ;
+  ex:location <urn:uuid:574d64d0-9ed0-5dc7-9d08-892fd1266574> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Sri Lanka" ;
+  ex:description "A group for Mozillians in Sri Lanka" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-sri-lanka> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:11076cb0-e500-5c52-b2ac-784f0a577b25> a ex:LocalGroup ;
+  ex:location <urn:uuid:574d64d0-9ed0-5dc7-9d08-892fd1266574> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla இலங்கை" ;
+  ex:description "Mozilla இலங்கை is the group that especially start to get improve the tech without depends on a language. we are techies doing different approaches to make and get the technology to people and energetic learners." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-%e0%ae%87%e0%ae%b2%e0%ae%99%e0%af%8d%e0%ae%95%e0%af%88> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:1d2d9953-22e9-5e47-ab1d-3208d3968c2c> a ex:LocalGroup ;
+  ex:location <urn:uuid:574d64d0-9ed0-5dc7-9d08-892fd1266574> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Women of Mozilla" ;
+  ex:description "Women of Mozilla is a community that focuses exclusively on increasing the degree of women's participation and visibility in Mozilla and open-source projects." ;
+  ex:homepage <https://community.mozilla.org/en/groups/women-of-mozilla> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:452b450a-8446-5739-b786-d7b33b87f3aa> a ex:Location ;
+  ex:name "St. John's, Canada" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:987b3d18-5456-51c6-93f9-67555debcc9a> a ex:LocalGroup ;
+  ex:location <urn:uuid:452b450a-8446-5739-b786-d7b33b87f3aa> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Rust NL" ;
+  ex:description "The Rust NL group is a user group for Rustaceans in Newfoundland and Labrador to learn and socialize. Rustaceans are people who use Rust, contribute to Rust, or are interested in the development of Rust. Share…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/rust-nl> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:04e6f30a-a9e5-516e-8fe3-2fbd8b81b9a0> a ex:Location ;
+  ex:name "Sumenep, Indonesia" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:6d9085ee-a099-5b6f-bc8d-d1fe63203866> a ex:LocalGroup ;
+  ex:location <urn:uuid:04e6f30a-a9e5-516e-8fe3-2fbd8b81b9a0> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Madura" ;
+  ex:description "Mozilla Madura is Local groups of students in Madura Island with a passion for technology working together to build the open web on University and College campuses worldwide." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-madura> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:78316099-64cf-5939-be37-471cfcfb7ec2> a ex:Location ;
+  ex:name "Sunway, Malaysia" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:cacf9396-5376-5f2b-8dd1-36dfd0b8b5d2> a ex:LocalGroup ;
+  ex:location <urn:uuid:78316099-64cf-5939-be37-471cfcfb7ec2> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Monash" ;
+  ex:description "Mozilla Monash is a student run club at Monash University Malaysia working towards open web. It is group of open source development and technologies enthusiasts and inclusive of peers who want to learn more about…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-monash> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:2e5e2340-4b0c-5d84-a2d1-f42b6ec81d59> a ex:Location ;
+  ex:name "Surin, Thailand" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:3a0d3d0b-ea64-58a2-b1d4-d714c35ff2c3> a ex:LocalGroup ;
+  ex:location <urn:uuid:2e5e2340-4b0c-5d84-a2d1-f42b6ec81d59> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Thailand" ;
+  ex:description "First Mozilla in Thailand" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-thailand> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:8a0466a0-1db9-5319-87d1-e4d4595e9ee3> a ex:Location ;
+  ex:name "Sweden" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:bfacb446-23e4-5a14-852d-e1fda5fcbc8a> a ex:LocalGroup ;
+  ex:location <urn:uuid:8a0466a0-1db9-5319-87d1-e4d4595e9ee3> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Sweden" ;
+  ex:description "Community group for Mozillians in Sweden" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-sweden> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:1895cec3-b630-5180-8b47-c6cc715cd315> a ex:Location ;
+  ex:name "Switzerland" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:5edf49bd-55e7-55be-a749-97bf7dbdfd8b> a ex:LocalGroup ;
+  ex:location <urn:uuid:1895cec3-b630-5180-8b47-c6cc715cd315> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "mozilla.ch" ;
+  ex:description "Mozillians in Switzerland" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-ch> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:14b04682-2d1f-5654-a91d-3afd379aca4b> a ex:Location ;
+  ex:name "Taipei, Taiwan" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:c0f9b868-e835-59e2-9b4c-7a0963ac5c9a> a ex:LocalGroup ;
+  ex:location <urn:uuid:14b04682-2d1f-5654-a91d-3afd379aca4b> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Rust Taiwan" ;
+  ex:description "Rust Programming Language Taiwan Community" ;
+  ex:homepage <https://community.mozilla.org/en/groups/rust-taiwan> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:2a881a4d-5145-5a7a-b615-82507a912375> a ex:Location ;
+  ex:name "Taiwan" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:d81180a5-4819-5ff3-93a7-4b6bfc2e5af4> a ex:LocalGroup ;
+  ex:location <urn:uuid:2a881a4d-5145-5a7a-b615-82507a912375> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "MozTW, Mozilla Taiwan Community" ;
+  ex:description "Mozillians in Taiwan, maintaining moztw.org and do zh-TW l10n since 2004." ;
+  ex:homepage <https://community.mozilla.org/en/groups/moztw-mozilla-taiwan-community> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:3a59cba0-ae7b-5de7-be0d-ec8d400951d3> a ex:Location ;
+  ex:name "Tamale, Ghana" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:4cb9bd63-7d3a-5a6d-b998-8d08f9e6d607> a ex:LocalGroup ;
+  ex:location <urn:uuid:3a59cba0-ae7b-5de7-be0d-ec8d400951d3> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Ghana" ;
+  ex:description "A group of open advocates working to support the Mozilla Common Voice project in Ghana." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-ghana> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:1efc923d-d176-516f-beb1-e725bf9421f3> a ex:LocalGroup ;
+  ex:location <urn:uuid:3a59cba0-ae7b-5de7-be0d-ec8d400951d3> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Ghana" ;
+  ex:description "A group of open advocates working to support the Mozilla Common Voice project in Ghana." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-ghana-147676612> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:56a8d80f-0748-56e2-b1cd-86daa2abb4da> a ex:LocalGroup ;
+  ex:location <urn:uuid:3a59cba0-ae7b-5de7-be0d-ec8d400951d3> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Ghana Community" ;
+  ex:description "A group of open advocates working to support the Mozilla Common Voice project in Ghana." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-ghana-637374418> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:0c42ed69-4782-5ee4-8138-9529177d9d1a> a ex:Location ;
+  ex:name "Tamil Nadu, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:9cbc9a31-77d7-5951-94ba-2440493fadd5> a ex:LocalGroup ;
+  ex:location <urn:uuid:0c42ed69-4782-5ee4-8138-9529177d9d1a> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla TamilNadu" ;
+  ex:description "Seco" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-tamilnadu> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:0e34e9a7-b1ce-58b9-a9e0-8e0e3f0666e0> a ex:Location ;
+  ex:name "Tegucigalpa - San Pedro Sula, Honduras" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:935b9e32-9ce1-5fa1-8af5-4f771af735a8> a ex:LocalGroup ;
+  ex:location <urn:uuid:0e34e9a7-b1ce-58b9-a9e0-8e0e3f0666e0> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Honduras" ;
+  ex:description "We are a group of people interested in collaborating, learning and sharing experiences of new technologies." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-honduras> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:297065ef-2e23-50dc-b490-14842936d550> a ex:Location ;
+  ex:name "Tehran, Iran" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:c44d25bd-de28-5adf-94c0-5af5870e60d9> a ex:LocalGroup ;
+  ex:location <urn:uuid:297065ef-2e23-50dc-b490-14842936d550> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Persian L10n (Farsi)" ;
+  ex:description "Official Persian(Farsi) L10n Group گروه رسمی موزیلای فارسی" ;
+  ex:homepage <https://community.mozilla.org/en/groups/persian-l10n-farsi> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:b6bd739c-e004-5844-8cd9-6cb8c3c5bf7b> a ex:Location ;
+  ex:name "Tezpur, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:522a059c-221e-521f-af96-692f3568c910> a ex:LocalGroup ;
+  ex:location <urn:uuid:b6bd739c-e004-5844-8cd9-6cb8c3c5bf7b> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Campus Club, Tezpur University" ;
+  ex:description "We are a group of like-minded people from Tezpur University who like to work for open source." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-campus-club-tezpur-university> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:9c9a5a97-bcd0-5b67-8912-9c13dcf86c57> a ex:Location ;
+  ex:name "Thessaloniki, Greece" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:f0e92e79-eebd-587e-a6f6-51f2180630d9> a ex:LocalGroup ;
+  ex:location <urn:uuid:9c9a5a97-bcd0-5b67-8912-9c13dcf86c57> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Greece" ;
+  ex:description "Το group για Έλληνες λάτρεις και συμμετέχοντες της κοινότητας Mozilla, με επίκεντρο την Ομάδα Εργασίας Ανοιχτού Λογισμικού Πανεπιστημίου Μακεδονίας, Open Source UoM." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-greece> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:93132e26-a8ad-5389-b659-b60456a1b201> a ex:Location ;
+  ex:name "Thiruvananthapuram, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:e6387b58-47c8-5b07-a081-d4100942ffdc> a ex:LocalGroup ;
+  ex:location <urn:uuid:93132e26-a8ad-5389-b659-b60456a1b201> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla WebVR Community @ MBCET" ;
+  ex:description "*Mozilla Kerala Community* in association with *MBCET* would like to invite all Web Developers and VR enthusiasts to be part of our community. Come and be part of a family that will provide support when you develop…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-webvr-community-mbcet> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:eebca71c-970e-5490-9cf7-4574b6324fa2> a ex:Location ;
+  ex:name "Thrissur, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:ada1e63f-5c79-5e01-b688-e361ab96df60> a ex:LocalGroup ;
+  ex:location <urn:uuid:eebca71c-970e-5490-9cf7-4574b6324fa2> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Club JECC" ;
+  ex:description "Exploring" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-club-jecc> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:05912479-e93a-54df-a15f-ae02fc7f4d07> a ex:Location ;
+  ex:name "Tiruchirapalli, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:01747ea7-0dab-53ae-951b-850212ec0f93> a ex:LocalGroup ;
+  ex:location <urn:uuid:05912479-e93a-54df-a15f-ae02fc7f4d07> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla@NITT" ;
+  ex:description "A group of enthusiastic coders in the National Institute of Technology, Tiruchirapalli, one of India's leading Tech institutions, striving to contribute solutions to real world problems" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozillanitt> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:ec39399f-f244-5863-9eb5-4bdcf78c17bc> a ex:Location ;
+  ex:name "Tucson, United States" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:6b0eeeaa-6cdf-54ac-bb6f-3a913f7dc96b> a ex:LocalGroup ;
+  ex:location <urn:uuid:ec39399f-f244-5863-9eb5-4bdcf78c17bc> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "uamoz" ;
+  ex:description "Bringing moz projects to the U of Arizona." ;
+  ex:homepage <https://community.mozilla.org/en/groups/uamoz> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:4b53e53f-bb70-5490-aaa3-9cf12a26f13b> a ex:Location ;
+  ex:name "United States" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:3c3e5a54-f493-5d28-a84d-1cc24592a309> a ex:LocalGroup ;
+  ex:location <urn:uuid:4b53e53f-bb70-5490-aaa3-9cf12a26f13b> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Tech People" ;
+  ex:description "Onnac is a technology blog that shares latest tech news, reviews, and additional info that comes under technology niche." ;
+  ex:homepage <https://community.mozilla.org/en/groups/tech-people> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:ece67730-1d09-5f26-b6e4-63bed5468ecb> a ex:Location ;
+  ex:name "Vadodara, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:2e2938d9-e8bc-570e-9af7-c02f95ee7f98> a ex:LocalGroup ;
+  ex:location <urn:uuid:ece67730-1d09-5f26-b6e4-63bed5468ecb> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Gujarat" ;
+  ex:description "we're a community of technologists, thinkers, and builders working together to keep the Internet alive and accessible, so people worldwide can be informed contributors and creators of the Web. Our mission is to…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-gujarat-1894117206> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:13975163-4efc-5db6-846e-bbe5043d698a> a ex:LocalGroup ;
+  ex:location <urn:uuid:ece67730-1d09-5f26-b6e4-63bed5468ecb> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Gujarat" ;
+  ex:description "We are Mozilla Gujarat - A highly enthusiastic community of Mozilla lovers in Gujarat, India. We ❤️ the Web! Join us on Slack:" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-gujarat> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:6ff74d8a-f76e-582e-90d5-99559a59d36a> a ex:LocalGroup ;
+  ex:location <urn:uuid:ece67730-1d09-5f26-b6e4-63bed5468ecb> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Gujarat" ;
+  ex:description "we're a community of technologists, thinkers, and builders working together to keep the Internet alive and accessible, so people worldwide can be informed contributors and creators of the Web. Our mission is to…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-gujarat-197621966> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:66eeaddf-635f-59cf-865a-4da9db6e094f> a ex:LocalGroup ;
+  ex:location <urn:uuid:ece67730-1d09-5f26-b6e4-63bed5468ecb> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "MozNeurons" ;
+  ex:description "We’re dedicated to connecting the Club to the best open source activities on the web. By participating in the activities will develop new skills, contribute to innovative web technologies, and be part of a powerful…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozneurons> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:28edd0c8-b71f-5921-bb25-3e89f4633529> a ex:LocalGroup ;
+  ex:location <urn:uuid:ece67730-1d09-5f26-b6e4-63bed5468ecb> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "MozNuv" ;
+  ex:description "Mozilla Navrachana University community!" ;
+  ex:homepage <https://community.mozilla.org/en/groups/moznuv> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:0c3c773a-38b3-5932-9567-fbf47975cb09> a ex:LocalGroup ;
+  ex:location <urn:uuid:ece67730-1d09-5f26-b6e4-63bed5468ecb> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Parul University Mozilla Club – MOZ PU" ;
+  ex:description "Mozilla Campus Club- Parul University is a community of students who meet to build and innovate on open source projects that keep the web open. Our mission is to ensure the Internet is a global public resource, open…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/parul-university-mozilla-club-moz-pu> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:9301776b-923a-53a5-81ca-bab39c98467c> a ex:LocalGroup ;
+  ex:location <urn:uuid:ece67730-1d09-5f26-b6e4-63bed5468ecb> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "VIEMOZ" ;
+  ex:description "HERE WE VIEMOZ PROVIDE A PLATFORM FOR DEVELOPERS TO LEARN SOMETHING NEW ABOUT THE TECHNOLOGY , HELP AND GUIDE THEM TO LEARN MORE. ." ;
+  ex:homepage <https://community.mozilla.org/en/groups/viemoz> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:0ffbeaf4-9a69-5fe1-8e59-d47d4dd1d7fd> a ex:LocalGroup ;
+  ex:location <urn:uuid:ece67730-1d09-5f26-b6e4-63bed5468ecb> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Xplora Club" ;
+  ex:description "Xplora Club provides students with great opportunities which helps them grow their knowledge and skills in various fields. We do this by conducting workshops and seminars which enable them to contribute to the open…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/xplora-club> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:d53948c8-4edd-5129-a635-45070c15f439> a ex:Location ;
+  ex:name "Vellore, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:352456f0-2d2c-50f6-be06-df6ed96f511c> a ex:LocalGroup ;
+  ex:location <urn:uuid:d53948c8-4edd-5129-a635-45070c15f439> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Firefox Club VIT" ;
+  ex:description "Open minds. Open ideas. Open source." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-firefox-club-vit> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:d96b3405-2d91-5040-809c-e604b5f8a12e> a ex:Location ;
+  ex:name "Venezuela" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:c022cae2-ed94-540f-ba55-58c9bc302625> a ex:LocalGroup ;
+  ex:location <urn:uuid:d96b3405-2d91-5040-809c-e604b5f8a12e> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Venezuela" ;
+  ex:description "Promovemos las tecnologías web abiertas y llevamos el mensaje de la Fundación Mozilla" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-venezuela> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:8b76ab4f-7671-5e50-afb1-f21cf111c37e> a ex:Location ;
+  ex:name "Visakhapatnam, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:777da3ef-a37b-57dc-9ffc-0a3f1a9a2590> a ex:LocalGroup ;
+  ex:location <urn:uuid:8b76ab4f-7671-5e50-afb1-f21cf111c37e> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "GVP AI Club" ;
+  ex:description "GVP AI-Club is a club open for every young tech enthusiast who wish to share their knowledge and also learn upcoming technologies." ;
+  ex:homepage <https://community.mozilla.org/en/groups/gvp-ai-club> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:47d8bb20-8ff7-58b2-9bd4-b4da96e044ac> a ex:LocalGroup ;
+  ex:location <urn:uuid:8b76ab4f-7671-5e50-afb1-f21cf111c37e> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Visakhapatnam" ;
+  ex:description "Mozilla Visakhapatnam is a regional community under the global non-profit organization, Mozilla that is founded on the roots of Free & Open Source Software. Mozilla works to promote & develop the web and to make it a…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-visakhapatnam> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:5a8b9fe1-5d77-55d1-b0ed-0615ddb24205> a ex:LocalGroup ;
+  ex:location <urn:uuid:8b76ab4f-7671-5e50-afb1-f21cf111c37e> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla//.. Andhra Pradesh" ;
+  ex:description "This is the Mozilla group to connect people of Andhra Pradesh to Firefox , lets make useful things entertaining , fun and interesting" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-andhra-pradesh> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:0f90c8b3-ed03-5138-9b5e-5e9ba341f887> a ex:Location ;
+  ex:name "Visnagar, India" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:3ff8eb17-8462-50fd-aff7-bcae9e0245fc> a ex:LocalGroup ;
+  ex:location <urn:uuid:0f90c8b3-ed03-5138-9b5e-5e9ba341f887> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Visnagar" ;
+  ex:description "We are some individuals passionate about Coding & Design." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-visnagar> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:9bd8f19b-2c1a-5998-aefd-44c974a48a97> a ex:Location ;
+  ex:name "Visoko, Bosnia and Herzegovina" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:e420c599-8684-5211-a17c-592e5aa2ca4b> a ex:LocalGroup ;
+  ex:location <urn:uuid:9bd8f19b-2c1a-5998-aefd-44c974a48a97> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla BiH" ;
+  ex:description "Mozilla group & community for developers and freelancers from Bosnia and Herzegovina" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-bih> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:f9410069-7684-534c-8299-fcfeb095b87c> a ex:Location ;
+  ex:name "Viçosa, Brazil" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:69fa332e-6c44-52f7-bc1f-fe987b068051> a ex:LocalGroup ;
+  ex:location <urn:uuid:f9410069-7684-534c-8299-fcfeb095b87c> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Open Source Lab UFV" ;
+  ex:description "Somos um grupo de estudantes da Universidade Federal de Viçosa focados em desenvolvimento de software de Código Aberto." ;
+  ex:homepage <https://community.mozilla.org/en/groups/open-source-lab-ufv> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:4816b3a2-9ff8-543f-bac0-9480aa07c743> a ex:Location ;
+  ex:name "Washington, DC, United States" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:ac7c9fa8-2941-5258-9dfc-b50b51d8ad25> a ex:LocalGroup ;
+  ex:location <urn:uuid:4816b3a2-9ff8-543f-bac0-9480aa07c743> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla Washington, DC Area (DC / MD / VA)" ;
+  ex:description "Mozilla community in the Washington, DC metro area. We host activities and communications to support open source projets and Mozilla, including in such efforts as policy and advocacy, evangelizing and teaching and…" ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-washington-dc-area-dc-md-va> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:bb3e85e0-40d5-5efd-9c42-52a59e511db6> a ex:Location ;
+  ex:name "Woodland Hills, United States" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:8f7bb1eb-6751-592c-b717-c33e0228b24b> a ex:LocalGroup ;
+  ex:location <urn:uuid:bb3e85e0-40d5-5efd-9c42-52a59e511db6> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "LA Mozilla" ;
+  ex:description "We believe in open source contribution by making the community aware of it and parallelly enhancing the skills to eradicate technology as a hindrance to the community." ;
+  ex:homepage <https://community.mozilla.org/en/groups/la-mozilla> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:ae73753d-6bbf-575f-954c-8d8d2b87d0f5> a ex:Location ;
+  ex:name "Yamoussoukro, Cote D'ivoire" ;
+  ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:ad6696ac-c215-5c49-b572-269dd8cd2033> a ex:LocalGroup ;
+  ex:location <urn:uuid:ae73753d-6bbf-575f-954c-8d8d2b87d0f5> ;
+  ex:sdo <https://www.mozilla.org/> ;
+  ex:name "Mozilla West Africa" ;
+  ex:description "Mozilla West Africa is a group of people interested in collaborating, learning, and sharing experiences of new technologies." ;
+  ex:homepage <https://community.mozilla.org/en/groups/mozilla-west-africa> ;
+  ex:source <https://community.mozilla.org/en/groups/> .
