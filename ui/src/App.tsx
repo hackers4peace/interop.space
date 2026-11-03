@@ -16,8 +16,10 @@ import UseCaseDetail from './routes/UseCaseDetail'
 import Orgs from './routes/Orgs'
 import OrgDetail from './routes/OrgDetail'
 import Events from './routes/Events'
+import EventDetail from './routes/EventDetail'
 import Locations from './routes/Locations'
 import LocationDetail from './routes/LocationDetail'
+import LocalGroupDetail from './routes/LocalGroupDetail'
 import Groups from './routes/Groups'
 import GroupDetail from './routes/GroupDetail'
 import { ThemeToggle } from './components/ThemeToggle'
@@ -38,8 +40,10 @@ export const routes: RouteDefinition[] = [
   { path: '/orgs', component: Orgs },
   { path: '/orgs/:id', component: OrgDetail },
   { path: '/events', component: Events },
+  { path: '/events/:id', component: EventDetail },
   { path: '/locations', component: Locations },
   { path: '/locations/:id', component: LocationDetail },
+  { path: '/local-groups/:id', component: LocalGroupDetail },
   { path: '/groups', component: Groups },
   { path: '/groups/:id', component: GroupDetail },
 ]

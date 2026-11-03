@@ -28,6 +28,7 @@
   ex:startDate "2026-10-26T00:00:00Z"^^xsd:dateTime ;
   ex:endDate "2026-10-30T23:59:59Z"^^xsd:dateTime ;
   ex:location "Clayton Hotel Burlington Road, Dublin, Ireland" ;
+  ex:atLocation <urn:uuid:1166d9bf-85ff-5918-9eb1-3e0b3a5b3390> ;
   ex:source <https://www.w3.org/news-events/tpac/2026/> .
 
 <urn:uuid:9c9382bd-883e-4b10-9e5f-2297f9afaf9d> a ex:Event ;
@@ -36,6 +37,7 @@
   ex:startDate "2026-11-14T00:00:00Z"^^xsd:dateTime ;
   ex:endDate "2026-11-20T23:59:59Z"^^xsd:dateTime ;
   ex:location "Hilton San Francisco Union Square, San Francisco, California, USA" ;
+  ex:atLocation <urn:uuid:9ae40fd8-c4b8-5dff-ae0c-7e6338e8dc31> ;
   ex:source <https://www.ietf.org/meeting/127/> .
 
 <urn:uuid:656b3c22-7ccd-43c1-9b31-ccce524c393b> a ex:Event ;
@@ -44,6 +46,7 @@
   ex:startDate "2026-11-03T00:00:00Z"^^xsd:dateTime ;
   ex:endDate "2026-11-05T23:59:59Z"^^xsd:dateTime ;
   ex:location "Computer History Museum, Mountain View, California, USA" ;
+  ex:atLocation <urn:uuid:72bfb34c-caa6-5f0a-90bd-f281c022c37b> ;
   ex:source <https://internetidentityworkshop.com/upcoming-events/> .
 
 # IndieWebCamp San Diego runs 10:00-18:00 local time on both days; the dates
@@ -54,6 +57,7 @@
   ex:startDate "2026-12-12T00:00:00Z"^^xsd:dateTime ;
   ex:endDate "2026-12-13T23:59:59Z"^^xsd:dateTime ;
   ex:location "San Diego, California, USA (venue TBD)" ;
+  ex:atLocation <urn:uuid:409b7eab-bae6-5a44-acdd-e66c7cdfb035> ;
   ex:source <https://indieweb.org/2026/SD> .
 
 # AtmosphereConf 2027 is a four-day conference in the Netherlands; the venue
@@ -64,6 +68,7 @@
   ex:startDate "2027-04-29T00:00:00Z"^^xsd:dateTime ;
   ex:endDate "2027-05-02T23:59:59Z"^^xsd:dateTime ;
   ex:location "Netherlands (venue TBD)" ;
+  ex:atLocation <urn:uuid:0eb30d1a-f38d-5aea-9f5c-973e14c535f2> ;
   ex:source <https://atmosphereconf.org/> .
 
 # No ex:sdo: FOSDEM is a community-run conference rather than a standards
@@ -73,6 +78,7 @@
   ex:startDate "2027-01-30T00:00:00Z"^^xsd:dateTime ;
   ex:endDate "2027-01-31T23:59:59Z"^^xsd:dateTime ;
   ex:location "ULB Solbosch Campus, Av. F. D. Roosevelt 50, 1050 Brussels, Belgium" ;
+  ex:atLocation <urn:uuid:7e3e99af-9fbb-58c9-adef-fc2bea6bd5a5> ;
   ex:source <https://fosdem.org/2027/> .
 
 # No ex:sdo: the Chaos Communication Congress is organized by the Chaos
@@ -82,4 +88,5 @@
   ex:startDate "2026-12-27T00:00:00Z"^^xsd:dateTime ;
   ex:endDate "2026-12-30T23:59:59Z"^^xsd:dateTime ;
   ex:location "Hamburg Messe, Hamburg, Germany" ;
+  ex:atLocation <urn:uuid:f1b9ebfb-16d7-5916-a8c0-3bef43cbe08e> ;
   ex:source <https://events.ccc.de/congress/2026/infos/startpage.html> .

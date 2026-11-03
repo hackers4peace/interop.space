@@ -78,6 +78,7 @@ export type Event = {
   startDate?: string // ex:startDate, xsd:dateTime in UTC
   endDate?: string // ex:endDate, xsd:dateTime in UTC
   location?: string // ex:location
+  atLocation?: string // ex:atLocation, the ex:Location URI
   source?: string // ex:source, the event's own page
   sdo?: string // ex:sdo, URL of the standards body that runs the event
 }
@@ -88,6 +89,7 @@ export type LocalGroup = {
   name: string
   description?: string // ex:description
   sdo?: string // ex:sdo, URL of the standards body the group belongs to
+  location?: string // ex:location, the ex:Location URI
   homepage?: string // ex:homepage, the group's profile
   logo?: string // ex:logo, a public path or absolute URL
 }
@@ -235,7 +237,20 @@ export type UseCaseView = {
 export type LocationView = {
   kind: 'location'
   location: Location
+  events: Event[]
   groups: LocalGroup[]
+}
+
+export type EventView = {
+  kind: 'event'
+  event: Event
+  location?: Location
+}
+
+export type LocalGroupView = {
+  kind: 'localGroup'
+  group: LocalGroup
+  location?: Location
 }
 
 export type DetailView =
@@ -247,6 +262,8 @@ export type DetailView =
   | OrgView
   | UseCaseView
   | LocationView
+  | EventView
+  | LocalGroupView
 
 export type DetailKind = DetailView['kind']
 

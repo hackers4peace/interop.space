@@ -861,12 +861,13 @@ async function eventsByUris(uris: string[]): Promise<Map<string, Event>> {
   const events = new Map<string, Event>()
   if (!uris.length) return events
   const rows = await queryBindings(`${PREFIXES}
-    SELECT ?event ?name ?startDate ?endDate ?location ?source ?sdo WHERE {
+    SELECT ?event ?name ?startDate ?endDate ?location ?atLocation ?source ?sdo WHERE {
       VALUES ?event { ${uris.map(iri).join(' ')} }
       ?event a ex:Event ; ex:name ?name .
       OPTIONAL { ?event ex:startDate ?startDate }
       OPTIONAL { ?event ex:endDate ?endDate }
       OPTIONAL { ?event ex:location ?location }
+      OPTIONAL { ?event ex:atLocation ?atLocation }
       OPTIONAL { ?event ex:source ?source }
       OPTIONAL { ?event ex:sdo ?sdo }
     }`)
@@ -881,6 +882,7 @@ async function eventsByUris(uris: string[]): Promise<Map<string, Event>> {
       startDate: value(b, 'startDate'),
       endDate: value(b, 'endDate'),
       location: value(b, 'location'),
+      atLocation: value(b, 'atLocation'),
       source: value(b, 'source'),
       sdo: value(b, 'sdo'),
     })
@@ -958,11 +960,40 @@ async function localGroupsAt(uri: string): Promise<LocalGroup[]> {
       name,
       description: value(b, 'description'),
       sdo: value(b, 'sdo'),
+      location: uri,
       homepage: value(b, 'homepage'),
       logo: value(b, 'logo'),
     })
   }
   return groups.sort((a, b) => a.name.localeCompare(b.name))
+}
+
+async function localGroupByUri(
+  uri: string,
+): Promise<LocalGroup | undefined> {
+  const rows = await queryBindings(`${PREFIXES}
+    SELECT ?name ?description ?sdo ?location ?homepage ?logo WHERE {
+      ${iri(uri)} a ex:LocalGroup ; ex:name ?name .
+      OPTIONAL { ${iri(uri)} ex:description ?description }
+      OPTIONAL { ${iri(uri)} ${SDO} ?sdo }
+      OPTIONAL { ${iri(uri)} ex:location ?location }
+      OPTIONAL { ${iri(uri)} ex:homepage ?homepage }
+      OPTIONAL { ${iri(uri)} ex:logo ?logo }
+    }
+    LIMIT 1`)
+  const b = rows[0]
+  const name = b ? value(b, 'name') : undefined
+  if (!b || !name) return undefined
+  return {
+    id: short(uri),
+    uri,
+    name,
+    description: value(b, 'description'),
+    sdo: value(b, 'sdo'),
+    location: value(b, 'location'),
+    homepage: value(b, 'homepage'),
+    logo: value(b, 'logo'),
+  }
 }
 
 async function orgsByUris(
@@ -1296,7 +1327,9 @@ async function resolveSubject(
     | 'software'
     | 'org'
     | 'useCase'
-    | 'location',
+    | 'location'
+    | 'event'
+    | 'localGroup',
   id: string,
   sdo?: string,
 ): Promise<string | undefined> {
@@ -1310,6 +1343,8 @@ async function resolveSubject(
       FILTER NOT EXISTS { ?s ex:subType ?subType }`,
     useCase: `?s a ex:UseCase .`,
     location: `?s a ex:Location .`,
+    event: `?s a ex:Event .`,
+    localGroup: `?s a ex:LocalGroup .`,
   }[kind]
   const scoped =
     sdo && (kind === 'specification' || kind === 'useCase')
@@ -1571,13 +1606,56 @@ async function useCaseDetail(id: string, sdo?: string) {
 async function locationDetail(id: string) {
   const uri = await resolveSubject('location', id)
   if (!uri) return undefined
-  const [locations, groups] = await Promise.all([
+  const [locations, groups, eventRows] = await Promise.all([
     locationsByUris([uri]),
     localGroupsAt(uri),
+    queryBindings(`${PREFIXES}
+      SELECT DISTINCT ?event WHERE {
+        ?event a ex:Event ; ex:atLocation ${iri(uri)} .
+      }`),
   ])
   const location = locations.get(uri)
   if (!location) return undefined
-  return { kind: 'location' as const, location, groups }
+  const eventUris = eventRows
+    .map((b) => value(b, 'event'))
+    .filter((event): event is string => Boolean(event))
+  const eventsByUri = await eventsByUris(eventUris)
+  const events = eventUris
+    .map((eventUri) => eventsByUri.get(eventUri))
+    .filter((event): event is Event => event !== undefined)
+    .sort((a, b) => (a.startDate ?? '').localeCompare(b.startDate ?? ''))
+  return { kind: 'location' as const, location, events, groups }
+}
+
+async function eventDetail(id: string) {
+  const uri = await resolveSubject('event', id)
+  if (!uri) return undefined
+  const events = await eventsByUris([uri])
+  const event = events.get(uri)
+  if (!event) return undefined
+  const locations = event.atLocation
+    ? await locationsByUris([event.atLocation])
+    : undefined
+  return {
+    kind: 'event' as const,
+    event,
+    location: event.atLocation ? locations?.get(event.atLocation) : undefined,
+  }
+}
+
+async function localGroupDetail(id: string) {
+  const uri = await resolveSubject('localGroup', id)
+  if (!uri) return undefined
+  const group = await localGroupByUri(uri)
+  if (!group) return undefined
+  const locations = group.location
+    ? await locationsByUris([group.location])
+    : undefined
+  return {
+    kind: 'localGroup' as const,
+    group,
+    location: group.location ? locations?.get(group.location) : undefined,
+  }
 }
 
 export type DetailResult =
@@ -1589,6 +1667,8 @@ export type DetailResult =
   | Awaited<ReturnType<typeof orgDetail>>
   | Awaited<ReturnType<typeof useCaseDetail>>
   | Awaited<ReturnType<typeof locationDetail>>
+  | Awaited<ReturnType<typeof eventDetail>>
+  | Awaited<ReturnType<typeof localGroupDetail>>
 
 export async function fetchDetail(
   kind: DetailKind,
@@ -1612,5 +1692,9 @@ export async function fetchDetail(
       return useCaseDetail(id, sdo)
     case 'location':
       return locationDetail(id)
+    case 'event':
+      return eventDetail(id)
+    case 'localGroup':
+      return localGroupDetail(id)
   }
 }

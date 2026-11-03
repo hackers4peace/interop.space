@@ -1,15 +1,16 @@
-# Local-group presence by city/region, from the Atmosphere and Mozilla
-# community directories.
+# Local-group presence by city/region, from the Atmosphere, Mozilla and
+# IndieWebCamps community directories.
 #
 # ex:Location is the place (city, area or country); one ex:LocalGroup
 # per group there. The groups carry their own ex:sdo, so a location can
 # host several standards bodies and the UI derives its SDO icon list from
-# the groups present. Online-only communities are not locations and are
-# intentionally omitted.
+# the groups present. Locations with an event but no group yet have no
+# SDO icons; events link to them with ex:atLocation.
 #
 # Sources:
 #   https://atmosphere.community/communities
 #   https://community.mozilla.org/en/groups/
+#   https://indieweb.org/IndieWebCamps
 # Seeded with `devbox run seed` (see devbox.json).
 
 @prefix ex: <http://example.org#> .
@@ -83,7 +84,7 @@
   ex:region "North America — USA" ;
   ex:latitude 34.0522 ;
   ex:longitude -118.2437 ;
-  ex:source <https://atmosphere.community/communities> .
+  ex:source <https://atmosphere.community/communities> , <https://indieweb.org/IndieWebCamps> .
 
 <urn:uuid:dae7d431-bc4f-4bd2-b3e6-d2be251cb2fb> a ex:LocalGroup ;
   ex:location <urn:uuid:5d08fb37-09d3-4234-8f9c-bcb2b340ebc3> ;
@@ -93,6 +94,14 @@
   ex:homepage <https://bsky.app/profile/atproto.la> ;
   ex:logo <https://cdn.bsky.app/img/avatar/plain/did:web:pds.atproto.la/bafkreierrbhebhi2mq4mvmvv4wfd4zbz4r2ksx4qyiv6t7qcar4muiizxu> ;
   ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:f2e946ff-dc4e-530f-b0cb-7456692aed0b> a ex:LocalGroup ;
+  ex:location <urn:uuid:5d08fb37-09d3-4234-8f9c-bcb2b340ebc3> ;
+  ex:sdo <https://indieweb.org/IndieWebCamps> ;
+  ex:name "IndieWebCamp Los Angeles" ;
+  ex:description "Local IndieWebCamp community in Los Angeles, CA." ;
+  ex:homepage <https://indieweb.org/IndieWebCamps> ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
 
 <urn:uuid:17cd2ec6-3b99-4f72-8704-ac47930b043f> a ex:Location ;
   ex:name "Nashville, TN" ;
@@ -115,7 +124,7 @@
   ex:region "North America — USA" ;
   ex:latitude 40.7128 ;
   ex:longitude -74.006 ;
-  ex:source <https://atmosphere.community/communities> .
+  ex:source <https://atmosphere.community/communities> , <https://indieweb.org/IndieWebCamps> .
 
 <urn:uuid:a18cd77a-7a97-41bc-8322-e87569aaa74d> a ex:LocalGroup ;
   ex:location <urn:uuid:14f7736d-9660-4a4c-8055-29044f1c4cc6> ;
@@ -126,12 +135,20 @@
   ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:retm6aeqattyxp7bhmyyv7gk/bafkreibbfw26hl3wwby7b3pqpyfi2clxixikf24rvhgh6yhylhhzm3kdwy> ;
   ex:source <https://atmosphere.community/communities> .
 
+<urn:uuid:bec7ffa3-2af8-5dd6-9e84-0e28a55dde7c> a ex:LocalGroup ;
+  ex:location <urn:uuid:14f7736d-9660-4a4c-8055-29044f1c4cc6> ;
+  ex:sdo <https://indieweb.org/IndieWebCamps> ;
+  ex:name "IndieWebCamp New York" ;
+  ex:description "Local IndieWebCamp community in New York City, NY." ;
+  ex:homepage <https://indieweb.org/IndieWebCamps> ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
+
 <urn:uuid:31974110-365c-418b-8c53-424ad0fd53cc> a ex:Location ;
   ex:name "Portland, OR" ;
   ex:region "North America — USA" ;
   ex:latitude 45.5152 ;
   ex:longitude -122.6784 ;
-  ex:source <https://atmosphere.community/communities> .
+  ex:source <https://atmosphere.community/communities> , <https://indieweb.org/IndieWebCamps> .
 
 <urn:uuid:6780faf9-82c4-4751-ac9c-2ec4b7b99389> a ex:LocalGroup ;
   ex:location <urn:uuid:31974110-365c-418b-8c53-424ad0fd53cc> ;
@@ -141,6 +158,14 @@
   ex:homepage <https://bsky.app/profile/pdx.atproto.camp> ;
   ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:ngpm2aw64djasat7kjognnye/bafkreifpipl7olqr5acnbv7u4hf5d447c7ypw34cb4bckxksyqqgejzpji> ;
   ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:ada71623-3c58-593e-aacb-4c36c0cd75d6> a ex:LocalGroup ;
+  ex:location <urn:uuid:31974110-365c-418b-8c53-424ad0fd53cc> ;
+  ex:sdo <https://indieweb.org/IndieWebCamps> ;
+  ex:name "IndieWebCamp Portland" ;
+  ex:description "Local IndieWebCamp community in Portland, OR." ;
+  ex:homepage <https://indieweb.org/IndieWebCamps> ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
 
 <urn:uuid:a8df835f-6716-42b2-952d-ef861f09e751> a ex:Location ;
   ex:name "Richmond, VA, US" ;
@@ -251,7 +276,7 @@
   ex:region "Europe" ;
   ex:latitude 52.3676 ;
   ex:longitude 4.9041 ;
-  ex:source <https://atmosphere.community/communities> , <https://community.mozilla.org/en/groups/> .
+  ex:source <https://atmosphere.community/communities> , <https://community.mozilla.org/en/groups/> , <https://indieweb.org/IndieWebCamps> .
 
 <urn:uuid:1f645b2b-8521-4540-83db-6893a0c7cdf7> a ex:LocalGroup ;
   ex:location <urn:uuid:7c2f9c90-09fd-478d-8f57-b7b7d7a0acef> ;
@@ -269,6 +294,14 @@
   ex:description "The idea was to organize a group of expats willing to contribute, and promote contributing, to the community." ;
   ex:homepage <https://community.mozilla.org/en/groups/xpaths> ;
   ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:914dde30-bcae-5215-b84e-c41f9f578389> a ex:LocalGroup ;
+  ex:location <urn:uuid:7c2f9c90-09fd-478d-8f57-b7b7d7a0acef> ;
+  ex:sdo <https://indieweb.org/IndieWebCamps> ;
+  ex:name "IndieWebCamp Amsterdam" ;
+  ex:description "Local IndieWebCamp community in Amsterdam, NL." ;
+  ex:homepage <https://indieweb.org/IndieWebCamps> ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
 
 <urn:uuid:35211208-a08a-4617-a1cd-e5065d65eea7> a ex:Location ;
   ex:name "Barcelona, ES" ;
@@ -315,7 +348,7 @@
   ex:region "Europe" ;
   ex:latitude 52.52 ;
   ex:longitude 13.405 ;
-  ex:source <https://atmosphere.community/communities> , <https://community.mozilla.org/en/groups/> .
+  ex:source <https://atmosphere.community/communities> , <https://community.mozilla.org/en/groups/> , <https://indieweb.org/IndieWebCamps> .
 
 <urn:uuid:bb63d40b-228e-4d89-9b26-e603c43f554a> a ex:LocalGroup ;
   ex:location <urn:uuid:ec0f30fc-cea2-4f7d-b80b-50be521fa360> ;
@@ -341,6 +374,14 @@
   ex:description "Mozillians in Berlin meeting up regularly in the Mozilla Berlin office, involving the community and interested Mozillians-to-be. We are hosting different events, including a bi-weekly informal meetup in the Mozilla…" ;
   ex:homepage <https://community.mozilla.org/en/groups/mozilla-berlin> ;
   ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:ab538d6f-b58f-5089-a23d-78b083aa6a13> a ex:LocalGroup ;
+  ex:location <urn:uuid:ec0f30fc-cea2-4f7d-b80b-50be521fa360> ;
+  ex:sdo <https://indieweb.org/IndieWebCamps> ;
+  ex:name "IndieWebCamp Berlin" ;
+  ex:description "Local IndieWebCamp community in Berlin, DE." ;
+  ex:homepage <https://indieweb.org/IndieWebCamps> ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
 
 <urn:uuid:8196bc57-0552-4057-a5db-92c983a754b7> a ex:Location ;
   ex:name "France" ;
@@ -638,6 +679,18 @@
   ex:homepage <https://community.mozilla.org/en/groups/mozilla-aurangabad> ;
   ex:source <https://community.mozilla.org/en/groups/> .
 
+<urn:uuid:be607c60-2fbb-59b2-9499-8646a7bc8ac7> a ex:Location ;
+  ex:name "Austin, TX" ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
+
+<urn:uuid:475716da-49e6-583b-8aa1-2f9b610597d9> a ex:LocalGroup ;
+  ex:location <urn:uuid:be607c60-2fbb-59b2-9499-8646a7bc8ac7> ;
+  ex:sdo <https://indieweb.org/IndieWebCamps> ;
+  ex:name "IndieWebCamp Austin" ;
+  ex:description "Local IndieWebCamp community in Austin, TX." ;
+  ex:homepage <https://indieweb.org/IndieWebCamps> ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
+
 <urn:uuid:1befe89a-9c4b-5d6b-ae50-4e2aea67700b> a ex:Location ;
   ex:name "Badulla, Sri Lanka" ;
   ex:source <https://community.mozilla.org/en/groups/> .
@@ -674,6 +727,18 @@
   ex:homepage <https://community.mozilla.org/en/groups/pola-slot-idn-paling-gacor-batastoto> ;
   ex:source <https://community.mozilla.org/en/groups/> .
 
+<urn:uuid:7db23511-4da4-59dc-8917-acf3a15275f1> a ex:Location ;
+  ex:name "Baltimore, MD" ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
+
+<urn:uuid:cfa6dfb2-980f-5ac5-9346-1076c547bb37> a ex:LocalGroup ;
+  ex:location <urn:uuid:7db23511-4da4-59dc-8917-acf3a15275f1> ;
+  ex:sdo <https://indieweb.org/IndieWebCamps> ;
+  ex:name "IndieWebCamp Baltimore" ;
+  ex:description "Local IndieWebCamp community in Baltimore, MD." ;
+  ex:homepage <https://indieweb.org/IndieWebCamps> ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
+
 <urn:uuid:a9625cb4-a5b8-5eda-9d5c-3f4b25d6f27d> a ex:Location ;
   ex:name "Bangkok, Thailand" ;
   ex:source <https://community.mozilla.org/en/groups/> .
@@ -697,6 +762,18 @@
   ex:description "\"Code Masterz\" is one of the top functioning technical societies at Baba Farid College of Engineering and Technology, dedicated to Computer Science and Technology. We have initiated this coding society for students…" ;
   ex:homepage <https://community.mozilla.org/en/groups/codemasterz-club-punjab> ;
   ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:7c9d7444-9ea9-5f0c-bd4d-64c635030d28> a ex:Location ;
+  ex:name "Bellingham, WA" ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
+
+<urn:uuid:2acdd468-f5c3-5d7f-8c37-933df342044b> a ex:LocalGroup ;
+  ex:location <urn:uuid:7c9d7444-9ea9-5f0c-bd4d-64c635030d28> ;
+  ex:sdo <https://indieweb.org/IndieWebCamps> ;
+  ex:name "IndieWebCamp Bellingham" ;
+  ex:description "Local IndieWebCamp community in Bellingham, WA." ;
+  ex:homepage <https://indieweb.org/IndieWebCamps> ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
 
 <urn:uuid:e953f4e5-4d71-56e6-b992-c7d914518e14> a ex:Location ;
   ex:name "Bengaluru, India" ;
@@ -910,6 +987,22 @@
   ex:homepage <https://community.mozilla.org/en/groups/mozilla-colombia> ;
   ex:source <https://community.mozilla.org/en/groups/> .
 
+<urn:uuid:03cda721-03d2-5917-b5c4-f79bc492feb3> a ex:Location ;
+  ex:name "Brighton, UK" ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
+
+<urn:uuid:540f531c-7ec7-5373-9b15-5db8633d9ea3> a ex:LocalGroup ;
+  ex:location <urn:uuid:03cda721-03d2-5917-b5c4-f79bc492feb3> ;
+  ex:sdo <https://indieweb.org/IndieWebCamps> ;
+  ex:name "IndieWebCamp Brighton" ;
+  ex:description "Local IndieWebCamp community in Brighton, UK." ;
+  ex:homepage <https://indieweb.org/IndieWebCamps> ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
+
+<urn:uuid:7e3e99af-9fbb-58c9-adef-fc2bea6bd5a5> a ex:Location ;
+  ex:name "Brussels, BE" ;
+  ex:source <https://fosdem.org/2027/> .
+
 <urn:uuid:69c7d9aa-f3bf-547a-9509-2adb5cee361e> a ex:Location ;
   ex:name "Budapest, Hungary" ;
   ex:source <https://community.mozilla.org/en/groups/> .
@@ -969,6 +1062,18 @@
   ex:description "Promovemos las tecnologías web abiertas y llevamos el mensaje de la Fundación Mozilla. Comunidad Mozilla En Cali- Colombia, somos un grupo de personas sin ánimos de lucro que nos gusta compartir nuestros…" ;
   ex:homepage <https://community.mozilla.org/en/groups/mozilla-cali-colombia> ;
   ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:7d91631d-216b-5cf6-9195-354af7e09afc> a ex:Location ;
+  ex:name "Cambridge, MA" ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
+
+<urn:uuid:4675765c-f8bf-5a17-8d30-524d3bda2517> a ex:LocalGroup ;
+  ex:location <urn:uuid:7d91631d-216b-5cf6-9195-354af7e09afc> ;
+  ex:sdo <https://indieweb.org/IndieWebCamps> ;
+  ex:name "IndieWebCamp Cambridge" ;
+  ex:description "Local IndieWebCamp community in Cambridge, MA." ;
+  ex:homepage <https://indieweb.org/IndieWebCamps> ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
 
 <urn:uuid:e56d46d8-4429-5775-a94a-b3bc185a1299> a ex:Location ;
   ex:name "Campbellton, Canada" ;
@@ -1330,6 +1435,10 @@
   ex:homepage <https://community.mozilla.org/en/groups/mozilla-community-dubai-uae> ;
   ex:source <https://community.mozilla.org/en/groups/> .
 
+<urn:uuid:1166d9bf-85ff-5918-9eb1-3e0b3a5b3390> a ex:Location ;
+  ex:name "Dublin, IE" ;
+  ex:source <https://www.w3.org/news-events/tpac/2026/> .
+
 <urn:uuid:0a1e2a35-1ceb-55f9-96e9-c2e7fc750d7a> a ex:Location ;
   ex:name "Durg, India" ;
   ex:source <https://community.mozilla.org/en/groups/> .
@@ -1341,6 +1450,30 @@
   ex:description "At Mozilla Durg, we aim to bring developers together, collaborate and learn new things. We want to help people get better development opportunities and meet like minded people so that everyone grows together." ;
   ex:homepage <https://community.mozilla.org/en/groups/moziila-durg-community> ;
   ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:c15f5ea8-a909-5466-8dfe-5e79734429a9> a ex:Location ;
+  ex:name "Düsseldorf, DE" ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
+
+<urn:uuid:01bf92c4-72b2-5995-9a4b-e237d5fc39be> a ex:LocalGroup ;
+  ex:location <urn:uuid:c15f5ea8-a909-5466-8dfe-5e79734429a9> ;
+  ex:sdo <https://indieweb.org/IndieWebCamps> ;
+  ex:name "IndieWebCamp Düsseldorf" ;
+  ex:description "Local IndieWebCamp community in Düsseldorf, DE." ;
+  ex:homepage <https://indieweb.org/IndieWebCamps> ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
+
+<urn:uuid:adfef71f-c6f6-5a48-85d2-8c7a38c923f3> a ex:Location ;
+  ex:name "Edinburgh, UK" ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
+
+<urn:uuid:a03e2398-0732-5c2c-a07c-869cc674b15f> a ex:LocalGroup ;
+  ex:location <urn:uuid:adfef71f-c6f6-5a48-85d2-8c7a38c923f3> ;
+  ex:sdo <https://indieweb.org/IndieWebCamps> ;
+  ex:name "IndieWebCamp Edinburgh" ;
+  ex:description "Local IndieWebCamp community in Edinburgh, UK." ;
+  ex:homepage <https://indieweb.org/IndieWebCamps> ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
 
 <urn:uuid:d570d8e0-8b54-5be2-ba31-cc1a9e6acd0f> a ex:Location ;
   ex:name "El Jadida, Morocco" ;
@@ -1465,6 +1598,10 @@
   ex:description "Mozilla Haldia, a group for active Mozillians in the Haldia Institute Of Technology is a community intended to provide a room for college students to learn and collaborate on a plethora of projects. We aim to bring…" ;
   ex:homepage <https://community.mozilla.org/en/groups/mozilla-haldia-910376124> ;
   ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:f1b9ebfb-16d7-5916-a8c0-3bef43cbe08e> a ex:Location ;
+  ex:name "Hamburg, DE" ;
+  ex:source <https://events.ccc.de/congress/2026/infos/startpage.html> .
 
 <urn:uuid:a68ab370-f99f-5a88-9fc1-7ebfeadf323c> a ex:Location ;
   ex:name "Hamirpur, India" ;
@@ -1745,6 +1882,18 @@
   ex:description "🇮🇱" ;
   ex:homepage <https://community.mozilla.org/en/groups/mozilla-israel> ;
   ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:e35f4d08-43a2-5c14-96be-b2625120da3a> a ex:Location ;
+  ex:name "Istanbul, TR" ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
+
+<urn:uuid:9d481670-6fd2-5942-b19a-603ec3ba53fc> a ex:LocalGroup ;
+  ex:location <urn:uuid:e35f4d08-43a2-5c14-96be-b2625120da3a> ;
+  ex:sdo <https://indieweb.org/IndieWebCamps> ;
+  ex:name "IndieWebCamp Istanbul" ;
+  ex:description "Local IndieWebCamp community in Istanbul, TR." ;
+  ex:homepage <https://indieweb.org/IndieWebCamps> ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
 
 <urn:uuid:b23c44e1-c6b3-5a40-8e37-aaf565e61714> a ex:Location ;
   ex:name "Italy" ;
@@ -2290,6 +2439,10 @@
   ex:homepage <https://community.mozilla.org/en/groups/mozilla-university-issatso> ;
   ex:source <https://community.mozilla.org/en/groups/> .
 
+<urn:uuid:72bfb34c-caa6-5f0a-90bd-f281c022c37b> a ex:Location ;
+  ex:name "Mountain View, CA" ;
+  ex:source <https://internetidentityworkshop.com/upcoming-events/> .
+
 <urn:uuid:1f690e6c-1383-52a8-ad3d-01bd609d0bd9> a ex:Location ;
   ex:name "Mumbai, India" ;
   ex:source <https://community.mozilla.org/en/groups/> .
@@ -2406,6 +2559,10 @@
   ex:homepage <https://community.mozilla.org/en/groups/newpros> ;
   ex:source <https://community.mozilla.org/en/groups/> .
 
+<urn:uuid:0eb30d1a-f38d-5aea-9f5c-973e14c535f2> a ex:Location ;
+  ex:name "Netherlands" ;
+  ex:source <https://atmosphereconf.org/> .
+
 <urn:uuid:a9da76af-1ad6-5ae6-a36e-44c33c63603d> a ex:Location ;
   ex:name "New Delhi, India" ;
   ex:source <https://community.mozilla.org/en/groups/> .
@@ -2466,6 +2623,18 @@
   ex:homepage <https://community.mozilla.org/en/groups/wildfire> ;
   ex:source <https://community.mozilla.org/en/groups/> .
 
+<urn:uuid:f2bd3576-2b7a-545c-b401-da8c0808d797> a ex:Location ;
+  ex:name "New Haven, CT" ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
+
+<urn:uuid:60b4f889-497e-5d83-9ed3-7009b930fb40> a ex:LocalGroup ;
+  ex:location <urn:uuid:f2bd3576-2b7a-545c-b401-da8c0808d797> ;
+  ex:sdo <https://indieweb.org/IndieWebCamps> ;
+  ex:name "IndieWebCamp New Haven" ;
+  ex:description "Local IndieWebCamp community in New Haven, CT." ;
+  ex:homepage <https://indieweb.org/IndieWebCamps> ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
+
 <urn:uuid:99b82f30-6a00-500f-85fb-c106388bdad6> a ex:Location ;
   ex:name "Nicaragua" ;
   ex:source <https://community.mozilla.org/en/groups/> .
@@ -2502,6 +2671,18 @@
   ex:homepage <https://community.mozilla.org/en/groups/mozilla-club-jss> ;
   ex:source <https://community.mozilla.org/en/groups/> .
 
+<urn:uuid:89cd4398-0399-5c7a-b48e-bf0ee65101be> a ex:Location ;
+  ex:name "Nürnberg, DE" ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
+
+<urn:uuid:9bf0db19-1c88-5665-982c-93c23d1fb6ca> a ex:LocalGroup ;
+  ex:location <urn:uuid:89cd4398-0399-5c7a-b48e-bf0ee65101be> ;
+  ex:sdo <https://indieweb.org/IndieWebCamps> ;
+  ex:name "IndieWebCamp Nürnberg" ;
+  ex:description "Local IndieWebCamp community in Nürnberg, DE." ;
+  ex:homepage <https://indieweb.org/IndieWebCamps> ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
+
 <urn:uuid:53f9c500-000b-5649-a87e-9d569c828d7a> a ex:Location ;
   ex:name "Oakland, United States" ;
   ex:source <https://community.mozilla.org/en/groups/> .
@@ -2537,6 +2718,18 @@
   ex:description "Group for testing Mozilla." ;
   ex:homepage <https://community.mozilla.org/en/groups/tester-group> ;
   ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:d93fe02f-baa7-5ecb-bcd3-1039267f4926> a ex:Location ;
+  ex:name "Oxford, UK" ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
+
+<urn:uuid:15d8babc-6bca-5742-b903-77f769a0b238> a ex:LocalGroup ;
+  ex:location <urn:uuid:d93fe02f-baa7-5ecb-bcd3-1039267f4926> ;
+  ex:sdo <https://indieweb.org/IndieWebCamps> ;
+  ex:name "IndieWebCamp Oxford" ;
+  ex:description "Local IndieWebCamp community in Oxford, UK." ;
+  ex:homepage <https://indieweb.org/IndieWebCamps> ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
 
 <urn:uuid:929e997e-0219-5847-8fab-95745484224a> a ex:Location ;
   ex:name "Pakistan" ;
@@ -2789,6 +2982,30 @@
   ex:description "Techforge is Salem ( India ) India based Software company and developer community. Helping Startups to build good products also helping students to lean coding with various skill building activity. This community…" ;
   ex:homepage <https://community.mozilla.org/en/groups/mozilla-techforge> ;
   ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:409b7eab-bae6-5a44-acdd-e66c7cdfb035> a ex:Location ;
+  ex:name "San Diego, CA" ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
+
+<urn:uuid:f03af935-2d5e-5d11-8a69-1c243824a5e3> a ex:LocalGroup ;
+  ex:location <urn:uuid:409b7eab-bae6-5a44-acdd-e66c7cdfb035> ;
+  ex:sdo <https://indieweb.org/IndieWebCamps> ;
+  ex:name "IndieWebCamp San Diego" ;
+  ex:description "Local IndieWebCamp community in San Diego, CA." ;
+  ex:homepage <https://indieweb.org/IndieWebCamps> ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
+
+<urn:uuid:9ae40fd8-c4b8-5dff-ae0c-7e6338e8dc31> a ex:Location ;
+  ex:name "San Francisco, CA" ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
+
+<urn:uuid:386fcac1-f006-571c-a607-ab2459cb348b> a ex:LocalGroup ;
+  ex:location <urn:uuid:9ae40fd8-c4b8-5dff-ae0c-7e6338e8dc31> ;
+  ex:sdo <https://indieweb.org/IndieWebCamps> ;
+  ex:name "IndieWebCamp San Francisco" ;
+  ex:description "Local IndieWebCamp community in San Francisco, CA." ;
+  ex:homepage <https://indieweb.org/IndieWebCamps> ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
 
 <urn:uuid:0abfcce1-e4fc-537c-b0c5-90eb7dc00382> a ex:Location ;
   ex:name "Santa Cruz, Bolivia" ;
@@ -3145,6 +3362,18 @@
   ex:description "Onnac is a technology blog that shares latest tech news, reviews, and additional info that comes under technology niche." ;
   ex:homepage <https://community.mozilla.org/en/groups/tech-people> ;
   ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:fb9e7a20-717f-5952-b18d-213b19cda1ba> a ex:Location ;
+  ex:name "Utrecht, NL" ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
+
+<urn:uuid:8442ecf2-c037-59ed-8db6-db26719f810e> a ex:LocalGroup ;
+  ex:location <urn:uuid:fb9e7a20-717f-5952-b18d-213b19cda1ba> ;
+  ex:sdo <https://indieweb.org/IndieWebCamps> ;
+  ex:name "IndieWebCamp Utrecht" ;
+  ex:description "Local IndieWebCamp community in Utrecht, NL." ;
+  ex:homepage <https://indieweb.org/IndieWebCamps> ;
+  ex:source <https://indieweb.org/IndieWebCamps> .
 
 <urn:uuid:ece67730-1d09-5f26-b6e4-63bed5468ecb> a ex:Location ;
   ex:name "Vadodara, India" ;
