@@ -15,6 +15,7 @@ import UseCases from './routes/UseCases'
 import UseCaseDetail from './routes/UseCaseDetail'
 import Orgs from './routes/Orgs'
 import OrgDetail from './routes/OrgDetail'
+import Events from './routes/Events'
 import Groups from './routes/Groups'
 import GroupDetail from './routes/GroupDetail'
 import { ThemeToggle } from './components/ThemeToggle'
@@ -34,6 +35,7 @@ export const routes: RouteDefinition[] = [
   { path: '/use-cases/:id', component: UseCaseDetail },
   { path: '/orgs', component: Orgs },
   { path: '/orgs/:id', component: OrgDetail },
+  { path: '/events', component: Events },
   { path: '/groups', component: Groups },
   { path: '/groups/:id', component: GroupDetail },
 ]
@@ -69,12 +71,15 @@ const App: ParentComponent = (props) => {
           <A href={href('/use-cases')} class={navLink} activeClass="bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white">
             Use Cases
           </A>
-          <span class={inactiveNavLink} aria-disabled="true" title="Not available yet">
+          <A href={href('/events')} class={navLink} activeClass="bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white">
             Events
-          </span>
+          </A>
           <A href={href('/orgs')} class={navLink} activeClass="bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white">
             Orgs
           </A>
+          <span class={inactiveNavLink} aria-disabled="true" title="Not available yet">
+            Deployments
+          </span>
           <span class={inactiveNavLink} aria-disabled="true" title="Not available yet">
             Publications
           </span>

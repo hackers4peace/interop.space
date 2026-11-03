@@ -1,0 +1,85 @@
+# Sample events from the SDO calendars.
+#
+# Each record is typed ex:Event and linked to its standards body with ex:sdo.
+# Dates use xsd:dateTime in UTC. For events published as local calendar dates,
+# multi-day boundaries are 00:00:00Z and 23:59:59Z so the date survives without
+# a timezone.
+#
+# Sources:
+#   https://www.w3.org/news-events/tpac/2026/
+#   https://www.ietf.org/meeting/127/
+#   https://internetidentityworkshop.com/upcoming-events/
+#   https://indieweb.org/2026/SD
+#   https://atmosphereconf.org/
+#   https://fosdem.org/2027/
+#   https://events.ccc.de/congress/2026/infos/startpage.html
+#
+# IIW Foundation operates IIW; https://iiwfoundation.org/ redirects to the
+# workshop site, which is the canonical ex:sdo identifier.
+#
+# Seeded with `devbox run seed` (see devbox.json).
+
+@prefix ex: <http://example.org#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<urn:uuid:c59e6390-a817-4f97-83ea-e4053aba9df7> a ex:Event ;
+  ex:sdo <https://www.w3.org/> ;
+  ex:name "W3C TPAC 2026" ;
+  ex:startDate "2026-10-26T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2026-10-30T23:59:59Z"^^xsd:dateTime ;
+  ex:location "Clayton Hotel Burlington Road, Dublin, Ireland" ;
+  ex:source <https://www.w3.org/news-events/tpac/2026/> .
+
+<urn:uuid:9c9382bd-883e-4b10-9e5f-2297f9afaf9d> a ex:Event ;
+  ex:sdo <https://www.ietf.org/> ;
+  ex:name "IETF 127" ;
+  ex:startDate "2026-11-14T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2026-11-20T23:59:59Z"^^xsd:dateTime ;
+  ex:location "Hilton San Francisco Union Square, San Francisco, California, USA" ;
+  ex:source <https://www.ietf.org/meeting/127/> .
+
+<urn:uuid:656b3c22-7ccd-43c1-9b31-ccce524c393b> a ex:Event ;
+  ex:sdo <https://internetidentityworkshop.com/> ;
+  ex:name "IIW 43" ;
+  ex:startDate "2026-11-03T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2026-11-05T23:59:59Z"^^xsd:dateTime ;
+  ex:location "Computer History Museum, Mountain View, California, USA" ;
+  ex:source <https://internetidentityworkshop.com/upcoming-events/> .
+
+# IndieWebCamp San Diego runs 10:00-18:00 local time on both days; the dates
+# below follow the catalog's UTC day-boundary convention.
+<urn:uuid:18b63007-3da8-42dd-82d0-a8ed2cb04483> a ex:Event ;
+  ex:sdo <https://indieweb.org/IndieWebCamps> ;
+  ex:name "IndieWebCamp San Diego 2026" ;
+  ex:startDate "2026-12-12T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2026-12-13T23:59:59Z"^^xsd:dateTime ;
+  ex:location "San Diego, California, USA (venue TBD)" ;
+  ex:source <https://indieweb.org/2026/SD> .
+
+# AtmosphereConf 2027 is a four-day conference in the Netherlands; the venue
+# is still to be announced.
+<urn:uuid:9930c3eb-8c95-4ff3-bc76-9435ea0e366c> a ex:Event ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "AtmosphereConf 2027" ;
+  ex:startDate "2027-04-29T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2027-05-02T23:59:59Z"^^xsd:dateTime ;
+  ex:location "Netherlands (venue TBD)" ;
+  ex:source <https://atmosphereconf.org/> .
+
+# No ex:sdo: FOSDEM is a community-run conference rather than a standards
+# body's event.
+<urn:uuid:c156da49-c7f0-43c6-aefd-01453b77df11> a ex:Event ;
+  ex:name "FOSDEM 2027" ;
+  ex:startDate "2027-01-30T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2027-01-31T23:59:59Z"^^xsd:dateTime ;
+  ex:location "ULB Solbosch Campus, Av. F. D. Roosevelt 50, 1050 Brussels, Belgium" ;
+  ex:source <https://fosdem.org/2027/> .
+
+# No ex:sdo: the Chaos Communication Congress is organized by the Chaos
+# Computer Club community.
+<urn:uuid:ae47643c-3e61-4088-9134-7ae2a0f143c8> a ex:Event ;
+  ex:name "40C3: Model Citizens" ;
+  ex:startDate "2026-12-27T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2026-12-30T23:59:59Z"^^xsd:dateTime ;
+  ex:location "Hamburg Messe, Hamburg, Germany" ;
+  ex:source <https://events.ccc.de/congress/2026/infos/startpage.html> .

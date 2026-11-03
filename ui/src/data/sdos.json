@@ -148,5 +148,26 @@
     "website": "https://www.sovereign.tech/",
     "logo": "/logos/sovereign-tech-agency.svg",
     "sections": []
+  },
+  {
+    "id": "https://internetidentityworkshop.com/",
+    "name": "IIW Foundation",
+    "website": "https://internetidentityworkshop.com/",
+    "logo": "/logos/iiw-foundation.svg",
+    "sections": []
+  },
+  {
+    "id": "https://indieweb.org/IndieWebCamps",
+    "name": "IndieWebCamps",
+    "website": "https://indieweb.org/IndieWebCamps",
+    "logo": "/logos/indiewebcamps.png",
+    "sections": []
+  },
+  {
+    "id": "https://atmosphere.community/",
+    "name": "Atmosphere",
+    "website": "https://atmosphere.community/",
+    "logo": "/logos/atmosphere.webp",
+    "sections": []
   }
 ]

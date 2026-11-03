@@ -70,6 +70,7 @@ const STATIC_SEED_FILES = [
   'data/use-cases.ttl',
   'data/specs.ttl',
   'data/organizations.ttl',
+  'data/events.ttl',
 ]
 
 /** Every completed stage file, in a deterministic SDO/stage order. */

@@ -71,6 +71,17 @@ export type Org = {
   proposedUseCaseUris: string[] // ex:proposed targets
 }
 
+export type Event = {
+  id: string // short display/URL form (tail of the catalog URI)
+  uri: string // full catalog URI
+  name: string
+  startDate?: string // ex:startDate, xsd:dateTime in UTC
+  endDate?: string // ex:endDate, xsd:dateTime in UTC
+  location?: string // ex:location
+  source?: string // ex:source, the event's own page
+  sdo?: string // ex:sdo, URL of the standards body that runs the event
+}
+
 export type CitationNature = 'normative' | 'informative'
 
 export type SpecReference = {
@@ -238,6 +249,7 @@ export type ListingKind =
   | 'useCases'
   | 'orgs'
   | 'groups'
+  | 'events'
 
 export type AppState = {
   people: ListingState<Person>
@@ -247,6 +259,7 @@ export type AppState = {
   useCases: ListingState<UseCase>
   orgs: ListingState<Org>
   groups: ListingState<GroupSummary>
+  events: ListingState<Event>
   detail: DetailState
   groupSelection: GroupSelection
 }
@@ -267,6 +280,7 @@ export const initialAppState = (): AppState => ({
   useCases: emptyListing(),
   orgs: emptyListing(),
   groups: emptyListing(),
+  events: emptyListing(),
   detail: { status: 'idle' },
   groupSelection: {
     selected: [],

@@ -1,6 +1,7 @@
 import { SparqlEndpointFetcher, type IBindings } from 'fetch-sparql-endpoint'
 import type {
   DetailKind,
+  Event,
   GroupSummary,
   ListingKind,
   Org,
@@ -195,6 +196,7 @@ export type ListingPage = {
     | UseCase[]
     | Org[]
     | GroupSummary[]
+    | Event[]
   hasMore: boolean
   cursor: ListingCursor | null
   total?: number
@@ -209,6 +211,7 @@ export const PAGE_SIZE: Record<ListingKind, number> = {
   useCases: 20,
   orgs: 20,
   groups: 20,
+  events: 20,
 }
 
 // The ordering is authoritative on the server. The URI tie-breaker makes it a
@@ -228,14 +231,22 @@ const LISTING_BODY: Record<ListingKind, string> = {
   orgs: `?id a ex:Organization ; ex:name ?name .
     FILTER NOT EXISTS { ?id ex:subType ?subType }`,
   groups: `?id a ex:Group ; ex:name ?name .`,
+  events: `?id a ex:Event ; ex:name ?name .
+    OPTIONAL { ?id ex:startDate ?startDate }`,
 }
 
-// Only specs, groups and use cases belong to an SDO. People, projects,
+// Events read chronologically; every other directory is alphabetical.
+const LISTING_SORT_KEY: Partial<Record<ListingKind, string>> = {
+  events: 'COALESCE(STR(?startDate), "")',
+}
+
+// Only specs, groups, use cases and events belong to an SDO. People, projects,
 // organizations and software are SDO-independent.
 const SDO_LISTINGS = new Set<ListingKind>([
   'specifications',
   'useCases',
   'groups',
+  'events',
 ])
 
 const sdoFilter = (kind: ListingKind, sdo: string | undefined) =>
@@ -262,7 +273,7 @@ const idPageQuery = (
 ) => `${PREFIXES}
 SELECT ?id ?sortKey WHERE {
   {
-    SELECT DISTINCT ?id (LCASE(STR(?name)) AS ?sortKey) WHERE {
+    SELECT DISTINCT ?id (${LISTING_SORT_KEY[kind] ?? 'LCASE(STR(?name))'} AS ?sortKey) WHERE {
       ${LISTING_BODY[kind]}
       ${sdoFilter(kind, sdo)}
       ${searchFilter(query)}
@@ -833,6 +844,37 @@ async function useCasesByUris(uris: string[]): Promise<Map<string, UseCase>> {
   return useCases
 }
 
+async function eventsByUris(uris: string[]): Promise<Map<string, Event>> {
+  const events = new Map<string, Event>()
+  if (!uris.length) return events
+  const rows = await queryBindings(`${PREFIXES}
+    SELECT ?event ?name ?startDate ?endDate ?location ?source ?sdo WHERE {
+      VALUES ?event { ${uris.map(iri).join(' ')} }
+      ?event a ex:Event ; ex:name ?name .
+      OPTIONAL { ?event ex:startDate ?startDate }
+      OPTIONAL { ?event ex:endDate ?endDate }
+      OPTIONAL { ?event ex:location ?location }
+      OPTIONAL { ?event ex:source ?source }
+      OPTIONAL { ?event ex:sdo ?sdo }
+    }`)
+  for (const b of rows) {
+    const uri = value(b, 'event')
+    const name = value(b, 'name')
+    if (!uri || !name) continue
+    events.set(uri, {
+      id: short(uri),
+      uri,
+      name,
+      startDate: value(b, 'startDate'),
+      endDate: value(b, 'endDate'),
+      location: value(b, 'location'),
+      source: value(b, 'source'),
+      sdo: value(b, 'sdo'),
+    })
+  }
+  return events
+}
+
 async function orgsByUris(
   uris: string[],
   full = false,
@@ -1120,6 +1162,14 @@ export async function fetchListingPage(
         ids
           .map((id) => groups.get(id))
           .filter((group): group is GroupSummary => group !== undefined),
+      )
+    }
+    case 'events': {
+      const events = await eventsByUris(ids)
+      return result(
+        ids
+          .map((id) => events.get(id))
+          .filter((event): event is Event => event !== undefined),
       )
     }
   }
