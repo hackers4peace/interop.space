@@ -16,6 +16,8 @@ import UseCaseDetail from './routes/UseCaseDetail'
 import Orgs from './routes/Orgs'
 import OrgDetail from './routes/OrgDetail'
 import Events from './routes/Events'
+import Locations from './routes/Locations'
+import LocationDetail from './routes/LocationDetail'
 import Groups from './routes/Groups'
 import GroupDetail from './routes/GroupDetail'
 import { ThemeToggle } from './components/ThemeToggle'
@@ -36,6 +38,8 @@ export const routes: RouteDefinition[] = [
   { path: '/orgs', component: Orgs },
   { path: '/orgs/:id', component: OrgDetail },
   { path: '/events', component: Events },
+  { path: '/locations', component: Locations },
+  { path: '/locations/:id', component: LocationDetail },
   { path: '/groups', component: Groups },
   { path: '/groups/:id', component: GroupDetail },
 ]
@@ -76,6 +80,9 @@ const App: ParentComponent = (props) => {
           </A>
           <A href={href('/orgs')} class={navLink} activeClass="bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white">
             Orgs
+          </A>
+          <A href={href('/locations')} class={navLink} activeClass="bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white">
+            Locations
           </A>
           <span class={inactiveNavLink} aria-disabled="true" title="Not available yet">
             Deployments

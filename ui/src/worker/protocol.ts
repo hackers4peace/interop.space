@@ -82,6 +82,26 @@ export type Event = {
   sdo?: string // ex:sdo, URL of the standards body that runs the event
 }
 
+export type LocalGroup = {
+  id: string // short display/URL form (tail of the catalog URI)
+  uri: string // full catalog URI
+  name: string
+  description?: string // ex:description
+  sdo?: string // ex:sdo, URL of the standards body the group belongs to
+  homepage?: string // ex:homepage, the group's profile
+  logo?: string // ex:logo, a public path or absolute URL
+}
+
+export type Location = {
+  id: string // short display/URL form (tail of the catalog URI)
+  uri: string // full catalog URI
+  name: string // city, area or country
+  region?: string // ex:region
+  latitude?: number // ex:latitude
+  longitude?: number // ex:longitude
+  sdos: string[] // distinct ex:sdo values of the local groups present
+}
+
 export type CitationNature = 'normative' | 'informative'
 
 export type SpecReference = {
@@ -212,6 +232,12 @@ export type UseCaseView = {
   specifications: { uri: string; spec?: Specification }[]
 }
 
+export type LocationView = {
+  kind: 'location'
+  location: Location
+  groups: LocalGroup[]
+}
+
 export type DetailView =
   | PersonView
   | ProjectView
@@ -220,6 +246,7 @@ export type DetailView =
   | GroupView
   | OrgView
   | UseCaseView
+  | LocationView
 
 export type DetailKind = DetailView['kind']
 
@@ -250,6 +277,7 @@ export type ListingKind =
   | 'orgs'
   | 'groups'
   | 'events'
+  | 'locations'
 
 export type AppState = {
   people: ListingState<Person>
@@ -260,6 +288,7 @@ export type AppState = {
   orgs: ListingState<Org>
   groups: ListingState<GroupSummary>
   events: ListingState<Event>
+  locations: ListingState<Location>
   detail: DetailState
   groupSelection: GroupSelection
 }
@@ -281,6 +310,7 @@ export const initialAppState = (): AppState => ({
   orgs: emptyListing(),
   groups: emptyListing(),
   events: emptyListing(),
+  locations: emptyListing(),
   detail: { status: 'idle' },
   groupSelection: {
     selected: [],

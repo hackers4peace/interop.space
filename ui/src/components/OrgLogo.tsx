@@ -16,9 +16,18 @@ const initials = (name: string) =>
 export const OrgLogo: Component<{
   name: string
   logo?: string
-  size?: 'sm' | 'md'
+  size?: 'xs' | 'sm' | 'md'
 }> = (props) => {
-  const box = () => (props.size === 'md' ? 'h-24 w-24 p-3' : 'h-16 w-16 p-2')
+  const box = () =>
+    props.size === 'md'
+      ? 'h-24 w-24 p-3'
+      : props.size === 'xs'
+        ? 'h-8 w-8 p-1'
+        : 'h-16 w-16 p-2'
+  const initialsClass = () =>
+    props.size === 'xs'
+      ? 'text-[10px] font-semibold text-slate-500'
+      : 'text-sm font-semibold text-slate-500'
 
   return (
     <div
@@ -27,9 +36,7 @@ export const OrgLogo: Component<{
       <Show
         when={props.logo}
         fallback={
-          <span class="text-sm font-semibold text-slate-500">
-            {initials(props.name)}
-          </span>
+          <span class={initialsClass()}>{initials(props.name)}</span>
         }
       >
         {(src) => (

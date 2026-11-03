@@ -50,6 +50,7 @@ const listingMeta: Record<ListingKind, ListingMeta> = {
   orgs: { cursor: null, token: 0 },
   groups: { cursor: null, token: 0 },
   events: { cursor: null, token: 0 },
+  locations: { cursor: null, token: 0 },
 }
 
 const listing = (kind: ListingKind): ListingState<unknown> =>

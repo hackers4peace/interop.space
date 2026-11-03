@@ -4,6 +4,8 @@ import type {
   Event,
   GroupSummary,
   ListingKind,
+  LocalGroup,
+  Location,
   Org,
   Person,
   Project,
@@ -197,6 +199,7 @@ export type ListingPage = {
     | Org[]
     | GroupSummary[]
     | Event[]
+    | Location[]
   hasMore: boolean
   cursor: ListingCursor | null
   total?: number
@@ -212,6 +215,7 @@ export const PAGE_SIZE: Record<ListingKind, number> = {
   orgs: 20,
   groups: 20,
   events: 20,
+  locations: 20,
 }
 
 // The ordering is authoritative on the server. The URI tie-breaker makes it a
@@ -233,6 +237,7 @@ const LISTING_BODY: Record<ListingKind, string> = {
   groups: `?id a ex:Group ; ex:name ?name .`,
   events: `?id a ex:Event ; ex:name ?name .
     OPTIONAL { ?id ex:startDate ?startDate }`,
+  locations: `?id a ex:Location ; ex:name ?name .`,
 }
 
 // Events read chronologically; every other directory is alphabetical.
@@ -240,17 +245,25 @@ const LISTING_SORT_KEY: Partial<Record<ListingKind, string>> = {
   events: 'COALESCE(STR(?startDate), "")',
 }
 
-// Only specs, groups, use cases and events belong to an SDO. People, projects,
-// organizations and software are SDO-independent.
+// Only specs, groups, use cases, events and locations belong to an SDO.
+// People, projects, organizations and software are SDO-independent.
 const SDO_LISTINGS = new Set<ListingKind>([
   'specifications',
   'useCases',
   'groups',
   'events',
+  'locations',
 ])
 
-const sdoFilter = (kind: ListingKind, sdo: string | undefined) =>
-  sdo && SDO_LISTINGS.has(kind) ? `?id ${SDO} ${iri(sdo)} .` : ''
+const sdoFilter = (kind: ListingKind, sdo: string | undefined) => {
+  if (!sdo || !SDO_LISTINGS.has(kind)) return ''
+  // A location has no SDO of its own; it is scoped through the local groups
+  // present there, which can belong to several standards bodies.
+  if (kind === 'locations') {
+    return `?group ex:location ?id ; ${SDO} ${iri(sdo)} .`
+  }
+  return `?id ${SDO} ${iri(sdo)} .`
+}
 
 const searchFilter = (query: string) => {
   const normalized = query.trim()
@@ -875,6 +888,83 @@ async function eventsByUris(uris: string[]): Promise<Map<string, Event>> {
   return events
 }
 
+async function locationsByUris(
+  uris: string[],
+): Promise<Map<string, Location>> {
+  const locations = new Map<string, Location>()
+  if (!uris.length) return locations
+  const subjects = uris.map(iri).join(' ')
+  const [rows, sdoRows] = await Promise.all([
+    queryBindings(`${PREFIXES}
+      SELECT ?location ?name ?region ?latitude ?longitude WHERE {
+        VALUES ?location { ${subjects} }
+        ?location a ex:Location ; ex:name ?name .
+        OPTIONAL { ?location ex:region ?region }
+        OPTIONAL { ?location ex:latitude ?latitude }
+        OPTIONAL { ?location ex:longitude ?longitude }
+      }`),
+    queryBindings(`${PREFIXES}
+      SELECT DISTINCT ?location ?sdo WHERE {
+        VALUES ?location { ${subjects} }
+        ?group ex:location ?location ; ${SDO} ?sdo .
+      }`),
+  ])
+  for (const b of rows) {
+    const uri = value(b, 'location')
+    const name = value(b, 'name')
+    if (!uri || !name) continue
+    const latitude = value(b, 'latitude')
+    const longitude = value(b, 'longitude')
+    locations.set(uri, {
+      id: short(uri),
+      uri,
+      name,
+      region: value(b, 'region'),
+      latitude: latitude === undefined ? undefined : Number(latitude),
+      longitude: longitude === undefined ? undefined : Number(longitude),
+      sdos: [],
+    })
+  }
+  for (const b of sdoRows) {
+    const uri = value(b, 'location')
+    const sdo = value(b, 'sdo')
+    const location = uri ? locations.get(uri) : undefined
+    if (!location || !sdo || location.sdos.includes(sdo)) continue
+    location.sdos.push(sdo)
+  }
+  for (const location of locations.values()) {
+    location.sdos.sort((a, b) => a.localeCompare(b))
+  }
+  return locations
+}
+
+async function localGroupsAt(uri: string): Promise<LocalGroup[]> {
+  const rows = await queryBindings(`${PREFIXES}
+    SELECT ?group ?name ?description ?sdo ?homepage ?logo WHERE {
+      ?group a ex:LocalGroup ; ex:location ${iri(uri)} ; ex:name ?name .
+      OPTIONAL { ?group ex:description ?description }
+      OPTIONAL { ?group ${SDO} ?sdo }
+      OPTIONAL { ?group ex:homepage ?homepage }
+      OPTIONAL { ?group ex:logo ?logo }
+    }`)
+  const groups: LocalGroup[] = []
+  for (const b of rows) {
+    const groupUri = value(b, 'group')
+    const name = value(b, 'name')
+    if (!groupUri || !name) continue
+    groups.push({
+      id: short(groupUri),
+      uri: groupUri,
+      name,
+      description: value(b, 'description'),
+      sdo: value(b, 'sdo'),
+      homepage: value(b, 'homepage'),
+      logo: value(b, 'logo'),
+    })
+  }
+  return groups.sort((a, b) => a.name.localeCompare(b.name))
+}
+
 async function orgsByUris(
   uris: string[],
   full = false,
@@ -1172,6 +1262,14 @@ export async function fetchListingPage(
           .filter((event): event is Event => event !== undefined),
       )
     }
+    case 'locations': {
+      const locations = await locationsByUris(ids)
+      return result(
+        ids
+          .map((id) => locations.get(id))
+          .filter((location): location is Location => location !== undefined),
+      )
+    }
   }
 }
 
@@ -1191,7 +1289,14 @@ const shortIdFilter = (id: string, person = false) => {
 }
 
 async function resolveSubject(
-  kind: 'person' | 'project' | 'specification' | 'software' | 'org' | 'useCase',
+  kind:
+    | 'person'
+    | 'project'
+    | 'specification'
+    | 'software'
+    | 'org'
+    | 'useCase'
+    | 'location',
   id: string,
   sdo?: string,
 ): Promise<string | undefined> {
@@ -1204,6 +1309,7 @@ async function resolveSubject(
     org: `?s a ex:Organization .
       FILTER NOT EXISTS { ?s ex:subType ?subType }`,
     useCase: `?s a ex:UseCase .`,
+    location: `?s a ex:Location .`,
   }[kind]
   const scoped =
     sdo && (kind === 'specification' || kind === 'useCase')
@@ -1462,6 +1568,18 @@ async function useCaseDetail(id: string, sdo?: string) {
   }
 }
 
+async function locationDetail(id: string) {
+  const uri = await resolveSubject('location', id)
+  if (!uri) return undefined
+  const [locations, groups] = await Promise.all([
+    locationsByUris([uri]),
+    localGroupsAt(uri),
+  ])
+  const location = locations.get(uri)
+  if (!location) return undefined
+  return { kind: 'location' as const, location, groups }
+}
+
 export type DetailResult =
   | Awaited<ReturnType<typeof personDetail>>
   | Awaited<ReturnType<typeof projectDetail>>
@@ -1470,6 +1588,7 @@ export type DetailResult =
   | Awaited<ReturnType<typeof groupDetail>>
   | Awaited<ReturnType<typeof orgDetail>>
   | Awaited<ReturnType<typeof useCaseDetail>>
+  | Awaited<ReturnType<typeof locationDetail>>
 
 export async function fetchDetail(
   kind: DetailKind,
@@ -1491,5 +1610,7 @@ export async function fetchDetail(
       return orgDetail(id)
     case 'useCase':
       return useCaseDetail(id, sdo)
+    case 'location':
+      return locationDetail(id)
   }
 }

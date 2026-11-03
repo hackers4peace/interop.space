@@ -1,0 +1,412 @@
+# Local-group presence by city/region, from the Atmosphere community list.
+#
+# ex:Location is the place (city, area or country); one ex:LocalGroup
+# per group there. The groups carry their own ex:sdo, so a location can
+# host several standards bodies and the UI derives its SDO icon list
+# from the groups present. Online-only communities are not locations and
+# are intentionally omitted.
+#
+# Source: https://atmosphere.community/communities
+# Seeded with `devbox run seed` (see devbox.json).
+
+@prefix ex: <http://example.org#> .
+
+<urn:uuid:894464ef-6896-461f-a246-52699745662d> a ex:Location ;
+  ex:name "Bay Area, CA" ;
+  ex:region "North America — USA" ;
+  ex:latitude 37.7749 ;
+  ex:longitude -122.4194 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:84f85668-cc8f-4ad9-900e-7eef62faac1e> a ex:LocalGroup ;
+  ex:location <urn:uuid:894464ef-6896-461f-a246-52699745662d> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "ATProto Bay Area" ;
+  ex:description "Bay Area ATProtocol meetup group" ;
+  ex:homepage <https://bsky.app/profile/bayarea.atproto.camp> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:66fb34oirmdjeejlu3cntpym/bafkreiffdr6u4o6kio6gcxeajgt7ti5rukfmaydfbcupjw2k4ejsth72bm> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:0f4baf8e-8256-4a94-9767-b13326bfcce7> a ex:Location ;
+  ex:name "Boston, MA" ;
+  ex:region "North America — USA" ;
+  ex:latitude 42.3601 ;
+  ex:longitude -71.0589 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:b697d1e0-d0fb-45d4-a04e-f053f91f63da> a ex:LocalGroup ;
+  ex:location <urn:uuid:0f4baf8e-8256-4a94-9767-b13326bfcce7> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "ATProto Boston" ;
+  ex:description "Boston ATProtocol user group" ;
+  ex:homepage <https://bsky.app/profile/atproto.boston> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:pqerwmnouevyltxyoayhholf/bafkreid3t3olf3aexexzn44tallon3kjxc4ke5azuhq7sgfuzxa2bat2va> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:5dd87c21-2495-42d9-9170-50e469444a8e> a ex:Location ;
+  ex:name "Chicago, IL" ;
+  ex:region "North America — USA" ;
+  ex:latitude 41.8781 ;
+  ex:longitude -87.6298 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:ed803424-e767-4ee8-8fdb-d20fd95b31e5> a ex:LocalGroup ;
+  ex:location <urn:uuid:5dd87c21-2495-42d9-9170-50e469444a8e> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "ATProto Chicago" ;
+  ex:description "Chicago ATProtocol user group" ;
+  ex:homepage <https://bsky.app/profile/chicago.at> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:rsupeyqtdf2rvlg7ksvow2gm/bafkreih5bsxm34g436m2tvu52tqii5ofgq7aeqlrxu2xdhoqzx7hqwwnj4> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:5059d0b0-4d0a-4291-ab46-4b587d347367> a ex:Location ;
+  ex:name "Colorado, US" ;
+  ex:region "North America — USA" ;
+  ex:latitude 39.5501 ;
+  ex:longitude -105.7821 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:ae07193a-1a5d-4827-a5db-42b25268d88d> a ex:LocalGroup ;
+  ex:location <urn:uuid:5059d0b0-4d0a-4291-ab46-4b587d347367> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "ATProto Colorado" ;
+  ex:description "Colorado ATProtocol user group" ;
+  ex:homepage <https://bsky.app/profile/colorado.atprotocol.space> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:ro563p5faldqu44apudq44k4/bafkreiersrdbawl43ois3jpaekwvwsash3da3s65fgcetwucbkcwpgs3ci> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:5d08fb37-09d3-4234-8f9c-bcb2b340ebc3> a ex:Location ;
+  ex:name "Los Angeles, CA" ;
+  ex:region "North America — USA" ;
+  ex:latitude 34.0522 ;
+  ex:longitude -118.2437 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:dae7d431-bc4f-4bd2-b3e6-d2be251cb2fb> a ex:LocalGroup ;
+  ex:location <urn:uuid:5d08fb37-09d3-4234-8f9c-bcb2b340ebc3> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "ATProto LA" ;
+  ex:description "Los Angeles ATProtocol user group" ;
+  ex:homepage <https://bsky.app/profile/atproto.la> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:web:pds.atproto.la/bafkreierrbhebhi2mq4mvmvv4wfd4zbz4r2ksx4qyiv6t7qcar4muiizxu> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:17cd2ec6-3b99-4f72-8704-ac47930b043f> a ex:Location ;
+  ex:name "Nashville, TN" ;
+  ex:region "North America — USA" ;
+  ex:latitude 36.1627 ;
+  ex:longitude -86.7816 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:5f9e36dd-429d-401c-bccb-bc6ddaaeb9c4> a ex:LocalGroup ;
+  ex:location <urn:uuid:17cd2ec6-3b99-4f72-8704-ac47930b043f> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "Nashproto" ;
+  ex:description "Nashville ATProtocol user group" ;
+  ex:homepage <https://bsky.app/profile/nashproto.com> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:web:nashproto.com/bafkreidwy4x3tptdfmm4o2tprug2fbawel5fhrv3oixmv7miwhyin5wym4> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:14f7736d-9660-4a4c-8055-29044f1c4cc6> a ex:Location ;
+  ex:name "New York City, NY" ;
+  ex:region "North America — USA" ;
+  ex:latitude 40.7128 ;
+  ex:longitude -74.006 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:a18cd77a-7a97-41bc-8322-e87569aaa74d> a ex:LocalGroup ;
+  ex:location <urn:uuid:14f7736d-9660-4a4c-8055-29044f1c4cc6> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "ATProto NYC" ;
+  ex:description "New York City ATProtocol user group" ;
+  ex:homepage <https://bsky.app/profile/atproto.nyc> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:retm6aeqattyxp7bhmyyv7gk/bafkreibbfw26hl3wwby7b3pqpyfi2clxixikf24rvhgh6yhylhhzm3kdwy> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:31974110-365c-418b-8c53-424ad0fd53cc> a ex:Location ;
+  ex:name "Portland, OR" ;
+  ex:region "North America — USA" ;
+  ex:latitude 45.5152 ;
+  ex:longitude -122.6784 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:6780faf9-82c4-4751-ac9c-2ec4b7b99389> a ex:LocalGroup ;
+  ex:location <urn:uuid:31974110-365c-418b-8c53-424ad0fd53cc> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "ATProto PDX" ;
+  ex:description "Portland ATProtocol user group" ;
+  ex:homepage <https://bsky.app/profile/pdx.atproto.camp> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:ngpm2aw64djasat7kjognnye/bafkreifpipl7olqr5acnbv7u4hf5d447c7ypw34cb4bckxksyqqgejzpji> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:a8df835f-6716-42b2-952d-ef861f09e751> a ex:Location ;
+  ex:name "Richmond, VA, US" ;
+  ex:region "North America — USA" ;
+  ex:latitude 37.5407 ;
+  ex:longitude -77.436 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:6bf51562-71e5-4ef4-b00a-3df2041174e5> a ex:LocalGroup ;
+  ex:location <urn:uuid:a8df835f-6716-42b2-952d-ef861f09e751> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "Richmond AT://Community" ;
+  ex:description "An ATProto Community for Richmond, VA" ;
+  ex:homepage <https://bsky.app/profile/richmond.atmosphere.community> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:ekill5cestsclw3q7to6atgr/bafkreifnmygi6ji7uptai3eyclfxjx3s3xjafpvxx4b2awdxfaeq264k4a> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:5682a4f1-784c-4748-80af-5635aa82378f> a ex:Location ;
+  ex:name "Seattle, WA" ;
+  ex:region "North America — USA" ;
+  ex:latitude 47.6062 ;
+  ex:longitude -122.3321 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:6376adb3-6f2d-4b0c-ba61-1f338656b46b> a ex:LocalGroup ;
+  ex:location <urn:uuid:5682a4f1-784c-4748-80af-5635aa82378f> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "ATProto Seattle" ;
+  ex:description "Seattle ATProtocol user group" ;
+  ex:homepage <https://bsky.app/profile/seattle.atprotocol.community> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:uqztsdlvq4xaarwp2k7hvgvt/bafkreidzht3xenvc6sdnk3m4elfqlfa4h6rd6tvhf6tbdav36whgdgtj4q> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:7a20f9d7-d284-4923-8b22-cd51d0a15b6c> a ex:Location ;
+  ex:name "Montreal, QC" ;
+  ex:region "North America — Canada" ;
+  ex:latitude 45.5017 ;
+  ex:longitude -73.5673 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:e26896d0-85fc-4b79-a422-d74d0791f3c7> a ex:LocalGroup ;
+  ex:location <urn:uuid:7a20f9d7-d284-4923-8b22-cd51d0a15b6c> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "ATProto Montreal" ;
+  ex:description "Montreal ATProtocol user group" ;
+  ex:homepage <https://bsky.app/profile/montreal.atproto.camp> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:q23vagi5ieviexdejud4nf2l/bafkreih2dgpv7mnllftuu45fonbznbtkqqmu7zkhgxjjp4k7p2u3kabyhm> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:18d8bc04-1b16-498a-8e73-f7f8285ffc8d> a ex:Location ;
+  ex:name "Toronto, ON" ;
+  ex:region "North America — Canada" ;
+  ex:latitude 43.6532 ;
+  ex:longitude -79.3832 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:357381c2-2138-4f55-ab4b-925d3cc53cb4> a ex:LocalGroup ;
+  ex:location <urn:uuid:18d8bc04-1b16-498a-8e73-f7f8285ffc8d> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "ATProto Toronto" ;
+  ex:description "Toronto ATProtocol user group" ;
+  ex:homepage <https://bsky.app/profile/atproto.to> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:4wsmpuh2ma2vrp6rkm3veymn/bafkreib733eoavmaafh2o7rmryqqax5mbllhljnn74hqauctnyrsqa4jki> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:fb0b11ce-aa7c-4013-8c0f-83406a2d9151> a ex:Location ;
+  ex:name "Vancouver, BC" ;
+  ex:region "North America — Canada" ;
+  ex:latitude 49.2827 ;
+  ex:longitude -123.1207 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:f5b54002-e1a7-4580-96b0-8d95fb79962b> a ex:LocalGroup ;
+  ex:location <urn:uuid:fb0b11ce-aa7c-4013-8c0f-83406a2d9151> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "ATProto Vancouver" ;
+  ex:description "Vancouver ATProtocol user group" ;
+  ex:homepage <https://bsky.app/profile/vancouver.atprotocol.community> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:huq7n455n2arewvzxqw2n2td/bafkreifodmypic3zbjtevk7rbftxvjxgpgegt5njaxn57lamxracv2a3he> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:591205fe-0e83-4082-9ff3-5131008192a9> a ex:Location ;
+  ex:name "Brazil" ;
+  ex:region "South America" ;
+  ex:latitude -14.235 ;
+  ex:longitude -51.9253 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:64b00e58-2adb-4ee0-aee8-3ad1dd786186> a ex:LocalGroup ;
+  ex:location <urn:uuid:591205fe-0e83-4082-9ff3-5131008192a9> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "ATBrasil" ;
+  ex:description "Brazil ATProtocol user group" ;
+  ex:homepage <https://bsky.app/profile/atproto.com.br> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:b5qihcej3titzzr2iauzvrer/bafkreibiilmvexzxuumkdw3htl2t57kxvutvqwzkpnoxzkspphvayeiwre> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:7c2f9c90-09fd-478d-8f57-b7b7d7a0acef> a ex:Location ;
+  ex:name "Amsterdam, NL" ;
+  ex:region "Europe" ;
+  ex:latitude 52.3676 ;
+  ex:longitude 4.9041 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:1f645b2b-8521-4540-83db-6893a0c7cdf7> a ex:LocalGroup ;
+  ex:location <urn:uuid:7c2f9c90-09fd-478d-8f57-b7b7d7a0acef> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "ATProto Amsterdam" ;
+  ex:description "Amsterdam ATProtocol user group" ;
+  ex:homepage <https://bsky.app/profile/atproto.amsterdam> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:bs2glhnim6sqt3f4ccllwxej/bafkreifrmzztdzozm6pf3lvxsa6xymgdqsxosnhvke74i3ne3t7htj3usq> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:35211208-a08a-4617-a1cd-e5065d65eea7> a ex:Location ;
+  ex:name "Barcelona, ES" ;
+  ex:region "Europe" ;
+  ex:latitude 41.3874 ;
+  ex:longitude 2.1686 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:68da903a-9040-4042-84b9-832817abf497> a ex:LocalGroup ;
+  ex:location <urn:uuid:35211208-a08a-4617-a1cd-e5065d65eea7> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "ATProto Barcelona" ;
+  ex:description "Barcelona ATProtocol user group" ;
+  ex:homepage <https://bsky.app/profile/atproto.barcelona> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:ktf7tvvzhi5nszz2xtlerbhr/bafkreib4ymqox7gtsd3ueqh7s6y64cyflsn3poxxq5uwa63vgo3a3i4ysm> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:f4ec049e-b525-42a1-8277-a113d9c98ff5> a ex:Location ;
+  ex:name "Belgium" ;
+  ex:region "Europe" ;
+  ex:latitude 50.8503 ;
+  ex:longitude 4.3517 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:2515d7cb-b7c6-4f7f-84c0-62092a38451a> a ex:LocalGroup ;
+  ex:location <urn:uuid:f4ec049e-b525-42a1-8277-a113d9c98ff5> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "ATmosphere Belgium" ;
+  ex:description "Belgium ATProtocol user group" ;
+  ex:homepage <https://bsky.app/profile/belgium-atmosphe.re> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:zsf5p7rqilz2qvyd7ezmxrfj/bafkreifkkt56p2sbzugz7l3rswob3qy6qnbe7ltwapb6vjpekkkl63comi> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:ec0f30fc-cea2-4f7d-b80b-50be521fa360> a ex:Location ;
+  ex:name "Berlin, DE" ;
+  ex:region "Europe" ;
+  ex:latitude 52.52 ;
+  ex:longitude 13.405 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:bb63d40b-228e-4d89-9b26-e603c43f554a> a ex:LocalGroup ;
+  ex:location <urn:uuid:ec0f30fc-cea2-4f7d-b80b-50be521fa360> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "ATProto Berlin" ;
+  ex:description "Berlin ATProtocol user group" ;
+  ex:homepage <https://bsky.app/profile/atproto.berlin> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:oalsdauozmx7wgt4fsb6hzhm/bafkreig43prabu6lv4hexmkolxipq67dkvfv3plqp7xi5twrz5wobgqvzq> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:8196bc57-0552-4057-a5db-92c983a754b7> a ex:Location ;
+  ex:name "France" ;
+  ex:region "Europe" ;
+  ex:latitude 46.2276 ;
+  ex:longitude 2.2137 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:dc51629e-b79e-4841-bb4c-da41ce96fa88> a ex:LocalGroup ;
+  ex:location <urn:uuid:8196bc57-0552-4057-a5db-92c983a754b7> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "ATProto France" ;
+  ex:description "France ATProtocol user group" ;
+  ex:homepage <https://bsky.app/profile/atproto.fr> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:web:did.atproto.fr/bafkreifvha6jywgxcds2jkfpdzvn5dilstu6uvakxzgcpwgpmlijethugm> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:dbeeeb24-7629-43e6-b5fb-a0bd3d9474d7> a ex:Location ;
+  ex:name "Frankfurt, DE" ;
+  ex:region "Europe" ;
+  ex:latitude 50.1109 ;
+  ex:longitude 8.6821 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:a45b583c-a432-412f-bafd-26166bb023bf> a ex:LocalGroup ;
+  ex:location <urn:uuid:dbeeeb24-7629-43e6-b5fb-a0bd3d9474d7> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "ATProto Frankfurt" ;
+  ex:description "Frankfurt & Rhein-Main area ATProtocol user group" ;
+  ex:homepage <https://bsky.app/profile/frankfurt.atmosphere.community> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:hi4vxtoapk6yw3y5lxfvlp3g/bafkreihzmcttgphgwncfw6wzvcfk2khgcjgbcaimn6epw2kcd5z3nqny3q> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:cddb1451-4bb3-4faf-b652-c129de5dc165> a ex:Location ;
+  ex:name "Kraków, PL" ;
+  ex:region "Europe" ;
+  ex:latitude 50.0647 ;
+  ex:longitude 19.945 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:b25a3e81-ef15-4948-9ab3-76735c6221bc> a ex:LocalGroup ;
+  ex:location <urn:uuid:cddb1451-4bb3-4faf-b652-c129de5dc165> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "ATProto Kraków" ;
+  ex:description "Kraków ATProtocol user group" ;
+  ex:homepage <https://bsky.app/profile/atproto.krakow.pl> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:rfuxxiqvnswdejhdargie56b/bafkreihgg52sboblkztu3uyormfd57qkhi54kuedo6gkjdoo3jdo7de6um> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:2a9ba95f-42dd-4532-87ff-fd1a21896023> a ex:Location ;
+  ex:name "Lille, FR" ;
+  ex:region "Europe" ;
+  ex:latitude 50.6292 ;
+  ex:longitude 3.0573 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:0321dc82-c3d3-47d5-85f8-f196d8b42c2c> a ex:LocalGroup ;
+  ex:location <urn:uuid:2a9ba95f-42dd-4532-87ff-fd1a21896023> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "ATProto Lille" ;
+  ex:description "Lille ATProtocol user group" ;
+  ex:homepage <https://bsky.app/profile/lille.atproto.fr> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:emijclumz47i7n2ytlxz4mfh/bafkreica5uj3lhelworsxfxiovrxsrdqrvkbd3ehriof77ycqzszsogkcu> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:53c7811d-f374-49b9-90c9-5891b376f543> a ex:Location ;
+  ex:name "London, UK" ;
+  ex:region "Europe" ;
+  ex:latitude 51.5072 ;
+  ex:longitude -0.1276 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:164f0d2e-6162-4867-a034-d086803b1815> a ex:LocalGroup ;
+  ex:location <urn:uuid:53c7811d-f374-49b9-90c9-5891b376f543> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "ATProto London" ;
+  ex:description "London ATProtocol user group" ;
+  ex:homepage <https://bsky.app/profile/atproto.london> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:k4ondt3633cvrstq4dsejokn/bafkreicdjwvyncddrnf5aeqwc56iqq4pgx4stgo5fw5miibkfhwktzyfky> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:337223c9-b9a3-44b4-b798-b72397b0ae17> a ex:Location ;
+  ex:name "Norway" ;
+  ex:region "Europe" ;
+  ex:latitude 60.472 ;
+  ex:longitude 8.4689 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:19207e5a-249a-400a-a3aa-1ba87f69cbf8> a ex:LocalGroup ;
+  ex:location <urn:uuid:337223c9-b9a3-44b4-b798-b72397b0ae17> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "ATProto Norway" ;
+  ex:description "Norway ATProtocol user group" ;
+  ex:homepage <https://bsky.app/profile/atproto.no> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:ps7d7srdap5nwshvoqjqi7l2/bafkreidp5oogt7qkyclydbu5362lataawsgcpjfoznbf4hblcx3citi7d4> ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:0e3230e2-3627-4798-acaa-323dc32077e6> a ex:Location ;
+  ex:name "Vienna, AT" ;
+  ex:region "Europe" ;
+  ex:latitude 48.2082 ;
+  ex:longitude 16.3738 ;
+  ex:source <https://atmosphere.community/communities> .
+
+<urn:uuid:bce3cfbe-aea3-4e94-be27-cf4bdc523c0f> a ex:LocalGroup ;
+  ex:location <urn:uuid:0e3230e2-3627-4798-acaa-323dc32077e6> ;
+  ex:sdo <https://atmosphere.community/> ;
+  ex:name "ATProto Vienna" ;
+  ex:description "Vienna ATProtocol user group" ;
+  ex:homepage <https://bsky.app/profile/atproto.wien> ;
+  ex:logo <https://cdn.bsky.app/img/avatar/plain/did:plc:vao7qd2l2hy3tpolrqrkk4cj/bafkreiffi244jcfaxxhof4oxqffnyzzmhyqjcymzz5jzju4ci6jnn45qyq> ;
+  ex:source <https://atmosphere.community/communities> .
