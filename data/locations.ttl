@@ -11,6 +11,9 @@
 #   https://atmosphere.community/communities
 #   https://community.mozilla.org/en/groups/
 #   https://indieweb.org/IndieWebCamps
+#   https://www.w3.org/events/
+#   https://www.w3.org/news-events/ac/2027/
+#   https://sosy2027.org/
 # Seeded with `devbox run seed` (see devbox.json).
 
 @prefix ex: <http://example.org#> .
@@ -1599,6 +1602,10 @@
   ex:homepage <https://community.mozilla.org/en/groups/mozilla-haldia-910376124> ;
   ex:source <https://community.mozilla.org/en/groups/> .
 
+<urn:uuid:2009c148-33a5-4cb8-952b-3f82413ca280> a ex:Location ;
+  ex:name "Halifax, Canada" ;
+  ex:source <https://www.w3.org/news-events/ac/2027/> .
+
 <urn:uuid:f1b9ebfb-16d7-5916-a8c0-3bef43cbe08e> a ex:Location ;
   ex:name "Hamburg, DE" ;
   ex:source <https://events.ccc.de/congress/2026/infos/startpage.html> .
@@ -2743,6 +2750,10 @@
   ex:homepage <https://community.mozilla.org/en/groups/mozilla-pakistan> ;
   ex:source <https://community.mozilla.org/en/groups/> .
 
+<urn:uuid:ce8f2f1d-2aa6-4dd5-9cfd-834fb94cf1c4> a ex:Location ;
+  ex:name "Panama City, Panama" ;
+  ex:source <https://www.w3.org/events/tpac/2027/tpac-2027/> .
+
 <urn:uuid:66fd2c68-a3d2-56a7-9390-d17e720b3915> a ex:Location ;
   ex:name "Panamá, Panama" ;
   ex:source <https://community.mozilla.org/en/groups/> .
@@ -3055,6 +3066,10 @@
   ex:homepage <https://community.mozilla.org/en/groups/mozilla-campus-club-ssgmce-1149030641> ;
   ex:source <https://community.mozilla.org/en/groups/> .
 
+<urn:uuid:c8064354-3ea3-4016-bc97-c429627a61aa> a ex:Location ;
+  ex:name "Shenzhen, China" ;
+  ex:source <https://www.w3.org/events/happenings/2027/w3c-web-of-things-event-in-china-2027/> .
+
 <urn:uuid:f8f9ae41-c7f0-5ce8-918a-53abc6a1ddb9> a ex:Location ;
   ex:name "Shimoga, India" ;
   ex:source <https://community.mozilla.org/en/groups/> .
@@ -3118,6 +3133,10 @@
   ex:description "Women of Mozilla is a community that focuses exclusively on increasing the degree of women's participation and visibility in Mozilla and open-source projects." ;
   ex:homepage <https://community.mozilla.org/en/groups/women-of-mozilla> ;
   ex:source <https://community.mozilla.org/en/groups/> .
+
+<urn:uuid:36ae57f5-5011-5a13-a699-9e162bf68a56> a ex:Location ;
+  ex:name "St. Gallen, CH" ;
+  ex:source <https://sosy2027.org/> .
 
 <urn:uuid:452b450a-8446-5739-b786-d7b33b87f3aa> a ex:Location ;
   ex:name "St. John's, Canada" ;

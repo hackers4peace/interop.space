@@ -6,13 +6,19 @@
 # a timezone.
 #
 # Sources:
+#   https://www.w3.org/events/
 #   https://www.w3.org/news-events/tpac/2026/
+#   https://www.w3.org/news-events/ac/2027/
+#   https://openid.net/events/
 #   https://www.ietf.org/meeting/127/
+#   https://www.ietf.org/meeting/upcoming/
 #   https://internetidentityworkshop.com/upcoming-events/
+#   https://fediforum.org/events/
 #   https://indieweb.org/2026/SD
 #   https://atmosphereconf.org/
 #   https://fosdem.org/2027/
 #   https://events.ccc.de/congress/2026/infos/startpage.html
+#   https://sosy2027.org/
 #
 # IIW Foundation operates IIW; https://iiwfoundation.org/ redirects to the
 # workshop site, which is the canonical ex:sdo identifier.
@@ -90,3 +96,105 @@
   ex:location "Hamburg Messe, Hamburg, Germany" ;
   ex:atLocation <urn:uuid:f1b9ebfb-16d7-5916-a8c0-3bef43cbe08e> ;
   ex:source <https://events.ccc.de/congress/2026/infos/startpage.html> .
+
+# No ex:sdo: the Solid Symposium is organised by a committee together with the
+# Future Society Hub and the ICS and ILE institutes at the University of
+# St.Gallen, not by a standards body. The Solid specification itself is
+# developed in the W3C Solid Community Group.
+<urn:uuid:22ec6da3-0ead-4723-9da1-ab4436eab7f6> a ex:Event ;
+  ex:name "Solid Symposium 2027" ;
+  ex:startDate "2027-05-10T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2027-05-12T23:59:59Z"^^xsd:dateTime ;
+  ex:location "SQUARE, University of St.Gallen, Guisanstrasse 20, 9010 St.Gallen, Switzerland" ;
+  ex:atLocation <urn:uuid:36ae57f5-5011-5a13-a699-9e162bf68a56> ;
+  ex:source <https://sosy2027.org/> .
+
+<urn:uuid:0957ef1e-834f-4a8b-bab6-a9b13dfa96d4> a ex:Event ;
+  ex:sdo <https://www.w3.org/> ;
+  ex:name "W3C WoT Open Day 2027" ;
+  ex:startDate "2027-01-14T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2027-01-15T23:59:59Z"^^xsd:dateTime ;
+  ex:location "W3C Office in Shenzhen, 2nd Floor, ChangFuJinMao Tower, No. 5, Shihua Road, Futian District, Shenzhen, Guangdong Province, 518000, China" ;
+  ex:atLocation <urn:uuid:c8064354-3ea3-4016-bc97-c429627a61aa> ;
+  ex:source <https://www.w3.org/events/happenings/2027/w3c-web-of-things-event-in-china-2027/> .
+
+<urn:uuid:5de1feb9-c9d2-4948-b3ba-8de115b41a62> a ex:Event ;
+  ex:sdo <https://www.w3.org/> ;
+  ex:name "W3C AC 2027" ;
+  ex:startDate "2027-04-12T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2027-04-14T23:59:59Z"^^xsd:dateTime ;
+  ex:location "Halifax Convention Centre, Halifax, Canada (also online)" ;
+  ex:atLocation <urn:uuid:2009c148-33a5-4cb8-952b-3f82413ca280> ;
+  ex:source <https://www.w3.org/news-events/ac/2027/> .
+
+<urn:uuid:cc0729ff-b2ed-444e-9be5-e5dde91d295b> a ex:Event ;
+  ex:sdo <https://www.w3.org/> ;
+  ex:name "W3C TPAC 2027" ;
+  ex:startDate "2027-12-06T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2027-12-10T23:59:59Z"^^xsd:dateTime ;
+  ex:location "Westin Playa Bonita Panama, Panama City, Panama" ;
+  ex:atLocation <urn:uuid:ce8f2f1d-2aa6-4dd5-9cfd-834fb94cf1c4> ;
+  ex:source <https://www.w3.org/events/tpac/2027/tpac-2027/> .
+
+<urn:uuid:a777e141-281d-4798-9e52-d0daae679589> a ex:Event ;
+  ex:sdo <https://openid.net/> ;
+  ex:name "OpenID Well-Known Conference 2027" ;
+  ex:startDate "2027-02-02T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2027-02-04T23:59:59Z"^^xsd:dateTime ;
+  ex:location "etc.venues County Hall, London, UK" ;
+  ex:atLocation <urn:uuid:53c7811d-f374-49b9-90c9-5891b376f543> ;
+  ex:source <https://openid.net/events/openid-well-known-2027/> .
+
+<urn:uuid:8f3a2a54-0329-4b85-9e14-febb9ef5d5e2> a ex:Event ;
+  ex:sdo <https://www.ietf.org/> ;
+  ex:name "IETF 128" ;
+  ex:startDate "2027-03-06T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2027-03-12T23:59:59Z"^^xsd:dateTime ;
+  ex:location "Kuala Lumpur Convention Centre, Kuala Lumpur, Malaysia" ;
+  ex:atLocation <urn:uuid:27ee6f39-d3cf-5828-aa57-c40cdf12c6be> ;
+  ex:source <https://www.ietf.org/meeting/128/> .
+
+<urn:uuid:4b70d45d-0b23-4f25-a341-80fa63e16594> a ex:Event ;
+  ex:sdo <https://www.ietf.org/> ;
+  ex:name "IETF 129" ;
+  ex:startDate "2027-07-17T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2027-07-23T23:59:59Z"^^xsd:dateTime ;
+  ex:location "InterContinental Berlin, Berlin, Germany" ;
+  ex:atLocation <urn:uuid:ec0f30fc-cea2-4f7d-b80b-50be521fa360> ;
+  ex:source <https://www.ietf.org/meeting/129/> .
+
+<urn:uuid:ebdef5c7-e3c2-4a45-a233-78b9093bf852> a ex:Event ;
+  ex:sdo <https://www.ietf.org/> ;
+  ex:name "IETF 130" ;
+  ex:startDate "2027-11-06T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2027-11-12T23:59:59Z"^^xsd:dateTime ;
+  ex:location "Hyatt Regency Vancouver, Vancouver, Canada" ;
+  ex:atLocation <urn:uuid:fb0b11ce-aa7c-4013-8c0f-83406a2d9151> ;
+  ex:source <https://www.ietf.org/meeting/130/> .
+
+<urn:uuid:d6762274-f01c-4edb-bc6e-a2ef1c2163a3> a ex:Event ;
+  ex:sdo <https://internetidentityworkshop.com/> ;
+  ex:name "IIW 44" ;
+  ex:startDate "2027-04-27T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2027-04-29T23:59:59Z"^^xsd:dateTime ;
+  ex:location "Computer History Museum, Mountain View, California, USA" ;
+  ex:atLocation <urn:uuid:72bfb34c-caa6-5f0a-90bd-f281c022c37b> ;
+  ex:source <https://internetidentityworkshop.com/upcoming-events/> .
+
+<urn:uuid:9bd5201c-3b0e-4f24-a3a2-c92a6a1783c1> a ex:Event ;
+  ex:sdo <https://internetidentityworkshop.com/> ;
+  ex:name "IIW 45" ;
+  ex:startDate "2027-10-19T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2027-10-21T23:59:59Z"^^xsd:dateTime ;
+  ex:location "Computer History Museum, Mountain View, California, USA" ;
+  ex:atLocation <urn:uuid:72bfb34c-caa6-5f0a-90bd-f281c022c37b> ;
+  ex:source <https://internetidentityworkshop.com/upcoming-events/> .
+
+# No ex:sdo: FediForum is a community-run unconference, not a standards body's
+# event. It is online, so it has no ex:atLocation either.
+<urn:uuid:3d2e6f7c-6df0-4a10-831a-550cd12a8b7d> a ex:Event ;
+  ex:name "FediForum Spring 2027" ;
+  ex:startDate "2027-03-16T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2027-03-18T23:59:59Z"^^xsd:dateTime ;
+  ex:location "Online" ;
+  ex:source <https://fediforum.org/events/> .
