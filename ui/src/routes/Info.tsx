@@ -114,6 +114,10 @@ const InfoPage: Component = () => {
             <AttributionLink href="https://ebremer.com/lws/conformance" />)
           </li>
           <li>
+            Grant and project data from NLnet project pages (
+            <AttributionLink href="https://nlnet.nl/project/" />)
+          </li>
+          <li>
             Project metadata from software repositories and package manifests
             (GitHub, package.json, Cargo.toml, composer.json)
           </li>

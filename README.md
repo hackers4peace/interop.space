@@ -30,7 +30,7 @@ Run from the repository root with `devbox run <script>`:
 | `identities:remap` | Applies `DUPLICATE_W3C_IDS` to `data/identities.json` (dry run adds `--pair=<dup>=<canonical>`) |
 | `identities:verify` | Checks identity-map and stage-graph invariants |
 | `identities:duplicates` | Lists same-name W3C account pairs with api.w3.org evidence |
-| `seed` | Loads `data/dump/*/*.nq` + `data/*.ttl`; defaults to development |
+| `seed` | Loads `data/dump/*/*.nq` + `data/*.ttl`, or only the given files/groups; defaults to development |
 | `wipe` | Clears every graph; defaults to development |
 | `tunnel` | Keeps `127.0.0.1:3030` forwarded to the VPS Fuseki (production only) |
 | `generate` | Regenerates TypeScript, UI and C# types from `schema/*.json` |
@@ -43,6 +43,21 @@ sandbox). Pass production explicitly:
 devbox run seed -- production
 devbox run wipe -- production
 ```
+
+`seed` also takes targets after the environment, so a single file or a stage
+group can be seeded without touching the rest:
+
+```sh
+devbox run seed -- production w3c          # only data/dump/w3c/*.nq
+devbox run seed -- ietf data/nlnet.ttl     # a stage group plus one curated file
+devbox run seed -- data/nlnet.ttl          # one file, development endpoint
+devbox run seed -- static                  # every curated data/*.ttl
+```
+
+The targets are `all` (default), `static`, a stage group under `data/dump/`
+(`w3c`, `ietf`, `cross`, …), or a `.ttl`/`.nq` file or directory path. `seed`
+only inserts, so a selective run leaves the other graphs alone; `wipe` still
+clears everything.
 
 Devbox passes everything after `--` as positional parameters to the script
 file, not to the command inside it. Scripts that take arguments therefore end
@@ -149,6 +164,42 @@ step:
 ```sh
 devbox run seed -- production
 ```
+
+## NLnet funding
+
+`data/nlnet.ttl` records NLnet Foundation grants for ActivityPub work. The
+NLnet project page is the grant id (`ex:Funding`), `ex:funder` points at
+`https://nlnet.nl/` and `ex:recipient` at the software record in
+`data/software.ttl`; `ex:fund`, `ex:startDate` and `ex:endDate` qualify the
+grant. That is the qualified-relation pattern
+(<https://patterns.dataincubator.org/book/qualified-relation.html>), so a
+project funded several times keeps one `ex:Funding` per grant. The binary
+shortcut `<https://nlnet.nl/> ex:funds <software>` is stated once per
+funder/software pair, for consumers that do not want to traverse the relation
+node.
+
+The software side is a `doap:Project` with
+`doap:implements <https://www.w3.org/TR/activitypub/>`. The ActivityPub
+Recommendation itself comes from the W3C dump, so the UI joins the two without
+a local copy.
+
+The UI reads the relation in both directions: a software page has a Funding
+section grouped by funder, and the funder's organization page
+(`/orgs/nlnet.nl`) has a Funds section grouped by funded software. Each grant
+links to its NLnet project page; grants have no catalog detail pages. NLnet is
+an `ex:Organization`, not an SDO.
+
+The grants were collected from <https://nlnet.nl/project/> with the page's own
+ActivityPub keyword filter. Four results have no single codebase to point at
+(community stewardship, trust and safety services, the ForgeFed protocol, and a
+not-yet-summarised Solid/ActivityPub bridge); they are listed at the end of the
+file instead of getting an invented recipient.
+
+The funding file only holds the grants, so seed it together with the software
+records it points at (`devbox run seed -- static`, or
+`devbox run seed -- data/software.ttl data/nlnet.ttl`). Seeding
+`data/nlnet.ttl` alone leaves `ex:recipient` pointing at records that are not
+in the dataset yet.
 
 ## Identities
 

@@ -2,14 +2,17 @@ import { SparqlEndpointFetcher, type IBindings } from 'fetch-sparql-endpoint'
 import type {
   DetailKind,
   Event,
+  Funding,
   GroupSummary,
   ListingKind,
   LocalGroup,
   Location,
   Org,
+  OrgFunding,
   Person,
   Project,
   Software,
+  SoftwareFunding,
   SoftwareRef,
   SpecContributor,
   SpecReference,
@@ -713,6 +716,7 @@ async function softwareByUris(
         license: value(b, 'license'),
         dependencies: [],
         dependents: [],
+        funding: [],
       }
       projects.set(uri, project)
     }
@@ -816,6 +820,126 @@ async function softwareByUris(
     project.implements.sort((a, b) => a.name.localeCompare(b.name))
   }
   return projects
+}
+
+// Newest grant first; grants without a start date go last.
+const compareFundings = (a: Funding, b: Funding) => {
+  const left = a.startDate ?? ''
+  const right = b.startDate ?? ''
+  if (left !== right) {
+    if (!left) return 1
+    if (!right) return -1
+    return right.localeCompare(left)
+  }
+  return a.name.localeCompare(b.name)
+}
+
+// Software detail funding: the inverse of ex:funds groups the grants by
+// funder, and each ex:Funding for that funder/software pair is a link to the
+// funder's own project page.
+async function fundingsForSoftware(uri: string): Promise<SoftwareFunding[]> {
+  const rows = await queryBindings(`${PREFIXES}
+    SELECT ?funder ?funderName ?funderLogo ?funding ?fundingName ?fund ?start ?end WHERE {
+      ?funder ex:funds ${iri(uri)} .
+      OPTIONAL { ?funder ex:name ?funderName }
+      OPTIONAL { ?funder ex:logo ?funderLogo }
+      ?funding a ex:Funding ; ex:funder ?funder ; ex:recipient ${iri(uri)} .
+      OPTIONAL { ?funding ex:name ?fundingName }
+      OPTIONAL { ?funding ex:fund ?fund }
+      OPTIONAL { ?funding ex:startDate ?start }
+      OPTIONAL { ?funding ex:endDate ?end }
+    }`)
+  const groups = new Map<string, SoftwareFunding>()
+  for (const b of rows) {
+    const funderUri = value(b, 'funder')
+    const fundingUri = value(b, 'funding')
+    if (!funderUri || !fundingUri) continue
+    let group = groups.get(funderUri)
+    if (!group) {
+      group = {
+        funder: {
+          uri: funderUri,
+          id: short(funderUri),
+          name: value(b, 'funderName') ?? short(funderUri),
+          logo: value(b, 'funderLogo'),
+        },
+        fundings: [],
+      }
+      groups.set(funderUri, group)
+    }
+    if (group.fundings.some((funding) => funding.uri === fundingUri)) continue
+    group.fundings.push({
+      uri: fundingUri,
+      name: value(b, 'fundingName') ?? short(fundingUri),
+      fund: value(b, 'fund'),
+      startDate: value(b, 'start'),
+      endDate: value(b, 'end'),
+    })
+  }
+  const result = [...groups.values()]
+  for (const group of result) group.fundings.sort(compareFundings)
+  return result.sort((a, b) => a.funder.name.localeCompare(b.funder.name))
+}
+
+// Organization detail: the same ex:funds edges read the other way round,
+// grouped by funded software.
+async function fundsByFunderUris(
+  funderUris: string[],
+): Promise<Map<string, OrgFunding[]>> {
+  const result = new Map<string, OrgFunding[]>()
+  if (!funderUris.length) return result
+  const rows = await queryBindings(`${PREFIXES}
+    SELECT ?funder ?software ?softwareName ?funding ?fundingName ?fund ?start ?end WHERE {
+      VALUES ?funder { ${funderUris.map(iri).join(' ')} }
+      ?funder ex:funds ?software .
+      OPTIONAL { ?software doap:name ?doapName }
+      OPTIONAL { ?software ex:name ?exName }
+      BIND(COALESCE(?doapName, ?exName) AS ?softwareName)
+      ?funding a ex:Funding ; ex:funder ?funder ; ex:recipient ?software .
+      OPTIONAL { ?funding ex:name ?fundingName }
+      OPTIONAL { ?funding ex:fund ?fund }
+      OPTIONAL { ?funding ex:startDate ?start }
+      OPTIONAL { ?funding ex:endDate ?end }
+    }`)
+  const byFunder = new Map<string, Map<string, OrgFunding>>()
+  for (const b of rows) {
+    const funderUri = value(b, 'funder')
+    const softwareUri = value(b, 'software')
+    const fundingUri = value(b, 'funding')
+    if (!funderUri || !softwareUri || !fundingUri) continue
+    let bySoftware = byFunder.get(funderUri)
+    if (!bySoftware) {
+      bySoftware = new Map()
+      byFunder.set(funderUri, bySoftware)
+    }
+    let group = bySoftware.get(softwareUri)
+    if (!group) {
+      group = {
+        software: {
+          uri: softwareUri,
+          id: short(softwareUri),
+          name: value(b, 'softwareName') ?? short(softwareUri),
+        },
+        fundings: [],
+      }
+      bySoftware.set(softwareUri, group)
+    }
+    if (group.fundings.some((funding) => funding.uri === fundingUri)) continue
+    group.fundings.push({
+      uri: fundingUri,
+      name: value(b, 'fundingName') ?? short(fundingUri),
+      fund: value(b, 'fund'),
+      startDate: value(b, 'start'),
+      endDate: value(b, 'end'),
+    })
+  }
+  for (const [funderUri, bySoftware] of byFunder) {
+    const groups = [...bySoftware.values()]
+    for (const group of groups) group.fundings.sort(compareFundings)
+    groups.sort((a, b) => a.software.name.localeCompare(b.software.name))
+    result.set(funderUri, groups)
+  }
+  return result
 }
 
 async function useCasesByUris(uris: string[]): Promise<Map<string, UseCase>> {
@@ -1021,12 +1145,13 @@ async function orgsByUris(
       logo: value(b, 'logo'),
       affiliates: [],
       proposedUseCaseUris: [],
+      funds: [],
     })
   }
 
   if (full && orgs.size) {
     const subjects = [...orgs.keys()].map(iri).join(' ')
-    const [affiliateRows, proposedRows] = await Promise.all([
+    const [affiliateRows, proposedRows, fundsByOrg] = await Promise.all([
       queryBindings(`${PREFIXES}
         SELECT ?org ?person ?personName ?personLogo ?personSilo WHERE {
           VALUES ?org { ${subjects} }
@@ -1040,6 +1165,7 @@ async function orgsByUris(
           VALUES ?org { ${subjects} }
           ?org ex:proposed ?uc .
         }`),
+      fundsByFunderUris([...orgs.keys()]),
     ])
     for (const b of affiliateRows) {
       const org = value(b, 'org') ? orgs.get(value(b, 'org')!) : undefined
@@ -1064,6 +1190,7 @@ async function orgsByUris(
     }
     for (const org of orgs.values()) {
       org.affiliates.sort((a, b) => a.name.localeCompare(b.name))
+      org.funds = fundsByOrg.get(org.uri) ?? []
     }
   }
   return orgs
@@ -1523,9 +1650,11 @@ async function softwareDetail(id: string) {
   const software = await softwareByUris([uri], true)
   const entry = software.get(uri)
   if (!entry) return undefined
-  const references = await outgoingReferences(
-    entry.implements.map((spec) => spec.uri),
-  )
+  const [funding, references] = await Promise.all([
+    fundingsForSoftware(uri),
+    outgoingReferences(entry.implements.map((spec) => spec.uri)),
+  ])
+  entry.funding = funding
   return { kind: 'software' as const, software: entry, references }
 }
 

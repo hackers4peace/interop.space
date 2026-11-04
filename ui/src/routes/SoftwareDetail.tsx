@@ -3,6 +3,8 @@ import { For, Match, Show, Switch, createEffect, createSignal } from 'solid-js'
 import { A, useParams } from '@solidjs/router'
 import { ArrowRight, Pin } from 'lucide-solid'
 import { ContributorSection } from '../components/ContributorChips'
+import { FundingList } from '../components/FundingList'
+import { OrgLogo } from '../components/OrgLogo'
 import { appActor } from '../store/app'
 import { useSdoNav } from '../lib/sdoNav'
 import { detailFor } from '../store/selectors'
@@ -194,6 +196,34 @@ const SoftwareDetail: Component = () => {
                 people={data().software.maintainers}
                 empty="No maintainer recorded."
               />
+
+              <Show when={data().software.funding.length > 0}>
+                <div class="space-y-3">
+                  <h2 class={sectionTitle}>Funding</h2>
+                  <div class="space-y-5">
+                    <For each={data().software.funding}>
+                      {(group) => (
+                        <div class="space-y-2">
+                          <div class="flex items-center gap-2">
+                            <OrgLogo
+                              name={group.funder.name}
+                              logo={group.funder.logo}
+                              size="xs"
+                            />
+                            <A
+                              href={href(`/orgs/${group.funder.id}`)}
+                              class="text-sm font-semibold hover:underline"
+                            >
+                              {group.funder.name}
+                            </A>
+                          </div>
+                          <FundingList fundings={group.fundings} />
+                        </div>
+                      )}
+                    </For>
+                  </div>
+                </div>
+              </Show>
 
               <div class="space-y-3">
                 <h2 class={sectionTitle}>Implements</h2>

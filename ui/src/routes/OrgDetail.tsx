@@ -2,6 +2,7 @@ import type { Component } from 'solid-js'
 import { For, Match, Show, Switch, createEffect } from 'solid-js'
 import { A, useParams } from '@solidjs/router'
 import { ContributorSection } from '../components/ContributorChips'
+import { FundingList } from '../components/FundingList'
 import { OrgLogo } from '../components/OrgLogo'
 import { UseCaseCard } from '../components/UseCaseCard'
 import { appActor } from '../store/app'
@@ -74,6 +75,29 @@ const OrgDetail: Component = () => {
                 people={data().org.affiliates}
                 empty="No affiliates are recorded in the catalog."
               />
+
+              <Show when={data().org.funds.length > 0}>
+                <div class="space-y-3">
+                  <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                    Funds
+                  </h2>
+                  <div class="space-y-5">
+                    <For each={data().org.funds}>
+                      {(group) => (
+                        <div class="space-y-2">
+                          <A
+                            href={href(`/software/${group.software.id}`)}
+                            class="text-sm font-semibold hover:underline"
+                          >
+                            {group.software.name}
+                          </A>
+                          <FundingList fundings={group.fundings} />
+                        </div>
+                      )}
+                    </For>
+                  </div>
+                </div>
+              </Show>
 
               <div class="space-y-3">
                 <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">

@@ -1,6 +1,10 @@
-# Early Linked Web Storage implementations, in DOAP (http://usefulinc.com/ns/doap#).
+# Software records in DOAP (http://usefulinc.com/ns/doap#).
 #
-# Source: the Touchstone conformance runs reported at
+# The file is a set of batches, each with its own header comment. The first is
+# Early Linked Web Storage implementations; the last is NLnet-funded
+# ActivityPub work, whose grants live in data/nlnet.ttl.
+#
+# LWS batch — Source: the Touchstone conformance runs reported at
 # https://ebremer.com/lws/conformance (2026-10-19 / 2026-10-21), plus each
 # repository's own metadata. Every entry implements lws10-core.
 #
@@ -263,3 +267,439 @@
 <https://github.com/ldclabs/cbor-ld> a doap:GitRepository .
 <https://github.com/filip26/iridium-cbor-ld> a doap:GitRepository .
 <https://github.com/jemsbhai/cborld-ex> a doap:GitRepository .
+
+# ---------------------------------------------------------------------------
+# ActivityPub implementations funded by NLnet.
+#
+# Source: https://nlnet.nl/project/ — the "All projects" table filtered with the
+# page's own ActivityPub keyword search (retrieved 2026-11-04), one record per
+# distinct codebase. The funded projects themselves, with their NLnet page as
+# id, are in data/nlnet.ttl (ex:Funding); this section only holds the software.
+#
+# doap:implements names https://www.w3.org/TR/activitypub/, the W3C
+# Recommendation already in the catalog (data/dump/w3c/specs.nq), so the UI
+# joins these records to the specification without a second local copy.
+#
+# The 60 grants in data/nlnet.ttl map to the 45 codebases below: several
+# projects were funded more than once, and each ex:Funding keeps its own grant
+# period.
+#
+# Homepages and repositories come from the NLnet project pages. Where a page
+# links only a forge organisation, that URL is kept as the source-code location
+# (and gets no doap:GitRepository type below). Where a page lists no source at
+# all, the project's own repository is used, and three records have no link yet
+# (their comments say so). Licenses are omitted: the NLnet pages do not state
+# one. doap:maintainer is likewise omitted — the grants name projects, not the
+# people in data/identities.json.
+#
+# doap:implements records the specification the funded work targets. That is
+# the server protocol for implementations and libraries, and the protocol they
+# interoperate with for the client apps (Tusky, PixelDroid, ActivityPub PWA).
+# ---------------------------------------------------------------------------
+
+# ActivityBot — NLnet: ActivityBot.
+<urn:uuid:99453fd2-14f5-5100-a16f-b5db3fae6fdd> a doap:Project ;
+  doap:name "ActivityBot" ;
+  doap:shortdesc "A full ActivityPub server in a single PHP file" ;
+  doap:programming-language "PHP" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:repository <https://gitlab.com/edent/activity-bot> .
+
+# ActivityPods — NLnet: ActivityPods.
+<urn:uuid:f7db45b5-bbdb-5d75-b2e2-92e4690ebf80> a doap:Project ;
+  doap:name "ActivityPods" ;
+  doap:shortdesc "Framework for fully-decentralized social apps, combining ActivityPub and Solid Pods" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://activitypods.org> ;
+  doap:documentation <https://docs.activitypods.org> ;
+  doap:repository <https://github.com/assemblee-virtuelle/activitypods> .
+
+# ActivityPub PWA — No homepage or source link on the NLnet page yet. (NLnet: ActivityPub-PWA).
+<urn:uuid:f5c1b7ff-d2f2-5e4d-a2fe-3a4b8dacc8ac> a doap:Project ;
+  doap:name "ActivityPub PWA" ;
+  doap:shortdesc "General purpose web client for ActivityPub" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> .
+
+# ActivityPub4J — No homepage or source link on the NLnet page yet. (NLnet: ActivityPub4J).
+<urn:uuid:8d0e2bab-01fb-56b4-a9aa-a48b602b1896> a doap:Project ;
+  doap:name "ActivityPub4J" ;
+  doap:shortdesc "Reusable ActivityPub Foundation for Java" ;
+  doap:programming-language "Java" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> .
+
+# Bana — NLnet: Bana.
+<urn:uuid:c42f8da9-3eed-552b-baa1-2bc1c34f93a8> a doap:Project ;
+  doap:name "Bana" ;
+  doap:shortdesc "Personal network oriented ActivityPub powered social networking" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://restoration.software/> .
+
+# Bonfire — NLnet: Bonfire-Framework, Sciety-ActivityPub.
+<urn:uuid:ce089c46-0f03-518e-a21f-8dad3be7735c> a doap:Project ;
+  doap:name "Bonfire" ;
+  doap:shortdesc "Elixir-based ActivityPub implementation and library with groups and RBAC" ;
+  doap:programming-language "Elixir" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://bonfirenetworks.org> ;
+  doap:documentation <https://bonfirenetworks.org/docs> ;
+  doap:repository <https://github.com/bonfire-networks/bonfire-app> .
+
+# Castopod — NLnet: Castopod-v2.
+<urn:uuid:18aabac4-602f-53f6-893f-cac7d6602fad> a doap:Project ;
+  doap:name "Castopod" ;
+  doap:shortdesc "ActivityPub-capable podcast server" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://castopod.org> ;
+  doap:repository <https://code.podlibre.org/podlibre/castopod> .
+
+# Corteza — The NLnet page names the Cortezaproject forge organisation, not a single repository. (NLnet: CortezaActivityPub).
+<urn:uuid:2649ad61-3b31-5a64-bdc8-952dbead08d2> a doap:Project ;
+  doap:name "Corteza" ;
+  doap:shortdesc "Data federation over ActivityPub" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://cortezaproject.org> ;
+  doap:documentation <https://docs.cortezaproject.org> ;
+  doap:repository <https://github.com/cortezaproject> .
+
+# Discourse ActivityPub — NLnet: DiscourseActivityPub.
+<urn:uuid:7068b9c1-37e9-5786-9cba-9745dc989595> a doap:Project ;
+  doap:name "Discourse ActivityPub" ;
+  doap:shortdesc "Connecting internet discussions with ActivityPub" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:repository <https://github.com/discourse/discourse-activity-pub> .
+
+# DrFed — NLnet: DrFed.
+<urn:uuid:e754bd30-43e5-5940-ba77-c6e44c3e626e> a doap:Project ;
+  doap:name "DrFed" ;
+  doap:shortdesc "Web-based development and debugging platform for ActivityPub" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://drfed.org> .
+
+# Drupal ActivityPub — NLnet: Drupal-AP-recipes, Drupal-ActivityPub, Drupal-ActivityPub-UX.
+<urn:uuid:5463044e-a906-5a03-87c4-e97cc3fc3d00> a doap:Project ;
+  doap:name "Drupal ActivityPub" ;
+  doap:shortdesc "ActivityPub module for Drupal" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://www.drupal.org/project/activitypub> ;
+  doap:documentation <https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/activitypub> ;
+  doap:repository <https://git.drupalcode.org/project/activitypub> .
+
+# Economiverse — No homepage or source link on the NLnet page yet. (NLnet: Economiverse).
+<urn:uuid:e8420e3f-fc48-54a3-b656-0a232b30cefb> a doap:Project ;
+  doap:name "Economiverse" ;
+  doap:shortdesc "Federated, open-source e-commerce ecosystem powered by ActivityPub" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> .
+
+# Event Bridge for ActivityPub — NLnet: WordPress-EventFederation, Fediverse-event-interop.
+<urn:uuid:8e2e879f-6aa1-5191-bcce-ce040220fde2> a doap:Project ;
+  doap:name "Event Bridge for ActivityPub" ;
+  doap:shortdesc "WordPress plugin that publishes events to the Fediverse via ActivityPub" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://event-federation.eu> ;
+  doap:repository <https://codeberg.org/Event-Federation/wordpress-event-bridge-for-activitypub> .
+
+# Fedipub — NLnet: Fedipub.
+<urn:uuid:43ffa0f2-d853-5543-97c6-4352d3eeca5b> a doap:Project ;
+  doap:name "Fedipub" ;
+  doap:shortdesc "Ruby Library for adding ActivityPub Federation" ;
+  doap:programming-language "Ruby" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:repository <https://gitlab.com/fedipub/fedipub> .
+
+# FediTest — NLnet: FediverseTestsuite.
+<urn:uuid:72340c87-0c23-562d-84c4-9ac496f1482b> a doap:Project ;
+  doap:name "FediTest" ;
+  doap:shortdesc "Interoperability effort for W3C ActivityPub" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://feditest.org> ;
+  doap:repository <https://github.com/fediverse-devnet/feditest> .
+
+# flohmarkt — NLnet: TALER-flohmarkt.
+<urn:uuid:1f63c071-489e-5dc9-8c5d-90c58f833f31> a doap:Project ;
+  doap:name "flohmarkt" ;
+  doap:shortdesc "Decentral federated small advertisement platform" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:documentation <https://codeberg.org/flohmarkt/flohmarkt/wiki#installation> ;
+  doap:repository <https://codeberg.org/flohmarkt/flohmarkt> .
+
+# ForgeFlux — The NLnet page names the ForgeFlux forge namespace, not a single repository. (NLnet: ForgeFlux).
+<urn:uuid:0cb509ba-e4ad-53b6-a34b-907fb428660c> a doap:Project ;
+  doap:name "ForgeFlux" ;
+  doap:shortdesc "Software Forge independent federation with ActivityPub and F3" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://forgeflux.org> ;
+  doap:documentation <https://docs.forgeflux.org> ;
+  doap:repository <https://git.batsense.net/ForgeFlux> .
+
+# Forgejo — NLnet: Federated-Forgejo.
+<urn:uuid:60c5472e-c690-5004-b140-8a9e6622970e> a doap:Project ;
+  doap:name "Forgejo" ;
+  doap:shortdesc "Self-hosted software forge with ActivityPub federation" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://forgejo.org> ;
+  doap:repository <https://codeberg.org/forgejo/forgejo> .
+
+# Funfedi.dev — NLnet: FediverseTestFramework, Funfedi.dev.
+<urn:uuid:45250209-5a1a-59f8-9df4-c55acbc7645c> a doap:Project ;
+  doap:name "Funfedi.dev" ;
+  doap:shortdesc "Test bench for ActivityPub implementations" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://funfedi.dev> ;
+  doap:repository <https://codeberg.org/helge/funfedidev> .
+
+# Funkwhale — NLnet: Funkwhale, FunkWhale-Federation, Funkwhale-AP.
+<urn:uuid:878c32a0-d359-541b-8b32-d5212ce2d074> a doap:Project ;
+  doap:name "Funkwhale" ;
+  doap:shortdesc "ActivityPub-driven audio streaming and sharing" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://funkwhale.audio> ;
+  doap:documentation <https://docs.funkwhale.audio> ;
+  doap:repository <https://dev.funkwhale.audio/funkwhale/funkwhale> .
+
+# Gitea — NLnet: Gitea.
+<urn:uuid:783872c9-08a7-52a2-bd5c-d73c4dcf5189> a doap:Project ;
+  doap:name "Gitea" ;
+  doap:shortdesc "Self-hosted software forge" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:documentation <https://docs.gitea.io> ;
+  doap:repository <https://github.com/go-gitea/gitea> .
+
+# GoActivityPub — NLnet: GoActivityPub.
+<urn:uuid:53036770-7927-5a0b-8391-0e96fd9e3438> a doap:Project ;
+  doap:name "GoActivityPub" ;
+  doap:shortdesc "Help people develop Fediverse software in Go" ;
+  doap:programming-language "Go" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://go-activitypub.federated.id> ;
+  doap:repository <https://sr.ht/~mariusor/go-activitypub> .
+
+# GoToSocial — NLnet: GoToSocial, GoToSocial-scale.
+<urn:uuid:d25b9a66-cf8f-5842-922a-80a1b2b817f7> a doap:Project ;
+  doap:name "GoToSocial" ;
+  doap:shortdesc "Lightweight ActivityPub social network server" ;
+  doap:programming-language "Go" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://gotosocial.org> ;
+  doap:documentation <https://docs.gotosocial.org> ;
+  doap:repository <https://codeberg.org/superseriousbusiness/gotosocial> .
+
+# Kazarma — NLnet: Kazarma, Kazarma-Release.
+<urn:uuid:5e209537-bf41-59b3-8251-3aa19ceab149> a doap:Project ;
+  doap:name "Kazarma" ;
+  doap:shortdesc "Bridge between ActivityPub and Matrix" ;
+  doap:programming-language "Elixir" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://kazar.ma> ;
+  doap:documentation <https://docs.kazar.ma> ;
+  doap:repository <https://gitlab.com/technostructures/kazarma/kazarma> .
+
+# /kbin — NLnet: Kbin, Kbin-Mobile.
+<urn:uuid:fe4adc14-2ac2-5398-bdae-be2a86df77b5> a doap:Project ;
+  doap:name "/kbin" ;
+  doap:shortdesc "ActivityPub based link sharing and microblogging" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://kbin.pub> ;
+  doap:repository <https://codeberg.org/Kbin/kbin-core> .
+
+# Lemmy — NLnet: Lemmy, LemmyFed-AP, Lemmy-Scale.
+<urn:uuid:fd4aa4a8-530e-5a19-855a-309a5f726888> a doap:Project ;
+  doap:name "Lemmy" ;
+  doap:shortdesc "ActivityPub for link aggregation" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://join-lemmy.org> ;
+  doap:repository <https://github.com/LemmyNet/lemmy> .
+
+# Libervia — NLnet: Libervia.
+<urn:uuid:8f44271d-cc0a-5abf-b5ca-25e8500e7808> a doap:Project ;
+  doap:name "Libervia" ;
+  doap:shortdesc "XMPP, ActivityPub and E2EE Pubsub" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://libervia.org> ;
+  doap:repository <https://repos.goffi.org/libervia-backend> .
+
+# Loops — The NLnet page names the joinloops forge organisation, not a single repository. (NLnet: Loops).
+<urn:uuid:9fdd16a2-a1ff-539c-acc6-230e0d809a7c> a doap:Project ;
+  doap:name "Loops" ;
+  doap:shortdesc "ActivityPub based sharing of short video clips" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://loops.video> ;
+  doap:repository <https://github.com/joinloops> .
+
+# Manyfold — NLnet: Manyfold-Discovery, Manyfold-XR.
+<urn:uuid:715acb11-fe01-5f5c-b8cb-2ca21e2b2064> a doap:Project ;
+  doap:name "Manyfold" ;
+  doap:shortdesc "ActivityPub-powered tool for storing and sharing 3d models" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://manyfold.app> ;
+  doap:repository <https://github.com/manyfold3d/manyfold> .
+
+# Mastodon — NLnet: Mastodon, Mastodon-Quoting.
+<urn:uuid:bf393e60-94aa-5e61-9c97-79867fb78c6b> a doap:Project ;
+  doap:name "Mastodon" ;
+  doap:shortdesc "Decentralized open-source social network built on ActivityPub" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://joinmastodon.org> ;
+  doap:documentation <https://docs.joinmastodon.org> ;
+  doap:repository <https://github.com/mastodon/mastodon> .
+
+# Mirlo — NLnet: Mirlo.
+<urn:uuid:6e0f16f0-cfec-5fa7-bfd7-d1c47b40a052> a doap:Project ;
+  doap:name "Mirlo" ;
+  doap:shortdesc "Connecting artists and audiences with ActivityPub" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://mirlo.space> ;
+  doap:documentation <https://docs.mirlo.space> ;
+  doap:repository <https://github.com/funmusicplace/mirlo> .
+
+# Misskey — No source link on the NLnet page; repository from the project itself. (NLnet: Misskey).
+<urn:uuid:8b5c6da3-e6f9-5baf-b5a7-067c9f8e722c> a doap:Project ;
+  doap:name "Misskey" ;
+  doap:shortdesc "Decentralized and open source microblogging platform implementing ActivityPub" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:repository <https://github.com/misskey-dev/misskey> .
+
+# NodeBB — NLnet: NodeBB.
+<urn:uuid:5cae36b9-005f-5134-a316-e3abed45180f> a doap:Project ;
+  doap:name "NodeBB" ;
+  doap:shortdesc "Node.js based community forum software with ActivityPub support" ;
+  doap:programming-language "JavaScript" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://nodebb.org> ;
+  doap:repository <https://github.com/NodeBB/NodeBB> .
+
+# Open Hospitality Network — The NLnet page names the project forge organisation, not a single repository. (NLnet: OpenHospitalityNetwork).
+<urn:uuid:6a8a6eb7-daa0-5ab1-886d-294d16cb589e> a doap:Project ;
+  doap:name "Open Hospitality Network" ;
+  doap:shortdesc "Federated hospitality with ActivityPub" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://openHospitality.network> ;
+  doap:repository <https://github.com/OpenHospitalityNetwork> .
+
+# Owncast — NLnet: Owncast.
+<urn:uuid:d840410d-c6e8-54ec-b087-17ac86253322> a doap:Project ;
+  doap:name "Owncast" ;
+  doap:shortdesc "ActivityPub powered Livecasting" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:documentation <https://owncast.online/docs> ;
+  doap:repository <https://github.com/owncast/owncast> .
+
+# PeerTube — No source link on the NLnet page; repository from the project itself. (NLnet: PeerTube-mobile).
+<urn:uuid:da449d9f-e4fc-5e5b-97f9-f78a323ce59e> a doap:Project ;
+  doap:name "PeerTube" ;
+  doap:shortdesc "Decentralised video platform powered by ActivityPub" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://joinpeertube.org> ;
+  doap:documentation <https://docs.joinpeertube.org> ;
+  doap:repository <https://github.com/Chocobozzz/PeerTube> .
+
+# PixelDroid — No source link on the NLnet page yet. (NLnet: PixelDroid-MediaEditor).
+<urn:uuid:fbc10e0c-830e-5b89-ac2d-729516d33a16> a doap:Project ;
+  doap:name "PixelDroid" ;
+  doap:shortdesc "Native PixelFed/ActivityPub image sharing app" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://pixeldroid.org> .
+
+# Pixelfed — NLnet: Pixelfed, Pixelfed-Groups.
+<urn:uuid:6cefcbb6-d71c-5401-a1d7-a380fbe2586c> a doap:Project ;
+  doap:name "Pixelfed" ;
+  doap:shortdesc "Open source, federated photo sharing platform using ActivityPub" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://pixelfed.org> ;
+  doap:documentation <https://docs.pixelfed.org> ;
+  doap:repository <https://github.com/pixelfed/pixelfed> .
+
+# Pleroma — The NLnet page names the Pleroma forge organisation, not a single repository. (NLnet: Pleroma).
+<urn:uuid:9671271b-965a-55e6-8297-ad86d2491866> a doap:Project ;
+  doap:name "Pleroma" ;
+  doap:shortdesc "Scalable ActivityPub server written in Elixir" ;
+  doap:programming-language "Elixir" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://pleroma.social> ;
+  doap:documentation <https://docs-develop.pleroma.social> ;
+  doap:repository <https://git.pleroma.social/pleroma> .
+
+# Polls for ActivityPub — NLnet: WP-ActivityPub-polls.
+<urn:uuid:5dacdc20-c2d8-5d24-8128-531e87b01bfd> a doap:Project ;
+  doap:name "Polls for ActivityPub" ;
+  doap:shortdesc "WordPress plugin for social polls" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://wordpress.org/plugins/polls-for-activitypub/> ;
+  doap:repository <https://codeberg.org/linos/wordpress-polls-for-activitypub> .
+
+# #Seppo! — NLnet: Seppo.
+<urn:uuid:f073d34a-f573-5919-8a46-44a051079ba9> a doap:Project ;
+  doap:name "#Seppo!" ;
+  doap:shortdesc "Portable ActivityPub implementation" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://seppo.mro.name> ;
+  doap:repository <https://codeberg.org/seppo/seppo> .
+
+# Ties — NLnet: ties.
+<urn:uuid:33f0fbfd-3154-5223-bf09-06c31cf72cb1> a doap:Project ;
+  doap:name "Ties" ;
+  doap:shortdesc "Federated bookmark manager based on ActivityPub" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://ties.pub/> ;
+  doap:repository <https://github.com/raffomania/ties> .
+
+# Tusky — NLnet: Tusky.
+<urn:uuid:9b4cb8c4-4af1-5b04-8b1e-e8f249320485> a doap:Project ;
+  doap:name "Tusky" ;
+  doap:shortdesc "Android client for ActivityPub" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://tusky.app> ;
+  doap:repository <https://github.com/tuskyapp/Tusky> .
+
+# WordPress ActivityPub — NLnet: Wordpress-ActivityPub.
+<urn:uuid:d1104abd-4359-52d0-87b9-7f473bc377f9> a doap:Project ;
+  doap:name "WordPress ActivityPub" ;
+  doap:shortdesc "Bring ActivityPub social networking to the widely used WordPress" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <https://wordpress.org/plugins/activitypub/> ;
+  doap:repository <https://github.com/pfefferle/wordpress-activitypub> .
+
+# XWiki ActivityPub — No source link on the NLnet page; repository from the project itself. (NLnet: XWikiActivityPub).
+<urn:uuid:8dc3003b-db01-55dd-b2ff-850bbf7c5139> a doap:Project ;
+  doap:name "XWiki ActivityPub" ;
+  doap:shortdesc "First class ActivityPub support in XWiki" ;
+  doap:implements <https://www.w3.org/TR/activitypub/> ;
+  doap:homepage <http://www.xwiki.org/xwiki/bin/view/Main/WebHome> ;
+  doap:repository <https://github.com/xwiki-contrib/application-activitypub> .
+
+# Repository nodes, as in the sections above (one per repository, no blank
+# nodes). Five records point at a forge namespace because that is what the
+# NLnet page links as source code; those get no doap:GitRepository type.
+<https://gitlab.com/edent/activity-bot> a doap:GitRepository .
+<https://github.com/assemblee-virtuelle/activitypods> a doap:GitRepository .
+<https://github.com/bonfire-networks/bonfire-app> a doap:GitRepository .
+<https://code.podlibre.org/podlibre/castopod> a doap:GitRepository .
+<https://github.com/discourse/discourse-activity-pub> a doap:GitRepository .
+<https://git.drupalcode.org/project/activitypub> a doap:GitRepository .
+<https://codeberg.org/Event-Federation/wordpress-event-bridge-for-activitypub> a doap:GitRepository .
+<https://gitlab.com/fedipub/fedipub> a doap:GitRepository .
+<https://github.com/fediverse-devnet/feditest> a doap:GitRepository .
+<https://codeberg.org/flohmarkt/flohmarkt> a doap:GitRepository .
+<https://codeberg.org/forgejo/forgejo> a doap:GitRepository .
+<https://codeberg.org/helge/funfedidev> a doap:GitRepository .
+<https://dev.funkwhale.audio/funkwhale/funkwhale> a doap:GitRepository .
+<https://github.com/go-gitea/gitea> a doap:GitRepository .
+<https://sr.ht/~mariusor/go-activitypub> a doap:GitRepository .
+<https://codeberg.org/superseriousbusiness/gotosocial> a doap:GitRepository .
+<https://gitlab.com/technostructures/kazarma/kazarma> a doap:GitRepository .
+<https://codeberg.org/Kbin/kbin-core> a doap:GitRepository .
+<https://github.com/LemmyNet/lemmy> a doap:GitRepository .
+<https://repos.goffi.org/libervia-backend> a doap:GitRepository .
+<https://github.com/manyfold3d/manyfold> a doap:GitRepository .
+<https://github.com/mastodon/mastodon> a doap:GitRepository .
+<https://github.com/funmusicplace/mirlo> a doap:GitRepository .
+<https://github.com/misskey-dev/misskey> a doap:GitRepository .
+<https://github.com/NodeBB/NodeBB> a doap:GitRepository .
+<https://github.com/owncast/owncast> a doap:GitRepository .
+<https://github.com/Chocobozzz/PeerTube> a doap:GitRepository .
+<https://github.com/pixelfed/pixelfed> a doap:GitRepository .
+<https://codeberg.org/linos/wordpress-polls-for-activitypub> a doap:GitRepository .
+<https://codeberg.org/seppo/seppo> a doap:GitRepository .
+<https://github.com/raffomania/ties> a doap:GitRepository .
+<https://github.com/tuskyapp/Tusky> a doap:GitRepository .
+<https://github.com/pfefferle/wordpress-activitypub> a doap:GitRepository .
+<https://github.com/xwiki-contrib/application-activitypub> a doap:GitRepository .

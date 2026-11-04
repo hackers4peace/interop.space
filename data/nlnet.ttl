@@ -1,0 +1,634 @@
+# NLnet Foundation funding for ActivityPub software.
+#
+# Sources:
+#   https://nlnet.nl/project/ — the "All projects" table filtered with the
+#     page's own ActivityPub keyword search (retrieved 2026-11-04). Each row
+#     becomes one ex:Funding whose id is that project's NLnet page. The /kbin
+#     mobile grant is included too: the index groups it under /kbin and it is a
+#     second grant for the same codebase.
+#   The project pages themselves for the fund, the grant period, the project
+#     title and the notes on how a grant maps to a codebase.
+#
+# Modelling: a grant is a qualified relation
+# (https://patterns.dataincubator.org/book/qualified-relation.html). The
+# ex:Funding instance *is* the NLnet project page, so the grant id (the page
+# URL) and its qualifiers — ex:name, ex:fund, ex:startDate, ex:endDate — sit on
+# one node. ex:funder names the funder (NLnet) and ex:recipient names the funded
+# software (the doap:Project records in data/software.ttl).
+#
+# ex:funds is the binary shortcut for the same relation, stated once per
+# funder/software pair at the end of the file: a software project funded more
+# than once still gets a single edge, while each ex:Funding keeps its own grant
+# period (Funkwhale, GoToSocial, Lemmy and others have several).
+#
+# NLnet is an ex:Organization, not a standards body: the grants point at it
+# only through ex:funder, and it has an organization page in the UI.
+#
+# Dates: xsd:gYearMonth for the period printed on the project page; when the
+# page has no period yet, the start year from the project index stays an
+# xsd:gYear. Projects with neither carry none.
+#
+# ex:description appears only where the funded work needs a word of
+# explanation, either because the page's title names the work rather than the
+# codebase, or because the grant maps onto a codebase already funded above.
+#
+# Four ActivityPub search results have no single codebase to point at, so they
+# have no grant here (see the end of the file).
+#
+# Seeded with `devbox run seed` (see devbox.json).
+
+@prefix ex: <http://example.org#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# NLnet Foundation. The grants below point here with ex:funder.
+<https://nlnet.nl/> a ex:Organization ;
+  ex:name "NLnet Foundation" ;
+  ex:homepage <https://nlnet.nl/> ;
+  ex:logo "/logos/nlnet.svg" .
+
+# ActivityBot (NGI0 Commons Fund)
+<https://nlnet.nl/project/ActivityBot/> a ex:Funding ;
+  ex:name "ActivityBot" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:99453fd2-14f5-5100-a16f-b5db3fae6fdd> ;
+  ex:fund "NGI0 Commons Fund" ;
+  ex:startDate "2026"^^xsd:gYear .
+
+# ActivityPods (NGI0 Entrust)
+<https://nlnet.nl/project/ActivityPods/> a ex:Funding ;
+  ex:name "ActivityPods" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:f7db45b5-bbdb-5d75-b2e2-92e4690ebf80> ;
+  ex:fund "NGI0 Entrust" ;
+  ex:startDate "2023-04"^^xsd:gYearMonth ;
+  ex:endDate "2025-05"^^xsd:gYearMonth .
+
+# Progressive Web App - ActivityPub API (Open Social Fund)
+<https://nlnet.nl/project/ActivityPub-PWA/> a ex:Funding ;
+  ex:name "Progressive Web App - ActivityPub API" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:f5c1b7ff-d2f2-5e4d-a2fe-3a4b8dacc8ac> ;
+  ex:fund "Open Social Fund" ;
+  ex:startDate "2025"^^xsd:gYear .
+
+# ActivityPub4J (NGI0 Commons Fund)
+<https://nlnet.nl/project/ActivityPub4J/> a ex:Funding ;
+  ex:name "ActivityPub4J" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:8d0e2bab-01fb-56b4-a9aa-a48b602b1896> ;
+  ex:fund "NGI0 Commons Fund" ;
+  ex:startDate "2026"^^xsd:gYear .
+
+# Bana (NGI0 Entrust)
+<https://nlnet.nl/project/Bana/> a ex:Funding ;
+  ex:name "Bana" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:c42f8da9-3eed-552b-baa1-2bc1c34f93a8> ;
+  ex:fund "NGI0 Entrust" ;
+  ex:startDate "2023-06"^^xsd:gYearMonth ;
+  ex:endDate "2025-11"^^xsd:gYearMonth .
+
+# Bonfire Framework (NGI0 Entrust)
+<https://nlnet.nl/project/Bonfire-Framework/> a ex:Funding ;
+  ex:name "Bonfire Framework" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:ce089c46-0f03-518e-a21f-8dad3be7735c> ;
+  ex:fund "NGI0 Entrust" ;
+  ex:startDate "2023-10"^^xsd:gYearMonth ;
+  ex:endDate "2025-09"^^xsd:gYearMonth .
+
+# An OpenScience flavour of Bonfire on NixOS for preprints (NGI0 Commons Fund)
+<https://nlnet.nl/project/Sciety-ActivityPub/> a ex:Funding ;
+  ex:name "An OpenScience flavour of Bonfire on NixOS for preprints" ;
+  ex:description "An OpenScience flavour of Bonfire on NixOS for preprints; the funded codebase is Bonfire." ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:ce089c46-0f03-518e-a21f-8dad3be7735c> ;
+  ex:fund "NGI0 Commons Fund" ;
+  ex:startDate "2025"^^xsd:gYear .
+
+# Castopod v2 (NGI0 Commons Fund)
+<https://nlnet.nl/project/Castopod-v2/> a ex:Funding ;
+  ex:name "Castopod v2" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:18aabac4-602f-53f6-893f-cac7d6602fad> ;
+  ex:fund "NGI0 Commons Fund" ;
+  ex:startDate "2026"^^xsd:gYear .
+
+# Record Federation for Corteza Clouds (NGI0 Discovery)
+<https://nlnet.nl/project/CortezaActivityPub/> a ex:Funding ;
+  ex:name "Record Federation for Corteza Clouds" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:2649ad61-3b31-5a64-bdc8-952dbead08d2> ;
+  ex:fund "NGI0 Discovery" ;
+  ex:startDate "2020-06"^^xsd:gYearMonth ;
+  ex:endDate "2020-06"^^xsd:gYearMonth .
+
+# Discourse ActivityPub (NGI0 Discovery)
+<https://nlnet.nl/project/DiscourseActivityPub/> a ex:Funding ;
+  ex:name "Discourse ActivityPub" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:7068b9c1-37e9-5786-9cba-9745dc989595> ;
+  ex:fund "NGI0 Discovery" ;
+  ex:startDate "2019-04"^^xsd:gYearMonth ;
+  ex:endDate "2022-10"^^xsd:gYearMonth .
+
+# DrFed (NGI0 Commons Fund)
+<https://nlnet.nl/project/DrFed/> a ex:Funding ;
+  ex:name "DrFed" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:e754bd30-43e5-5940-ba77-c6e44c3e626e> ;
+  ex:fund "NGI0 Commons Fund" ;
+  ex:startDate "2026"^^xsd:gYear .
+
+# Drupal ActivityPub integration (NGI Fediversity Fund)
+<https://nlnet.nl/project/Drupal-ActivityPub/> a ex:Funding ;
+  ex:name "Drupal ActivityPub integration" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:5463044e-a906-5a03-87c4-e97cc3fc3d00> ;
+  ex:fund "NGI Fediversity Fund" ;
+  ex:startDate "2024"^^xsd:gYear .
+
+# Drupal ActivityPub Social Recipe (NGI0 Commons Fund)
+<https://nlnet.nl/project/Drupal-AP-recipes/> a ex:Funding ;
+  ex:name "Drupal ActivityPub Social Recipe" ;
+  ex:description "A Drupal recipe that adds ActivityPub support to existing sites, built on the Drupal ActivityPub module." ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:5463044e-a906-5a03-87c4-e97cc3fc3d00> ;
+  ex:fund "NGI0 Commons Fund" ;
+  ex:startDate "2025"^^xsd:gYear .
+
+# Drupal ActivityPub module usability enhancements (NGI0 Commons Fund)
+<https://nlnet.nl/project/Drupal-ActivityPub-UX/> a ex:Funding ;
+  ex:name "Drupal ActivityPub module usability enhancements" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:5463044e-a906-5a03-87c4-e97cc3fc3d00> ;
+  ex:fund "NGI0 Commons Fund" ;
+  ex:startDate "2026"^^xsd:gYear .
+
+# Economiverse (NGI0 Commons Fund)
+<https://nlnet.nl/project/Economiverse/> a ex:Funding ;
+  ex:name "Economiverse" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:e8420e3f-fc48-54a3-b656-0a232b30cefb> ;
+  ex:fund "NGI0 Commons Fund" ;
+  ex:startDate "2026"^^xsd:gYear .
+
+# Event Federation Plugin for WordPress (NGI0 Entrust)
+<https://nlnet.nl/project/WordPress-EventFederation/> a ex:Funding ;
+  ex:name "Event Federation Plugin for WordPress" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:8e2e879f-6aa1-5191-bcce-ce040220fde2> ;
+  ex:fund "NGI0 Entrust" ;
+  ex:startDate "2023-02"^^xsd:gYearMonth ;
+  ex:endDate "2026-01"^^xsd:gYearMonth .
+
+# Interoperability of Events in the Fediverse (NGI0 Commons Fund)
+<https://nlnet.nl/project/Fediverse-event-interop/> a ex:Funding ;
+  ex:name "Interoperability of Events in the Fediverse" ;
+  ex:description "FEP-8a8e and FASP work plus Event Bridge and GatherPress development; the funded software recorded here is the Event Bridge plugin." ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:8e2e879f-6aa1-5191-bcce-ce040220fde2> ;
+  ex:fund "NGI0 Commons Fund" ;
+  ex:startDate "2025"^^xsd:gYear .
+
+# Fedipub (NGI0 Commons Fund)
+<https://nlnet.nl/project/Fedipub/> a ex:Funding ;
+  ex:name "Fedipub" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:43ffa0f2-d853-5543-97c6-4352d3eeca5b> ;
+  ex:fund "NGI0 Commons Fund" ;
+  ex:startDate "2026"^^xsd:gYear .
+
+# Fediverse Test Suite (NGI Zero Core)
+<https://nlnet.nl/project/FediverseTestsuite/> a ex:Funding ;
+  ex:name "Fediverse Test Suite" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:72340c87-0c23-562d-84c4-9ac496f1482b> ;
+  ex:fund "NGI Zero Core" ;
+  ex:startDate "2023-10"^^xsd:gYearMonth ;
+  ex:endDate "2024-12"^^xsd:gYearMonth .
+
+# TALER integration in flohmarkt (NGI TALER Fund)
+<https://nlnet.nl/project/TALER-flohmarkt/> a ex:Funding ;
+  ex:name "TALER integration in flohmarkt" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:1f63c071-489e-5dc9-8c5d-90c58f833f31> ;
+  ex:fund "NGI TALER Fund" ;
+  ex:startDate "2024"^^xsd:gYear .
+
+# ForgeFlux (NGI0 Entrust)
+<https://nlnet.nl/project/ForgeFlux/> a ex:Funding ;
+  ex:name "ForgeFlux" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:0cb509ba-e4ad-53b6-a34b-907fb428660c> ;
+  ex:fund "NGI0 Entrust" ;
+  ex:startDate "2023-10"^^xsd:gYearMonth ;
+  ex:endDate "2026-01"^^xsd:gYearMonth .
+
+# Federated software forges with Forgejo (NGI0 Entrust)
+<https://nlnet.nl/project/Federated-Forgejo/> a ex:Funding ;
+  ex:name "Federated software forges with Forgejo" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:60c5472e-c690-5004-b140-8a9e6622970e> ;
+  ex:fund "NGI0 Entrust" ;
+  ex:startDate "2022-10"^^xsd:gYearMonth ;
+  ex:endDate "2025-06"^^xsd:gYearMonth .
+
+# Fediverse Test Framework (NGI Zero Core)
+<https://nlnet.nl/project/FediverseTestFramework/> a ex:Funding ;
+  ex:name "Fediverse Test Framework" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:45250209-5a1a-59f8-9df4-c55acbc7645c> ;
+  ex:fund "NGI Zero Core" ;
+  ex:startDate "2023-06"^^xsd:gYearMonth ;
+  ex:endDate "2024-01"^^xsd:gYearMonth .
+
+# Funfedi.dev (NGI0 Commons Fund)
+<https://nlnet.nl/project/Funfedi.dev/> a ex:Funding ;
+  ex:name "Funfedi.dev" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:45250209-5a1a-59f8-9df4-c55acbc7645c> ;
+  ex:fund "NGI0 Commons Fund" ;
+  ex:startDate "2026"^^xsd:gYear .
+
+# Funkwhale (NGI0 Discovery)
+<https://nlnet.nl/project/Funkwhale/> a ex:Funding ;
+  ex:name "Funkwhale" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:878c32a0-d359-541b-8b32-d5212ce2d074> ;
+  ex:fund "NGI0 Discovery" ;
+  ex:startDate "2019-12"^^xsd:gYearMonth ;
+  ex:endDate "2022-10"^^xsd:gYearMonth .
+
+# Funkwhale (NGI0 Entrust)
+<https://nlnet.nl/project/FunkWhale-Federation/> a ex:Funding ;
+  ex:name "Funkwhale" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:878c32a0-d359-541b-8b32-d5212ce2d074> ;
+  ex:fund "NGI0 Entrust" ;
+  ex:startDate "2022-12"^^xsd:gYearMonth ;
+  ex:endDate "2025-05"^^xsd:gYearMonth .
+
+# Funkwhale Federation (NGI0 Commons Fund)
+<https://nlnet.nl/project/Funkwhale-AP/> a ex:Funding ;
+  ex:name "Funkwhale Federation" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:878c32a0-d359-541b-8b32-d5212ce2d074> ;
+  ex:fund "NGI0 Commons Fund" ;
+  ex:startDate "2025"^^xsd:gYear .
+
+# Federated software forges with Gitea (NGI0 Discovery)
+<https://nlnet.nl/project/Gitea/> a ex:Funding ;
+  ex:name "Federated software forges with Gitea" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:783872c9-08a7-52a2-bd5c-d73c4dcf5189> ;
+  ex:fund "NGI0 Discovery" ;
+  ex:startDate "2021-12"^^xsd:gYearMonth ;
+  ex:endDate "2022-10"^^xsd:gYearMonth .
+
+# GoActivityPub (NGI0 Commons Fund)
+<https://nlnet.nl/project/GoActivityPub/> a ex:Funding ;
+  ex:name "GoActivityPub" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:53036770-7927-5a0b-8391-0e96fd9e3438> ;
+  ex:fund "NGI0 Commons Fund" ;
+  ex:startDate "2025"^^xsd:gYear .
+
+# GoToSocial (NGI0 Entrust)
+<https://nlnet.nl/project/GoToSocial/> a ex:Funding ;
+  ex:name "GoToSocial" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:d25b9a66-cf8f-5842-922a-80a1b2b817f7> ;
+  ex:fund "NGI0 Entrust" ;
+  ex:startDate "2022-10"^^xsd:gYearMonth ;
+  ex:endDate "2026-01"^^xsd:gYearMonth .
+
+# GoToSocial (NGI0 Entrust)
+<https://nlnet.nl/project/GoToSocial-scale/> a ex:Funding ;
+  ex:name "GoToSocial" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:d25b9a66-cf8f-5842-922a-80a1b2b817f7> ;
+  ex:fund "NGI0 Entrust" ;
+  ex:startDate "2023-10"^^xsd:gYearMonth ;
+  ex:endDate "2026-01"^^xsd:gYearMonth .
+
+# Kazarma (NGI0 Discovery)
+<https://nlnet.nl/project/Kazarma/> a ex:Funding ;
+  ex:name "Kazarma" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:5e209537-bf41-59b3-8251-3aa19ceab149> ;
+  ex:fund "NGI0 Discovery" ;
+  ex:startDate "2020-04"^^xsd:gYearMonth ;
+  ex:endDate "2022-10"^^xsd:gYearMonth .
+
+# Kazarma Release (NGI0 Entrust)
+<https://nlnet.nl/project/Kazarma-Release/> a ex:Funding ;
+  ex:name "Kazarma Release" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:5e209537-bf41-59b3-8251-3aa19ceab149> ;
+  ex:fund "NGI0 Entrust" ;
+  ex:startDate "2023-02"^^xsd:gYearMonth ;
+  ex:endDate "2026-01"^^xsd:gYearMonth .
+
+# Kbin (NGI0 Entrust)
+<https://nlnet.nl/project/Kbin/> a ex:Funding ;
+  ex:name "Kbin" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:fe4adc14-2ac2-5398-bdae-be2a86df77b5> ;
+  ex:fund "NGI0 Entrust" ;
+  ex:startDate "2022-12"^^xsd:gYearMonth ;
+  ex:endDate "2026-01"^^xsd:gYearMonth .
+
+# /kbin (NGI0 Entrust)
+<https://nlnet.nl/project/Kbin-Mobile/> a ex:Funding ;
+  ex:name "/kbin" ;
+  ex:description "Mobile app and feature additions to /kbin; the funded codebase is /kbin." ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:fe4adc14-2ac2-5398-bdae-be2a86df77b5> ;
+  ex:fund "NGI0 Entrust" ;
+  ex:startDate "2023-12"^^xsd:gYearMonth ;
+  ex:endDate "2026-01"^^xsd:gYearMonth .
+
+# Lemmy (NGI0 Discovery)
+<https://nlnet.nl/project/Lemmy/> a ex:Funding ;
+  ex:name "Lemmy" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:fd4aa4a8-530e-5a19-855a-309a5f726888> ;
+  ex:fund "NGI0 Discovery" ;
+  ex:startDate "2020-04"^^xsd:gYearMonth ;
+  ex:endDate "2022-10"^^xsd:gYearMonth .
+
+# Lemmy Federation (NGI0 Discovery)
+<https://nlnet.nl/project/LemmyFed-AP/> a ex:Funding ;
+  ex:name "Lemmy Federation" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:fd4aa4a8-530e-5a19-855a-309a5f726888> ;
+  ex:fund "NGI0 Discovery" ;
+  ex:startDate "2021-06"^^xsd:gYearMonth ;
+  ex:endDate "2022-10"^^xsd:gYearMonth .
+
+# Lemmy Scale (NGI Zero Core)
+<https://nlnet.nl/project/Lemmy-Scale/> a ex:Funding ;
+  ex:name "Lemmy Scale" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:fd4aa4a8-530e-5a19-855a-309a5f726888> ;
+  ex:fund "NGI Zero Core" ;
+  ex:startDate "2023"^^xsd:gYear .
+
+# XMPP-ActivityPub gateway (NGI0 Discovery)
+<https://nlnet.nl/project/Libervia/> a ex:Funding ;
+  ex:name "XMPP-ActivityPub gateway" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:8f44271d-cc0a-5abf-b5ca-25e8500e7808> ;
+  ex:fund "NGI0 Discovery" ;
+  ex:startDate "2020-12"^^xsd:gYearMonth ;
+  ex:endDate "2022-10"^^xsd:gYearMonth .
+
+# Loops (NGI Zero Core)
+<https://nlnet.nl/project/Loops/> a ex:Funding ;
+  ex:name "Loops" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:9fdd16a2-a1ff-539c-acc6-230e0d809a7c> ;
+  ex:fund "NGI Zero Core" ;
+  ex:startDate "2024"^^xsd:gYear .
+
+# Manyfold; Printing, Customisation, and Versioning (NGI0 Commons Fund)
+<https://nlnet.nl/project/Manyfold-XR/> a ex:Funding ;
+  ex:name "Manyfold; Printing, Customisation, and Versioning" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:715acb11-fe01-5f5c-b8cb-2ca21e2b2064> ;
+  ex:fund "NGI0 Commons Fund" ;
+  ex:startDate "2025"^^xsd:gYear .
+
+# Manyfold (NGI0 Commons Fund)
+<https://nlnet.nl/project/Manyfold-Discovery/> a ex:Funding ;
+  ex:name "Manyfold" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:715acb11-fe01-5f5c-b8cb-2ca21e2b2064> ;
+  ex:fund "NGI0 Commons Fund" ;
+  ex:startDate "2025-01"^^xsd:gYearMonth ;
+  ex:endDate "2026-01"^^xsd:gYearMonth .
+
+# Mastodon - groups, filtering, moderation (NGI0 Discovery)
+<https://nlnet.nl/project/Mastodon/> a ex:Funding ;
+  ex:name "Mastodon - groups, filtering, moderation" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:bf393e60-94aa-5e61-9c97-79867fb78c6b> ;
+  ex:fund "NGI0 Discovery" ;
+  ex:startDate "2021-12"^^xsd:gYearMonth ;
+  ex:endDate "2022-10"^^xsd:gYearMonth .
+
+# ActivityPub Quote Posts (NGI0 Entrust)
+<https://nlnet.nl/project/Mastodon-Quoting/> a ex:Funding ;
+  ex:name "ActivityPub Quote Posts" ;
+  ex:description "Quote posts in ActivityPub and Mastodon; the funded codebase is Mastodon." ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:bf393e60-94aa-5e61-9c97-79867fb78c6b> ;
+  ex:fund "NGI0 Entrust" ;
+  ex:startDate "2024-02"^^xsd:gYearMonth ;
+  ex:endDate "2026-01"^^xsd:gYearMonth .
+
+# Federating Mirlo (NGI0 Commons Fund)
+<https://nlnet.nl/project/Mirlo/> a ex:Funding ;
+  ex:name "Federating Mirlo" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:6e0f16f0-cfec-5fa7-bfd7-d1c47b40a052> ;
+  ex:fund "NGI0 Commons Fund" ;
+  ex:startDate "2025"^^xsd:gYear .
+
+# Misskey (NGI0 Discovery)
+<https://nlnet.nl/project/Misskey/> a ex:Funding ;
+  ex:name "Misskey" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:8b5c6da3-e6f9-5baf-b5a7-067c9f8e722c> ;
+  ex:fund "NGI0 Discovery" ;
+  ex:startDate "2021-06"^^xsd:gYearMonth ;
+  ex:endDate "2022-10"^^xsd:gYearMonth .
+
+# NodeBB (NGI Zero Core)
+<https://nlnet.nl/project/NodeBB/> a ex:Funding ;
+  ex:name "NodeBB" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:5cae36b9-005f-5134-a316-e3abed45180f> ;
+  ex:fund "NGI Zero Core" ;
+  ex:startDate "2023"^^xsd:gYear .
+
+# Open Hospitality Network (NGI0 Discovery)
+<https://nlnet.nl/project/OpenHospitalityNetwork/> a ex:Funding ;
+  ex:name "Open Hospitality Network" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:6a8a6eb7-daa0-5ab1-886d-294d16cb589e> ;
+  ex:fund "NGI0 Discovery" ;
+  ex:startDate "2021-08"^^xsd:gYearMonth ;
+  ex:endDate "2022-10"^^xsd:gYearMonth .
+
+# Owncast (NGI0 Discovery)
+<https://nlnet.nl/project/Owncast/> a ex:Funding ;
+  ex:name "Owncast" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:d840410d-c6e8-54ec-b087-17ac86253322> ;
+  ex:fund "NGI0 Discovery" ;
+  ex:startDate "2021-06"^^xsd:gYearMonth ;
+  ex:endDate "2022-10"^^xsd:gYearMonth .
+
+# Popularizing PeerTube (NGI0 Entrust)
+<https://nlnet.nl/project/PeerTube-mobile/> a ex:Funding ;
+  ex:name "Popularizing PeerTube" ;
+  ex:description "Platform improvements plus the first official mobile app; the funded codebase is PeerTube." ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:da449d9f-e4fc-5e5b-97f9-f78a323ce59e> ;
+  ex:fund "NGI0 Entrust" ;
+  ex:startDate "2023-10"^^xsd:gYearMonth ;
+  ex:endDate "2025-07"^^xsd:gYearMonth .
+
+# PixelDroid/Media editor (NGI0 Entrust)
+<https://nlnet.nl/project/PixelDroid-MediaEditor/> a ex:Funding ;
+  ex:name "PixelDroid/Media editor" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:fbc10e0c-830e-5b89-ac2d-729516d33a16> ;
+  ex:fund "NGI0 Entrust" ;
+  ex:startDate "2023-02"^^xsd:gYearMonth ;
+  ex:endDate "2026-01"^^xsd:gYearMonth .
+
+# Pixelfed (NGI0 Discovery)
+<https://nlnet.nl/project/Pixelfed/> a ex:Funding ;
+  ex:name "Pixelfed" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:6cefcbb6-d71c-5401-a1d7-a380fbe2586c> ;
+  ex:fund "NGI0 Discovery" ;
+  ex:startDate "2019-10"^^xsd:gYearMonth ;
+  ex:endDate "2020-12"^^xsd:gYearMonth .
+
+# Pixelfed (NGI0 Entrust)
+<https://nlnet.nl/project/Pixelfed-Groups/> a ex:Funding ;
+  ex:name "Pixelfed" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:6cefcbb6-d71c-5401-a1d7-a380fbe2586c> ;
+  ex:fund "NGI0 Entrust" ;
+  ex:startDate "2022-12"^^xsd:gYearMonth ;
+  ex:endDate "2024-07"^^xsd:gYearMonth .
+
+# Pleroma (NGI Zero Core)
+<https://nlnet.nl/project/Pleroma/> a ex:Funding ;
+  ex:name "Pleroma" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:9671271b-965a-55e6-8297-ad86d2491866> ;
+  ex:fund "NGI Zero Core" ;
+  ex:startDate "2023"^^xsd:gYear .
+
+# ActivityPub Polls for WordPress (NGI0 Commons Fund)
+<https://nlnet.nl/project/WP-ActivityPub-polls/> a ex:Funding ;
+  ex:name "ActivityPub Polls for WordPress" ;
+  ex:description "An ActivityPub poll plugin that integrates with the WordPress ActivityPub plugin." ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:5dacdc20-c2d8-5d24-8128-531e87b01bfd> ;
+  ex:fund "NGI0 Commons Fund" ;
+  ex:startDate "2025"^^xsd:gYear .
+
+# #Seppo! (NGI0 Entrust)
+<https://nlnet.nl/project/Seppo/> a ex:Funding ;
+  ex:name "#Seppo!" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:f073d34a-f573-5919-8a46-44a051079ba9> ;
+  ex:fund "NGI0 Entrust" ;
+  ex:startDate "2022-10"^^xsd:gYearMonth ;
+  ex:endDate "2026-01"^^xsd:gYearMonth .
+
+# Ties (NGI0 Commons Fund)
+<https://nlnet.nl/project/ties/> a ex:Funding ;
+  ex:name "Ties" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:33f0fbfd-3154-5223-bf09-06c31cf72cb1> ;
+  ex:fund "NGI0 Commons Fund" ;
+  ex:startDate "2025"^^xsd:gYear .
+
+# Tusky (NGI Zero Core)
+<https://nlnet.nl/project/Tusky/> a ex:Funding ;
+  ex:name "Tusky" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:9b4cb8c4-4af1-5b04-8b1e-e8f249320485> ;
+  ex:fund "NGI Zero Core" ;
+  ex:startDate "2024"^^xsd:gYear .
+
+# WordPress ActivityPub (NGI0 Discovery)
+<https://nlnet.nl/project/Wordpress-ActivityPub/> a ex:Funding ;
+  ex:name "WordPress ActivityPub" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:d1104abd-4359-52d0-87b9-7f473bc377f9> ;
+  ex:fund "NGI0 Discovery" ;
+  ex:startDate "2021-02"^^xsd:gYearMonth ;
+  ex:endDate "2022-10"^^xsd:gYearMonth .
+
+# XWiki ActivityPub (NGI0 Discovery)
+<https://nlnet.nl/project/XWikiActivityPub/> a ex:Funding ;
+  ex:name "XWiki ActivityPub" ;
+  ex:funder <https://nlnet.nl/> ;
+  ex:recipient <urn:uuid:8dc3003b-db01-55dd-b2ff-850bbf7c5139> ;
+  ex:fund "NGI0 Discovery" ;
+  ex:startDate "2020-06"^^xsd:gYearMonth ;
+  ex:endDate "2022-10"^^xsd:gYearMonth .
+
+# ---------------------------------------------------------------------------
+# Binary shortcut: funder -> funded software, one edge per pair (not per
+# grant). Every edge below has at least one ex:Funding above.
+# ---------------------------------------------------------------------------
+
+<https://nlnet.nl/> ex:funds <urn:uuid:99453fd2-14f5-5100-a16f-b5db3fae6fdd> .
+<https://nlnet.nl/> ex:funds <urn:uuid:f7db45b5-bbdb-5d75-b2e2-92e4690ebf80> .
+<https://nlnet.nl/> ex:funds <urn:uuid:f5c1b7ff-d2f2-5e4d-a2fe-3a4b8dacc8ac> .
+<https://nlnet.nl/> ex:funds <urn:uuid:8d0e2bab-01fb-56b4-a9aa-a48b602b1896> .
+<https://nlnet.nl/> ex:funds <urn:uuid:c42f8da9-3eed-552b-baa1-2bc1c34f93a8> .
+<https://nlnet.nl/> ex:funds <urn:uuid:ce089c46-0f03-518e-a21f-8dad3be7735c> .
+<https://nlnet.nl/> ex:funds <urn:uuid:18aabac4-602f-53f6-893f-cac7d6602fad> .
+<https://nlnet.nl/> ex:funds <urn:uuid:2649ad61-3b31-5a64-bdc8-952dbead08d2> .
+<https://nlnet.nl/> ex:funds <urn:uuid:7068b9c1-37e9-5786-9cba-9745dc989595> .
+<https://nlnet.nl/> ex:funds <urn:uuid:e754bd30-43e5-5940-ba77-c6e44c3e626e> .
+<https://nlnet.nl/> ex:funds <urn:uuid:5463044e-a906-5a03-87c4-e97cc3fc3d00> .
+<https://nlnet.nl/> ex:funds <urn:uuid:e8420e3f-fc48-54a3-b656-0a232b30cefb> .
+<https://nlnet.nl/> ex:funds <urn:uuid:8e2e879f-6aa1-5191-bcce-ce040220fde2> .
+<https://nlnet.nl/> ex:funds <urn:uuid:43ffa0f2-d853-5543-97c6-4352d3eeca5b> .
+<https://nlnet.nl/> ex:funds <urn:uuid:72340c87-0c23-562d-84c4-9ac496f1482b> .
+<https://nlnet.nl/> ex:funds <urn:uuid:1f63c071-489e-5dc9-8c5d-90c58f833f31> .
+<https://nlnet.nl/> ex:funds <urn:uuid:0cb509ba-e4ad-53b6-a34b-907fb428660c> .
+<https://nlnet.nl/> ex:funds <urn:uuid:60c5472e-c690-5004-b140-8a9e6622970e> .
+<https://nlnet.nl/> ex:funds <urn:uuid:45250209-5a1a-59f8-9df4-c55acbc7645c> .
+<https://nlnet.nl/> ex:funds <urn:uuid:878c32a0-d359-541b-8b32-d5212ce2d074> .
+<https://nlnet.nl/> ex:funds <urn:uuid:783872c9-08a7-52a2-bd5c-d73c4dcf5189> .
+<https://nlnet.nl/> ex:funds <urn:uuid:53036770-7927-5a0b-8391-0e96fd9e3438> .
+<https://nlnet.nl/> ex:funds <urn:uuid:d25b9a66-cf8f-5842-922a-80a1b2b817f7> .
+<https://nlnet.nl/> ex:funds <urn:uuid:5e209537-bf41-59b3-8251-3aa19ceab149> .
+<https://nlnet.nl/> ex:funds <urn:uuid:fe4adc14-2ac2-5398-bdae-be2a86df77b5> .
+<https://nlnet.nl/> ex:funds <urn:uuid:fd4aa4a8-530e-5a19-855a-309a5f726888> .
+<https://nlnet.nl/> ex:funds <urn:uuid:8f44271d-cc0a-5abf-b5ca-25e8500e7808> .
+<https://nlnet.nl/> ex:funds <urn:uuid:9fdd16a2-a1ff-539c-acc6-230e0d809a7c> .
+<https://nlnet.nl/> ex:funds <urn:uuid:715acb11-fe01-5f5c-b8cb-2ca21e2b2064> .
+<https://nlnet.nl/> ex:funds <urn:uuid:bf393e60-94aa-5e61-9c97-79867fb78c6b> .
+<https://nlnet.nl/> ex:funds <urn:uuid:6e0f16f0-cfec-5fa7-bfd7-d1c47b40a052> .
+<https://nlnet.nl/> ex:funds <urn:uuid:8b5c6da3-e6f9-5baf-b5a7-067c9f8e722c> .
+<https://nlnet.nl/> ex:funds <urn:uuid:5cae36b9-005f-5134-a316-e3abed45180f> .
+<https://nlnet.nl/> ex:funds <urn:uuid:6a8a6eb7-daa0-5ab1-886d-294d16cb589e> .
+<https://nlnet.nl/> ex:funds <urn:uuid:d840410d-c6e8-54ec-b087-17ac86253322> .
+<https://nlnet.nl/> ex:funds <urn:uuid:da449d9f-e4fc-5e5b-97f9-f78a323ce59e> .
+<https://nlnet.nl/> ex:funds <urn:uuid:fbc10e0c-830e-5b89-ac2d-729516d33a16> .
+<https://nlnet.nl/> ex:funds <urn:uuid:6cefcbb6-d71c-5401-a1d7-a380fbe2586c> .
+<https://nlnet.nl/> ex:funds <urn:uuid:9671271b-965a-55e6-8297-ad86d2491866> .
+<https://nlnet.nl/> ex:funds <urn:uuid:5dacdc20-c2d8-5d24-8128-531e87b01bfd> .
+<https://nlnet.nl/> ex:funds <urn:uuid:f073d34a-f573-5919-8a46-44a051079ba9> .
+<https://nlnet.nl/> ex:funds <urn:uuid:33f0fbfd-3154-5223-bf09-06c31cf72cb1> .
+<https://nlnet.nl/> ex:funds <urn:uuid:9b4cb8c4-4af1-5b04-8b1e-e8f249320485> .
+<https://nlnet.nl/> ex:funds <urn:uuid:d1104abd-4359-52d0-87b9-7f473bc377f9> .
+<https://nlnet.nl/> ex:funds <urn:uuid:8dc3003b-db01-55dd-b2ff-850bbf7c5139> .
+
+# ---------------------------------------------------------------------------
+# ActivityPub search results with no single codebase of their own, so they get
+# no grant record rather than an invented recipient:
+#
+#   ActivityPub-CommunityStewardship — FEP/SWICG facilitation and community
+#     stewardship, no codebase.
+#   Fediverse-TrustSafety — trust and safety service providers; the page has no
+#     project summary yet.
+#   ForgeFed-RPC — ForgeFed is a protocol and vocabulary; the grant implements
+#     it in forges that already have their own records.
+#   Solid-ActivityPub-Interop — bridge project; the page has no project summary
+#     yet.
+# ---------------------------------------------------------------------------

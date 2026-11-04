@@ -36,6 +36,36 @@ export type SoftwareRef = {
   implements?: string[] // dependency only: doap:implements targets, for pinning
 }
 
+// One grant from a funder. Its id is the funder's own project page (for NLnet,
+// https://nlnet.nl/project/<slug>/), so the UI links out instead of opening a
+// catalog route.
+export type Funding = {
+  uri: string // ex:Funding id — the funder's page
+  name: string // ex:name
+  fund?: string // ex:fund, the fund the grant was paid from
+  startDate?: string // ex:startDate (xsd:gYearMonth or xsd:gYear)
+  endDate?: string // ex:endDate
+}
+
+// Software detail: one subsection per funder reached through the inverse of
+// ex:funds (funder ex:funds software).
+export type SoftwareFunding = {
+  funder: {
+    uri: string
+    id: string // short display/URL form, matching /orgs/:id
+    name: string
+    logo?: string
+  }
+  fundings: Funding[]
+}
+
+// Organization detail: the reverse grouping, one subsection per funded
+// software.
+export type OrgFunding = {
+  software: SoftwareRef
+  fundings: Funding[]
+}
+
 export type Software = {
   id: string // short display/URL form (tail of the catalog URI)
   uri: string // full catalog URI
@@ -50,6 +80,7 @@ export type Software = {
   license?: string // doap:license, SPDX identifier as a literal
   dependencies: SoftwareRef[] // ex:hasDependencyOn targets ("depends on")
   dependents: SoftwareRef[] // projects pointing at this one ("dependency of")
+  funding: SoftwareFunding[] // inverse ex:funds, grouped by funder (detail only)
 }
 
 export type UseCase = {
@@ -69,6 +100,7 @@ export type Org = {
   logo?: string // ex:logo, a public path or absolute URL
   affiliates: SpecContributor[] // people linked with ex:affiliation
   proposedUseCaseUris: string[] // ex:proposed targets
+  funds: OrgFunding[] // ex:funds edges grouped by funded software (detail only)
 }
 
 export type Event = {

@@ -11,12 +11,19 @@
 //   production   https://sparql.hackers4peace.net/catalog/sparql
 //
 // Usage:
-//   bun scripts/fuseki.ts seed [development|production]
+//   bun scripts/fuseki.ts seed [development|production] [target ...]
 //   bun scripts/fuseki.ts wipe [development|production]
 //   bun scripts/fuseki.ts tunnel [production]
 //
 // The devbox scripts default to development; pass production explicitly:
 //   devbox run seed -- production
+//
+// `seed` takes targets after the environment. Without a target it seeds the
+// whole catalog; with targets it only seeds those files:
+//   devbox run seed -- development w3c
+//   devbox run seed -- data/nlnet.ttl
+//   devbox run seed -- production ietf data/nlnet.ttl
+//   devbox run seed -- static
 //
 // Environment overrides:
 //   FUSEKI_UPDATE_URL   override the update endpoint (both environments)
@@ -26,32 +33,38 @@
 //   FUSEKI_PASSWD_FILE  production password file on the VPS
 
 import { spawn, spawnSync, type ChildProcess } from 'node:child_process'
-import { existsSync, readdirSync, readFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { connect } from 'node:net'
-import { join } from 'node:path'
+import { isAbsolute, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { Parser, Writer, type Quad } from 'n3'
 
 type Environment = 'development' | 'production'
 
+/** A bad command line, reported without a stack trace. */
+class UsageError extends Error {}
+
 const DEVELOPMENT_UPDATE =
   'https://fuseki-elf-pavlik-dev.apps.rm1.0a51.p1.openshiftapps.com/ds/update'
 const PRODUCTION_UPDATE = 'http://127.0.0.1:3030/catalog/update'
 
-const requestedEnvironment = process.argv[3]
-if (
-  requestedEnvironment !== undefined &&
-  requestedEnvironment !== 'development' &&
-  requestedEnvironment !== 'production'
-) {
+const ENVIRONMENTS = ['development', 'production']
+
+const argv = process.argv.slice(2)
+const command = argv[0]
+const args = argv.slice(1)
+const environmentArgs = args.filter((arg) => ENVIRONMENTS.includes(arg))
+if (environmentArgs.length > 1) {
   console.error(
-    `unknown environment "${requestedEnvironment}"; use development or production`,
+    `expected at most one environment, got "${environmentArgs.join(' ')}"`,
   )
   process.exit(1)
 }
+const requestedEnvironment = environmentArgs[0] as Environment | undefined
+const selectors = args.filter((arg) => !ENVIRONMENTS.includes(arg))
 
 const environment: Environment =
-  process.argv[2] === 'tunnel' || requestedEnvironment === 'production'
+  command === 'tunnel' || requestedEnvironment === 'production'
     ? 'production'
     : 'development'
 
@@ -72,15 +85,28 @@ const STATIC_SEED_FILES = [
   'data/organizations.ttl',
   'data/events.ttl',
   'data/locations.ttl',
+  'data/nlnet.ttl',
 ]
 
+const usage = `usage:
+  bun scripts/fuseki.ts seed [development|production] [target ...]
+  bun scripts/fuseki.ts wipe [development|production]
+  bun scripts/fuseki.ts tunnel [production]
+
+seed targets (default: all):
+  all      every stage file in data/dump plus every curated data/*.ttl
+  static   only the curated data/*.ttl files
+  <group>  one stage group under data/dump (w3c, ietf, cross, ...)
+  <path>   one .ttl/.nq file, or a directory of .nq files`
+
 /** Every completed stage file, in a deterministic SDO/stage order. */
-function stageDumpFiles(): string[] {
+function stageDumpFiles(group?: string): string[] {
   const root = join(ROOT, 'data/dump')
   if (!existsSync(root)) return []
   const files: string[] = []
   for (const sdo of readdirSync(root, { withFileTypes: true })) {
     if (!sdo.isDirectory()) continue
+    if (group !== undefined && sdo.name !== group) continue
     const dir = join(root, sdo.name)
     for (const entry of readdirSync(dir, { withFileTypes: true })) {
       if (entry.isFile() && entry.name.endsWith('.nq')) {
@@ -89,6 +115,94 @@ function stageDumpFiles(): string[] {
     }
   }
   return files.sort()
+}
+
+/** Stage groups that currently have a dump directory. */
+function stageGroups(): string[] {
+  const root = join(ROOT, 'data/dump')
+  if (!existsSync(root)) return []
+  return readdirSync(root, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort()
+}
+
+/**
+ * Turn seed targets into repo-relative files, in the order the caller asked
+ * for. No target means the whole catalog, as before the selection existed.
+ */
+function resolveTargets(targets: string[]): string[] {
+  const all = () => [...stageDumpFiles(), ...STATIC_SEED_FILES]
+
+  if (targets.length === 0) {
+    if (stageDumpFiles().length === 0) {
+      throw new UsageError(
+        'no stage files in data/dump; run `devbox run dump:w3c` first',
+      )
+    }
+    return all()
+  }
+
+  const groups = new Set(stageGroups())
+  const selected: string[] = []
+  const add = (file: string) => {
+    if (!selected.includes(file)) selected.push(file)
+  }
+
+  for (const target of targets) {
+    if (target === 'all') {
+      if (stageDumpFiles().length === 0) {
+        throw new UsageError(
+          'no stage files in data/dump; run `devbox run dump:w3c` first',
+        )
+      }
+      all().forEach(add)
+    } else if (target === 'static' || target === 'curated') {
+      STATIC_SEED_FILES.forEach(add)
+    } else if (groups.has(target)) {
+      const files = stageDumpFiles(target)
+      if (files.length === 0) {
+        throw new UsageError(
+          `no stage files in data/dump/${target}; run \`devbox run dump:${target}\` first`,
+        )
+      }
+      files.forEach(add)
+    } else {
+      const path = isAbsolute(target) ? target : join(ROOT, target)
+      if (!existsSync(path)) {
+        const known = [...groups, 'static', 'all'].join(', ')
+        throw new UsageError(
+          `unknown seed target "${target}"; use ${known}, a stage group or a data/*.ttl / data/dump/*/*.nq path (environments are development and production)`,
+        )
+      }
+      if (statSync(path).isDirectory()) {
+        const files = readdirSync(path)
+          .filter((entry) => entry.endsWith('.nq'))
+          .sort()
+          .map((entry) => relative(ROOT, join(path, entry)))
+        if (files.length === 0) {
+          throw new UsageError(`no .nq files in ${target}`)
+        }
+        files.forEach(add)
+      } else {
+        if (!/\.(ttl|nq)$/.test(target)) {
+          throw new UsageError(`${target} is not a .ttl or .nq file`)
+        }
+        const label = relative(ROOT, path)
+        if (label.startsWith('..')) {
+          throw new UsageError(`${target} is outside the repository`)
+        }
+        add(label)
+      }
+    }
+  }
+
+  for (const file of selected) {
+    if (file.startsWith('..')) {
+      throw new UsageError(`${file} is outside the repository`)
+    }
+  }
+  return selected
 }
 
 // INSERT DATA transactions are cheap on TDB2, but each one pays a commit.
@@ -298,43 +412,47 @@ async function updatesFor(path: string, quads: Quad[]): Promise<string[]> {
   return result
 }
 
-async function seed(): Promise<void> {
-  const stageFiles = stageDumpFiles()
-  if (stageFiles.length === 0) {
-    throw new Error(
-      'no stage files in data/dump; run `devbox run dump:w3c` first',
-    )
-  }
-  for (const relative of [...stageFiles, ...STATIC_SEED_FILES]) {
-    const path = join(ROOT, relative)
+async function seed(targets: string[]): Promise<void> {
+  const files = resolveTargets(targets)
+  let seeded = 0
+  for (const relativePath of files) {
+    const path = join(ROOT, relativePath)
     if (!existsSync(path)) {
-      throw new Error(`missing ${relative}`)
+      throw new Error(`missing ${relativePath}`)
     }
 
     const quads = parseQuads(path)
     if (quads.length === 0) {
-      console.error(`${relative}: no triples, skipped`)
+      console.error(`${relativePath}: no triples, skipped`)
       continue
     }
 
     const updates = await updatesFor(path, quads)
     for (const [batch, query] of updates.entries()) {
-      await update(query, `${relative} (batch ${batch + 1}/${updates.length})`)
+      await update(
+        query,
+        `${relativePath} (batch ${batch + 1}/${updates.length})`,
+      )
     }
-    console.error(`${relative}: ${quads.length} quads seeded`)
+    seeded += 1
+    console.error(`${relativePath}: ${quads.length} quads seeded`)
   }
+  console.error(
+    `${seeded} file${seeded === 1 ? '' : 's'} seeded into ${environment}`,
+  )
 }
 
 // ---------------------------------------------------------------------------
 // Entry point
 // ---------------------------------------------------------------------------
 
-const command = process.argv[2]
-const usage =
-  'usage: bun scripts/fuseki.ts <seed|wipe|tunnel> [development|production]'
-
 if (command !== 'seed' && command !== 'wipe' && command !== 'tunnel') {
   console.error(usage)
+  process.exit(1)
+}
+
+if (command !== 'seed' && selectors.length > 0) {
+  console.error(`${command} does not take seed targets\n${usage}`)
   process.exit(1)
 }
 
@@ -375,8 +493,15 @@ try {
     await update('CLEAR ALL', 'wipe')
     console.error('wiped all graphs in the catalog dataset')
   } else {
-    await seed()
+    await seed(selectors)
   }
+} catch (error) {
+  close()
+  if (error instanceof UsageError) {
+    console.error(`error: ${error.message}`)
+    process.exit(1)
+  }
+  throw error
 } finally {
   close()
 }
