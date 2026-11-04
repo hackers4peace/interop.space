@@ -2,6 +2,20 @@ import type { Component } from 'solid-js'
 import { Github } from 'lucide-solid'
 import { useSdoNav } from '../lib/sdoNav'
 
+const linkClass =
+  'font-medium text-indigo-600 hover:underline dark:text-indigo-400'
+
+const AttributionLink: Component<{ href: string; label?: string }> = (props) => (
+  <a
+    href={props.href}
+    target="_blank"
+    rel="noreferrer"
+    class={linkClass}
+  >
+    {props.label ?? props.href}
+  </a>
+)
+
 const InfoPage: Component = () => {
   const { href } = useSdoNav()
 
@@ -36,16 +50,80 @@ const InfoPage: Component = () => {
         </h2>
         <ul class="list-disc space-y-1 pl-5 text-slate-600 dark:text-slate-400">
           <li>
+            Data from W3C API (
+            <AttributionLink href="https://www.w3.org/api/" />)
+          </li>
+          <li>
+            Data from Specref (
+            <AttributionLink href="https://www.specref.org/" />)
+          </li>
+          <li>
+            Data from IETF Datatracker (
+            <AttributionLink href="https://datatracker.ietf.org/" />)
+          </li>
+          <li>
+            Data from RFC Editor (
+            <AttributionLink href="https://www.rfc-editor.org/" />)
+          </li>
+          <li>
+            Data from W3C Technical Reports (
+            <AttributionLink href="https://www.w3.org/TR/" />)
+          </li>
+          <li>
+            Data from Atmosphere Community (
+            <AttributionLink href="https://atmosphere.community/" />)
+          </li>
+          <li>
+            Data from Mozilla Community Portal (
+            <AttributionLink href="https://community.mozilla.org/" />)
+          </li>
+          <li>
+            Data from IndieWeb wiki (
+            <AttributionLink href="https://indieweb.org/" />)
+          </li>
+          <li>
+            Event details from the linked event pages:{' '}
+            <AttributionLink
+              href="https://www.w3.org/news-events/tpac/2026/"
+              label="W3C TPAC"
+            />
+            ,{' '}
+            <AttributionLink
+              href="https://www.ietf.org/meeting/127/"
+              label="IETF 127"
+            />
+            ,{' '}
+            <AttributionLink
+              href="https://internetidentityworkshop.com/upcoming-events/"
+              label="IIW"
+            />
+            , <AttributionLink href="https://fosdem.org/2027/" label="FOSDEM" />
+            ,{' '}
+            <AttributionLink
+              href="https://events.ccc.de/congress/2026/infos/startpage.html"
+              label="CCC"
+            />
+            ,{' '}
+            <AttributionLink
+              href="https://atmosphereconf.org/"
+              label="AtmosphereConf"
+            />
+          </li>
+          <li>
+            Data from Touchstone LWS conformance reports (
+            <AttributionLink href="https://ebremer.com/lws/conformance" />)
+          </li>
+          <li>
+            Project metadata from software repositories and package manifests
+            (GitHub, package.json, Cargo.toml, composer.json)
+          </li>
+          <li>
+            Software catalog data from Solid Efforts Core (
+            <AttributionLink href="https://github.com/elf-pavlik/solid-efforts-core" />)
+          </li>
+          <li>
             Data from FediDB (
-            <a
-              href="https://fedidb.com/datasets"
-              target="_blank"
-              rel="noreferrer"
-              class="font-medium text-indigo-600 hover:underline dark:text-indigo-400"
-            >
-              https://fedidb.com/datasets
-            </a>
-            ), CC BY 4.0
+            <AttributionLink href="https://fedidb.com/datasets" />), CC BY 4.0
           </li>
         </ul>
       </div>
