@@ -1,7 +1,7 @@
 import type { ParentComponent } from 'solid-js'
 import type { RouteDefinition } from '@solidjs/router'
 import { A } from '@solidjs/router'
-import { Github } from 'lucide-solid'
+import { Info } from 'lucide-solid'
 import Home from './routes/Home'
 import People from './routes/People'
 import PersonDetail from './routes/PersonDetail'
@@ -20,6 +20,7 @@ import EventDetail from './routes/EventDetail'
 import Locations from './routes/Locations'
 import LocationDetail from './routes/LocationDetail'
 import LocalGroupDetail from './routes/LocalGroupDetail'
+import InfoPage from './routes/Info'
 import Groups from './routes/Groups'
 import GroupDetail from './routes/GroupDetail'
 import { ThemeToggle } from './components/ThemeToggle'
@@ -44,6 +45,7 @@ export const routes: RouteDefinition[] = [
   { path: '/locations', component: Locations },
   { path: '/locations/:id', component: LocationDetail },
   { path: '/local-groups/:id', component: LocalGroupDetail },
+  { path: '/info', component: InfoPage },
   { path: '/groups', component: Groups },
   { path: '/groups/:id', component: GroupDetail },
 ]
@@ -95,16 +97,14 @@ const App: ParentComponent = (props) => {
             Publications
           </span>
           <ThemeToggle />
-          <a
-            href="https://github.com/hackers4peace/interop.space"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="interop.space on GitHub"
-            title="interop.space on GitHub"
-            class="rounded-md p-2 text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
+          <A
+            href={href('/info')}
+            aria-label="About interop.space and data attributions"
+            title="About & attributions"
+            class="rounded-md p-2 text-sky-600 transition hover:bg-slate-100 hover:text-sky-700 dark:text-sky-400 dark:hover:bg-slate-800 dark:hover:text-sky-300"
           >
-            <Github size={18} aria-hidden="true" />
-          </a>
+            <Info size={18} aria-hidden="true" />
+          </A>
         </nav>
       </header>
       <main class="mx-auto max-w-6xl px-6 py-10">{props.children}</main>
