@@ -1,0 +1,4 @@
+*.nq
+*.log
+manifest.json
+*.tmp

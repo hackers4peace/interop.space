@@ -21,6 +21,7 @@
 // `seed` takes targets after the environment. Without a target it seeds the
 // whole catalog; with targets it only seeds those files:
 //   devbox run seed -- development w3c
+//   devbox run seed -- fedidb
 //   devbox run seed -- data/nlnet.ttl
 //   devbox run seed -- production ietf data/nlnet.ttl
 //   devbox run seed -- static
@@ -78,6 +79,9 @@ const VPS_PASSWD_FILE =
   process.env.FUSEKI_PASSWD_FILE ?? '/run/agenix/fuseki-passwd'
 
 // Curated files are seeded after the generated stage dumps.
+// FediDB exports are generated stage files, but live outside data/dump.
+const FEDIDB_SEED_DIR = 'data/fedidb'
+
 const STATIC_SEED_FILES = [
   'data/software.ttl',
   'data/use-cases.ttl',
@@ -94,8 +98,9 @@ const usage = `usage:
   bun scripts/fuseki.ts tunnel [production]
 
 seed targets (default: all):
-  all      every stage file in data/dump plus every curated data/*.ttl
+  all      every stage file in data/dump and data/fedidb plus every curated data/*.ttl
   static   only the curated data/*.ttl files
+  fedidb   only the generated data/fedidb/*.nq files
   <group>  one stage group under data/dump (w3c, ietf, cross, ...)
   <path>   one .ttl/.nq file, or a directory of .nq files`
 
@@ -117,6 +122,16 @@ function stageDumpFiles(group?: string): string[] {
   return files.sort()
 }
 
+/** Completed FediDB stage files. */
+function fedidbSeedFiles(): string[] {
+  const dir = join(ROOT, FEDIDB_SEED_DIR)
+  if (!existsSync(dir)) return []
+  return readdirSync(dir, { withFileTypes: true })
+    .filter((entry) => entry.isFile() && entry.name.endsWith('.nq'))
+    .map((entry) => join(FEDIDB_SEED_DIR, entry.name))
+    .sort()
+}
+
 /** Stage groups that currently have a dump directory. */
 function stageGroups(): string[] {
   const root = join(ROOT, 'data/dump')
@@ -132,12 +147,18 @@ function stageGroups(): string[] {
  * for. No target means the whole catalog, as before the selection existed.
  */
 function resolveTargets(targets: string[]): string[] {
-  const all = () => [...stageDumpFiles(), ...STATIC_SEED_FILES]
+  const all = () => [
+    ...stageDumpFiles(),
+    ...fedidbSeedFiles(),
+    ...STATIC_SEED_FILES,
+  ]
+  const hasGenerated = () =>
+    stageDumpFiles().length > 0 || fedidbSeedFiles().length > 0
 
   if (targets.length === 0) {
-    if (stageDumpFiles().length === 0) {
+    if (!hasGenerated()) {
       throw new UsageError(
-        'no stage files in data/dump; run `devbox run dump:w3c` first',
+        'no stage files in data/dump or data/fedidb; run `devbox run dump:w3c` or `devbox run dump:fedidb` first',
       )
     }
     return all()
@@ -151,14 +172,22 @@ function resolveTargets(targets: string[]): string[] {
 
   for (const target of targets) {
     if (target === 'all') {
-      if (stageDumpFiles().length === 0) {
+      if (!hasGenerated()) {
         throw new UsageError(
-          'no stage files in data/dump; run `devbox run dump:w3c` first',
+          'no stage files in data/dump or data/fedidb; run `devbox run dump:w3c` or `devbox run dump:fedidb` first',
         )
       }
       all().forEach(add)
     } else if (target === 'static' || target === 'curated') {
       STATIC_SEED_FILES.forEach(add)
+    } else if (target === 'fedidb') {
+      const files = fedidbSeedFiles()
+      if (files.length === 0) {
+        throw new UsageError(
+          'no .nq files in data/fedidb; run `devbox run dump:fedidb` first',
+        )
+      }
+      files.forEach(add)
     } else if (groups.has(target)) {
       const files = stageDumpFiles(target)
       if (files.length === 0) {
@@ -170,9 +199,9 @@ function resolveTargets(targets: string[]): string[] {
     } else {
       const path = isAbsolute(target) ? target : join(ROOT, target)
       if (!existsSync(path)) {
-        const known = [...groups, 'static', 'all'].join(', ')
+        const known = [...groups, 'fedidb', 'static', 'all'].join(', ')
         throw new UsageError(
-          `unknown seed target "${target}"; use ${known}, a stage group or a data/*.ttl / data/dump/*/*.nq path (environments are development and production)`,
+          `unknown seed target "${target}"; use ${known}, a stage group or a data/*.ttl / data/dump/*/*.nq / data/fedidb/*.nq path (environments are development and production)`,
         )
       }
       if (statSync(path).isDirectory()) {

@@ -1,7 +1,7 @@
 import { writeFile } from 'node:fs/promises'
 import { Client, Connection } from '@temporalio/client'
 
-/** Which SDO workflow to run: `SDO=w3c` (default) or `SDO=ietf`. */
+/** Which SDO workflow to run: `w3c` (default), `ietf` or `fedidb`. */
 const SDO = (process.env.SDO ?? 'w3c').toLowerCase()
 
 interface StepSummary {
@@ -34,6 +34,37 @@ async function runIetf(client: Client): Promise<void> {
   console.log('ietf api workflow result:', JSON.stringify(result))
 }
 
+async function runFedidb(client: Client): Promise<void> {
+  const datasets = process.env.FEDIDB_DATASETS
+    ? process.env.FEDIDB_DATASETS.split(',').map((slug) => slug.trim()).filter(Boolean)
+    : undefined
+  const force = process.env.FEDIDB_FORCE === '1'
+  const result = (await client.workflow.execute('fedidbWorkflow', {
+    taskQueue: 'fedidb',
+    args: [{ datasets, force }],
+    workflowId: `fedidb-${Date.now()}`,
+    workflowExecutionTimeout: '1 hour',
+  })) as {
+    catalogGeneratedAt?: string
+    datasets?: Array<{
+      dataset: string
+      skipped: boolean
+      reason?: string
+      rows?: number
+      quads?: number
+      file?: string
+    }>
+  }
+
+  for (const step of result.datasets ?? []) {
+    const detail = step.skipped
+      ? `skipped (${step.reason ?? 'unchanged'})`
+      : `${step.rows ?? 0} rows -> ${step.quads ?? 0} quads`
+    console.log(`${step.dataset}: ${detail}`)
+  }
+  console.log('fedidb workflow result:', JSON.stringify(result))
+}
+
 async function run() {
   const address = process.env.TEMPORAL_ADDRESS ?? 'temporal:7233'
   const connection = await Connection.connect({ address })
@@ -42,6 +73,10 @@ async function run() {
 
   if (SDO === 'ietf') {
     await runIetf(client)
+    return
+  }
+  if (SDO === 'fedidb') {
+    await runFedidb(client)
     return
   }
   //   const handle = await client.workflow.execute('greetingWorkflow', {

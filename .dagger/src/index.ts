@@ -240,7 +240,12 @@ export class DcentQuest {
    *
    * Not exported as a @func: each SDO has its own entry point below.
    */
-  async stagedDump(source: Directory, sdo: string): Promise<Directory> {
+  async stagedDump(
+    source: Directory,
+    sdo: string,
+    stagesPath = `data/dump/${sdo}`,
+    allDumpsPath: string | undefined = "data/dump",
+  ): Promise<Directory> {
     const runId = `run-${Date.now().toString(36)}`
     const temporal = await this.temporal(source, runId)
     const sparql = this.sparqlService(source)
@@ -250,7 +255,7 @@ export class DcentQuest {
     // live in the container's normal filesystem, which can be returned as a
     // Directory; Dagger cache mounts cannot be exported and service cache
     // writes are not visible to an exporter container.
-    const container = dag
+    let container = dag
       .container()
       .from("oven/bun:1.3")
       .withServiceBinding("temporal", temporal)
@@ -259,7 +264,6 @@ export class DcentQuest {
       .withEnvVariable("SPARQL_ENDPOINT", SPARQL_ENDPOINT)
       .withEnvVariable("SDO", sdo)
       .withEnvVariable("STAGES_DIR", "/stages")
-      .withEnvVariable("ALL_STAGES_DIR", "/all-dumps")
       .withEnvVariable("IDENTITIES_PATH", "/identities.json")
       .withEnvVariable("WORKER_READY_PATH", "/stages/worker.ready")
       .withEnvVariable(
@@ -269,18 +273,28 @@ export class DcentQuest {
       .withEnvVariable("AUTHORS_REPORT_PATH", "/stages/authors-report.json")
       .withMountedDirectory(
         "/seed-stages",
-        source.directory(`data/dump/${sdo}`),
-        { readOnly: true },
-      )
-      .withMountedDirectory(
-        "/all-dumps",
-        source.directory("data/dump"),
+        source.directory(stagesPath),
         { readOnly: true },
       )
       .withMountedFile(
         "/identities.json",
         source.file("data/identities.json"),
       )
+
+    // FediDB is a self-contained download and does not read the other SDO
+    // stage directories. Skip the data/dump mount so a fresh checkout can run
+    // dump:fedidb without creating data/dump first.
+    if (allDumpsPath !== undefined) {
+      container = container
+        .withEnvVariable("ALL_STAGES_DIR", "/all-dumps")
+        .withMountedDirectory(
+          "/all-dumps",
+          source.directory(allDumpsPath),
+          { readOnly: true },
+        )
+    }
+
+    container = container
       .withDirectory("/app", source.directory("typescript"))
       .withWorkdir("/app")
       .withExec(["bun", "install"])
@@ -337,6 +351,15 @@ export class DcentQuest {
   @func({ cache: "never" })
   async dumpIetf(source: Directory): Promise<Directory> {
     return this.stagedDump(source, "ietf")
+  }
+
+  /**
+   * FediDB weekly exports. Same stage contract as the crawls, but the files
+   * live in data/fedidb/ rather than data/dump/fedidb/.
+   */
+  @func({ cache: "never" })
+  async dumpFedidb(source: Directory): Promise<Directory> {
+    return this.stagedDump(source, "fedidb", "data/fedidb", undefined)
   }
 
   /**

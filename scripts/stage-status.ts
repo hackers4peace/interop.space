@@ -12,27 +12,53 @@ const STAGES_BY_SDO: Record<string, string[]> = {
   // Written by `dump:cross` from both reference files; no Temporal stages.
   cross: ['refs'],
   w3c: ['groups', 'people', 'specs', 'spec-people', 'citations'],
+  // FediDB weekly exports live outside data/dump/.
+  fedidb: [
+    'datasets',
+    'fep',
+    'software',
+    'feature-questions',
+    'servers',
+    'open-servers',
+    'server-domains',
+    'software-versions',
+    'countries',
+    'feature-support',
+  ],
 }
 
-const root = 'data/dump'
+const DUMP_ROOT = 'data/dump'
+const FEDIDB_ROOT = 'data/fedidb'
+const hasFedidbStages = () =>
+  existsSync(FEDIDB_ROOT) &&
+  readdirSync(FEDIDB_ROOT, { withFileTypes: true }).some(
+    (entry) => entry.isFile() && entry.name.endsWith('.nq'),
+  )
+
+/** FediDB has its own export directory; every other SDO lives under data/dump. */
+const sdoDir = (sdo: string) =>
+  sdo === 'fedidb' ? FEDIDB_ROOT : join(DUMP_ROOT, sdo)
+
 const requested = process.argv[2]
 const sdos = requested
   ? [requested]
-  : existsSync(root)
-    ? readdirSync(root, { withFileTypes: true })
-        .filter((entry) => entry.isDirectory())
-        .map((entry) => entry.name)
-        .sort()
-    : []
+  : [
+      ...(existsSync(DUMP_ROOT)
+        ? readdirSync(DUMP_ROOT, { withFileTypes: true })
+            .filter((entry) => entry.isDirectory())
+            .map((entry) => entry.name)
+        : []),
+      ...(hasFedidbStages() ? ['fedidb'] : []),
+    ].sort()
 
 if (sdos.length === 0) {
-  console.error('no SDO stage directories in data/dump')
+  console.error('no SDO stage directories in data/dump or data/fedidb')
   process.exit(1)
 }
 
 let failed = false
 for (const sdo of sdos) {
-  const dir = join(root, sdo)
+  const dir = sdoDir(sdo)
   const stages = STAGES_BY_SDO[sdo]
   if (!stages) {
     console.error(
@@ -64,5 +90,5 @@ for (const sdo of sdos) {
 }
 
 if (failed) process.exit(1)
-for (const sdo of sdos) rmSync(join(root, sdo, 'run.log'), { force: true })
+for (const sdo of sdos) rmSync(join(sdoDir(sdo), 'run.log'), { force: true })
 console.log(`${sdos.join(', ')}: all stages completed`)

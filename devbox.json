@@ -44,6 +44,7 @@
       "dump:w3c-references": "mkdir -p data/dump/w3c && dagger call dump-w-3-c-references --source=. -o ./data/dump/w3c",
       "dump:ietf-references": "mkdir -p data/dump/ietf && dagger call dump-ietf-references --source=. -o ./data/dump/ietf",
       "dump:cross": "mkdir -p data/dump/cross && dagger call dump-cross --source=. -o ./data/dump/cross && bun run scripts/stage-status.ts cross",
+      "dump:fedidb": "mkdir -p data/fedidb && dagger call dump-fedidb --source=. -o ./data/fedidb && bun run scripts/stage-status.ts fedidb",
       "tunnel": "bun run scripts/fuseki.ts tunnel",
       "wipe": "bun run scripts/fuseki.ts wipe \"$@\"",
       "seed": "bun run scripts/fuseki.ts seed \"$@\"",

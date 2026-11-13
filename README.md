@@ -1,6 +1,6 @@
 # interop.space
 
-W3C / IETF / Specref / software catalogs crawled by Temporal workflows
+W3C / IETF / Specref / FediDB / FEP / software catalogs crawled by Temporal workflows
 (TypeScript and .NET workers) into an Apache Fuseki dataset, plus a Solid UI that
 queries it over SPARQL.
 
@@ -24,13 +24,14 @@ Run from the repository root with `devbox run <script>`:
 | `dump:w3c-references` | Crawls rendered W3C specs and records every reference URL (`data/dump/w3c/references.json`); resumable |
 | `dump:ietf-references` | Same for RFCs via `datatracker.ietf.org/doc/html` (`data/dump/ietf/references.json`); ~25 min, resumable |
 | `dump:cross` | Links both reference files into `data/dump/cross/refs.nq` + `cross-report.json`; no network |
+| `dump:fedidb` | Downloads the weekly FediDB exports and FEP data into `data/fedidb/*.nq` |
 | `stages` | Checks completed stage files and prints any stage logs |
 | `identities` | Dry-runs the merge of `data/dump/<sdo>/identities.json` into `data/identities.json` and reports collisions (`STAGES_DIR` selects the SDO, default W3C) |
 | `identities:write` | Same merge, writing `data/identities.json` |
 | `identities:remap` | Applies `DUPLICATE_W3C_IDS` to `data/identities.json` (dry run adds `--pair=<dup>=<canonical>`) |
 | `identities:verify` | Checks identity-map and stage-graph invariants |
 | `identities:duplicates` | Lists same-name W3C account pairs with api.w3.org evidence |
-| `seed` | Loads `data/dump/*/*.nq` + `data/*.ttl`, or only the given files/groups; defaults to development |
+| `seed` | Loads `data/dump/*/*.nq`, `data/fedidb/*.nq` + `data/*.ttl`, or only the given files/groups; defaults to development |
 | `wipe` | Clears every graph; defaults to development |
 | `tunnel` | Keeps `127.0.0.1:3030` forwarded to the VPS Fuseki (production only) |
 | `generate` | Regenerates TypeScript, UI and C# types from `schema/*.json` |
@@ -49,15 +50,17 @@ group can be seeded without touching the rest:
 
 ```sh
 devbox run seed -- production w3c          # only data/dump/w3c/*.nq
+devbox run seed -- fedidb                  # only data/fedidb/*.nq
 devbox run seed -- ietf data/nlnet.ttl     # a stage group plus one curated file
 devbox run seed -- data/nlnet.ttl          # one file, development endpoint
 devbox run seed -- static                  # every curated data/*.ttl
 ```
 
-The targets are `all` (default), `static`, a stage group under `data/dump/`
-(`w3c`, `ietf`, `cross`, …), or a `.ttl`/`.nq` file or directory path. `seed`
-only inserts, so a selective run leaves the other graphs alone; `wipe` still
-clears everything.
+The targets are `all` (default), `static`, `fedidb`, a stage group under
+`data/dump/` (`w3c`, `ietf`, `cross`, …), or a `.ttl`/`.nq` file or directory
+path. `all` includes `data/fedidb/` and the curated files. `seed` only inserts,
+so a selective run leaves the other graphs alone; `wipe` still clears
+everything.
 
 Devbox passes everything after `--` as positional parameters to the script
 file, not to the command inside it. Scripts that take arguments therefore end
@@ -69,8 +72,9 @@ The development Fuseki is read-only unless the sandbox write overlay is
 enabled (`make write-enable` in `rhsandbox`). Production writes use the SSH
 tunnel and the existing writer credentials.
 
-`dump:w3c` must run before `seed` on a fresh checkout. The stage files live
-under `data/dump/` (gitignored) and are the resume seed:
+`dump:w3c` (or another generated source such as `dump:fedidb`) must run before
+`seed` on a fresh checkout. The stage files live under `data/dump/` (gitignored)
+and are the resume seed:
 
 ```
 data/dump/w3c/
@@ -85,6 +89,45 @@ data/dump/w3c/
 A stage writes its `.nq` only after every fetch and store write succeeded. A
 failure writes `<stage>.log` instead, and the next run retries that stage. To
 rerun a completed stage, delete its `.nq` file.
+
+## FediDB exports
+
+`dump:fedidb` downloads the weekly datasets advertised on
+<https://fedidb.com/datasets> and the Fediverse Enhancement Proposals from
+<https://codeberg.org/fediverse/fep>. For FediDB it reads
+<https://api.fedidb.org/v1.1/datasets>, downloads the latest NDJSON file for
+each dataset and verifies its SHA-256. The FEP stage downloads the repository
+archive once and reads `index.json` plus each FEP Markdown document from it.
+Everything is written as stage files under `data/fedidb/`:
+
+```
+data/fedidb/
+  datasets.nq            # FediDB catalog, periods, checksums, CC BY 4.0
+  fep.nq                 # 154 FEPs, summaries + implementations, CC0
+  software.nq            # doap:Project + ex:Software network totals
+  server-domains.nq      # every listed server domain
+  servers.nq             # servers with software/version/usage/location
+  open-servers.nq        # subset with open registrations
+  software-versions.nq   # server/account counts per version
+  countries.nq           # country aggregates per software
+  feature-questions.nq   # feature matrix questions + canonical FEP links
+  feature-support.nq     # per-software feature answers
+  manifest.json          # source period + checksum per dataset
+```
+
+A rerun skips datasets whose checksum is already in `manifest.json`, so the
+regular weekly command only downloads new exports. The FediDB data is CC BY
+4.0; the generated `datasets.nq` carries the attribution. FEPs use the
+persistent `https://w3id.org/fep/<slug>` identifiers; `fep.nq` carries title,
+status, authors, dates, related FEPs, summaries and implementation nodes, and
+FediDB's feature questions link to the same identifiers. FEP data is CC0.
+FediDB's software dataset has no protocol/conformance column and includes
+bridges, relays, bots and plugins; the import does not infer ActivityPub
+implementation from membership (explicit `doap:implements` claims remain in
+the curated `data/software.ttl`).
+
+`seed` includes this directory in `all`, and `devbox run seed -- fedidb` seeds
+only these files. See `data/fedidb/README.md` for the RDF mapping.
 
 ## IETF crawl
 

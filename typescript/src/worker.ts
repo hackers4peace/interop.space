@@ -6,6 +6,7 @@ import * as fediverseActivities from './protocols/fediverse/activities'
 import * as catalogActivities from './software-dependencies/activities'
 import * as w3cActivities from './w3c-api/activities'
 import * as ietfActivities from './ietf-api/activities'
+import * as fedidbActivities from './fedidb/activities'
 
 async function connectWithRetry(address: string) {
   while (true) {
@@ -59,6 +60,16 @@ async function run() {
       activities: ietfActivities,
     })
 
+    // FediDB is a weekly download rather than a crawl, but it uses the same
+    // stage-file contract and therefore gets its own queue too.
+    const fedidbWorker = await Worker.create({
+      connection,
+      namespace: 'default',
+      taskQueue: 'fedidb',
+      workflowsPath: new URL('./fedidb/workflows.ts', import.meta.url).pathname,
+      activities: fedidbActivities,
+    })
+
     const readyPath = process.env.WORKER_READY_PATH
     if (readyPath) await writeFile(readyPath, 'ready\n', 'utf8')
 
@@ -67,6 +78,7 @@ async function run() {
       catalogWorker.run(),
       w3cWorker.run(),
       ietfWorker.run(),
+      fedidbWorker.run(),
     ])
   } finally {
     await connection.close()
