@@ -42,6 +42,9 @@ const LEGACY_IDS: Record<string, string> = {
   apache: 'https://www.apache.org/',
   nlnet: 'https://nlnet.nl/',
   sta: 'https://www.sovereign.tech/',
+  localfirst: 'https://www.localfirst.fm/',
+  'local-first': 'https://www.localfirst.fm/',
+  localfirstconf: 'https://www.localfirst.fm/',
 }
 
 export const normalizeSdoId = (id: string | undefined): string | undefined =>

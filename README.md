@@ -25,13 +25,14 @@ Run from the repository root with `devbox run <script>`:
 | `dump:ietf-references` | Same for RFCs via `datatracker.ietf.org/doc/html` (`data/dump/ietf/references.json`); ~25 min, resumable |
 | `dump:cross` | Links both reference files into `data/dump/cross/refs.nq` + `cross-report.json`; no network |
 | `dump:fedidb` | Downloads the weekly FediDB exports and FEP data into `data/fedidb/*.nq` |
+| `dump:localfirst` | Imports the Local-First Conf page and the landscape software into `data/localfirst/*.nq` |
 | `stages` | Checks completed stage files and prints any stage logs |
 | `identities` | Dry-runs the merge of `data/dump/<sdo>/identities.json` into `data/identities.json` and reports collisions (`STAGES_DIR` selects the SDO, default W3C) |
 | `identities:write` | Same merge, writing `data/identities.json` |
 | `identities:remap` | Applies `DUPLICATE_W3C_IDS` to `data/identities.json` (dry run adds `--pair=<dup>=<canonical>`) |
 | `identities:verify` | Checks identity-map and stage-graph invariants |
 | `identities:duplicates` | Lists same-name W3C account pairs with api.w3.org evidence |
-| `seed` | Loads `data/dump/*/*.nq`, `data/fedidb/*.nq` + `data/**/*.ttl`, or only the given files/groups; defaults to development |
+| `seed` | Loads `data/dump/*/*.nq`, `data/fedidb/*.nq`, `data/localfirst/*.nq` + `data/**/*.ttl`, or only the given files/groups; defaults to development |
 | `wipe` | Clears every graph; defaults to development |
 | `tunnel` | Keeps `127.0.0.1:3030` forwarded to the VPS Fuseki (production only) |
 | `generate` | Regenerates TypeScript, UI and C# types from `schema/*.json` |
@@ -51,16 +52,17 @@ group can be seeded without touching the rest:
 ```sh
 devbox run seed -- production w3c          # only data/dump/w3c/*.nq
 devbox run seed -- fedidb                  # only data/fedidb/*.nq
+devbox run seed -- localfirst              # only data/localfirst/*.nq
 devbox run seed -- ietf data/nlnet.ttl     # a stage group plus one curated file
 devbox run seed -- data/nlnet.ttl          # one file, development endpoint
 devbox run seed -- static                  # every curated data/**/*.ttl
 ```
 
-The targets are `all` (default), `static`, `fedidb`, a stage group under
-`data/dump/` (`w3c`, `ietf`, `cross`, …), or a `.ttl`/`.nq` file or directory
-path. `all` includes `data/fedidb/` and the curated files. `seed` only inserts,
-so a selective run leaves the other graphs alone; `wipe` still clears
-everything.
+The targets are `all` (default), `static`, `fedidb`, `localfirst`, a stage
+group under `data/dump/` (`w3c`, `ietf`, `cross`, …), or a `.ttl`/`.nq` file or
+directory path. `all` includes the generated exports and the curated files.
+`seed` only inserts, so a selective run leaves the other graphs alone; `wipe`
+still clears everything.
 
 Devbox passes everything after `--` as positional parameters to the script
 file, not to the command inside it. Scripts that take arguments therefore end
@@ -72,9 +74,9 @@ The development Fuseki is read-only unless the sandbox write overlay is
 enabled (`make write-enable` in `rhsandbox`). Production writes use the SSH
 tunnel and the existing writer credentials.
 
-`dump:w3c` (or another generated source such as `dump:fedidb`) must run before
-`seed` on a fresh checkout. The stage files live under `data/dump/` (gitignored)
-and are the resume seed:
+`dump:w3c` (or another generated source such as `dump:fedidb` or
+`dump:localfirst`) must run before `seed` on a fresh checkout. The stage files
+live under `data/dump/` (gitignored) and are the resume seed:
 
 ```
 data/dump/w3c/
@@ -153,6 +155,28 @@ the managed-hosting providers as deployments. See `data/matrix/README.md` for
 sources, counts and the deployment mapping. The files are part of
 `seed -- static` and `seed -- all`; the Deployments view combines these
 `ex:Server` records with the FediDB server exports.
+
+## Local-First data
+
+`dump:localfirst` runs the `localfirst` Temporal workflow against the next
+Local-First Conf page and the local-first landscape. It writes the
+organization, the conference city, the event and the landscape software as
+stage files under `data/localfirst/`:
+
+```
+data/localfirst/
+  organizations.nq   # Local-First umbrella organization
+  locations.nq       # Berlin: reuses the curated data/locations.ttl node
+  events.nq          # Local-First Conf (next edition)
+  software.nq        # doap:Project records from the landscape
+```
+
+The landscape stage reads `repos.ts` for the technology list and then one
+generated `data.json` per technology, so it follows the same snapshot the
+landscape site displays. A missing snapshot file fails the stage instead of
+publishing a partial list. `seed` includes this directory in `all`, and
+`devbox run seed -- localfirst` seeds only these files. See
+`data/localfirst/README.md` for sources, the RDF mapping and refresh steps.
 
 ## IETF crawl
 

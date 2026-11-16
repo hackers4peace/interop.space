@@ -45,6 +45,7 @@
       "dump:ietf-references": "mkdir -p data/dump/ietf && dagger call dump-ietf-references --source=. -o ./data/dump/ietf",
       "dump:cross": "mkdir -p data/dump/cross && dagger call dump-cross --source=. -o ./data/dump/cross && bun run scripts/stage-status.ts cross",
       "dump:fedidb": "mkdir -p data/fedidb && dagger call dump-fedidb --source=. -o ./data/fedidb && bun run scripts/stage-status.ts fedidb",
+      "dump:localfirst": "mkdir -p data/localfirst && dagger call dump-localfirst --source=. -o ./data/localfirst && bun run scripts/stage-status.ts localfirst",
       "tunnel": "bun run scripts/fuseki.ts tunnel",
       "wipe": "bun run scripts/fuseki.ts wipe \"$@\"",
       "seed": "bun run scripts/fuseki.ts seed \"$@\"",

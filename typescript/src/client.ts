@@ -1,7 +1,7 @@
 import { writeFile } from 'node:fs/promises'
 import { Client, Connection } from '@temporalio/client'
 
-/** Which SDO workflow to run: `w3c` (default), `ietf` or `fedidb`. */
+/** Which SDO workflow to run: `w3c` (default), `ietf`, `fedidb` or `localfirst`. */
 const SDO = (process.env.SDO ?? 'w3c').toLowerCase()
 
 interface StepSummary {
@@ -65,6 +65,18 @@ async function runFedidb(client: Client): Promise<void> {
   console.log('fedidb workflow result:', JSON.stringify(result))
 }
 
+async function runLocalfirst(client: Client): Promise<void> {
+  const result = (await client.workflow.execute('localfirstWorkflow', {
+    taskQueue: 'localfirst',
+    workflowId: `localfirst-${Date.now()}`,
+    // One conference page plus repos.ts and 22 small landscape snapshots.
+    workflowExecutionTimeout: '30 minutes',
+  })) as { steps?: StepSummary[] }
+
+  logSteps(result.steps)
+  console.log('localfirst workflow result:', JSON.stringify(result))
+}
+
 async function run() {
   const address = process.env.TEMPORAL_ADDRESS ?? 'temporal:7233'
   const connection = await Connection.connect({ address })
@@ -77,6 +89,10 @@ async function run() {
   }
   if (SDO === 'fedidb') {
     await runFedidb(client)
+    return
+  }
+  if (SDO === 'localfirst') {
+    await runLocalfirst(client)
     return
   }
   //   const handle = await client.workflow.execute('greetingWorkflow', {

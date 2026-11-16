@@ -79,8 +79,10 @@ const VPS_PASSWD_FILE =
   process.env.FUSEKI_PASSWD_FILE ?? '/run/agenix/fuseki-passwd'
 
 // Curated files are seeded after the generated stage dumps.
-// FediDB exports are generated stage files, but live outside data/dump.
+// FediDB and Local-First exports are generated stage files, but live outside
+// data/dump.
 const FEDIDB_SEED_DIR = 'data/fedidb'
+const LOCALFIRST_SEED_DIR = 'data/localfirst'
 
 const STATIC_SEED_FILES = [
   'data/software.ttl',
@@ -110,9 +112,10 @@ const usage = `usage:
   bun scripts/fuseki.ts tunnel [production]
 
 seed targets (default: all):
-  all      every stage file in data/dump and data/fedidb plus every curated data/**/*.ttl
+  all      every stage file in data/dump, data/fedidb and data/localfirst plus every curated data/**/*.ttl
   static   only the curated data/**/*.ttl files
   fedidb   only the generated data/fedidb/*.nq files
+  localfirst  only the generated data/localfirst/*.nq files
   <group>  one stage group under data/dump (w3c, ietf, cross, ...)
   <path>   one .ttl/.nq file, or a directory of .nq files`
 
@@ -134,14 +137,24 @@ function stageDumpFiles(group?: string): string[] {
   return files.sort()
 }
 
-/** Completed FediDB stage files. */
-function fedidbSeedFiles(): string[] {
-  const dir = join(ROOT, FEDIDB_SEED_DIR)
+/** Completed export stages in a directory outside data/dump (FediDB, Local-First). */
+function exportSeedFiles(seedDir: string): string[] {
+  const dir = join(ROOT, seedDir)
   if (!existsSync(dir)) return []
   return readdirSync(dir, { withFileTypes: true })
     .filter((entry) => entry.isFile() && entry.name.endsWith('.nq'))
-    .map((entry) => join(FEDIDB_SEED_DIR, entry.name))
+    .map((entry) => join(seedDir, entry.name))
     .sort()
+}
+
+/** Completed FediDB stage files. */
+function fedidbSeedFiles(): string[] {
+  return exportSeedFiles(FEDIDB_SEED_DIR)
+}
+
+/** Completed Local-First stage files. */
+function localfirstSeedFiles(): string[] {
+  return exportSeedFiles(LOCALFIRST_SEED_DIR)
 }
 
 /** Stage groups that currently have a dump directory. */
@@ -162,15 +175,18 @@ function resolveTargets(targets: string[]): string[] {
   const all = () => [
     ...stageDumpFiles(),
     ...fedidbSeedFiles(),
+    ...localfirstSeedFiles(),
     ...STATIC_SEED_FILES,
   ]
   const hasGenerated = () =>
-    stageDumpFiles().length > 0 || fedidbSeedFiles().length > 0
+    stageDumpFiles().length > 0 ||
+    fedidbSeedFiles().length > 0 ||
+    localfirstSeedFiles().length > 0
 
   if (targets.length === 0) {
     if (!hasGenerated()) {
       throw new UsageError(
-        'no stage files in data/dump or data/fedidb; run `devbox run dump:w3c` or `devbox run dump:fedidb` first',
+        'no stage files in data/dump, data/fedidb or data/localfirst; run `devbox run dump:w3c`, `dump:fedidb` or `dump:localfirst` first',
       )
     }
     return all()
@@ -186,7 +202,7 @@ function resolveTargets(targets: string[]): string[] {
     if (target === 'all') {
       if (!hasGenerated()) {
         throw new UsageError(
-          'no stage files in data/dump or data/fedidb; run `devbox run dump:w3c` or `devbox run dump:fedidb` first',
+          'no stage files in data/dump, data/fedidb or data/localfirst; run `devbox run dump:w3c`, `dump:fedidb` or `dump:localfirst` first',
         )
       }
       all().forEach(add)
@@ -197,6 +213,14 @@ function resolveTargets(targets: string[]): string[] {
       if (files.length === 0) {
         throw new UsageError(
           'no .nq files in data/fedidb; run `devbox run dump:fedidb` first',
+        )
+      }
+      files.forEach(add)
+    } else if (target === 'localfirst') {
+      const files = localfirstSeedFiles()
+      if (files.length === 0) {
+        throw new UsageError(
+          'no .nq files in data/localfirst; run `devbox run dump:localfirst` first',
         )
       }
       files.forEach(add)
@@ -211,9 +235,9 @@ function resolveTargets(targets: string[]): string[] {
     } else {
       const path = isAbsolute(target) ? target : join(ROOT, target)
       if (!existsSync(path)) {
-        const known = [...groups, 'fedidb', 'static', 'all'].join(', ')
+        const known = [...groups, 'fedidb', 'localfirst', 'static', 'all'].join(', ')
         throw new UsageError(
-          `unknown seed target "${target}"; use ${known}, a stage group or a data/**/*.ttl / data/dump/*/*.nq / data/fedidb/*.nq path (environments are development and production)`,
+          `unknown seed target "${target}"; use ${known}, a stage group or a data/**/*.ttl / data/dump/*/*.nq / data/fedidb/*.nq / data/localfirst/*.nq path (environments are development and production)`,
         )
       }
       if (statSync(path).isDirectory()) {

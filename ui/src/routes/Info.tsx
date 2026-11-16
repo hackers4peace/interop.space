@@ -129,6 +129,14 @@ const InfoPage: Component = () => {
             Data from FediDB (
             <AttributionLink href="https://fedidb.com/datasets" />), CC BY 4.0
           </li>
+          <li>
+            Local-First conference details from Local-First Conf (
+            <AttributionLink href="https://www.localfirstconf.com/" />)
+          </li>
+          <li>
+            Local-first software landscape from localfirst.fm (
+            <AttributionLink href="https://www.localfirst.fm/landscape" />)
+          </li>
         </ul>
       </div>
 

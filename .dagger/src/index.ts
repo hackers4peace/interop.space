@@ -363,6 +363,16 @@ export class DcentQuest {
   }
 
   /**
+   * Local-First import: the conference page plus the landscape's generated
+   * snapshot. Same stage contract as the crawls, but the files live in
+   * data/localfirst/ rather than data/dump/localfirst/.
+   */
+  @func({ cache: "never" })
+  async dumpLocalfirst(source: Directory): Promise<Directory> {
+    return this.stagedDump(source, "localfirst", "data/localfirst", undefined)
+  }
+
+  /**
    * Reference evidence for one SDO: crawl the rendered documents and record the
    * URLs their references point at. Plain container, resumable through the
    * checkpoint file inside the stage directory (no Temporal, §6.1 D10).

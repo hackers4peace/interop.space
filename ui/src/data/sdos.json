@@ -136,11 +136,27 @@
     "sections": []
   },
   {
-    "id": "https://www.sovereign.tech/",
-    "name": "Sovereign Tech Agency",
-    "website": "https://www.sovereign.tech/",
-    "logo": "/logos/sovereign-tech-agency.svg",
-    "sections": []
+    "id": "https://www.localfirst.fm/",
+    "name": "Local-First",
+    "website": "https://www.localfirst.fm/",
+    "logo": "/logos/localfirst.svg",
+    "sections": [
+      {
+        "kind": "chips",
+        "title": "Focus",
+        "items": [
+          {
+            "label": "Local-first software"
+          },
+          {
+            "label": "Sync engines"
+          },
+          {
+            "label": "CRDTs"
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "https://internetidentityworkshop.com/",
@@ -242,5 +258,12 @@
         ]
       }
     ]
+  },
+  {
+    "id": "https://www.sovereign.tech/",
+    "name": "Sovereign Tech Agency",
+    "website": "https://www.sovereign.tech/",
+    "logo": "/logos/sovereign-tech-agency.svg",
+    "sections": []
   }
 ]

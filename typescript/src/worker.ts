@@ -7,6 +7,7 @@ import * as catalogActivities from './software-dependencies/activities'
 import * as w3cActivities from './w3c-api/activities'
 import * as ietfActivities from './ietf-api/activities'
 import * as fedidbActivities from './fedidb/activities'
+import * as localfirstActivities from './localfirst/activities'
 
 async function connectWithRetry(address: string) {
   while (true) {
@@ -70,6 +71,16 @@ async function run() {
       activities: fedidbActivities,
     })
 
+    // The Local-First import reads a conference page and the landscape's
+    // generated snapshot; its stage files live in data/localfirst.
+    const localfirstWorker = await Worker.create({
+      connection,
+      namespace: 'default',
+      taskQueue: 'localfirst',
+      workflowsPath: new URL('./localfirst/workflows.ts', import.meta.url).pathname,
+      activities: localfirstActivities,
+    })
+
     const readyPath = process.env.WORKER_READY_PATH
     if (readyPath) await writeFile(readyPath, 'ready\n', 'utf8')
 
@@ -79,6 +90,7 @@ async function run() {
       w3cWorker.run(),
       ietfWorker.run(),
       fedidbWorker.run(),
+      localfirstWorker.run(),
     ])
   } finally {
     await connection.close()

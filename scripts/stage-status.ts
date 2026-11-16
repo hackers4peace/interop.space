@@ -25,19 +25,26 @@ const STAGES_BY_SDO: Record<string, string[]> = {
     'countries',
     'feature-support',
   ],
+  // Local-First imports live outside data/dump/ too.
+  localfirst: ['organizations', 'locations', 'events', 'software'],
 }
 
 const DUMP_ROOT = 'data/dump'
-const FEDIDB_ROOT = 'data/fedidb'
-const hasFedidbStages = () =>
-  existsSync(FEDIDB_ROOT) &&
-  readdirSync(FEDIDB_ROOT, { withFileTypes: true }).some(
+
+/** SDOs whose stage files live outside data/dump/. */
+const EXPORT_ROOTS: Record<string, string> = {
+  fedidb: 'data/fedidb',
+  localfirst: 'data/localfirst',
+}
+
+const hasStages = (dir: string) =>
+  existsSync(dir) &&
+  readdirSync(dir, { withFileTypes: true }).some(
     (entry) => entry.isFile() && entry.name.endsWith('.nq'),
   )
 
-/** FediDB has its own export directory; every other SDO lives under data/dump. */
-const sdoDir = (sdo: string) =>
-  sdo === 'fedidb' ? FEDIDB_ROOT : join(DUMP_ROOT, sdo)
+/** FediDB and Local-First have their own directories; the rest live under data/dump. */
+const sdoDir = (sdo: string) => EXPORT_ROOTS[sdo] ?? join(DUMP_ROOT, sdo)
 
 const requested = process.argv[2]
 const sdos = requested
@@ -48,11 +55,15 @@ const sdos = requested
             .filter((entry) => entry.isDirectory())
             .map((entry) => entry.name)
         : []),
-      ...(hasFedidbStages() ? ['fedidb'] : []),
+      ...Object.entries(EXPORT_ROOTS)
+        .filter(([, dir]) => hasStages(dir))
+        .map(([sdo]) => sdo),
     ].sort()
 
 if (sdos.length === 0) {
-  console.error('no SDO stage directories in data/dump or data/fedidb')
+  console.error(
+    `no SDO stage directories in data/dump or ${Object.values(EXPORT_ROOTS).join(', ')}`,
+  )
   process.exit(1)
 }
 
