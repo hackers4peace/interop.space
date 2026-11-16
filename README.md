@@ -145,6 +145,15 @@ directory is named after SEMIC, the first collection added; it covers both
 sub-bodies. See `data/semic/README.md` for sources, event dates and the RDF
 mapping. The files are part of `seed -- static` and `seed -- all`.
 
+## Matrix data
+
+`data/matrix/` holds Matrix.org Foundation, the Matrix Specification, the
+servers/clients/SDKs from the ecosystem directories, the 2026 conference, and
+the managed-hosting providers as deployments. See `data/matrix/README.md` for
+sources, counts and the deployment mapping. The files are part of
+`seed -- static` and `seed -- all`; the Deployments view combines these
+`ex:Server` records with the FediDB server exports.
+
 ## IETF crawl
 
 `dump:ietf` runs the same stage-file model against the IETF Datatracker, on its

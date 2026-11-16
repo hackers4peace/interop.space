@@ -1,0 +1,16 @@
+# Matrix Conference location.
+#
+# Source: https://conference.matrix.org/
+# City-level coordinates; the event literal carries the venue and hackathon note.
+# Snapshot: 2026-11-13.
+#
+# Seeded with `devbox run seed -- static` (see scripts/fuseki.ts).
+
+@prefix ex: <http://example.org#> .
+
+<urn:uuid:547338ac-a60f-53c3-921d-a1e672a16836> a ex:Location ;
+  ex:name "Malmö, Sweden" ;
+  ex:region "Sweden" ;
+  ex:latitude 55.6050 ;
+  ex:longitude 13.0038 ;
+  ex:source <https://conference.matrix.org/> .

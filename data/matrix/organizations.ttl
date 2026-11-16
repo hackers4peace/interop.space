@@ -1,0 +1,14 @@
+# Matrix.org Foundation.
+#
+# Source: https://matrix.org/foundation/about/
+# Snapshot: 2026-11-13.
+#
+# Seeded with `devbox run seed -- static` (see scripts/fuseki.ts).
+
+@prefix ex: <http://example.org#> .
+
+<https://matrix.org/> a ex:Organization ;
+  ex:name "Matrix.org Foundation" ;
+  ex:homepage <https://matrix.org/> ;
+  ex:logo "/logos/matrix.svg" ;
+  ex:source <https://matrix.org/foundation/about/> .

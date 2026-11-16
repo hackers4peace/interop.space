@@ -171,6 +171,32 @@
     "sections": []
   },
   {
+    "id": "https://matrix.org/",
+    "name": "Matrix.org Foundation",
+    "website": "https://matrix.org/",
+    "logo": "/logos/matrix.svg",
+    "sections": [
+      {
+        "kind": "chips",
+        "title": "Focus",
+        "items": [
+          {
+            "label": "Decentralised communication"
+          },
+          {
+            "label": "Instant messaging"
+          },
+          {
+            "label": "VoIP"
+          },
+          {
+            "label": "IoT"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "https://gaia-x.eu/",
     "name": "Gaia-X",
     "website": "https://gaia-x.eu/",

@@ -125,6 +125,29 @@ export type Event = {
   sdo?: string // ex:sdo, URL of the standards body that runs the event
 }
 
+export type Server = {
+  id: string // short display/URL form (tail of the catalog URI)
+  uri: string // full catalog URI
+  name: string // ex:name, else ex:domain
+  domain?: string // ex:domain
+  homepage?: string // ex:homepage
+  logo?: string // ex:logo
+  software?: SoftwareSpec // ex:software, resolved to the software record
+  version?: string // ex:version
+  users?: number // ex:users
+  monthlyActive?: number // ex:monthlyActive
+  posts?: number // ex:posts
+  country?: string // ex:country
+  openRegistrations?: boolean // ex:openRegistrations
+  firstSeen?: string // ex:firstSeen (xsd:date)
+  lastSeen?: string // ex:lastSeen (xsd:date)
+  source?: string // ex:source / dcterms:source
+  fedidbUrl?: string // ex:fedidbUrl
+  since?: string // ex:since (xsd:gYear)
+  audiences: string[] // ex:audience
+  description?: string // ex:description
+}
+
 export type LocalGroup = {
   id: string // short display/URL form (tail of the catalog URI)
   uri: string // full catalog URI
@@ -289,6 +312,11 @@ export type EventView = {
   location?: Location
 }
 
+export type DeploymentView = {
+  kind: 'deployment'
+  server: Server
+}
+
 export type LocalGroupView = {
   kind: 'localGroup'
   group: LocalGroup
@@ -305,6 +333,7 @@ export type DetailView =
   | UseCaseView
   | LocationView
   | EventView
+  | DeploymentView
   | LocalGroupView
 
 export type DetailKind = DetailView['kind']
@@ -337,6 +366,7 @@ export type ListingKind =
   | 'groups'
   | 'events'
   | 'locations'
+  | 'deployments'
 
 export type AppState = {
   people: ListingState<Person>
@@ -348,6 +378,7 @@ export type AppState = {
   groups: ListingState<GroupSummary>
   events: ListingState<Event>
   locations: ListingState<Location>
+  deployments: ListingState<Server>
   detail: DetailState
   groupSelection: GroupSelection
 }
@@ -370,6 +401,7 @@ export const initialAppState = (): AppState => ({
   groups: emptyListing(),
   events: emptyListing(),
   locations: emptyListing(),
+  deployments: emptyListing(),
   detail: { status: 'idle' },
   groupSelection: {
     selected: [],

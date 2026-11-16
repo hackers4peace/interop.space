@@ -11,6 +11,7 @@ import type {
   OrgFunding,
   Person,
   Project,
+  Server,
   Software,
   SoftwareFunding,
   SoftwareRef,
@@ -203,6 +204,7 @@ export type ListingPage = {
     | GroupSummary[]
     | Event[]
     | Location[]
+    | Server[]
   hasMore: boolean
   cursor: ListingCursor | null
   total?: number
@@ -219,6 +221,7 @@ export const PAGE_SIZE: Record<ListingKind, number> = {
   groups: 20,
   events: 20,
   locations: 20,
+  deployments: 20,
 }
 
 // The ordering is authoritative on the server. The URI tie-breaker makes it a
@@ -241,6 +244,10 @@ const LISTING_BODY: Record<ListingKind, string> = {
   events: `?id a ex:Event ; ex:name ?name .
     OPTIONAL { ?id ex:startDate ?startDate }`,
   locations: `?id a ex:Location ; ex:name ?name .`,
+  deployments: `?id a ex:Server .
+    OPTIONAL { ?id ex:name ?serverName }
+    OPTIONAL { ?id ex:domain ?domain }
+    BIND(COALESCE(?serverName, ?domain, STR(?id)) AS ?name)`,
 }
 
 // Events read newest first; every other directory is alphabetical.
@@ -1032,6 +1039,106 @@ async function eventsByUris(uris: string[]): Promise<Map<string, Event>> {
   return events
 }
 
+async function serversByUris(
+  uris: string[],
+): Promise<Map<string, Server>> {
+  const servers = new Map<string, Server>()
+  if (!uris.length) return servers
+  const rows = await queryBindings(`${PREFIXES}
+    SELECT ?server ?serverName ?domain ?homepage ?logo
+           ?software ?softwareName ?softwareShortname ?softwareLandingPage
+           ?version ?users ?monthlyActive ?posts ?country ?openRegistrations
+           ?firstSeen ?lastSeen ?source ?datasetSource ?fedidbUrl ?since
+           ?audience ?description WHERE {
+      VALUES ?server { ${uris.map(iri).join(' ')} }
+      ?server a ex:Server .
+      OPTIONAL { ?server ex:name ?serverName }
+      OPTIONAL { ?server ex:domain ?domain }
+      OPTIONAL { ?server ex:homepage ?homepage }
+      OPTIONAL { ?server ex:logo ?logo }
+      OPTIONAL {
+        ?server ex:software ?software .
+        OPTIONAL { ?software doap:name ?softwareName }
+        OPTIONAL { ?software ex:shortname ?softwareShortname }
+        OPTIONAL { ?software ex:landingPage ?softwareLandingPage }
+      }
+      OPTIONAL { ?server ex:version ?version }
+      OPTIONAL { ?server ex:users ?users }
+      OPTIONAL { ?server ex:monthlyActive ?monthlyActive }
+      OPTIONAL { ?server ex:posts ?posts }
+      OPTIONAL { ?server ex:country ?country }
+      OPTIONAL { ?server ex:openRegistrations ?openRegistrations }
+      OPTIONAL { ?server ex:firstSeen ?firstSeen }
+      OPTIONAL { ?server ex:lastSeen ?lastSeen }
+      OPTIONAL { ?server ex:source ?source }
+      OPTIONAL { ?server dcterms:source ?datasetSource }
+      OPTIONAL { ?server ex:fedidbUrl ?fedidbUrl }
+      OPTIONAL { ?server ex:since ?since }
+      OPTIONAL { ?server ex:audience ?audience }
+      OPTIONAL { ?server ex:description ?description }
+    }`)
+  const num = (key: string, b: (typeof rows)[number]) => {
+    const raw = value(b, key)
+    if (raw === undefined) return undefined
+    const parsed = Number(raw)
+    return Number.isFinite(parsed) ? parsed : undefined
+  }
+  for (const b of rows) {
+    const uri = value(b, 'server')
+    if (!uri) continue
+    let server = servers.get(uri)
+    if (!server) {
+      const domain = value(b, 'domain')
+      const name = value(b, 'serverName') ?? domain ?? short(uri)
+      const softwareUri = value(b, 'software')
+      server = {
+        id: short(uri),
+        uri,
+        name,
+        domain,
+        homepage: value(b, 'homepage'),
+        logo: value(b, 'logo'),
+        software: softwareUri
+          ? {
+              uri: softwareUri,
+              id: short(softwareUri),
+              name: value(b, 'softwareName') ?? short(softwareUri),
+              shortname: value(b, 'softwareShortname'),
+              landingPage: value(b, 'softwareLandingPage'),
+            }
+          : undefined,
+        version: value(b, 'version'),
+        users: num('users', b),
+        monthlyActive: num('monthlyActive', b),
+        posts: num('posts', b),
+        country: value(b, 'country'),
+        openRegistrations:
+          value(b, 'openRegistrations') === 'true'
+            ? true
+            : value(b, 'openRegistrations') === 'false'
+              ? false
+              : undefined,
+        firstSeen: value(b, 'firstSeen'),
+        lastSeen: value(b, 'lastSeen'),
+        source: value(b, 'source') ?? value(b, 'datasetSource'),
+        fedidbUrl: value(b, 'fedidbUrl'),
+        since: value(b, 'since'),
+        audiences: [],
+        description: value(b, 'description'),
+      }
+      servers.set(uri, server)
+    }
+    const audience = value(b, 'audience')
+    if (audience && !server.audiences.includes(audience)) {
+      server.audiences.push(audience)
+    }
+  }
+  for (const server of servers.values()) {
+    server.audiences.sort((a, b) => a.localeCompare(b))
+  }
+  return servers
+}
+
 async function locationsByUris(
   uris: string[],
 ): Promise<Map<string, Location>> {
@@ -1451,6 +1558,14 @@ export async function fetchListingPage(
           .filter((event): event is Event => event !== undefined),
       )
     }
+    case 'deployments': {
+      const servers = await serversByUris(ids)
+      return result(
+        ids
+          .map((id) => servers.get(id))
+          .filter((server): server is Server => server !== undefined),
+      )
+    }
     case 'locations': {
       const locations = await locationsByUris(ids)
       return result(
@@ -1487,6 +1602,7 @@ async function resolveSubject(
     | 'useCase'
     | 'location'
     | 'event'
+    | 'deployment'
     | 'localGroup',
   id: string,
   sdo?: string,
@@ -1502,6 +1618,7 @@ async function resolveSubject(
     useCase: `?s a ex:UseCase .`,
     location: `?s a ex:Location .`,
     event: `?s a ex:Event .`,
+    deployment: `?s a ex:Server .`,
     localGroup: `?s a ex:LocalGroup .`,
   }[kind]
   const scoped =
@@ -1817,6 +1934,15 @@ async function eventDetail(id: string) {
   }
 }
 
+async function deploymentDetail(id: string) {
+  const uri = await resolveSubject('deployment', id)
+  if (!uri) return undefined
+  const servers = await serversByUris([uri])
+  const server = servers.get(uri)
+  if (!server) return undefined
+  return { kind: 'deployment' as const, server }
+}
+
 async function localGroupDetail(id: string) {
   const uri = await resolveSubject('localGroup', id)
   if (!uri) return undefined
@@ -1842,6 +1968,7 @@ export type DetailResult =
   | Awaited<ReturnType<typeof useCaseDetail>>
   | Awaited<ReturnType<typeof locationDetail>>
   | Awaited<ReturnType<typeof eventDetail>>
+  | Awaited<ReturnType<typeof deploymentDetail>>
   | Awaited<ReturnType<typeof localGroupDetail>>
 
 export async function fetchDetail(
@@ -1868,6 +1995,8 @@ export async function fetchDetail(
       return locationDetail(id)
     case 'event':
       return eventDetail(id)
+    case 'deployment':
+      return deploymentDetail(id)
     case 'localGroup':
       return localGroupDetail(id)
   }

@@ -1,0 +1,1330 @@
+# Matrix software from the ecosystem directories.
+#
+# Source: https://matrix.org/ecosystem/servers/
+# Source: https://matrix.org/ecosystem/clients/
+# Source: https://matrix.org/ecosystem/sdks/
+# One record per unique name. Categories, platforms and SDK purposes are
+# preserved; obsolete entries are kept because the directory still lists them.
+# Snapshot: 2026-11-13.
+#
+# Seeded with `devbox run seed -- static` (see scripts/fuseki.ts).
+
+@prefix ex: <http://example.org#> .
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+
+<urn:uuid:225bed2c-c71e-5123-a870-0cd7c21f8b80> a doap:Project ;
+  doap:name "< polycule >" ;
+  doap:shortdesc "A geeky and efficient Matrix client for power users." ;
+  doap:license "EUPL-1.2" ;
+  doap:homepage <https://polycule.im/web> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Client" ;
+  ex:platform "Android" ;
+  ex:platform "Linux" ;
+  ex:platform "Web" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:9305946a-c125-523a-befe-5dd785206e22> a doap:Project ;
+  doap:name "bullettime" ;
+  doap:shortdesc "An experimental golang Matrix homeserver" ;
+  doap:programming-language "Go" ;
+  doap:license "Apache-2.0" ;
+  doap:repository <https://github.com/matrix-org/bullettime> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "Server" ;
+  ex:source <https://matrix.org/ecosystem/servers/> .
+
+<urn:uuid:1b3e0914-8f13-5f19-93ea-8e0b4c67a6d2> a doap:Project ;
+  doap:name "chatrix" ;
+  doap:shortdesc "Matrix client for WordPress." ;
+  doap:license "GPL-2.0-only" ;
+  doap:homepage <https://wordpress.com/plugins/chatrix> ;
+  doap:repository <https://github.com/Automattic/chatrix> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "Client" ;
+  ex:platform "Web" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:a333a6a3-e668-59bd-82f2-48be7ba3d878> a doap:Project ;
+  doap:name "chatty" ;
+  doap:shortdesc "A simple to use messaging app for 1:1 communication and small groups supporting SMS, MMS, Matrix and XMPP." ;
+  doap:license "GPL-3.0-or-later" ;
+  doap:repository <https://gitlab.gnome.org/World/Chatty> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "beta" ;
+  ex:category "Client" ;
+  ex:platform "Linux" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:8ad88b27-fa2d-5554-9988-ac8da402e4ac> a doap:Project ;
+  doap:name "chooj" ;
+  doap:shortdesc "The only Matrix client for KaiOS, focusing on being light, fast and easy to use. The project is currently in alpha state. Basic chat works but a lot of features need to be worked out." ;
+  doap:license "GPL-3.0-only" ;
+  doap:homepage <https://chooj.app> ;
+  doap:repository <https://codeberg.org/chooj/chooj> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "Client" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:e1b829b0-0766-5984-aeed-873abed3a0c6> a doap:Project ;
+  doap:name "Cinny" ;
+  doap:shortdesc "A Matrix client focusing primarily on simple, elegant and secure interface." ;
+  doap:license "AGPL-3.0-only" ;
+  doap:homepage <https://github.com/cinnyapp/cinny-desktop/releases> ;
+  doap:repository <https://github.com/cinnyapp/cinny> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "Client" ;
+  ex:platform "Windows" ;
+  ex:platform "macOS" ;
+  ex:platform "Linux" ;
+  ex:platform "Web" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:b0abd485-7897-5ee9-8b61-2ffe71d57424> a doap:Project ;
+  doap:name "Commet" ;
+  doap:shortdesc "Focused on providing a feature rich experience while maintaining a simple interface" ;
+  doap:license "AGPL-3.0-only" ;
+  doap:homepage <https://commet.chat/install/windows> ;
+  doap:repository <https://github.com/commetchat/commet> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Client" ;
+  ex:platform "Windows" ;
+  ex:platform "Linux" ;
+  ex:platform "Web" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:eca1e77f-b1be-5806-b818-1b1772ed77e2> a doap:Project ;
+  doap:name "Conduit" ;
+  doap:shortdesc "Conduit is a simple, fast and reliable chat server written in Rust" ;
+  doap:programming-language "Rust" ;
+  doap:license "Apache-2.0" ;
+  doap:repository <https://gitlab.com/famedly/conduit> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Server" ;
+  ex:source <https://matrix.org/ecosystem/servers/> .
+
+<urn:uuid:6a4dc43d-f855-59ac-9547-029953f42cd1> a doap:Project ;
+  doap:name "conduwuit" ;
+  doap:shortdesc "conduwuit is a well-maintained, hard-fork of Conduit with tons of new features, many bug fixes, huge performance improvements, quality of life enhancements, moderation tools, and much more!" ;
+  doap:programming-language "Rust" ;
+  doap:license "Apache-2.0" ;
+  doap:repository <https://github.com/girlbossceo/conduwuit> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "Server" ;
+  ex:source <https://matrix.org/ecosystem/servers/> .
+
+<urn:uuid:54535349-bbe3-51b1-b37c-1c2a6c301a83> a doap:Project ;
+  doap:name "Construct" ;
+  doap:shortdesc "Construct is a C++ Matrix Homeserver" ;
+  doap:programming-language "C++" ;
+  doap:license "BSD" ;
+  doap:repository <https://github.com/matrix-construct/construct> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "Server" ;
+  ex:source <https://matrix.org/ecosystem/servers/> .
+
+<urn:uuid:764fb3b8-f556-5fae-b5cf-2ba29d8be932> a doap:Project ;
+  doap:name "continuwuity" ;
+  doap:shortdesc "Continuwuity, a community driven 2nd degree fork of Conduit focusing on user experience and new features." ;
+  doap:programming-language "Rust" ;
+  doap:license "Apache-2.0" ;
+  doap:repository <https://forgejo.ellis.link/continuwuation/continuwuity> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "Server" ;
+  ex:source <https://matrix.org/ecosystem/servers/> .
+
+<urn:uuid:03dbc224-64c5-577d-9684-1c9d910690fc> a doap:Project ;
+  doap:name "Dendrite" ;
+  doap:shortdesc "Dendrite is a second-generation Matrix homeserver written in Go!" ;
+  doap:programming-language "Go" ;
+  doap:license "AGPL-3.0-or-later" ;
+  doap:repository <https://github.com/element-hq/dendrite> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Server" ;
+  ex:source <https://matrix.org/ecosystem/servers/> .
+
+<urn:uuid:cc794cd8-aef0-5cb9-8709-4746e040d890> a doap:Project ;
+  doap:name "Dendron" ;
+  doap:shortdesc "Discontinued in favour of Dendrite (\"Dendron, done right\")" ;
+  doap:programming-language "Go" ;
+  doap:license "Apache-2.0" ;
+  doap:repository <https://github.com/matrix-org/dendron> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "Server" ;
+  ex:source <https://matrix.org/ecosystem/servers/> .
+
+<urn:uuid:c242407c-23ae-515c-b60a-c36f5f50c7df> a doap:Project ;
+  doap:name "dial-phone" ;
+  doap:shortdesc "A Matrix client-server SDK written in Kotlin." ;
+  doap:programming-language "Kotlin" ;
+  doap:license "Apache-2.0" ;
+  doap:repository <https://github.com/mtorials/dial-phone> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:sdkPurpose "Bot" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:37791b1e-f147-5fd6-9f71-d8cf58bb2040> a doap:Project ;
+  doap:name "Element Classic" ;
+  doap:shortdesc "Previous generation mobile app. Supported, but not developed further." ;
+  doap:license "AGPL-3.0-or-later" ;
+  doap:homepage <https://apps.apple.com/app/vector/id1083446067> ;
+  doap:repository <https://github.com/element-hq> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "Client" ;
+  ex:platform "iOS" ;
+  ex:platform "Android" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:7231a314-5a27-5ef9-8314-615316e28d25> a doap:Project ;
+  doap:name "Element Web / Desktop" ;
+  doap:shortdesc "A glossy web and desktop client with an emphasis on performance and usability." ;
+  doap:license "AGPL-3.0" ;
+  doap:homepage <https://element.io/download> ;
+  doap:repository <https://github.com/element-hq/element-web> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "Client" ;
+  ex:platform "Windows" ;
+  ex:platform "macOS" ;
+  ex:platform "Linux" ;
+  ex:platform "Web" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:20273b0c-97e5-5242-8e2f-91bf89a7e5d5> a doap:Project ;
+  doap:name "Element X" ;
+  doap:shortdesc "Next generation Element on mobile with native OIDC, sliding sync and Matrix RTC for calls." ;
+  doap:license "AGPL-3.0-or-later" ;
+  doap:homepage <https://apps.apple.com/app/vector/id1631335820> ;
+  doap:repository <https://github.com/element-hq> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "Client" ;
+  ex:platform "iOS" ;
+  ex:platform "Android" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:5a50edf2-0670-55d1-a7d2-fc03f9ad1d42> a doap:Project ;
+  doap:name "Elm SDK" ;
+  doap:shortdesc "A more consistent alternative to the matrix-js-sdk written in Elm." ;
+  doap:programming-language "Elm" ;
+  doap:license "EUPL-1.2" ;
+  doap:repository <https://github.com/noordstar/elm-matrix-sdk-beta> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:958d8e1e-6027-5214-96a0-e92e9a671f83> a doap:Project ;
+  doap:name "Ement.el" ;
+  doap:shortdesc "Ement.el is a Matrix client for GNU Emacs , the text editor and Lisp environment (which runs on GNU/Linux, MacOS, and Windows, as well as other platforms). It aims to be simple, fast, featureful, and reliable, while integrating naturally with Emacs." ;
+  doap:license "GPL-3.0-or-later" ;
+  doap:homepage <https://elpa.gnu.org/packages/ement.html> ;
+  doap:repository <https://github.com/alphapapa/ement.el> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "Client" ;
+  ex:platform "Windows" ;
+  ex:platform "macOS" ;
+  ex:platform "Linux" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:b5238191-cbfa-5b71-b88e-87d60d974bcc> a doap:Project ;
+  doap:name "Extera" ;
+  doap:shortdesc "A fork of Cinny in Material UI with customizable CSS, support for polls and captions." ;
+  doap:license "AGPL-3.0" ;
+  doap:homepage <https://app.extera.xyz/> ;
+  doap:repository <https://github.com/officialdakari/Extera> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "Client" ;
+  ex:platform "Web" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:78774521-6f59-58ba-b89b-d6bcf63d5cef> a doap:Project ;
+  doap:name "Extera Next" ;
+  doap:shortdesc "Extera Next is another generation of Extera, made on top of FluffyChat." ;
+  doap:license "AGPL-3.0" ;
+  doap:homepage <https://extera.xyz> ;
+  doap:repository <https://github.com/ExteraApp/Extera> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Client" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:05b82d03-0598-58ff-a975-9a034321241e> a doap:Project ;
+  doap:name "FluffyChat" ;
+  doap:shortdesc "Cute instant messaging app for all platforms." ;
+  doap:license "AGPL-3.0-only" ;
+  doap:homepage <https://flathub.org/apps/details/im.fluffychat.Fluffychat> ;
+  doap:repository <https://github.com/krille-chan/fluffychat> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "Client" ;
+  ex:platform "iOS" ;
+  ex:platform "Android" ;
+  ex:platform "Linux" ;
+  ex:platform "Web" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:b675e2e0-44a6-5409-8aed-f561bac93e15> a doap:Project ;
+  doap:name "Fractal" ;
+  doap:shortdesc "A Matrix messaging app for GNOME, written in Rust. Its interface is optimized for collaboration in large groups, such as free software projects, and will fit all screens, big or small." ;
+  doap:license "GPL-3.0-or-later" ;
+  doap:homepage <https://flathub.org/apps/details/org.gnome.Fractal> ;
+  doap:repository <https://gitlab.gnome.org/World/fractal> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Client" ;
+  ex:platform "Linux" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:1c9f5ea5-4e51-5dce-96f8-56dc9a03315e> a doap:Project ;
+  doap:name "go-msc1929" ;
+  doap:shortdesc "Golang client for MSC1929 (/.well-known/matrix/support)" ;
+  doap:programming-language "Go" ;
+  doap:license "LGPL-3.0-only" ;
+  doap:repository <https://github.com/etkecc/go-msc1929> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:sdkPurpose "Bot" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:aad767c5-4095-5319-b6ea-67360cf3a591> a doap:Project ;
+  doap:name "gomatrix" ;
+  doap:shortdesc "A Golang Matrix client." ;
+  doap:programming-language "Go" ;
+  doap:license "Apache-2.0" ;
+  doap:repository <https://github.com/matrix-org/gomatrix> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:629c8ee0-0ef6-5c92-9c36-4c6e0998e84c> a doap:Project ;
+  doap:name "gomuks" ;
+  doap:shortdesc "A Matrix client written in Go using mautrix-go with various frontends available, including web." ;
+  doap:license "AGPL-3.0-or-later" ;
+  doap:homepage <https://github.com/gomuks/gomuks/releases> ;
+  doap:repository <https://github.com/gomuks/gomuks> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Client" ;
+  ex:platform "macOS" ;
+  ex:platform "Linux" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:01fe9800-bd6a-55fc-b806-d4da0206ed39> a doap:Project ;
+  doap:name "gotktrix" ;
+  doap:shortdesc "Matrix client in Go and GTK4." ;
+  doap:license "AGPL-3.0-or-later" ;
+  doap:repository <https://github.com/diamondburned/gotktrix> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "Client" ;
+  ex:platform "Linux" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:32c7f3cf-e34d-560a-9c03-92e35842777d> a doap:Project ;
+  doap:name "Halcyon" ;
+  doap:shortdesc "An easy to use Matrix library inspired by discord.py." ;
+  doap:programming-language "Python" ;
+  doap:license "BSD-3-Clause" ;
+  doap:repository <https://github.com/WesR/Halcyon> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Bot" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:cf865776-3c6f-50ca-a8f2-d5fb9a2fd688> a doap:Project ;
+  doap:name "Hydrogen" ;
+  doap:shortdesc "Lightweight matrix client with legacy and mobile browser support." ;
+  doap:license "Apache-2.0" ;
+  doap:homepage <https://hydrogen.element.io> ;
+  doap:repository <https://github.com/vector-im/hydrogen-web> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "Client" ;
+  ex:platform "Web" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:b4455f8a-9178-5fd3-a294-edaa23ac21db> a doap:Project ;
+  doap:name "iamb" ;
+  doap:shortdesc "A terminal-based Matrix client with Vim keybindings written in Rust." ;
+  doap:license "Apache-2.0" ;
+  doap:homepage <https://github.com/ulyssa/iamb/releases/> ;
+  doap:repository <https://github.com/ulyssa/iamb> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Client" ;
+  ex:platform "Windows" ;
+  ex:platform "macOS" ;
+  ex:platform "Linux" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:6aec472c-bcda-53ab-b3b2-72ea684d62d5> a doap:Project ;
+  doap:name "jSynapse" ;
+  doap:programming-language "Java" ;
+  doap:license "Apache-2.0" ;
+  doap:repository <https://github.com/swarmcom/jSynapse> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "Server" ;
+  ex:source <https://matrix.org/ecosystem/servers/> .
+
+<urn:uuid:020e2981-a135-5659-878c-de0499d58116> a doap:Project ;
+  doap:name "kazv" ;
+  doap:shortdesc "A convergent Matrix client and secure messaging app" ;
+  doap:license "AGPL-3.0-or-later" ;
+  doap:homepage <https://kazv.chat> ;
+  doap:repository <https://r.lily-is.land/the-kazv-project/kazv> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Client" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:2ed07cd9-f703-50ee-90df-b956477e635b> a doap:Project ;
+  doap:name "Komai" ;
+  doap:shortdesc "A native, desktop-first Matrix client for Linux, Windows and macOS, built on Qt/QML and the Rust matrix-sdk." ;
+  doap:license "GPL-3.0-or-later" ;
+  doap:homepage <https://github.com/etkecc/komai/releases/latest> ;
+  doap:repository <https://github.com/etkecc/komai> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Client" ;
+  ex:platform "Windows" ;
+  ex:platform "macOS" ;
+  ex:platform "Linux" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:2de95831-bf62-5327-b66d-328a23f8d270> a doap:Project ;
+  doap:name "libcmatrix" ;
+  doap:shortdesc "A matrix client client library written in GObjectified C" ;
+  doap:programming-language "C" ;
+  doap:license "LGPL-2.1-only" ;
+  doap:repository <https://source.puri.sm/Librem5/libcmatrix> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:37accfca-1032-5071-b6ff-3038230a99cf> a doap:Project ;
+  doap:name "libkazv" ;
+  doap:shortdesc "A matrix client sdk built upon lager and the value-oriented design it enables." ;
+  doap:programming-language "C++" ;
+  doap:license "AGPL-3.0-or-later" ;
+  doap:repository <https://lily-is.land/kazv/libkazv> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:sdkPurpose "Bot" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:0ade4b3f-2296-5206-8c29-0d96abf5cd63> a doap:Project ;
+  doap:name "Ligase" ;
+  doap:shortdesc "Ligase is a Cloud-native Matrix home server written in Golang." ;
+  doap:programming-language "Go" ;
+  doap:license "AGPL-3.0-only" ;
+  doap:repository <https://github.com/finogeeks/Ligase> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "Server" ;
+  ex:source <https://matrix.org/ecosystem/servers/> .
+
+<urn:uuid:6b89f169-e1c7-5fe1-a735-cda9a70f3416> a doap:Project ;
+  doap:name "Lightning" ;
+  doap:shortdesc "A real desktop app, not a website in a window — Qt 6, the Rust Matrix SDK, and calls that reach Element." ;
+  doap:license "GPL-3.0-or-later" ;
+  doap:homepage <https://www.lightning-matrix.org/#download> ;
+  doap:repository <https://github.com/Mizerd/lightning> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Client" ;
+  ex:platform "Windows" ;
+  ex:platform "macOS" ;
+  ex:platform "Linux" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:9ac25159-a283-5d74-9e0d-8f908e721fae> a doap:Project ;
+  doap:name "Mactrix" ;
+  doap:shortdesc "A native macOS client for Matrix." ;
+  doap:license "GPL-3.0" ;
+  doap:homepage <https://github.com/viktorstrate/mactrix/#installation> ;
+  doap:repository <https://github.com/viktorstrate/mactrix> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Alpha" ;
+  ex:category "Client" ;
+  ex:platform "macOS" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:4a1361a0-0e9a-56eb-95ca-81fffdeba54d> a doap:Project ;
+  doap:name "Maelstrom" ;
+  doap:shortdesc "A high-performance Matrix Home-Server written in Rust designed to be scalable, light on resources, and have a pluggable storage engine." ;
+  doap:programming-language "Rust" ;
+  doap:license "Apache-2.0" ;
+  doap:repository <https://github.com/maelstrom-rs/maelstrom> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "Server" ;
+  ex:source <https://matrix.org/ecosystem/servers/> .
+
+<urn:uuid:85e99563-533a-50c1-a36e-7de158d724ce> a doap:Project ;
+  doap:name "Mages" ;
+  doap:shortdesc "Experimental Matrix client made using Compose Multiplatform (and Rust)." ;
+  doap:license "AGPL-3.0-only" ;
+  doap:homepage <https://github.com/mlm-games/Mages/releases> ;
+  doap:repository <https://github.com/mlm-games/Mages> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Alpha" ;
+  ex:category "Client" ;
+  ex:platform "Android" ;
+  ex:platform "Windows" ;
+  ex:platform "macOS" ;
+  ex:platform "Linux" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:eef4e48c-b797-5358-bb73-8f73e4c635f5> a doap:Project ;
+  doap:name "Matrex" ;
+  doap:shortdesc "A WIP toy Matrix server implementation in Elixir." ;
+  doap:programming-language "Elixir" ;
+  doap:license "MIT" ;
+  doap:repository <https://github.com/bismark/matrex> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "Server" ;
+  ex:source <https://matrix.org/ecosystem/servers/> .
+
+<urn:uuid:ec594326-bd28-52b7-85ad-9a4b1beaa0c8> a doap:Project ;
+  doap:name "Matrix C# SDK" ;
+  doap:shortdesc "Build .NET apps compatible with the Matrix Protocol." ;
+  doap:programming-language "C#" ;
+  doap:license "MIT" ;
+  doap:repository <https://github.com/baking-bad/matrix-dotnet-sdk> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:sdkPurpose "Bot" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:66932a86-3565-5a4b-afe8-41b9e69e62d0> a doap:Project ;
+  doap:name "Matrix Dart SDK" ;
+  doap:shortdesc "Matrix SDK written in dart." ;
+  doap:programming-language "Dart" ;
+  doap:license "AGPL-3.0-only" ;
+  doap:repository <https://github.com/famedly/matrix-dart-sdk> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:f5810735-022c-54b2-8a91-4aac97577bcf> a doap:Project ;
+  doap:name "Matrix Nim SDK" ;
+  doap:shortdesc "A Matrix library for the client-server and appservice API's written in Nim!" ;
+  doap:programming-language "Nim" ;
+  doap:license "GPL-3.0" ;
+  doap:repository <https://github.com/dylhack/matrix-nim-sdk> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:sdkPurpose "Bot" ;
+  ex:sdkPurpose "Bridge" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:a3978960-046e-5a50-8e7b-58b697addd9e> a doap:Project ;
+  doap:name "matrix-appservice-bridge" ;
+  doap:shortdesc "Bridging infrastructure for Application Services." ;
+  doap:programming-language "TypeScript" ;
+  doap:license "Apache-2.0" ;
+  doap:repository <https://github.com/matrix-org/matrix-appservice-bridge> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Bridge" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:edf4b2b7-e14a-5b9d-b536-b8a94ab37b5d> a doap:Project ;
+  doap:name "matrix-bot-sdk" ;
+  doap:shortdesc "TypeScript/JavaScript SDK for Matrix bots." ;
+  doap:programming-language "TypeScript" ;
+  doap:license "MIT" ;
+  doap:repository <https://github.com/turt2live/matrix-bot-sdk> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Bot" ;
+  ex:sdkPurpose "Bridge" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:85b59e95-ba35-5329-8bb3-c2167ba3304c> a doap:Project ;
+  doap:name "Matrix-ClientServer-API-java" ;
+  doap:shortdesc "A small and simple java API for the Matrix ClientServer Protocol." ;
+  doap:programming-language "Java" ;
+  doap:license "GPL-3.0-only" ;
+  doap:repository <https://github.com/JojiiOfficial/Matrix-ClientServer-API-java> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:sdkPurpose "Bot" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:ee8f8ba5-d855-5a07-90ff-050b0d6998d7> a doap:Project ;
+  doap:name "matrix-commander" ;
+  doap:shortdesc "Simple but convenient CLI-based Matrix client app for sending and receiving." ;
+  doap:license "GPL-3.0-or-later" ;
+  doap:repository <https://github.com/8go/matrix-commander> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "Client" ;
+  ex:platform "Linux" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:636b1761-c5fb-5d77-82b7-8dafd93c5e07> a doap:Project ;
+  doap:name "matrix-commander-rs" ;
+  doap:shortdesc "Simple but convenient CLI-based Matrix client app for sending and receiving." ;
+  doap:license "GPL-3.0-or-later" ;
+  doap:repository <https://github.com/8go/matrix-commander-rs> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "Client" ;
+  ex:platform "Linux" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:1ec91a0d-ebf9-5b86-95fa-4efe7672ae30> a doap:Project ;
+  doap:name "matrix-communication-client" ;
+  doap:shortdesc "A java client for the Matrix protocol." ;
+  doap:programming-language "Java" ;
+  doap:license "MIT" ;
+  doap:repository <https://github.com/Cosium/matrix-communication-client> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:sdkPurpose "Bot" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:6aaf55d9-f678-5068-bc38-855bfe3de044> a doap:Project ;
+  doap:name "matrix-kt" ;
+  doap:shortdesc "Kotlin libraries for Matrix." ;
+  doap:programming-language "Kotlin" ;
+  doap:license "Apache-2.0" ;
+  doap:repository <https://github.com/Dominaezzz/matrix-kt> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:sdkPurpose "Bot" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:68321076-6db4-5c7b-aa12-5f78232b3be7> a doap:Project ;
+  doap:name "matrix-nio" ;
+  doap:shortdesc "A Python Matrix client library, designed according to sans I/O principles." ;
+  doap:programming-language "Python" ;
+  doap:license "ISC" ;
+  doap:repository <https://github.com/matrix-nio/matrix-nio> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:sdkPurpose "Bot" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:4289a18b-35cc-5066-8ba7-c63b9c4fa7b2> a doap:Project ;
+  doap:name "matrix-rust-sdk" ;
+  doap:shortdesc "An implementation of a Matrix client-server library in Rust." ;
+  doap:programming-language "Rust" ;
+  doap:license "Apache-2.0" ;
+  doap:repository <https://github.com/matrix-org/matrix-rust-sdk> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:sdkPurpose "Bot" ;
+  ex:sdkPurpose "Bridge" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:0b796215-2109-5e05-bfeb-cc3cf84f6a63> a doap:Project ;
+  doap:name "Matrix.org AS Node SDK" ;
+  doap:shortdesc "Matrix Application Service framework in Node.js." ;
+  doap:programming-language "JavaScript" ;
+  doap:license "Apache-2.0" ;
+  doap:repository <https://github.com/matrix-org/matrix-appservice-node> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Bot" ;
+  ex:sdkPurpose "Bridge" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:0a1f76b4-42ae-507a-891d-ab8aa53c8363> a doap:Project ;
+  doap:name "Matrix.org iOS SDK" ;
+  doap:shortdesc "The Matrix SDK for iOS." ;
+  doap:programming-language "Objective-C" ;
+  doap:license "Apache-2.0" ;
+  doap:repository <https://github.com/matrix-org/matrix-ios-sdk> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:46ac000f-9ea7-5025-92a1-b7d21edbbe23> a doap:Project ;
+  doap:name "Matrix.org JS SDK" ;
+  doap:shortdesc "Matrix Client-Server SDK for JavaScript." ;
+  doap:programming-language "JavaScript" ;
+  doap:license "Apache-2.0" ;
+  doap:repository <https://github.com/matrix-org/matrix-js-sdk> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:sdkPurpose "Bot" ;
+  ex:sdkPurpose "Bridge" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:b57da552-8f96-593d-af7a-9b2318bc72d8> a doap:Project ;
+  doap:name "matrix.py" ;
+  doap:shortdesc "A simple, developer-friendly library to create powerful Matrix bots." ;
+  doap:programming-language "Python" ;
+  doap:license "MIT" ;
+  doap:repository <https://github.com/Code-Society-Lab/matrixpy> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Bot" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:d87f2350-c68c-5cf1-b9e5-3c6936694518> a doap:Project ;
+  doap:name "Matrix.swift" ;
+  doap:shortdesc "Matrix client SDK in Swift" ;
+  doap:programming-language "Swift" ;
+  doap:license "Apache-2.0" ;
+  doap:repository <https://github.com/circles-project/Matrix.swift> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:9dbc4842-3176-5d39-ac1e-83b5a523ec8c> a doap:Project ;
+  doap:name "matrix_bot_light" ;
+  doap:shortdesc "A simple lightweight library for creating Matrix bots. Available on Hex.pm." ;
+  doap:programming-language "Erlang" ;
+  doap:license "Apache-2.0" ;
+  doap:repository <https://github.com/roquess/matrix_bot_light> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Bot" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:5cad8196-dd5b-5cfd-96b0-13e11a7d531b> a doap:Project ;
+  doap:name "matrix_dotnet" ;
+  doap:shortdesc "Matrix client SDK in C#" ;
+  doap:programming-language "C#" ;
+  doap:license "GPL-3.0-or-later" ;
+  doap:repository <https://gitlab.com/Greenscreener/matrix-dotnet> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:sdkPurpose "Bot" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:58bb8c5a-36fc-5166-b9cd-3e271090f0bb> a doap:Project ;
+  doap:name "MatrixBot .NET Core SDK" ;
+  doap:shortdesc "Build .NET chat bots compatible with the Matrix Protocol. It has support for a limited subset of the APIs." ;
+  doap:programming-language "C#" ;
+  doap:license "MIT" ;
+  doap:repository <https://github.com/enimatek-nl/matrixbot-dotnet-sdk> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Bot" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:91d11bfc-e40a-5c99-91df-18a5c6daed95> a doap:Project ;
+  doap:name "mautrix-go" ;
+  doap:shortdesc "A Golang Matrix framework." ;
+  doap:programming-language "Go" ;
+  doap:license "MPL-2.0" ;
+  doap:repository <https://github.com/mautrix/go> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:sdkPurpose "Bot" ;
+  ex:sdkPurpose "Bridge" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:474b9cd8-9b90-52e9-ad75-df893dbf8395> a doap:Project ;
+  doap:name "mautrix-python" ;
+  doap:shortdesc "A Python 3 asyncio Matrix framework." ;
+  doap:programming-language "Python" ;
+  doap:license "MPL-2.0" ;
+  doap:repository <https://github.com/mautrix/python> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:sdkPurpose "Bot" ;
+  ex:sdkPurpose "Bridge" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:32137e4f-d786-5e78-962f-4eca86616e6b> a doap:Project ;
+  doap:name "Miitrix" ;
+  doap:shortdesc "Miitrix is a proof-of-concept client for the Nintendo 3DS, featuring a terminal-based user interface implemented with printf." ;
+  doap:license "Apache-2.0" ;
+  doap:repository <https://github.com/Sorunome/miitrix> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "Client" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:16da0a99-9af5-578f-a858-50e803a21d5f> a doap:Project ;
+  doap:name "mnotify" ;
+  doap:shortdesc "A matrix cli client" ;
+  doap:license "MIT" ;
+  doap:repository <https://github.com/rumpelsepp/mnotify/> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "Client" ;
+  ex:platform "Linux" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:76d52fc4-d815-5081-a1ad-86deafc40072> a doap:Project ;
+  doap:name "mxbt" ;
+  doap:shortdesc "Yet another matrix bot library." ;
+  doap:programming-language "Python" ;
+  doap:license "GPL-3.0-only" ;
+  doap:repository <https://codeberg.org/librehub/mxbt> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Bot" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:7b2309a3-e95f-522c-89f8-1464bfe6fa7c> a doap:Project ;
+  doap:name "mxhsd" ;
+  doap:shortdesc "mxhsd is Matrix Homeserver aimed towards entities who want to have in-depth control of their servers" ;
+  doap:programming-language "Java" ;
+  doap:license "AGPL-3.0-or-later" ;
+  doap:repository <https://github.com/kamax-io/mxhsd> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "Server" ;
+  ex:source <https://matrix.org/ecosystem/servers/> .
+
+<urn:uuid:fe79289c-7f32-5b6b-9c3b-65567b288747> a doap:Project ;
+  doap:name "NeoChat" ;
+  doap:shortdesc "A Matrix client for desktop and mobile" ;
+  doap:license "GPL-3.0-only" ;
+  doap:homepage <https://www.microsoft.com/store/apps/9PNXWVNRC29H> ;
+  doap:repository <https://invent.kde.org/network/neochat> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Client" ;
+  ex:platform "Windows" ;
+  ex:platform "Linux" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:19578374-1547-5453-aed2-a65a4f714879> a doap:Project ;
+  doap:name "Neoment" ;
+  doap:shortdesc "A Matrix client for Neovim, bringing chat functionality directly into your editor." ;
+  doap:license "MIT" ;
+  doap:homepage <https://github.com/Massolari/neoment/#installation> ;
+  doap:repository <https://github.com/Massolari/neoment> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Client" ;
+  ex:platform "Windows" ;
+  ex:platform "macOS" ;
+  ex:platform "Linux" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:31fd074e-8db5-55cd-b812-65b9316c7330> a doap:Project ;
+  doap:name "Nheko" ;
+  doap:shortdesc "Desktop client for Matrix using Qt and C++20." ;
+  doap:license "GPL-3.0-or-later" ;
+  doap:homepage <https://github.com/Nheko-Reborn/nheko/releases> ;
+  doap:repository <https://github.com/Nheko-Reborn/nheko> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Client" ;
+  ex:platform "Windows" ;
+  ex:platform "macOS" ;
+  ex:platform "Linux" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:d63e8470-c847-5609-b65f-67f743d8abb3> a doap:Project ;
+  doap:name "Pallium" ;
+  doap:programming-language "Go" ;
+  doap:license "Apache-2.0" ;
+  doap:repository <https://github.com/KoFish/pallium> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "Server" ;
+  ex:source <https://matrix.org/ecosystem/servers/> .
+
+<urn:uuid:54919707-3b28-52ad-b706-5e530a240569> a doap:Project ;
+  doap:name "POSIX Shell Matrix SDK" ;
+  doap:shortdesc "Simple shell script SDK for the Matrix Client‑Server API. Works in any POSIX-compliant shell." ;
+  doap:programming-language "POSIX Shell" ;
+  doap:license "MIT-Modern-Variant" ;
+  doap:repository <https://gitlab.com/matrix-mellifluousness/sdk> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:sdkPurpose "Bot" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:6b092f07-6b93-5e84-a85c-fa474a5da989> a doap:Project ;
+  doap:name "Quadrix" ;
+  doap:shortdesc "Minimal Matrix client available in all main app stores" ;
+  doap:license "GPL-3.0-or-later" ;
+  doap:homepage <https://apps.microsoft.com/store/detail/quadrixchat/9NPZ93X49V00> ;
+  doap:repository <https://github.com/alariej/quadrix> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "Client" ;
+  ex:platform "iOS" ;
+  ex:platform "Android" ;
+  ex:platform "Windows" ;
+  ex:platform "macOS" ;
+  ex:platform "Linux" ;
+  ex:platform "Web" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:64d6c9ef-ba1e-52bf-bbec-7a85be842fa4> a doap:Project ;
+  doap:name "Quaternion" ;
+  doap:shortdesc "A Qt5-based IM client for Matrix." ;
+  doap:license "GPL-3.0-only" ;
+  doap:homepage <https://github.com/quotient-im/Quaternion/releases/latest> ;
+  doap:repository <https://github.com/quotient-im/Quaternion> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Client" ;
+  ex:platform "Windows" ;
+  ex:platform "macOS" ;
+  ex:platform "Linux" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:9b21843c-0ac5-5c5e-865c-5e5d152bbf42> a doap:Project ;
+  doap:name "Quotient" ;
+  doap:shortdesc "A Qt6 library to write cross-platform clients for Matrix" ;
+  doap:programming-language "C++" ;
+  doap:license "LGPL-2.1-only" ;
+  doap:repository <https://github.com/quotient-im> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:sdkPurpose "Bot" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:2a60799b-379a-529f-8edc-e13f89cfc85e> a doap:Project ;
+  doap:name "Relay" ;
+  doap:shortdesc "All the power of Matrix. None of the complexity." ;
+  doap:license "Apache-2.0" ;
+  doap:homepage <https://testflight.apple.com/join/ehFD9g5c> ;
+  doap:repository <https://github.com/subpop/Relay> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Client" ;
+  ex:platform "macOS" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:6b9fe630-246d-5666-bc14-c83f5675437e> a doap:Project ;
+  doap:name "Rory&::LibMatrix" ;
+  doap:shortdesc "A .NET 10 library for interacting with Matrix." ;
+  doap:programming-language "C#" ;
+  doap:license "AGPL-3.0-only" ;
+  doap:repository <https://cgit.rory.gay/matrix/LibMatrix.git> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:sdkPurpose "Bot" ;
+  ex:sdkPurpose "Bridge" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:ba8e2831-e667-593f-91f8-245b24d4fcb4> a doap:Project ;
+  doap:name "Ruby Matrix SDK" ;
+  doap:shortdesc "Ruby SDK for the Matrix communication protocol." ;
+  doap:programming-language "Ruby" ;
+  doap:license "MIT" ;
+  doap:repository <https://github.com/ananace/ruby-matrix-sdk> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:sdkPurpose "Bot" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:36af48c5-26a2-5ce2-a2e9-72d7aa98faa8> a doap:Project ;
+  doap:name "Ruma" ;
+  doap:shortdesc "A set of Rust crates for interacting with the Matrix chat network." ;
+  doap:programming-language "Rust" ;
+  doap:license "MIT" ;
+  doap:repository <https://github.com/ruma> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:sdkPurpose "Bot" ;
+  ex:sdkPurpose "Bridge" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:57e26f27-b2bb-5eb1-bf32-f5f65c43b836> a doap:Project ;
+  doap:name "Sable" ;
+  doap:shortdesc "An almost stable Matrix client." ;
+  doap:license "AGPL-3.0-or-later (with an additional permission)" ;
+  doap:homepage <https://app.sable.moe/> ;
+  doap:repository <https://git.sable.moe/SableClient/Sable-next> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Client" ;
+  ex:platform "Web" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:37d4aa5a-26c9-5844-9aea-bd3beb5e65da> a doap:Project ;
+  doap:name "SchildiChat Legacy" ;
+  doap:shortdesc "Based on Element Classic, with additional features and tweaks." ;
+  doap:license "Apache-2.0" ;
+  doap:homepage <https://github.com/SchildiChat/schildichat-desktop/releases> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "Client" ;
+  ex:platform "Android" ;
+  ex:platform "Windows" ;
+  ex:platform "macOS" ;
+  ex:platform "Linux" ;
+  ex:platform "Web" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:8132573d-9e5d-57ba-b5a6-42bbb06f9650> a doap:Project ;
+  doap:name "SchildiChat Next" ;
+  doap:shortdesc "A fork of Element X with additional features and tweaks." ;
+  doap:license "AGPL-3.0-only" ;
+  doap:homepage <https://f-droid.org/packages/chat.schildi.android> ;
+  doap:repository <https://github.com/SchildiChat/schildichat-android-next> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "Client" ;
+  ex:platform "Android" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:162a4946-0cef-5e20-9bc9-386dccaa8751> a doap:Project ;
+  doap:name "SchildiChat Revenge" ;
+  doap:shortdesc "Desktop & Android client with focus on multi-account, nested spaces, and keyboard navigation." ;
+  doap:license "GPL-3.0-only" ;
+  doap:homepage <https://github.com/SchildiChat/schildi-revenge/releases/> ;
+  doap:repository <https://github.com/SchildiChat/schildi-revenge> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Client" ;
+  ex:platform "Android" ;
+  ex:platform "Windows" ;
+  ex:platform "Linux" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:d2b69644-a4f8-5c57-b937-e984444ace60> a doap:Project ;
+  doap:name "Simple-Matrix-Bot-Lib" ;
+  doap:shortdesc "An easy to use bot library for the Matrix ecosystem written in Python." ;
+  doap:programming-language "Python" ;
+  doap:license "MIT" ;
+  doap:repository <https://codeberg.org/imbev/simplematrixbotlib> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Bot" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:f579fb73-9f33-5e7b-9125-957bbcb600a2> a doap:Project ;
+  doap:name "Singularity" ;
+  doap:shortdesc "Client focusing on speed and interactivity." ;
+  doap:license "GPL-3.0" ;
+  doap:homepage <https://github.com/Luxuride/singularity/releases/latest> ;
+  doap:repository <https://github.com/Luxuride/singularity> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Alpha" ;
+  ex:category "Client" ;
+  ex:platform "Windows" ;
+  ex:platform "macOS" ;
+  ex:platform "Linux" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:4fd9d1de-4fc7-5ca7-b246-bc3c7b86e6a0> a doap:Project ;
+  doap:name "Synapse" ;
+  doap:shortdesc "Synapse is a Matrix homeserver written in Python/Twisted." ;
+  doap:programming-language "Python" ;
+  doap:license "AGPL-3.0-or-later" ;
+  doap:repository <https://github.com/element-hq/synapse> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "Server" ;
+  ex:source <https://matrix.org/ecosystem/servers/> .
+
+<urn:uuid:fea4eaf6-f80e-5439-8791-60f934ecfffe> a doap:Project ;
+  doap:name "Synapse Pro" ;
+  doap:shortdesc "Synapse for Enterprise, with a focus on performance, scalability and compliance." ;
+  doap:programming-language "Python and Rust" ;
+  doap:license "Element Commercial License" ;
+  doap:homepage <https://element.io/server-suite/synapse-pro> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "Server" ;
+  ex:source <https://matrix.org/ecosystem/servers/> .
+
+<urn:uuid:1f78968e-9e47-5321-a693-56753cfc76c5> a doap:Project ;
+  doap:name "Syphon" ;
+  doap:shortdesc "A privacy centric matrix client" ;
+  doap:license "AGPL-3.0-only" ;
+  doap:homepage <https://flathub.org/apps/details/org.syphon.Syphon> ;
+  doap:repository <https://github.com/syphon-org/syphon> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "Client" ;
+  ex:platform "iOS" ;
+  ex:platform "Android" ;
+  ex:platform "Linux" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:2d2833a8-f57d-549e-8559-f5b9e9123f5a> a doap:Project ;
+  doap:name "Tacit" ;
+  doap:shortdesc "A Matrix messenger with a strong focus on modern interaction patterns and a clean workflow for spaces, channels, DMs, and groups. It is a fork of Tammy with the UI/UX adapted for a more focused, desktop-first experience. Desktop builds for macOS, Windows and Linux update themselves from within the app." ;
+  doap:license "AGPL-3.0-only" ;
+  doap:homepage <https://fuchss.org/projects/tacit/#download--install> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Client" ;
+  ex:platform "Windows" ;
+  ex:platform "macOS" ;
+  ex:platform "Linux" ;
+  ex:platform "Web" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:f02b3a85-911b-555c-85bc-ec9fc0fff55b> a doap:Project ;
+  doap:name "Tammy" ;
+  doap:shortdesc "Tammy is a fast Matrix client focusing on simplicity and extensibility." ;
+  doap:license "AGPL-3.0-only" ;
+  doap:homepage <https://tammy.connect2x.de> ;
+  doap:repository <https://gitlab.com/connect2x/tammy> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "Client" ;
+  ex:platform "iOS" ;
+  ex:platform "Android" ;
+  ex:platform "Windows" ;
+  ex:platform "macOS" ;
+  ex:platform "Web" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:a2297b13-15a7-5694-8cd0-22367544b635> a doap:Project ;
+  doap:name "Telodendria" ;
+  doap:shortdesc "Telodendria is an open source Matrix homeserver implementation written from scratch in ANSI C and designed to be lightweight and simple, yet functional." ;
+  doap:programming-language "C" ;
+  doap:license "MIT" ;
+  doap:repository <https://github.com/Telodendria/Telodendria> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Alpha" ;
+  ex:category "Server" ;
+  ex:source <https://matrix.org/ecosystem/servers/> .
+
+<urn:uuid:81f06ac7-482a-5fef-a8f4-3cf57413c27f> a doap:Project ;
+  doap:name "Tesseract" ;
+  doap:shortdesc "A native desktop client built on the matrix-rust-sdk." ;
+  doap:license "GPL-3.0-or-later" ;
+  doap:homepage <https://github.com/surakin/tesseract/releases/latest> ;
+  doap:repository <https://github.com/surakin/tesseract> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Alpha" ;
+  ex:category "Client" ;
+  ex:platform "Windows" ;
+  ex:platform "macOS" ;
+  ex:platform "Linux" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:da470599-0069-5ea0-94b5-5649c54648f5> a doap:Project ;
+  doap:name "Thunderbird" ;
+  doap:shortdesc "A free open-repo email, calendar & chat app" ;
+  doap:license "MPL-2.0" ;
+  doap:homepage <https://www.thunderbird.net> ;
+  doap:repository <https://github.com/thunderbird/thunderbird-desktop> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Client" ;
+  ex:platform "Windows" ;
+  ex:platform "macOS" ;
+  ex:platform "Linux" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:cedbade3-6638-53e8-82d8-ec1a1a482bc9> a doap:Project ;
+  doap:name "Transform" ;
+  doap:shortdesc "Transform is a matrix homeserver built using Typescript and Redis." ;
+  doap:programming-language "TypeScript" ;
+  doap:license "Apache-2.0" ;
+  doap:repository <https://github.com/bettiah/transform> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "Server" ;
+  ex:source <https://matrix.org/ecosystem/servers/> .
+
+<urn:uuid:d324aa98-f7e0-59f2-ba15-584497e63eaa> a doap:Project ;
+  doap:name "Trixnity" ;
+  doap:shortdesc "Multiplatform Kotlin SDK for developing Clients, Bots, Appservices and Servers." ;
+  doap:programming-language "Kotlin" ;
+  doap:license "Apache-2.0" ;
+  doap:repository <https://gitlab.com/connect2x/trixnity/trixnity> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:sdkPurpose "Bot" ;
+  ex:sdkPurpose "Bridge" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:66743902-7bf8-5964-a07c-c42027166a03> a doap:Project ;
+  doap:name "Trixnity Messenger" ;
+  doap:shortdesc "Multiplatform Kotlin SDK for developing messengers on top of Trixnity" ;
+  doap:programming-language "Kotlin" ;
+  doap:license "AGPL-3.0-only" ;
+  doap:repository <https://gitlab.com/connect2x/trixnity-messenger> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .
+
+<urn:uuid:7dbe4b59-2d10-50b2-8a97-1a311590ddf3> a doap:Project ;
+  doap:name "Tuwunel" ;
+  doap:shortdesc "Enterprise successor to conduwuit, the high-performance and feature-rich fork of Conduit." ;
+  doap:programming-language "Rust" ;
+  doap:license "Apache-2.0" ;
+  doap:repository <https://github.com/matrix-construct/tuwunel> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Stable" ;
+  ex:category "Server" ;
+  ex:source <https://matrix.org/ecosystem/servers/> .
+
+<urn:uuid:e984979a-be68-59bf-8959-b789fdc90fcc> a doap:Project ;
+  doap:name "Venator" ;
+  doap:shortdesc "Versatile experimental Matrix homeserver written in Golang from scratch using mautrix-go." ;
+  doap:programming-language "Go" ;
+  doap:license "MPL-2.0" ;
+  doap:repository <https://codeberg.org/timedout/venator> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Alpha" ;
+  ex:category "Server" ;
+  ex:source <https://matrix.org/ecosystem/servers/> .
+
+<urn:uuid:4e551ffa-c2a1-55e2-a949-fa1b357894fc> a doap:Project ;
+  doap:name "WanChat" ;
+  doap:shortdesc "A fork of Element X, adapted for China's environment, that supports self‑destructing messages, removing all room records, and uses ntfy for push notifications." ;
+  doap:license "AGPL-3.0-only" ;
+  doap:homepage <https://wanchat.info> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Client" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:9f68fdef-30fe-5633-97a9-3acc85ad53c1> a doap:Project ;
+  doap:name "Watch The Matrix" ;
+  doap:shortdesc "A Matrix client for watchOS written in Swift" ;
+  doap:license "MPL-2.0" ;
+  doap:repository <https://github.com/pixlwave/Watch-The-Matrix> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Alpha" ;
+  ex:category "Client" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:cb7a77eb-2254-5073-b04b-cb2d277a5443> a doap:Project ;
+  doap:name "WizardChat" ;
+  doap:shortdesc "A simple, secure and magical Matrix client to chat and meet with your friends." ;
+  doap:license "AGPL-3.0" ;
+  doap:homepage <https://gitlab.com/wizardchat/wizardchat-desktop/-/releases> ;
+  doap:repository <https://gitlab.com/wizardchat/wizardchat-web> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Client" ;
+  ex:platform "Windows" ;
+  ex:platform "macOS" ;
+  ex:platform "Linux" ;
+  ex:platform "Web" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:7b57d636-d8a1-567a-8ab6-5f8aa1bc0860> a doap:Project ;
+  doap:name "Zam" ;
+  doap:shortdesc "A Discord-style Matrix client for the web (installable as a PWA), desktop (Electron) and Android." ;
+  doap:license "GPL-3.0-only" ;
+  doap:homepage <https://github.com/az4521/Zam/releases/latest> ;
+  doap:repository <https://github.com/az4521/Zam> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Client" ;
+  ex:platform "Windows" ;
+  ex:platform "macOS" ;
+  ex:platform "Linux" ;
+  ex:platform "Web" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:63a62640-edb6-589c-8eba-8f7090000db2> a doap:Project ;
+  doap:name "Zendrite" ;
+  doap:shortdesc "Zendrite is a second-generation Matrix homeserver forked from Dendrite with recent spec features, HA, better perf and many fixes." ;
+  doap:programming-language "Go" ;
+  doap:license "AGPL-3.0-or-later" ;
+  doap:homepage <https://zendrite.pat-s.me/> ;
+  doap:repository <https://codefloe.com/pat-s/zendrite> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Beta" ;
+  ex:category "Server" ;
+  ex:source <https://matrix.org/ecosystem/servers/> .
+
+<urn:uuid:a738dd9c-a1ee-53c7-94ab-1c820b42e0b1> a doap:Project ;
+  doap:name "Zooid" ;
+  doap:shortdesc "An open-source, self‑hostable client for collaborating with AI agents and your team in the same Matrix room." ;
+  doap:license "MIT" ;
+  doap:homepage <https://zooid.dev> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Alpha" ;
+  ex:category "Client" ;
+  ex:source <https://matrix.org/ecosystem/clients/> .
+
+<urn:uuid:321ac7ff-d014-57f0-a246-0a4be39287ff> a doap:Project ;
+  doap:name "µtrix" ;
+  doap:shortdesc "Matrix client library for MicroPython." ;
+  doap:programming-language "Python" ;
+  doap:license "Apache-2.0" ;
+  doap:repository <https://edugit.org/Teckids/hacknfun/libs/mytrix> ;
+  doap:implements <https://spec.matrix.org/latest/> ;
+  ex:maturity "Obsolete" ;
+  ex:category "SDK" ;
+  ex:sdkPurpose "Client" ;
+  ex:sdkPurpose "Bot" ;
+  ex:source <https://matrix.org/ecosystem/sdks/> .

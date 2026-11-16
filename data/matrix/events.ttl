@@ -1,0 +1,22 @@
+# Matrix Conference 2026.
+#
+# Source: https://conference.matrix.org/
+# The page lists 20-23 October 2026 in Malmö, with the 23 October
+# hackathon at Aalborg University in Copenhagen. The event is imported
+# as one 20-23 October event; the venue note names the hackathon.
+# Snapshot: 2026-11-13.
+#
+# Seeded with `devbox run seed -- static` (see scripts/fuseki.ts).
+
+@prefix ex: <http://example.org#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<urn:uuid:79085829-2328-5885-baee-d2cf672854d7> a ex:Event ;
+  ex:sdo <https://matrix.org/> ;
+  ex:name "The Matrix Conference 2026" ;
+  ex:startDate "2026-10-20T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2026-10-23T23:59:59Z"^^xsd:dateTime ;
+  ex:location "Scandic Triangeln, Malmö, Sweden (23 October hackathon at Aalborg University, Copenhagen)" ;
+  ex:atLocation <urn:uuid:547338ac-a60f-53c3-921d-a1e672a16836> ;
+  ex:organizer <https://matrix.org/> ;
+  ex:source <https://conference.matrix.org/> .

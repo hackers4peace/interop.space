@@ -96,6 +96,12 @@ const STATIC_SEED_FILES = [
   'data/semic/locations.ttl',
   'data/semic/organizations.ttl',
   'data/semic/events.ttl',
+  'data/matrix/locations.ttl',
+  'data/matrix/organizations.ttl',
+  'data/matrix/specs.ttl',
+  'data/matrix/events.ttl',
+  'data/matrix/software.ttl',
+  'data/matrix/deployments.ttl',
 ]
 
 const usage = `usage:

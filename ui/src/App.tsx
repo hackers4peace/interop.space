@@ -18,6 +18,8 @@ import OrgDetail from './routes/OrgDetail'
 import Events from './routes/Events'
 import EventDetail from './routes/EventDetail'
 import Locations from './routes/Locations'
+import Deployments from './routes/Deployments'
+import DeploymentDetail from './routes/DeploymentDetail'
 import LocationDetail from './routes/LocationDetail'
 import LocalGroupDetail from './routes/LocalGroupDetail'
 import InfoPage from './routes/Info'
@@ -44,6 +46,8 @@ export const routes: RouteDefinition[] = [
   { path: '/events/:id', component: EventDetail },
   { path: '/locations', component: Locations },
   { path: '/locations/:id', component: LocationDetail },
+  { path: '/deployments', component: Deployments },
+  { path: '/deployments/:id', component: DeploymentDetail },
   { path: '/local-groups/:id', component: LocalGroupDetail },
   { path: '/info', component: InfoPage },
   { path: '/groups', component: Groups },
@@ -90,9 +94,9 @@ const App: ParentComponent = (props) => {
           <A href={href('/locations')} class={navLink} activeClass="bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white">
             Locations
           </A>
-          <span class={inactiveNavLink} aria-disabled="true" title="Not available yet">
+          <A href={href('/deployments')} class={navLink} activeClass="bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white">
             Deployments
-          </span>
+          </A>
           <span class={inactiveNavLink} aria-disabled="true" title="Not available yet">
             Publications
           </span>

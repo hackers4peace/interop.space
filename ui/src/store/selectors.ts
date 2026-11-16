@@ -8,6 +8,7 @@ export const useCasesSlice = () => appState.useCases
 export const orgsSlice = () => appState.orgs
 export const eventsSlice = () => appState.events
 export const locationsSlice = () => appState.locations
+export const deploymentsSlice = () => appState.deployments
 export const specificationsSlice = () => appState.specifications
 export const groupsSlice = () => appState.groups
 export const groupSelectionSlice = () => appState.groupSelection

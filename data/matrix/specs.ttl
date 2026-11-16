@@ -1,0 +1,17 @@
+# Matrix specification.
+#
+# Source: https://spec.matrix.org/latest/
+# Snapshot: 2026-11-13.
+#
+# Seeded with `devbox run seed -- static` (see scripts/fuseki.ts).
+
+@prefix ex: <http://example.org#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+<https://spec.matrix.org/latest/> a ex:Specification ;
+  ex:sdo <https://matrix.org/> ;
+  ex:name "Matrix Specification" ;
+  ex:shortname "matrix-spec" ;
+  ex:landingPage <https://spec.matrix.org/latest/> ;
+  dcterms:publisher "Matrix.org Foundation" ;
+  dcterms:date "8 July 2026" .

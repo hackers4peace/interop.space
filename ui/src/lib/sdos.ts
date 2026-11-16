@@ -32,6 +32,8 @@ const LEGACY_IDS: Record<string, string> = {
   w3c: 'https://www.w3.org/',
   ietf: 'https://www.ietf.org/',
   'gaia-x': 'https://gaia-x.eu/',
+  matrix: 'https://matrix.org/',
+  'matrix-org': 'https://matrix.org/',
   'interoperable-europe': 'https://interoperable-europe.ec.europa.eu/',
   semic: 'https://interoperable-europe.ec.europa.eu/',
   openid: 'https://openid.net/',
