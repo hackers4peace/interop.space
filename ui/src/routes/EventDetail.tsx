@@ -71,6 +71,19 @@ const EventDetail: Component = () => {
                       </A>
                     )}
                   </Show>
+                  <Show when={data().event.organizer}>
+                    {(organizer) => (
+                      <p class="text-sm text-slate-600 dark:text-slate-400">
+                        Organized by{' '}
+                        <A
+                          href={href(`/orgs/${organizer().id}`)}
+                          class="font-medium text-indigo-600 hover:underline dark:text-indigo-400"
+                        >
+                          {organizer().name}
+                        </A>
+                      </p>
+                    )}
+                  </Show>
                 </div>
                 <SdoLogo sdo={data().event.sdo} />
               </div>

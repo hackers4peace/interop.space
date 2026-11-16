@@ -41,29 +41,6 @@
     ]
   },
   {
-    "id": "https://gaia-x.eu/",
-    "name": "Gaia-X",
-    "website": "https://gaia-x.eu/",
-    "logo": "/logos/gaia-x.svg",
-    "sections": [
-      {
-        "kind": "chips",
-        "title": "Focus",
-        "items": [
-          {
-            "label": "Data spaces"
-          },
-          {
-            "label": "Trust framework"
-          },
-          {
-            "label": "Federation services"
-          }
-        ]
-      }
-    ]
-  },
-  {
     "id": "https://www.ietf.org/",
     "name": "Internet Engineering Task Force",
     "website": "https://www.ietf.org/",
@@ -192,5 +169,52 @@
     "website": "https://www.mozilla.org/",
     "logo": "/logos/mozilla.svg",
     "sections": []
+  },
+  {
+    "id": "https://gaia-x.eu/",
+    "name": "Gaia-X",
+    "website": "https://gaia-x.eu/",
+    "logo": "/logos/gaia-x.svg",
+    "sections": [
+      {
+        "kind": "chips",
+        "title": "Focus",
+        "items": [
+          {
+            "label": "Data spaces"
+          },
+          {
+            "label": "Trust framework"
+          },
+          {
+            "label": "Federation services"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "https://interoperable-europe.ec.europa.eu/",
+    "name": "Interoperable Europe",
+    "website": "https://interoperable-europe.ec.europa.eu/",
+    "logo": "/logos/interoperable-europe.svg",
+    "sections": [
+      {
+        "kind": "cards",
+        "title": "Sub-bodies",
+        "items": [
+          {
+            "name": "SEMIC Support Centre",
+            "url": "https://interoperable-europe.ec.europa.eu/collection/semic-support-centre",
+            "logo": "/logos/interoperable-europe.svg"
+          },
+          {
+            "name": "Open Source Observatory (OSOR)",
+            "url": "https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor",
+            "logo": "/logos/interoperable-europe.svg"
+          }
+        ]
+      }
+    ]
   }
 ]

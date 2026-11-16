@@ -137,6 +137,14 @@ files are curated from public endpoints; `data/gaia-x/README.md` records the
 sources, the snapshot date and the RDF mapping. They are part of
 `seed -- static` and `seed -- all`.
 
+## Interoperable Europe data
+
+`data/semic/` holds the Interoperable Europe SDO, its SEMIC Support Centre and
+OSOR sub-bodies, city-level locations and the 2026 SEMIC/OSOR events. The
+directory is named after SEMIC, the first collection added; it covers both
+sub-bodies. See `data/semic/README.md` for sources, event dates and the RDF
+mapping. The files are part of `seed -- static` and `seed -- all`.
+
 ## IETF crawl
 
 `dump:ietf` runs the same stage-file model against the IETF Datatracker, on its

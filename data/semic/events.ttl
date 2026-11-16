@@ -1,0 +1,113 @@
+# 2026 events of Interoperable Europe and its SEMIC and OSOR sub-bodies.
+#
+# Source pages:
+#   SEMIC conference: https://interoperable-europe.ec.europa.eu/collection/semic-conference
+#   OSOR events:      https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor/osor-events
+#   OSOR event takeaways are linked from the OSOR events page.
+# Snapshot: 2026-11-13.
+#
+# Dates are published as calendar dates, so each event uses the catalog
+# convention 00:00:00Z ... 23:59:59Z for its first/last day. No times are
+# invented. Locations are city-level; venue is included in ex:location when
+# the source gives it.
+#
+# Seeded with `devbox run seed -- static` (see scripts/fuseki.ts).
+
+@prefix ex: <http://example.org#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<urn:uuid:d3d2faa0-cefa-536c-bc4a-3f1860ca7167> a ex:Event ;
+  ex:sdo <https://interoperable-europe.ec.europa.eu/> ;
+  ex:name "OSOR Community Meetup: From Brussels and Barcelona to Europe" ;
+  ex:startDate "2026-01-28T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2026-01-28T23:59:59Z"^^xsd:dateTime ;
+  ex:organizer <https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor> ;
+  ex:source <https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor/news/key-takeaways-osor-community-meetup> .
+
+<urn:uuid:f7ffefb6-ff77-5cd9-9d7a-3ea2f53043eb> a ex:Event ;
+  ex:sdo <https://interoperable-europe.ec.europa.eu/> ;
+  ex:name "FOSS Backstage 2026" ;
+  ex:startDate "2026-03-16T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2026-03-17T23:59:59Z"^^xsd:dateTime ;
+  ex:location "Berlin, Germany" ;
+  ex:atLocation <urn:uuid:5f70ff33-2acc-537f-96e4-b95741bb498c> ;
+  ex:source <https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor/osor-events> .
+
+<urn:uuid:fc7928fd-f55b-5866-a2fc-84dce4413afa> a ex:Event ;
+  ex:sdo <https://interoperable-europe.ec.europa.eu/> ;
+  ex:name "DORS/CLUC 2026" ;
+  ex:startDate "2026-04-24T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2026-04-25T23:59:59Z"^^xsd:dateTime ;
+  ex:location "Zagreb, Croatia" ;
+  ex:atLocation <urn:uuid:6ef6d9f8-5f4d-5890-aae6-320514657fba> ;
+  ex:source <https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor/osor-events> .
+
+<urn:uuid:e7658722-cd00-57cc-8f4f-2e0c67bd1d49> a ex:Event ;
+  ex:sdo <https://interoperable-europe.ec.europa.eu/> ;
+  ex:name "OSOR Workshop: Driving Public Value Through Open Source Artificial Intelligence" ;
+  ex:startDate "2026-06-30T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2026-06-30T23:59:59Z"^^xsd:dateTime ;
+  ex:organizer <https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor> ;
+  ex:source <https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor/news/key-takeaways-osor-workshop-open-source-ai> .
+
+<urn:uuid:a8145315-2b80-5b37-9cd4-f7f381f4febf> a ex:Event ;
+  ex:sdo <https://interoperable-europe.ec.europa.eu/> ;
+  ex:name "EGOV-CeDEM-ePart 2026" ;
+  ex:startDate "2026-08-30T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2026-09-03T23:59:59Z"^^xsd:dateTime ;
+  ex:location "Athens, Greece" ;
+  ex:atLocation <urn:uuid:4de779ea-363c-5764-b273-8a2ededee6c8> ;
+  ex:source <https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor/osor-events> .
+
+<urn:uuid:f1d0d744-38a1-540b-bd11-a3b4f65801d4> a ex:Event ;
+  ex:sdo <https://interoperable-europe.ec.europa.eu/> ;
+  ex:name "ConsulCon 2026" ;
+  ex:startDate "2026-09-15T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2026-09-17T23:59:59Z"^^xsd:dateTime ;
+  ex:location "Munich, Germany" ;
+  ex:atLocation <urn:uuid:e6f23745-af9d-527e-bf61-c5ac39185853> ;
+  ex:source <https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor/osor-events> .
+
+<urn:uuid:f8654177-d625-5ffe-8add-22e9903451d9> a ex:Event ;
+  ex:sdo <https://interoperable-europe.ec.europa.eu/> ;
+  ex:name "OSOR Webinar: Public Administrations and the EU Open Source Strategy" ;
+  ex:startDate "2026-09-24T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2026-09-24T23:59:59Z"^^xsd:dateTime ;
+  ex:location "Online" ;
+  ex:organizer <https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor> ;
+  ex:source <https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor/news/key-takeaways-osor-webinar-eu-open-source-strategy> .
+
+<urn:uuid:730ec706-7a63-5dab-acf3-505900042df5> a ex:Event ;
+  ex:sdo <https://interoperable-europe.ec.europa.eu/> ;
+  ex:name "Software Freedom Kosova 2026" ;
+  ex:startDate "2026-10-01T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2026-10-03T23:59:59Z"^^xsd:dateTime ;
+  ex:source <https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor/osor-events> .
+
+<urn:uuid:44eea0ba-dae7-5f94-8503-29cafa43642f> a ex:Event ;
+  ex:sdo <https://interoperable-europe.ec.europa.eu/> ;
+  ex:name "Mindtrek 2026" ;
+  ex:startDate "2026-10-06T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2026-10-06T23:59:59Z"^^xsd:dateTime ;
+  ex:location "Finnkino Cine Atlas (Koskikeskus), Tampere, Finland" ;
+  ex:atLocation <urn:uuid:b8aaba65-1a76-534b-bbfa-044ede39202f> ;
+  ex:source <https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor/osor-events> .
+
+<urn:uuid:24dbdc72-86db-540b-ab8b-5b835a080359> a ex:Event ;
+  ex:sdo <https://interoperable-europe.ec.europa.eu/> ;
+  ex:name "Open Source Summit Europe 2026" ;
+  ex:startDate "2026-10-07T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2026-10-09T23:59:59Z"^^xsd:dateTime ;
+  ex:location "Prague, Czechia" ;
+  ex:atLocation <urn:uuid:bb36a10b-95be-5552-a354-2837cf64a732> ;
+  ex:source <https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor/osor-events> .
+
+<urn:uuid:91b789af-a62d-55f2-9e44-eef1441694ea> a ex:Event ;
+  ex:sdo <https://interoperable-europe.ec.europa.eu/> ;
+  ex:name "SEMIC 2026" ;
+  ex:startDate "2026-11-30T00:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2026-11-30T23:59:59Z"^^xsd:dateTime ;
+  ex:location "Royal Dublin Society (RDS), Merrion Road, Ballsbridge, Dublin 4 D04 AK83, Ireland" ;
+  ex:atLocation <urn:uuid:b95adfdf-ab89-54c8-bdc9-3810d9c80d5a> ;
+  ex:organizer <https://interoperable-europe.ec.europa.eu/collection/semic-support-centre> ;
+  ex:source <https://interoperable-europe.ec.europa.eu/collection/semic-conference> .

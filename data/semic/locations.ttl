@@ -1,0 +1,58 @@
+# Event locations for the Interoperable Europe SDO.
+#
+# Source: event pages linked from the OSOR events page and the SEMIC
+# conference collection. Coordinates are city-level, not venue addresses.
+# Snapshot: 2026-11-13.
+#
+# Seeded with `devbox run seed -- static` (see scripts/fuseki.ts).
+
+@prefix ex: <http://example.org#> .
+
+<urn:uuid:6ef6d9f8-5f4d-5890-aae6-320514657fba> a ex:Location ;
+  ex:name "Zagreb, Croatia" ;
+  ex:region "Croatia" ;
+  ex:latitude 45.815011 ;
+  ex:longitude 15.981919 ;
+  ex:source <https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor/osor-events> .
+
+<urn:uuid:bb36a10b-95be-5552-a354-2837cf64a732> a ex:Location ;
+  ex:name "Prague, Czechia" ;
+  ex:region "Czechia" ;
+  ex:latitude 50.075538 ;
+  ex:longitude 14.4378 ;
+  ex:source <https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor/osor-events> .
+
+<urn:uuid:b8aaba65-1a76-534b-bbfa-044ede39202f> a ex:Location ;
+  ex:name "Tampere, Finland" ;
+  ex:region "Finland" ;
+  ex:latitude 61.497752 ;
+  ex:longitude 23.760953 ;
+  ex:source <https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor/osor-events> .
+
+<urn:uuid:5f70ff33-2acc-537f-96e4-b95741bb498c> a ex:Location ;
+  ex:name "Berlin, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 52.520008 ;
+  ex:longitude 13.404954 ;
+  ex:source <https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor/osor-events> .
+
+<urn:uuid:e6f23745-af9d-527e-bf61-c5ac39185853> a ex:Location ;
+  ex:name "Munich, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 48.135125 ;
+  ex:longitude 11.581981 ;
+  ex:source <https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor/osor-events> .
+
+<urn:uuid:4de779ea-363c-5764-b273-8a2ededee6c8> a ex:Location ;
+  ex:name "Athens, Greece" ;
+  ex:region "Greece" ;
+  ex:latitude 37.98381 ;
+  ex:longitude 23.727539 ;
+  ex:source <https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor/osor-events> .
+
+<urn:uuid:b95adfdf-ab89-54c8-bdc9-3810d9c80d5a> a ex:Location ;
+  ex:name "Dublin, Ireland" ;
+  ex:region "Ireland" ;
+  ex:latitude 53.349805 ;
+  ex:longitude -6.26031 ;
+  ex:source <https://interoperable-europe.ec.europa.eu/collection/semic-conference> .

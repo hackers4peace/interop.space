@@ -93,6 +93,9 @@ const STATIC_SEED_FILES = [
   'data/gaia-x/locations.ttl',
   'data/gaia-x/organizations.ttl',
   'data/gaia-x/events.ttl',
+  'data/semic/locations.ttl',
+  'data/semic/organizations.ttl',
+  'data/semic/events.ttl',
 ]
 
 const usage = `usage:

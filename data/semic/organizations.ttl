@@ -1,0 +1,32 @@
+# Interoperable Europe and its two sub-bodies.
+#
+# The SDO is the European Commission's Interoperable Europe initiative.
+# SEMIC and OSOR are its semantic-interoperability and open-source
+# sub-bodies.
+#
+# Sources: https://interoperable-europe.ec.europa.eu/
+#          https://interoperable-europe.ec.europa.eu/collection/semic-support-centre
+#          https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor
+# Snapshot: 2026-11-13.
+#
+# Seeded with `devbox run seed -- static` (see scripts/fuseki.ts).
+
+@prefix ex: <http://example.org#> .
+
+<https://interoperable-europe.ec.europa.eu/> a ex:Organization ;
+  ex:name "Interoperable Europe" ;
+  ex:homepage <https://interoperable-europe.ec.europa.eu/> ;
+  ex:logo "/logos/interoperable-europe.svg" ;
+  ex:source <https://interoperable-europe.ec.europa.eu/> .
+
+<https://interoperable-europe.ec.europa.eu/collection/semic-support-centre> a ex:Organization ;
+  ex:name "SEMIC Support Centre" ;
+  ex:homepage <https://interoperable-europe.ec.europa.eu/collection/semic-support-centre> ;
+  ex:parent <https://interoperable-europe.ec.europa.eu/> ;
+  ex:source <https://interoperable-europe.ec.europa.eu/collection/semic-support-centre> .
+
+<https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor> a ex:Organization ;
+  ex:name "Open Source Observatory (OSOR)" ;
+  ex:homepage <https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor> ;
+  ex:parent <https://interoperable-europe.ec.europa.eu/> ;
+  ex:source <https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor> .

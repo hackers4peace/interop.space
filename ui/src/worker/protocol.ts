@@ -116,6 +116,11 @@ export type Event = {
   endDate?: string // ex:endDate, xsd:dateTime in UTC
   location?: string // ex:location
   atLocation?: string // ex:atLocation, the ex:Location URI
+  organizer?: {
+    uri: string // ex:organizer target
+    id: string // short display/URL form, matching /orgs/:id
+    name: string // ex:name of the organizer
+  }
   source?: string // ex:source, the event's own page
   sdo?: string // ex:sdo, URL of the standards body that runs the event
 }

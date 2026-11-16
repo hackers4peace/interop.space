@@ -243,10 +243,14 @@ const LISTING_BODY: Record<ListingKind, string> = {
   locations: `?id a ex:Location ; ex:name ?name .`,
 }
 
-// Events read chronologically; every other directory is alphabetical.
+// Events read newest first; every other directory is alphabetical.
 const LISTING_SORT_KEY: Partial<Record<ListingKind, string>> = {
   events: 'COALESCE(STR(?startDate), "")',
 }
+
+// Only events reverse the usual ascending order. The URI tie-breaker stays
+// ascending in both directions, so keyset pagination remains deterministic.
+const LISTING_DESCENDING = new Set<ListingKind>(['events'])
 
 // Only specs, groups, use cases, events and locations belong to an SDO.
 // People, projects, organizations and software are SDO-independent.
@@ -274,9 +278,10 @@ const searchFilter = (query: string) => {
   return `FILTER (CONTAINS(LCASE(STR(?name)), LCASE(${lit(normalized)})))`
 }
 
-const cursorFilter = (cursor: ListingCursor | null) => {
+const cursorFilter = (cursor: ListingCursor | null, kind: ListingKind) => {
   if (!cursor) return ''
-  return `FILTER (?sortKey > ${lit(cursor.key)}
+  const comparison = LISTING_DESCENDING.has(kind) ? '<' : '>'
+  return `FILTER (?sortKey ${comparison} ${lit(cursor.key)}
     || (?sortKey = ${lit(cursor.key)} && STR(?id) > ${lit(cursor.uri)}))`
 }
 
@@ -295,9 +300,9 @@ SELECT ?id ?sortKey WHERE {
       ${searchFilter(query)}
     }
   }
-  ${cursorFilter(cursor)}
+  ${cursorFilter(cursor, kind)}
 }
-ORDER BY ?sortKey STR(?id)
+ORDER BY ${LISTING_DESCENDING.has(kind) ? 'DESC(?sortKey)' : '?sortKey'} STR(?id)
 LIMIT ${limit}`
 
 const countQuery = (kind: ListingKind, query: string, sdo?: string) => `${PREFIXES}
@@ -985,13 +990,18 @@ async function eventsByUris(uris: string[]): Promise<Map<string, Event>> {
   const events = new Map<string, Event>()
   if (!uris.length) return events
   const rows = await queryBindings(`${PREFIXES}
-    SELECT ?event ?name ?startDate ?endDate ?location ?atLocation ?source ?sdo WHERE {
+    SELECT ?event ?name ?startDate ?endDate ?location ?atLocation
+           ?organizer ?organizerName ?source ?sdo WHERE {
       VALUES ?event { ${uris.map(iri).join(' ')} }
       ?event a ex:Event ; ex:name ?name .
       OPTIONAL { ?event ex:startDate ?startDate }
       OPTIONAL { ?event ex:endDate ?endDate }
       OPTIONAL { ?event ex:location ?location }
       OPTIONAL { ?event ex:atLocation ?atLocation }
+      OPTIONAL {
+        ?event ex:organizer ?organizer .
+        OPTIONAL { ?organizer ex:name ?organizerName }
+      }
       OPTIONAL { ?event ex:source ?source }
       OPTIONAL { ?event ex:sdo ?sdo }
     }`)
@@ -999,6 +1009,7 @@ async function eventsByUris(uris: string[]): Promise<Map<string, Event>> {
     const uri = value(b, 'event')
     const name = value(b, 'name')
     if (!uri || !name) continue
+    const organizerUri = value(b, 'organizer')
     events.set(uri, {
       id: short(uri),
       uri,
@@ -1007,6 +1018,13 @@ async function eventsByUris(uris: string[]): Promise<Map<string, Event>> {
       endDate: value(b, 'endDate'),
       location: value(b, 'location'),
       atLocation: value(b, 'atLocation'),
+      organizer: organizerUri
+        ? {
+            uri: organizerUri,
+            id: short(organizerUri),
+            name: value(b, 'organizerName') ?? short(organizerUri),
+          }
+        : undefined,
       source: value(b, 'source'),
       sdo: value(b, 'sdo'),
     })
