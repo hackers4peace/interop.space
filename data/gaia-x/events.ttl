@@ -1,0 +1,31 @@
+# Gaia-X events from the public events calendar.
+#
+# Source: https://gaia-x.eu/events/
+# iCal feed: https://gaia-x.eu/events-cal/?ical=1
+# Snapshot: 2026-11-13. The feed contained 2 upcoming events.
+# Times are converted from Europe/Brussels to UTC. The event pages give the
+# city; the calendar does not publish a street venue, so ex:location is
+# city-level and ex:atLocation points at the matching Gaia-X member location.
+#
+# Seeded with `devbox run seed -- static` (see scripts/fuseki.ts).
+
+@prefix ex: <http://example.org#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<urn:uuid:161fe7fa-50c4-5885-bad4-9d880ec447f3> a ex:Event ;
+  ex:sdo <https://gaia-x.eu/> ;
+  ex:name "Gaia‑X Summit 2026" ;
+  ex:startDate "2026-11-19T07:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2026-11-20T16:00:00Z"^^xsd:dateTime ;
+  ex:location "Vienna, Austria" ;
+  ex:atLocation <urn:uuid:40ace824-52ab-5a9a-80c7-f393355318ca> ;
+  ex:source <https://gaia-x.eu/summit-2026/> .
+
+<urn:uuid:dc762aa8-b389-52a7-9d89-950d4b285c05> a ex:Event ;
+  ex:sdo <https://gaia-x.eu/> ;
+  ex:name "The Data Summit Luxembourg" ;
+  ex:startDate "2026-12-02T07:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2026-12-02T16:00:00Z"^^xsd:dateTime ;
+  ex:location "Luxembourg City, Luxembourg" ;
+  ex:atLocation <urn:uuid:57733b50-fe8d-51a8-9afd-3763721f8398> ;
+  ex:source <https://gaia-x.eu/event/the-data-summit-luxembourg/> .

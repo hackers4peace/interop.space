@@ -1,0 +1,1032 @@
+# Gaia-X member locations, keyed by city and country.
+#
+# Source: https://gaia-x.eu/community/members-directory/#/members-directory
+# Public API used by the directory map: https://membersplatform.gaia-x.eu/api/public/hs_categories/map
+# Snapshot: 2026-11-13. Coordinates are the first listed member coordinates
+# for that city. The location is city-level, not a venue or street address.
+#
+# Seeded with `devbox run seed -- static` (see scripts/fuseki.ts).
+
+@prefix ex: <http://example.org#> .
+
+<urn:uuid:69c1a525-32e1-549c-a79d-84b77461210b> a ex:Location ;
+  ex:name "Salzburg, Austria" ;
+  ex:region "Austria" ;
+  ex:latitude 47.805235 ;
+  ex:longitude 13.038139 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:40ace824-52ab-5a9a-80c7-f393355318ca> a ex:Location ;
+  ex:name "Vienna, Austria" ;
+  ex:region "Austria" ;
+  ex:latitude 48.209173 ;
+  ex:longitude 16.41513 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:e1452ef3-14a0-5884-8cbb-ded2085665e7> a ex:Location ;
+  ex:name "Antwerpen, Belgium" ;
+  ex:region "Belgium" ;
+  ex:latitude 51.203774 ;
+  ex:longitude 4.411357 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:ef839dc8-6540-5ae2-a30a-964ef9e70b1c> a ex:Location ;
+  ex:name "Brussels, Belgium" ;
+  ex:region "Belgium" ;
+  ex:latitude 50.842666 ;
+  ex:longitude 4.351527 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:79995437-dbcd-53f0-a3be-802c6aab71b4> a ex:Location ;
+  ex:name "Leuven, Belgium" ;
+  ex:region "Belgium" ;
+  ex:latitude 50.861303 ;
+  ex:longitude 4.680674 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:7a6268f2-6e7c-5e64-8832-36eb54b19017> a ex:Location ;
+  ex:name "Merelbeke, Belgium" ;
+  ex:region "Belgium" ;
+  ex:latitude 50.983791 ;
+  ex:longitude 3.742646 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:162eb257-87d4-55f6-b420-ac86af94624b> a ex:Location ;
+  ex:name "Waterloo, Belgium" ;
+  ex:region "Belgium" ;
+  ex:latitude 50.700766 ;
+  ex:longitude 4.402217 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:a34ed5b9-11a4-5ee6-96a2-ada508f76650> a ex:Location ;
+  ex:name "Zaventem, Belgium" ;
+  ex:region "Belgium" ;
+  ex:latitude 50.879548 ;
+  ex:longitude 4.482688 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:e356db66-ee23-5f70-ab40-9f9cbdee5ac3> a ex:Location ;
+  ex:name "São Paulo, Brazil" ;
+  ex:region "Brazil" ;
+  ex:latitude -23.561031 ;
+  ex:longitude -46.658304 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:5e6b788e-1dae-5304-81e0-23ff194573a8> a ex:Location ;
+  ex:name "Sofia, Bulgaria" ;
+  ex:region "Bulgaria" ;
+  ex:latitude 42.649031 ;
+  ex:longitude 23.383229 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:ef263ac8-ac54-5c41-93d6-743979c09ad2> a ex:Location ;
+  ex:name "Gatineau, Canada" ;
+  ex:region "Canada" ;
+  ex:latitude 45.421267 ;
+  ex:longitude -75.739096 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:ff39ebc8-5bad-5c23-8eaa-dc70f4fb9f90> a ex:Location ;
+  ex:name "Grandy Cayman KY1-1111, Cayman Islands" ;
+  ex:region "Cayman Islands" ;
+  ex:latitude 19.322263 ;
+  ex:longitude -81.240795 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:3847c582-1990-5c02-b8ba-0fb654992f4b> a ex:Location ;
+  ex:name "Beijing, China" ;
+  ex:region "China" ;
+  ex:latitude 39.991234 ;
+  ex:longitude 116.353454 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:0eefb07a-2ccc-5942-bdbb-c16dd6aa6823> a ex:Location ;
+  ex:name "Macau, China" ;
+  ex:region "China" ;
+  ex:latitude 22.175815 ;
+  ex:longitude 113.551333 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:aafdbadf-a76a-5bd2-a13c-cd1220526667> a ex:Location ;
+  ex:name "Qingdao, China" ;
+  ex:region "China" ;
+  ex:latitude 36.108705 ;
+  ex:longitude 120.457228 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:b692e8f8-197d-5104-a493-c559aaf4cd3f> a ex:Location ;
+  ex:name "Shenzhen, China" ;
+  ex:region "China" ;
+  ex:latitude 22.541083 ;
+  ex:longitude 114.058721 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:508b248b-bb20-5863-ac00-5fe4944ce2f4> a ex:Location ;
+  ex:name "Willemstad, Curaçao" ;
+  ex:region "Curaçao" ;
+  ex:latitude 12.103907 ;
+  ex:longitude -68.932347 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:af955619-761c-5d11-86f0-de04094bfe73> a ex:Location ;
+  ex:name "Prague, Czechia" ;
+  ex:region "Czechia" ;
+  ex:latitude 50.11277 ;
+  ex:longitude 14.3774 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:34e6539a-bae7-5642-993e-b1a0cf3d11c7> a ex:Location ;
+  ex:name "Copenhagen, Denmark" ;
+  ex:region "Denmark" ;
+  ex:latitude 55.683157 ;
+  ex:longitude 12.585653 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:718c345b-72ff-5b64-bac6-41e267ec300e> a ex:Location ;
+  ex:name "Hellerup, Denmark" ;
+  ex:region "Denmark" ;
+  ex:latitude 55.739723 ;
+  ex:longitude 12.576818 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:0ad17d58-e055-590d-a3cd-096ff090296c> a ex:Location ;
+  ex:name "Tallinn, Estonia" ;
+  ex:region "Estonia" ;
+  ex:latitude 59.439216 ;
+  ex:longitude 24.762666 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:42171880-b5ab-5db3-9fed-0578a73ef486> a ex:Location ;
+  ex:name "Helsinki, Finland" ;
+  ex:region "Finland" ;
+  ex:latitude 60.169763 ;
+  ex:longitude 24.938404 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:9444eda3-740a-5978-a0d9-f4b89ccf026e> a ex:Location ;
+  ex:name "Kauniainen, Finland" ;
+  ex:region "Finland" ;
+  ex:latitude 60.215252 ;
+  ex:longitude 24.718762 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:2b138285-f4b2-57b0-8d13-00ca2b1f280d> a ex:Location ;
+  ex:name "Annecy le vieux, France" ;
+  ex:region "France" ;
+  ex:latitude 45.919139 ;
+  ex:longitude 6.141969 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:70dda5dc-4598-56e9-9522-a0fa7bc30cb0> a ex:Location ;
+  ex:name "Antony, France" ;
+  ex:region "France" ;
+  ex:latitude 48.751487 ;
+  ex:longitude 2.296625 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:ebe1a65a-8585-575a-9623-bf0fa6d5b154> a ex:Location ;
+  ex:name "Bezons, France" ;
+  ex:region "France" ;
+  ex:latitude 48.926923 ;
+  ex:longitude 2.212543 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:86b0b847-b965-5aff-a9a4-59732af8c921> a ex:Location ;
+  ex:name "Blagnac, France" ;
+  ex:region "France" ;
+  ex:latitude 43.635152 ;
+  ex:longitude 1.397126 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:51cdcb0b-80d4-531a-9809-1e68fae02de1> a ex:Location ;
+  ex:name "Issy Les Moulineaux, France" ;
+  ex:region "France" ;
+  ex:latitude 48.822626 ;
+  ex:longitude 2.268021 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:65a90efc-b28d-5097-bf50-75ebbb938c12> a ex:Location ;
+  ex:name "Lyon, France" ;
+  ex:region "France" ;
+  ex:latitude 45.771233 ;
+  ex:longitude 4.828028 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:e0dc5745-cd9c-575a-b634-9e9518113ab9> a ex:Location ;
+  ex:name "Montrouge, France" ;
+  ex:region "France" ;
+  ex:latitude 48.815676 ;
+  ex:longitude 2.316093 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:29760b6b-75d2-5dd0-a32d-ae129ceac56e> a ex:Location ;
+  ex:name "Mulhouse, France" ;
+  ex:region "France" ;
+  ex:latitude 47.741348 ;
+  ex:longitude 7.345711 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:c6b11079-7877-5f48-bf3d-3471229ec12c> a ex:Location ;
+  ex:name "Nantes, France" ;
+  ex:region "France" ;
+  ex:latitude 47.218058 ;
+  ex:longitude -1.552971 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:55f14f2f-a43c-5cac-91a8-8bd31c3c8af8> a ex:Location ;
+  ex:name "Neuilly-sur-Seine, France" ;
+  ex:region "France" ;
+  ex:latitude 48.88546 ;
+  ex:longitude 2.26536 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:41299a44-db3a-5569-adb3-ebdc918729d2> a ex:Location ;
+  ex:name "Palaiseau, France" ;
+  ex:region "France" ;
+  ex:latitude 48.712662 ;
+  ex:longitude 2.226517 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:b13b6efa-4065-5816-9676-0fa74fad0438> a ex:Location ;
+  ex:name "Paris, France" ;
+  ex:region "France" ;
+  ex:latitude 48.871833 ;
+  ex:longitude 2.317706 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:8d0cf78f-87eb-520a-a5a8-c43cd1bb7670> a ex:Location ;
+  ex:name "PARIS, France" ;
+  ex:region "France" ;
+  ex:latitude 48.860051 ;
+  ex:longitude 2.406681 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:77a242e5-fdc2-5686-a50f-a6ad66f5611e> a ex:Location ;
+  ex:name "Pornichet, France" ;
+  ex:region "France" ;
+  ex:latitude 47.263498 ;
+  ex:longitude -2.340613 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:eb84e3a6-f769-5884-b263-5aeec4c9b1a6> a ex:Location ;
+  ex:name "Puteaux, France" ;
+  ex:region "France" ;
+  ex:latitude 48.884807 ;
+  ex:longitude 2.239614 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:357ac439-cc18-5f0a-bd8e-bc1e06899ee7> a ex:Location ;
+  ex:name "Roubaix, France" ;
+  ex:region "France" ;
+  ex:latitude 50.692986 ;
+  ex:longitude 3.184505 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:0a7f2d7b-1f9e-5a4a-85ce-446719e9696f> a ex:Location ;
+  ex:name "SAINT MARTIN DU BOSCHET, France" ;
+  ex:region "France" ;
+  ex:latitude 48.735695 ;
+  ex:longitude 3.427942 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:bfc423ed-b210-54de-9bec-a53ebd9e0bf6> a ex:Location ;
+  ex:name "Saint-Cloud, France" ;
+  ex:region "France" ;
+  ex:latitude 48.847735 ;
+  ex:longitude 2.208029 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:f9edc861-3d57-5936-b97c-3e8ab335f526> a ex:Location ;
+  ex:name "Toulouse, France" ;
+  ex:region "France" ;
+  ex:latitude 43.604878 ;
+  ex:longitude 1.442936 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:18505775-c9a3-5398-b56f-6740a0c82b3f> a ex:Location ;
+  ex:name "Velizy villacoublay, France" ;
+  ex:region "France" ;
+  ex:latitude 48.783599 ;
+  ex:longitude 2.198578 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:8c2a36ed-f9b5-5b3a-bfe6-4d8bae96ea3c> a ex:Location ;
+  ex:name "Aarbergen, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 50.248139 ;
+  ex:longitude 8.08151 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:25740652-7bf9-5362-abb8-a09ded37de9b> a ex:Location ;
+  ex:name "Altenholz, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 54.394394 ;
+  ex:longitude 10.115536 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:d435ade0-b26d-5c54-96a5-265ae88ef87e> a ex:Location ;
+  ex:name "Bad Friedrichshall, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 49.23701 ;
+  ex:longitude 9.210115 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:305bf491-b462-50ec-88b5-cd16720fc973> a ex:Location ;
+  ex:name "Berlin, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 52.523207 ;
+  ex:longitude 13.365271 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:5dcbcd2e-740c-5309-b93e-2f70d4a16767> a ex:Location ;
+  ex:name "Bonn, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 50.694975 ;
+  ex:longitude 7.138737 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:7a488159-fabe-53c6-af43-a6fce4a37a88> a ex:Location ;
+  ex:name "Bremen, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 53.091509 ;
+  ex:longitude 8.790944 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:cea2a0b5-9c9b-5551-aeb5-6d0564fa168f> a ex:Location ;
+  ex:name "Cologne, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 50.949764 ;
+  ex:longitude 6.943525 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:81a35846-9211-5571-9ff6-784f3697ea93> a ex:Location ;
+  ex:name "Darmstadt, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 49.877641 ;
+  ex:longitude 8.628574 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:2b43e388-6efd-5b56-b782-6c91c669f4bb> a ex:Location ;
+  ex:name "Dortmund, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 51.464663 ;
+  ex:longitude 7.419888 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:92c0334e-aa9a-5897-93b8-012a4c273937> a ex:Location ;
+  ex:name "Düsseldorf, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 51.233122 ;
+  ex:longitude 6.719116 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:f60ccb0a-d05b-5494-a382-6ceeb72010ae> a ex:Location ;
+  ex:name "Frankfurt am Main, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 50.110894 ;
+  ex:longitude 8.68216 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:166697c4-fb67-5bcb-aa9c-252860f326f1> a ex:Location ;
+  ex:name "Freiburg, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 47.96852 ;
+  ex:longitude 7.851885 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:336bfc79-1af4-5d95-9d05-b3ec640a7189> a ex:Location ;
+  ex:name "Geisenheim, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 50.024787 ;
+  ex:longitude 7.94539 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:645cfa17-051f-5167-8801-25b1953f47d2> a ex:Location ;
+  ex:name "Göttingen, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 51.566588 ;
+  ex:longitude 9.963455 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:2c840a5b-cac8-57b6-8824-1c39074ebf56> a ex:Location ;
+  ex:name "Hallbergmoos, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 48.309539 ;
+  ex:longitude 11.739142 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:8107cb82-7d44-52f9-b803-4a87c3729f67> a ex:Location ;
+  ex:name "Hamburg, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 53.531603 ;
+  ex:longitude 9.985191 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:74619303-f71b-5018-a6c2-789554c27548> a ex:Location ;
+  ex:name "Kaiserslautern, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 49.417929 ;
+  ex:longitude 7.801041 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:9e6a38c7-d2c2-5f2d-a74b-d9e3017654d7> a ex:Location ;
+  ex:name "Ludwigshafen, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 49.478781 ;
+  ex:longitude 8.42574 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:3a37bf3d-05f6-54d5-887d-8600c3c30599> a ex:Location ;
+  ex:name "Magdeburg, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 52.11315 ;
+  ex:longitude 11.608147 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:62786316-190e-51cd-b74c-6875860cfee0> a ex:Location ;
+  ex:name "Munich, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 48.144039 ;
+  ex:longitude 11.56949 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:4cd3507e-7679-51d5-a75d-12d2be39614c> a ex:Location ;
+  ex:name "Nuremberg, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 49.490436 ;
+  ex:longitude 11.098646 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:c7229167-1168-57d8-a467-19f3717fb60c> a ex:Location ;
+  ex:name "Nürnberg, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 49.449192 ;
+  ex:longitude 11.087359 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:09152306-36e9-5dc4-8e97-e556c078003d> a ex:Location ;
+  ex:name "Passau, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 48.588232 ;
+  ex:longitude 13.48338 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:4e33f044-316e-5d7e-a622-14139cfa2174> a ex:Location ;
+  ex:name "Stuttgart, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 48.775813 ;
+  ex:longitude 9.182979 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:94446a16-f91d-5566-a8b0-de1d1f6dfb50> a ex:Location ;
+  ex:name "Verl, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 51.86087 ;
+  ex:longitude 8.529044 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:dc83474c-b211-527f-aa32-6157d138e7cd> a ex:Location ;
+  ex:name "Walldorf, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 49.29678 ;
+  ex:longitude 8.638846 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:724dce64-af6d-52a6-8971-9388aca3ab37> a ex:Location ;
+  ex:name "Wolfsburg, Germany" ;
+  ex:region "Germany" ;
+  ex:latitude 52.420737 ;
+  ex:longitude 10.770063 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:e002df67-f199-5e4f-95d0-c940cedcfb4a> a ex:Location ;
+  ex:name "Athens, Greece" ;
+  ex:region "Greece" ;
+  ex:latitude 37.983772 ;
+  ex:longitude 23.727453 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:afa2e550-3ca6-55d8-906b-122787b3a1ff> a ex:Location ;
+  ex:name "Patras, Greece" ;
+  ex:region "Greece" ;
+  ex:latitude 38.245922 ;
+  ex:longitude 21.735738 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:bc69c6fd-57c0-5dd3-9ee4-b6901143c553> a ex:Location ;
+  ex:name "Budapest, Hungary" ;
+  ex:region "Hungary" ;
+  ex:latitude 47.479393 ;
+  ex:longitude 19.054412 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:b5f1d0ce-df55-5957-8658-b28b1e46775e> a ex:Location ;
+  ex:name "Dublin, Ireland" ;
+  ex:region "Ireland" ;
+  ex:latitude 53.349882 ;
+  ex:longitude -6.260289 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:fd72ee43-bb0f-5c21-a30a-4346aa33619b> a ex:Location ;
+  ex:name "Bologna, Italy" ;
+  ex:region "Italy" ;
+  ex:latitude 44.521515 ;
+  ex:longitude 11.339421 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:9d2256a8-91f8-59a2-a53b-2a063dbf31a0> a ex:Location ;
+  ex:name "Cuneo, Italy" ;
+  ex:region "Italy" ;
+  ex:latitude 44.384565 ;
+  ex:longitude 7.5426 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:c7231035-c401-5c65-a7fb-19f7d235b415> a ex:Location ;
+  ex:name "Florence, Italy" ;
+  ex:region "Italy" ;
+  ex:latitude 43.808807 ;
+  ex:longitude 11.2693 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:5a8022fb-bbcb-5e38-9aaf-49768278a194> a ex:Location ;
+  ex:name "Genova, Italy" ;
+  ex:region "Italy" ;
+  ex:latitude 44.405472 ;
+  ex:longitude 8.94254 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:d1f90880-66ed-5e19-adb5-f782272f566b> a ex:Location ;
+  ex:name "Milano, Italy" ;
+  ex:region "Italy" ;
+  ex:latitude 45.454647 ;
+  ex:longitude 9.142719 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:97fa116f-e861-533b-9d12-7d08a87d6306> a ex:Location ;
+  ex:name "Naples, Italy" ;
+  ex:region "Italy" ;
+  ex:latitude 40.853884 ;
+  ex:longitude 14.321004 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:1984a2a6-62e8-574b-8c23-1f97cb5e4e1f> a ex:Location ;
+  ex:name "Ponte San Pietro, Italy" ;
+  ex:region "Italy" ;
+  ex:latitude 45.699462 ;
+  ex:longitude 9.581006 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:02de166c-ef72-59a3-a996-3fc295d519be> a ex:Location ;
+  ex:name "Porcia, Italy" ;
+  ex:region "Italy" ;
+  ex:latitude 45.960325 ;
+  ex:longitude 12.613762 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:f62393cc-2022-5981-9dbc-ab071fc91fc9> a ex:Location ;
+  ex:name "Rome, Italy" ;
+  ex:region "Italy" ;
+  ex:latitude 41.911682 ;
+  ex:longitude 12.515418 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:6274c1ec-a4f0-5782-b9a2-b3aaa10314fc> a ex:Location ;
+  ex:name "Torino, Italy" ;
+  ex:region "Italy" ;
+  ex:latitude 45.040551 ;
+  ex:longitude 7.654199 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:99187c6d-3f3d-5271-9c40-3f6ee4bb8ff4> a ex:Location ;
+  ex:name "Trieste, Italy" ;
+  ex:region "Italy" ;
+  ex:latitude 45.694682 ;
+  ex:longitude 13.779509 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:cd1e33b0-2587-563e-8246-a64b9905e773> a ex:Location ;
+  ex:name "Chiyoda-ku, Tokyo, Japan" ;
+  ex:region "Japan" ;
+  ex:latitude 35.68693 ;
+  ex:longitude 139.767053 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:daefdb45-45f6-5c82-93d8-bc0bc4aa070d> a ex:Location ;
+  ex:name "Minato-ku, Tokyo, Japan" ;
+  ex:region "Japan" ;
+  ex:latitude 35.647942 ;
+  ex:longitude 139.748608 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:1a82e1f9-bc0b-546b-bd47-2cdf27265954> a ex:Location ;
+  ex:name "Tokyo, Japan" ;
+  ex:region "Japan" ;
+  ex:latitude 35.657147 ;
+  ex:longitude 139.748622 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:b6b5b8cd-f0da-5d75-a53f-06e8333e4145> a ex:Location ;
+  ex:name "Bissen, Luxembourg" ;
+  ex:region "Luxembourg" ;
+  ex:latitude 49.790124 ;
+  ex:longitude 6.085629 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:c89fe937-e052-5642-9747-e5e795207fe6> a ex:Location ;
+  ex:name "Contern, Luxembourg" ;
+  ex:region "Luxembourg" ;
+  ex:latitude 49.595456 ;
+  ex:longitude 6.221294 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:8f8e17d3-34a3-50c5-bd81-41b3b206617f> a ex:Location ;
+  ex:name "Esch-sur-Alzette, Luxembourg" ;
+  ex:region "Luxembourg" ;
+  ex:latitude 49.501302 ;
+  ex:longitude 5.94997 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:425d732a-3f4b-526b-8599-2fed7a388046> a ex:Location ;
+  ex:name "Leudelange, Luxembourg" ;
+  ex:region "Luxembourg" ;
+  ex:latitude 49.569106 ;
+  ex:longitude 6.07771 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:57733b50-fe8d-51a8-9afd-3763721f8398> a ex:Location ;
+  ex:name "Luxembourg City, Luxembourg" ;
+  ex:region "Luxembourg" ;
+  ex:latitude 49.623365 ;
+  ex:longitude 6.147326 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:c35c64a9-b5d5-552d-8e51-51f95827ddb5> a ex:Location ;
+  ex:name "Il-Kalkara, Malta" ;
+  ex:region "Malta" ;
+  ex:latitude 35.888968 ;
+  ex:longitude 14.530987 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:58b55933-2238-5433-8e5b-68117feee572> a ex:Location ;
+  ex:name "Amsterdam, Netherlands" ;
+  ex:region "Netherlands" ;
+  ex:latitude 52.363151 ;
+  ex:longitude 4.892131 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:19c13873-3ce8-5b31-9c9d-c11a6bc0248b> a ex:Location ;
+  ex:name "Eindhoven, Netherlands" ;
+  ex:region "Netherlands" ;
+  ex:latitude 51.458739 ;
+  ex:longitude 5.402728 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:359e45d6-b32d-51a3-bb9e-c55deff84ed4> a ex:Location ;
+  ex:name "Hoofddorp, Netherlands" ;
+  ex:region "Netherlands" ;
+  ex:latitude 52.29139 ;
+  ex:longitude 4.708465 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:43115abf-9fab-5ca8-b1fd-fe0254bb2789> a ex:Location ;
+  ex:name "Houten, Netherlands" ;
+  ex:region "Netherlands" ;
+  ex:latitude 52.029214 ;
+  ex:longitude 5.175733 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:2333ec44-5659-5a15-8767-9cd60f792a71> a ex:Location ;
+  ex:name "Rotterdam, Netherlands" ;
+  ex:region "Netherlands" ;
+  ex:latitude 51.942527 ;
+  ex:longitude 4.480317 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:3ed2515f-0261-58ac-9294-29cd3bca7a99> a ex:Location ;
+  ex:name "Soesterberg, Netherlands" ;
+  ex:region "Netherlands" ;
+  ex:latitude 52.115607 ;
+  ex:longitude 5.2902 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:e65c2b70-c3e6-5350-a285-ffca019c053c> a ex:Location ;
+  ex:name "Utrecht, Netherlands" ;
+  ex:region "Netherlands" ;
+  ex:latitude 52.091988 ;
+  ex:longitude 5.12303 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:9b05ce0d-a685-5bc5-9881-eecb5b77f30e> a ex:Location ;
+  ex:name "Halden, Norway" ;
+  ex:region "Norway" ;
+  ex:latitude 59.128724 ;
+  ex:longitude 11.348744 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:0a6a4fb5-83cb-5092-acc3-fa084b6130d4> a ex:Location ;
+  ex:name "Karachi, Pakistan" ;
+  ex:region "Pakistan" ;
+  ex:latitude 24.919132 ;
+  ex:longitude 67.091641 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:ce83c7dd-a01c-52d4-81d4-b16ba83c0440> a ex:Location ;
+  ex:name "Poznan, Poland" ;
+  ex:region "Poland" ;
+  ex:latitude 52.400885 ;
+  ex:longitude 16.950571 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:a3e2e56f-db96-5bd1-b49c-73e8df893ad8> a ex:Location ;
+  ex:name "Warsaw, Poland" ;
+  ex:region "Poland" ;
+  ex:latitude 52.217101 ;
+  ex:longitude 20.962126 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:53d69422-5ed7-5750-819e-596ed8ca195c> a ex:Location ;
+  ex:name "Aveiro, Portugal" ;
+  ex:region "Portugal" ;
+  ex:latitude 40.640507 ;
+  ex:longitude -8.653802 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:7b8f1ab1-85de-5619-8722-4ce2d21a84c0> a ex:Location ;
+  ex:name "Bragança, Portugal" ;
+  ex:region "Portugal" ;
+  ex:latitude 41.795844 ;
+  ex:longitude -6.766279 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:1a833bff-4b83-5f19-8a82-2b61e50f64ab> a ex:Location ;
+  ex:name "Lisbon, Portugal" ;
+  ex:region "Portugal" ;
+  ex:latitude 38.722257 ;
+  ex:longitude -9.139362 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:835d5676-c314-5d4e-bc0c-b4a76feff510> a ex:Location ;
+  ex:name "Porto, Portugal" ;
+  ex:region "Portugal" ;
+  ex:latitude 41.178585 ;
+  ex:longitude -8.599016 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:fc10c9f9-973e-5f0d-af69-249fbf27a2ee> a ex:Location ;
+  ex:name "Viana do Castelo, Portugal" ;
+  ex:region "Portugal" ;
+  ex:latitude 41.692755 ;
+  ex:longitude -8.848402 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:c4ce549f-94f8-5f89-852b-a078ed4ce58e> a ex:Location ;
+  ex:name "Belgrade, Serbia" ;
+  ex:region "Serbia" ;
+  ex:latitude 44.793045 ;
+  ex:longitude 20.539875 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:5f8136b1-8d6b-56f6-8db4-bc21ff33b6ce> a ex:Location ;
+  ex:name "Bratislava – Staré Mesto, Slovakia" ;
+  ex:region "Slovakia" ;
+  ex:latitude 48.142689 ;
+  ex:longitude 17.123156 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:88581689-e817-5508-9854-eaf6ebd4b0f5> a ex:Location ;
+  ex:name "Ljubljana, Slovenia" ;
+  ex:region "Slovenia" ;
+  ex:latitude 46.036448 ;
+  ex:longitude 14.489698 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:b416dc07-abab-5acf-8b23-40cd1e01d7e9> a ex:Location ;
+  ex:name "Busan, South Korea" ;
+  ex:region "South Korea" ;
+  ex:latitude 35.138576 ;
+  ex:longitude 129.10397 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:09dc3896-c85a-5bee-b8d2-782f6f9e23bc> a ex:Location ;
+  ex:name "Seoul, South Korea" ;
+  ex:region "South Korea" ;
+  ex:latitude 37.482365 ;
+  ex:longitude 126.892395 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:70ae7e5e-ed37-5712-86d2-283cba3ade45> a ex:Location ;
+  ex:name "Ulsan, South Korea" ;
+  ex:region "South Korea" ;
+  ex:latitude 35.563862 ;
+  ex:longitude 129.321655 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:e350afaa-dd0b-5730-9d01-f31d63b957ac> a ex:Location ;
+  ex:name "Yuseong-gu, Daejeon, South Korea" ;
+  ex:region "South Korea" ;
+  ex:latitude 36.374021 ;
+  ex:longitude 127.316439 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:5bc8152d-0370-592f-95a0-8785764bcd51> a ex:Location ;
+  ex:name "A Coruna, Spain" ;
+  ex:region "Spain" ;
+  ex:latitude 43.370636 ;
+  ex:longitude -8.40325 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:7bd092e1-a9a3-5146-b4c4-68fb45abfea8> a ex:Location ;
+  ex:name "ALCOBENDAS (MADRID), Spain" ;
+  ex:region "Spain" ;
+  ex:latitude 40.531308 ;
+  ex:longitude -3.657172 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:fc99043e-1b2b-5b78-8ca4-1cbb097b0804> a ex:Location ;
+  ex:name "Barcelona, Spain" ;
+  ex:region "Spain" ;
+  ex:latitude 41.399989 ;
+  ex:longitude 2.148682 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:2602e8e5-59aa-5396-a16a-2943f9902848> a ex:Location ;
+  ex:name "Bilbao, Spain" ;
+  ex:region "Spain" ;
+  ex:latitude 43.259964 ;
+  ex:longitude -2.931912 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:e6a40b4f-ba4b-57a3-a228-eecca15d89b8> a ex:Location ;
+  ex:name "Cerdanyola del Valles, Spain" ;
+  ex:region "Spain" ;
+  ex:latitude 41.49004 ;
+  ex:longitude 2.138574 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:b4d85cef-127a-505a-a636-8c31dd8b1a6d> a ex:Location ;
+  ex:name "Cornellá del Terri, Spain" ;
+  ex:region "Spain" ;
+  ex:latitude 42.089211 ;
+  ex:longitude 2.816027 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:3597999d-80b0-5b82-8504-3aa0b78b6f36> a ex:Location ;
+  ex:name "Derio (Bizkaia), Spain" ;
+  ex:region "Spain" ;
+  ex:latitude 43.300101 ;
+  ex:longitude -2.884252 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:290e5875-1951-5522-9908-3cfdc5bc7d12> a ex:Location ;
+  ex:name "Eibar, Spain" ;
+  ex:region "Spain" ;
+  ex:latitude 43.183241 ;
+  ex:longitude -2.471639 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:e890dd17-e6e6-584a-8e4c-720cfb4012c4> a ex:Location ;
+  ex:name "Elche, Spain" ;
+  ex:region "Spain" ;
+  ex:latitude 38.291126 ;
+  ex:longitude -0.632283 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:a4f9c50f-e3d6-5565-b8ab-dbfdda860a91> a ex:Location ;
+  ex:name "Lleida, Spain" ;
+  ex:region "Spain" ;
+  ex:latitude 41.615881 ;
+  ex:longitude 0.609837 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:d193f9a5-07a9-53f4-9bf1-3e4109972295> a ex:Location ;
+  ex:name "Madrid, Spain" ;
+  ex:region "Spain" ;
+  ex:latitude 40.46184 ;
+  ex:longitude -3.685177 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:4cf2fa85-773a-5065-a8fc-7728e24e4354> a ex:Location ;
+  ex:name "Miranda de Ebro, Spain" ;
+  ex:region "Spain" ;
+  ex:latitude 42.693841 ;
+  ex:longitude -2.962479 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:1643a080-7945-56b7-ada2-20da86d38772> a ex:Location ;
+  ex:name "Mondragon, Spain" ;
+  ex:region "Spain" ;
+  ex:latitude 43.066039 ;
+  ex:longitude -2.486689 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:1d337bac-b322-58ac-bb3b-46ed62e8bfd0> a ex:Location ;
+  ex:name "Paterna (Valencia), Spain" ;
+  ex:region "Spain" ;
+  ex:latitude 39.503612 ;
+  ex:longitude -0.443075 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:4afa1440-8307-565d-8c6b-eadd17bd6f2e> a ex:Location ;
+  ex:name "San Sebastian, Spain" ;
+  ex:region "Spain" ;
+  ex:latitude 43.295296 ;
+  ex:longitude -1.985693 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:c94fefd2-e81b-5466-9c25-0116087d278f> a ex:Location ;
+  ex:name "Santa Cruz de Tenerife, Spain" ;
+  ex:region "Spain" ;
+  ex:latitude 28.485754 ;
+  ex:longitude -16.316302 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:e3b042d8-40d5-5459-ba43-0668b2f34a93> a ex:Location ;
+  ex:name "TALAVERA DE LA REINA, Spain" ;
+  ex:region "Spain" ;
+  ex:latitude 39.961738 ;
+  ex:longitude -4.825756 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:919a8bc4-7736-50b3-858d-88fc5186c49b> a ex:Location ;
+  ex:name "Valencia, Spain" ;
+  ex:region "Spain" ;
+  ex:latitude 39.470467 ;
+  ex:longitude -0.341812 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:0ea55b3d-aca5-5bc7-a87d-a30ba021c433> a ex:Location ;
+  ex:name "Zaragoza, Spain" ;
+  ex:region "Spain" ;
+  ex:latitude 41.67254 ;
+  ex:longitude -0.891441 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:be8c0fcf-a301-5e5f-b162-7b8377f7e112> a ex:Location ;
+  ex:name "Solna, Sweden" ;
+  ex:region "Sweden" ;
+  ex:latitude 59.368923 ;
+  ex:longitude 18.00843 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:4811071f-0525-5efe-a0cf-f8a2ad400b47> a ex:Location ;
+  ex:name "Le Grand-Saconnex, Switzerland" ;
+  ex:region "Switzerland" ;
+  ex:latitude 46.234834 ;
+  ex:longitude 6.12255 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:50eb47b5-d9ff-5573-b4f9-4a3f62ef7607> a ex:Location ;
+  ex:name "Zug, Switzerland" ;
+  ex:region "Switzerland" ;
+  ex:latitude 47.15587 ;
+  ex:longitude 8.531575 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:e6fd1ad4-ed55-562b-b6bc-ca11edb549f6> a ex:Location ;
+  ex:name "Zürich, Switzerland" ;
+  ex:region "Switzerland" ;
+  ex:latitude 47.376914 ;
+  ex:longitude 8.541756 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:3b654142-7142-5d17-9dd3-2fe7a416c454> a ex:Location ;
+  ex:name "Istanbul, Türkiye" ;
+  ex:region "Türkiye" ;
+  ex:latitude 40.981244 ;
+  ex:longitude 29.118755 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:d043141e-1789-5167-8590-980e61710bd2> a ex:Location ;
+  ex:name "Knutsford, United Kingdom" ;
+  ex:region "United Kingdom" ;
+  ex:latitude 53.298299 ;
+  ex:longitude -2.350311 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:353c1530-8296-5564-a930-5d925611b5ed> a ex:Location ;
+  ex:name "London, United Kingdom" ;
+  ex:region "United Kingdom" ;
+  ex:latitude 51.515202 ;
+  ex:longitude -0.080479 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:c821d46e-475e-5fd4-92f5-b1e4049ed813> a ex:Location ;
+  ex:name "Manchester, United Kingdom" ;
+  ex:region "United Kingdom" ;
+  ex:latitude 53.463114 ;
+  ex:longitude -2.238488 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:83381820-ec30-5747-b9f6-cc1c136ed5e3> a ex:Location ;
+  ex:name "London, United States" ;
+  ex:region "United States" ;
+  ex:latitude 38.794501 ;
+  ex:longitude -106.534867 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<urn:uuid:c8b96345-9899-595c-acd4-45e7da9f3e84> a ex:Location ;
+  ex:name "Daejeon, 대한민국" ;
+  ex:region "대한민국" ;
+  ex:latitude 36.357682 ;
+  ex:longitude 127.386805 ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .

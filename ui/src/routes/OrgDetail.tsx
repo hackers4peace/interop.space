@@ -1,6 +1,7 @@
 import type { Component } from 'solid-js'
 import { For, Match, Show, Switch, createEffect } from 'solid-js'
 import { A, useParams } from '@solidjs/router'
+import { MapPin } from 'lucide-solid'
 import { ContributorSection } from '../components/ContributorChips'
 import { FundingList } from '../components/FundingList'
 import { OrgLogo } from '../components/OrgLogo'
@@ -67,14 +68,24 @@ const OrgDetail: Component = () => {
                       </a>
                     )}
                   </Show>
+                  <Show when={data().org.location}>
+                    {(location) => (
+                      <p class="flex items-center gap-1.5 text-sm text-slate-600 dark:text-slate-400">
+                        <MapPin size={14} aria-hidden="true" />
+                        {location().name}
+                      </p>
+                    )}
+                  </Show>
                 </div>
               </div>
 
-              <ContributorSection
-                title="Affiliates"
-                people={data().org.affiliates}
-                empty="No affiliates are recorded in the catalog."
-              />
+              <Show when={data().org.affiliates.length > 0}>
+                <ContributorSection
+                  title="Affiliates"
+                  people={data().org.affiliates}
+                  empty="No affiliates are recorded in the catalog."
+                />
+              </Show>
 
               <Show when={data().org.funds.length > 0}>
                 <div class="space-y-3">
@@ -99,19 +110,11 @@ const OrgDetail: Component = () => {
                 </div>
               </Show>
 
-              <div class="space-y-3">
-                <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                  Proposed use cases
-                </h2>
-                <Show
-                  when={data().proposed.length > 0}
-                  fallback={
-                    <p class="text-slate-500 dark:text-slate-400">
-                      No use cases are recorded as proposed by this
-                      organization.
-                    </p>
-                  }
-                >
+              <Show when={data().proposed.length > 0}>
+                <div class="space-y-3">
+                  <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                    Proposed use cases
+                  </h2>
                   <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <For each={data().proposed}>
                       {(item) => (
@@ -128,8 +131,8 @@ const OrgDetail: Component = () => {
                       )}
                     </For>
                   </ul>
-                </Show>
-              </div>
+                </div>
+              </Show>
             </>
           )}
         </Match>

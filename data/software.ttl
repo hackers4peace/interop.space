@@ -1,8 +1,9 @@
 # Software records in DOAP (http://usefulinc.com/ns/doap#).
 #
 # The file is a set of batches, each with its own header comment. The first is
-# Early Linked Web Storage implementations; the last is NLnet-funded
-# ActivityPub work, whose grants live in data/nlnet.ttl.
+# Early Linked Web Storage implementations; a later one is NLnet-funded
+# ActivityPub work, whose grants live in data/nlnet.ttl; the last is data-space
+# software from a Gaia-X TechX26 talk.
 #
 # LWS batch — Source: the Touchstone conformance runs reported at
 # https://ebremer.com/lws/conformance (2026-10-19 / 2026-10-21), plus each
@@ -666,10 +667,43 @@
   doap:homepage <http://www.xwiki.org/xwiki/bin/view/Main/WebHome> ;
   doap:repository <https://github.com/xwiki-contrib/application-activitypub> .
 
+# Data spaces batch — software named in the Gaia-X TechX26 talk "An ODRL
+# Profile to join them all for Data Spaces" (2026-06-10).
+#
+# Source: https://www.youtube.com/watch?v=ysykboeFPs8
+# Slides: https://gaia-x.eu/wp-content/uploads/2026/06/2.4-An-ODRL-Profile-to-join-them-all-for-Data-Spaces.pdf
+#
+# EUNOMIA is the "Open Source tool that integrates this with data spaces" from
+# the future-work slide. ODRL4Humans is the arrow notation and policy-env.yaml
+# sidecar on the earlier slide. The ODRL4Humans repository URL is the one on
+# the slide; GitHub returned 404 for it on 2026-11-13, so the record carries
+# the source URL and no license or release claims.
+
+<urn:uuid:abac660e-7170-5d8d-b914-141703ba929f> a doap:Project ;
+  doap:name "EUNOMIA" ;
+  doap:shortdesc "Open-source framework for building data spaces: agent, authority, wallet and shared core" ;
+  doap:programming-language "Rust" ;
+  doap:programming-language "Go" ;
+  doap:license "GPL-3.0" ;
+  doap:homepage <https://eunomia.dit.upm.es/> ;
+  doap:documentation <https://eunomiaupm.github.io/eunomia-deployment> ;
+  doap:repository <https://github.com/EunomiaUPM/eunomia-deployment> ;
+  doap:implements
+    <https://w3c.github.io/odrl/profile-dataspaces/> ,
+    <https://www.w3.org/TR/odrl-model/> .
+
+<urn:uuid:5a5f6a14-a236-550c-b247-5fe5e273aeea> a doap:Project ;
+  doap:name "ODRL4Humans" ;
+  doap:shortdesc "Arrow notation and policy-env.yaml sidecar for writing ODRL policies" ;
+  doap:repository <https://github.com/EunomiaUPM/Odrl4Humans> ;
+  doap:implements <https://www.w3.org/TR/odrl-model/> .
+
 # Repository nodes, as in the sections above (one per repository, no blank
 # nodes). Five records point at a forge namespace because that is what the
 # NLnet page links as source code; those get no doap:GitRepository type.
 <https://gitlab.com/edent/activity-bot> a doap:GitRepository .
+<https://github.com/EunomiaUPM/Odrl4Humans> a doap:GitRepository .
+<https://github.com/EunomiaUPM/eunomia-deployment> a doap:GitRepository .
 <https://github.com/assemblee-virtuelle/activitypods> a doap:GitRepository .
 <https://github.com/bonfire-networks/bonfire-app> a doap:GitRepository .
 <https://code.podlibre.org/podlibre/castopod> a doap:GitRepository .

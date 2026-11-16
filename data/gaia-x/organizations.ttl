@@ -1,0 +1,2064 @@
+# Gaia-X organization and its member organizations.
+#
+# Source: https://gaia-x.eu/community/members-directory/#/members-directory
+# Public API used by the directory map: https://membersplatform.gaia-x.eu/api/public/hs_categories/map
+# Snapshot: 2026-11-13. 232 member organizations from 146 cities in 37 countries.
+#
+# Member subjects are the organization website host (www stripped), so the
+# same organization keeps its identifier when the directory is refreshed.
+# City-level locations live in locations.ttl; only members that publish a
+# city and country get an ex:location link.
+#
+# Seeded with `devbox run seed -- static` (see scripts/fuseki.ts).
+
+@prefix ex: <http://example.org#> .
+
+<https://gaia-x.eu/> a ex:Organization ;
+  ex:name "Gaia-X" ;
+  ex:homepage <https://gaia-x.eu/> ;
+  ex:logo "/logos/gaia-x.svg" ;
+  ex:location <urn:uuid:ef839dc8-6540-5ae2-a30a-964ef9e70b1c> ;
+  ex:source <https://gaia-x.eu/> , <https://gaia-x.eu/imprint/> .
+
+<https://a1.group/> a ex:Organization ;
+  ex:name "A1 Digital" ;
+  ex:homepage <https://a1.group/de/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/a1.group.png?v=1794586055> ;
+  ex:location <urn:uuid:40ace824-52ab-5a9a-80c7-f393355318ca> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://ait.ac.at/> a ex:Organization ;
+  ex:name "AIT Austrian Institute of Technology / Gaia-X Hub Austria" ;
+  ex:homepage <https://www.ait.ac.at> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/ait.ac.at.png?v=1794586068> ;
+  ex:location <urn:uuid:40ace824-52ab-5a9a-80c7-f393355318ca> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://dataintelligence.at/> a ex:Organization ;
+  ex:name "Data Intelligence Offensive" ;
+  ex:homepage <http://www.dataintelligence.at> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/dataintelligence.at.png?v=1794586039> ;
+  ex:location <urn:uuid:69c1a525-32e1-549c-a79d-84b77461210b> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://ictaustria.com/> a ex:Organization ;
+  ex:name "ICT Austria, Center for Business TechnologyVerein für Österreichische IKT Unternehmen" ;
+  ex:homepage <http://www.ictaustria.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/ictaustria.com.png?v=1794586051> ;
+  ex:location <urn:uuid:40ace824-52ab-5a9a-80c7-f393355318ca> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://ossbig.at/> a ex:Organization ;
+  ex:name "OSSBIG Austria, c/o Business Design OG" ;
+  ex:homepage <http://www.ossbig.at> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/ossbig.at.png?v=1794586038> ;
+  ex:location <urn:uuid:40ace824-52ab-5a9a-80c7-f393355318ca> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://posedio.com/> a ex:Organization ;
+  ex:name "Posedio GmbH" ;
+  ex:homepage <https://www.posedio.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/posedio.com.png?v=1794586078> ;
+  ex:location <urn:uuid:40ace824-52ab-5a9a-80c7-f393355318ca> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://tuwien.at/> a ex:Organization ;
+  ex:name "TU Wien" ;
+  ex:homepage <https://www.tuwien.at/en/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/tuwien.at.png?v=1794586061> ;
+  ex:location <urn:uuid:40ace824-52ab-5a9a-80c7-f393355318ca> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://agoria.be/> a ex:Organization ;
+  ex:name "Agoria vzw" ;
+  ex:homepage <http://www.agoria.be> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/agoria.be.png?v=1794586051> ;
+  ex:location <urn:uuid:ef839dc8-6540-5ae2-a30a-964ef9e70b1c> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://cema-agri.org/> a ex:Organization ;
+  ex:name "CEMA aisbl - European Agricultural Machinery Industry Association" ;
+  ex:homepage <https://www.cema-agri.org> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/cema-agri.org.png?v=1794586052> ;
+  ex:location <urn:uuid:ef839dc8-6540-5ae2-a30a-964ef9e70b1c> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://cispe.cloud/> a ex:Organization ;
+  ex:name "CLOUD INFRASTRUCTURE SERVICES PROVIDERS IN EUROPE (CISPE) ASBL" ;
+  ex:homepage <https://cispe.cloud> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/cispe.cloud.png?v=1794586084> ;
+  ex:location <urn:uuid:ef839dc8-6540-5ae2-a30a-964ef9e70b1c> ;
+  ex:gaiaXMemberCategory "Founding Members" ;
+  ex:gxdch true ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://digitaleurope.org/> a ex:Organization ;
+  ex:name "DigitalEurope" ;
+  ex:homepage <https://www.digitaleurope.org/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/digitaleurope.org.png?v=1794586036> ;
+  ex:location <urn:uuid:ef839dc8-6540-5ae2-a30a-964ef9e70b1c> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://edsoforsmartgrids.eu/> a ex:Organization ;
+  ex:name "E.DSO - European Distribution System Operators AISBL" ;
+  ex:homepage <https://edsoforsmartgrids.eu/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/edsoforsmartgrids.eu.png?v=1794586069> ;
+  ex:location <urn:uuid:ef839dc8-6540-5ae2-a30a-964ef9e70b1c> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://eclipse.org/> a ex:Organization ;
+  ex:name "Eclipse Foundation AISBL" ;
+  ex:homepage <http://www.eclipse.org> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/eclipse.org.png?v=1794586043> ;
+  ex:location <urn:uuid:ef839dc8-6540-5ae2-a30a-964ef9e70b1c> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://ilvo.vlaanderen.be/> a ex:Organization ;
+  ex:name "ILVO - Instituut voor Landbouw-, Visserij- en Voedingsonderzoek - Eigen Vermogen" ;
+  ex:homepage <https://www.ilvo.vlaanderen.be> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/ilvo.vlaanderen.be.png?v=1794586045> ;
+  ex:location <urn:uuid:7a6268f2-6e7c-5e64-8832-36eb54b19017> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://imec-int.com/> a ex:Organization ;
+  ex:name "Interuniversitair Micro-Electronica Centrum vzw (IMEC)" ;
+  ex:homepage <http://www.imec-int.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/imec-int.com.png?v=1794586046> ;
+  ex:location <urn:uuid:79995437-dbcd-53f0-a3be-802c6aab71b4> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://klarrio.com/> a ex:Organization ;
+  ex:name "Klarrio" ;
+  ex:homepage <https://klarrio.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/klarrio.com.png?v=1794586036> ;
+  ex:location <urn:uuid:e1452ef3-14a0-5884-8cbb-ded2085665e7> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://mastercard.com/> a ex:Organization ;
+  ex:name "Mastercard Europe" ;
+  ex:homepage <https://www.mastercard.com/europe/en/home.html> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/mastercard.com.png?v=1794586047> ;
+  ex:location <urn:uuid:162eb257-87d4-55f6-b420-ac86af94624b> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://microsoft.com/> a ex:Organization ;
+  ex:name "Microsoft NV" ;
+  ex:homepage <http://www.microsoft.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/microsoft.com.png?v=1794586043> ;
+  ex:location <urn:uuid:a34ed5b9-11a4-5ee6-96a2-ada508f76650> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://proximus.com/> a ex:Organization ;
+  ex:name "Proximus" ;
+  ex:homepage <http://www.proximus.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/proximus.com.png?v=1794586046> ;
+  ex:location <urn:uuid:ef839dc8-6540-5ae2-a30a-964ef9e70b1c> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch true ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://abinc.org.br/> a ex:Organization ;
+  ex:name "ABINC - Associação Brasileira de Internet das Coisas" ;
+  ex:homepage <https://www.abinc.org.br> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/https%3A//abinc.org.br/.png?v=1794586079> ;
+  ex:location <urn:uuid:e356db66-ee23-5f70-ab40-9f9cbdee5ac3> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://fidere.tech/> a ex:Organization ;
+  ex:name "FIDERE" ;
+  ex:homepage <https://www.fidere.tech/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/fidere.tech.png?v=1794586080> ;
+  ex:location <urn:uuid:e356db66-ee23-5f70-ab40-9f9cbdee5ac3> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://lights.digital/> a ex:Organization ;
+  ex:name "Digital Lights" ;
+  ex:homepage <https://lights.digital> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/lights.digital.png?v=1794586074> ;
+  ex:location <urn:uuid:5e6b788e-1dae-5304-81e0-23ff194573a8> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://dtc-cnc.org/> a ex:Organization ;
+  ex:name "Digital Trust Canada" ;
+  ex:homepage <https://www.dtc-cnc.org> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/www.dtc-cnc.org.png?v=1794586078> ;
+  ex:location <urn:uuid:ef263ac8-ac54-5c41-93d6-743979c09ad2> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://cloudcarib.com/> a ex:Organization ;
+  ex:name "Cloud Carib Ltd." ;
+  ex:homepage <https://www.cloudcarib.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/www.cloudcarib.com.png?v=1794586076> ;
+  ex:location <urn:uuid:ff39ebc8-5bad-5c23-8eaa-dc70f4fb9f90> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://caict.ac.cn/> a ex:Organization ;
+  ex:name "China Academy of Information and Communications Technology" ;
+  ex:homepage <https://www.caict.ac.cn> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/caict.ac.cn.png?v=1794586038> ;
+  ex:location <urn:uuid:3847c582-1990-5c02-b8ba-0fb654992f4b> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://haier.com/> a ex:Organization ;
+  ex:name "COSMO IoT Technology Co., Ltd." ;
+  ex:homepage <http://www.haier.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/haier.com.png?v=1794586055> ;
+  ex:location <urn:uuid:aafdbadf-a76a-5bd2-a13c-cd1220526667> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://must.edu.mo/> a ex:Organization ;
+  ex:name "MUST - International Institute of Next Generation Internet of Macau University of Science and Technology" ;
+  ex:homepage <https://www.must.edu.mo/en/nxt> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/must.edu.mo.png?v=1794586059> ;
+  ex:location <urn:uuid:0eefb07a-2ccc-5942-bdbb-c16dd6aa6823> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://shuxin-tech.com/> a ex:Organization ;
+  ex:name "Shenzhen Shuxin Technology Co., Ltd" ;
+  ex:homepage <https://shuxin-tech.com/home> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/shuxin-tech.com.png?v=1794586043> ;
+  ex:location <urn:uuid:b692e8f8-197d-5104-a493-c559aaf4cd3f> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://caribbeandatacenters.com/> a ex:Organization ;
+  ex:name "Caribbean Datacenter Association" ;
+  ex:homepage <https://caribbeandatacenters.com/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/caribbeandatacenters.com.png?v=1794586078> ;
+  ex:location <urn:uuid:508b248b-bb20-5863-ac00-5fe4944ce2f4> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://bluenapamericas.com/> a ex:Organization ;
+  ex:name "DataPlanet (Blue NAP Americas)" ;
+  ex:homepage <https://www.bluenapamericas.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/www.bluenapamericas.com.png?v=1794586076> ;
+  ex:location <urn:uuid:508b248b-bb20-5863-ac00-5fe4944ce2f4> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://ncp40.cz/> a ex:Organization ;
+  ex:name "Czech Technical University in Prague, National centre for Industry 4.0" ;
+  ex:homepage <https://www.ncp40.cz> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/ncp40.cz.png?v=1794586040> ;
+  ex:location <urn:uuid:af955619-761c-5d11-86f0-de04094bfe73> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://digst.dk/> a ex:Organization ;
+  ex:name "Danish Agency for Digital Government" ;
+  ex:homepage <https://digst.dk> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/digst.dk.png?v=1794586074> ;
+  ex:location <urn:uuid:34e6539a-bae7-5642-993e-b1a0cf3d11c7> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://yinovise.com/> a ex:Organization ;
+  ex:name "Innovise ApS" ;
+  ex:homepage <https://www.yinovise.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/yinovise.com.png?v=1794586078> ;
+  ex:location <urn:uuid:718c345b-72ff-5b64-bac6-41e267ec300e> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://niis.org/> a ex:Organization ;
+  ex:name "Nordic Institute for Interoperability Solutions (NIIS)" ;
+  ex:homepage <http://www.niis.org> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/niis.org.png?v=1794586043> ;
+  ex:location <urn:uuid:0ad17d58-e055-590d-a3cd-096ff090296c> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://sitra.fi/> a ex:Organization ;
+  ex:name "Sitra" ;
+  ex:homepage <https://www.sitra.fi/en/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/sitra.fi.png?v=1794586052> ;
+  ex:location <urn:uuid:42171880-b5ab-5db3-9fed-0578a73ef486> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://stor.ax/> a ex:Organization ;
+  ex:name "Storax Oy" ;
+  ex:homepage <https://stor.ax> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/stor.ax.png?v=1794586078> ;
+  ex:location <urn:uuid:9444eda3-740a-5978-a0d9-f4b89ccf026e> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://abakpartners.com/> a ex:Organization ;
+  ex:name "Abak Partners" ;
+  ex:homepage <https://www.abakpartners.com/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/abakpartners.com.png?v=1794586078> ;
+  ex:location <urn:uuid:55f14f2f-a43c-5cac-91a8-8bd31c3c8af8> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://afnet.fr/> a ex:Organization ;
+  ex:name "AFNeT" ;
+  ex:homepage <https://www.afnet.fr> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/afnet.fr.png?v=1794586037> ;
+  ex:location <urn:uuid:b13b6efa-4065-5816-9676-0fa74fad0438> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://airbus.com/> a ex:Organization ;
+  ex:name "Airbus" ;
+  ex:homepage <http://www.airbus.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/airbus.com.png?v=1794586051> ;
+  ex:location <urn:uuid:86b0b847-b965-5aff-a9a4-59732af8c921> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://atos.net/> a ex:Organization ;
+  ex:name "Atos" ;
+  ex:homepage <https://www.atos.net> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/www.atos.net.png?v=1794586100> ;
+  ex:location <urn:uuid:ebe1a65a-8585-575a-9623-bf0fa6d5b154> ;
+  ex:gaiaXMemberCategory "Founding Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://bpce.fr/> a ex:Organization ;
+  ex:name "BPCE SA - Banque Populaire et Caisse d’Epargne" ;
+  ex:homepage <http://www.bpce.fr> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/bpce.fr.png?v=1794586043> ;
+  ex:location <urn:uuid:b13b6efa-4065-5816-9676-0fa74fad0438> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://caissedesdepots.fr/> a ex:Organization ;
+  ex:name "Caisse des Depots" ;
+  ex:homepage <http://www.caissedesdepots.fr> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/caissedesdepots.fr.png?v=1794586036> ;
+  ex:location <urn:uuid:b13b6efa-4065-5816-9676-0fa74fad0438> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://cea.fr/> a ex:Organization ;
+  ex:name "CEA" ;
+  ex:homepage <http://www.cea.fr> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/cea.fr.png?v=1794586036> ;
+  ex:location <urn:uuid:b13b6efa-4065-5816-9676-0fa74fad0438> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://clouddataengine.io/> a ex:Organization ;
+  ex:name "Cloud Data Engine (CDE)" ;
+  ex:homepage <https://clouddataengine.io> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/clouddataengine.io.png?v=1794586078> ;
+  ex:location <urn:uuid:70dda5dc-4598-56e9-9522-a0fa7bc30cb0> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://cloud-temple.com/> a ex:Organization ;
+  ex:name "Cloud Temple" ;
+  ex:homepage <https://www.cloud-temple.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/www.cloud-temple.com.png?v=1794586074> ;
+  ex:location <urn:uuid:eb84e3a6-f769-5884-b263-5aeec4c9b1a6> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://credit-agricole-sa.fr/> a ex:Organization ;
+  ex:name "Credit Agricole SA" ;
+  ex:homepage <https://credit-agricole-sa.fr> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/credit-agricole.com.png?v=1794586047> ;
+  ex:location <urn:uuid:e0dc5745-cd9c-575a-b634-9e9518113ab9> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://dawex.com/> a ex:Organization ;
+  ex:name "Dawex" ;
+  ex:homepage <https://www.dawex.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/dawex.com.png?v=1794586038> ;
+  ex:location <urn:uuid:65a90efc-b28d-5097-bf50-75ebbb938c12> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://thedigitalnewdeal.org/> a ex:Organization ;
+  ex:name "Digital New Deal" ;
+  ex:homepage <https://www.thedigitalnewdeal.org> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/thedigitalnewdeal.org.png?v=1794586037> ;
+  ex:location <urn:uuid:b13b6efa-4065-5816-9676-0fa74fad0438> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://eitmanufacturing.eu/> a ex:Organization ;
+  ex:name "EIT Manufacturing" ;
+  ex:homepage <http://www.eitmanufacturing.eu> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/eitmanufacturing.eu.png?v=1794586047> ;
+  ex:location <urn:uuid:b13b6efa-4065-5816-9676-0fa74fad0438> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://edf.fr/> a ex:Organization ;
+  ex:name "ELECTRICITÉ DE FRANCE (EDF) SA" ;
+  ex:homepage <https://www.edf.fr/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/edf.fr.png?v=1794586100> ;
+  ex:location <urn:uuid:b13b6efa-4065-5816-9676-0fa74fad0438> ;
+  ex:gaiaXMemberCategory "Founding Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://engie.com/> a ex:Organization ;
+  ex:name "Engie Lab CRIGEN" ;
+  ex:homepage <http://www.engie.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/engie.com.png?v=1794586055> ;
+  ex:location <urn:uuid:b13b6efa-4065-5816-9676-0fa74fad0438> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://eona-x.eu/> a ex:Organization ;
+  ex:name "Eona-x" ;
+  ex:homepage <https://eona-x.eu/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/eona-x.eu.png?v=1794586070> ;
+  ex:location <urn:uuid:b13b6efa-4065-5816-9676-0fa74fad0438> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://faveod.com/> a ex:Organization ;
+  ex:name "FAVEOD" ;
+  ex:homepage <https://www.faveod.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/faveod.com.png?v=1794586081> ;
+  ex:location <urn:uuid:b13b6efa-4065-5816-9676-0fa74fad0438> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://ihuican.org/> a ex:Organization ;
+  ex:name "Fondation Cardiometabolisme et Nutrition" ;
+  ex:homepage <https://www.ihuican.org> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/ihuican.org.png?v=1794586076> ;
+  ex:location <urn:uuid:b13b6efa-4065-5816-9676-0fa74fad0438> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://franceix.net/> a ex:Organization ;
+  ex:name "FRANCE IX SERVICES (managing the operational aspects of France IX Association)" ;
+  ex:homepage <http://www.franceix.net> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/franceix.net.png?v=1794586037> ;
+  ex:location <urn:uuid:b13b6efa-4065-5816-9676-0fa74fad0438> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://grandenov.plus/> a ex:Organization ;
+  ex:name "Grand E'Nov" ;
+  ex:homepage <http://www.grandenov.plus> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/grandenov.plus.png?v=1794586039> ;
+  ex:location <urn:uuid:29760b6b-75d2-5dd0-a32d-ae129ceac56e> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://groupecarrousel.fr/> a ex:Organization ;
+  ex:name "Groupe Carrousel" ;
+  ex:homepage <https://www.groupecarrousel.fr> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/groupecarrousel.fr.png?v=1794586081> ;
+  ex:location <urn:uuid:0a7f2d7b-1f9e-5a4a-85ce-446719e9696f> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://iex.ec/> a ex:Organization ;
+  ex:name "iExec Blockchain Tech" ;
+  ex:homepage <https://iex.ec> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/iex.ec.png?v=1794586052> ;
+  ex:location <urn:uuid:65a90efc-b28d-5097-bf50-75ebbb938c12> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://imt.fr/> a ex:Organization ;
+  ex:name "IMT" ;
+  ex:homepage <https://www.imt.fr/en/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/imt.fr.png?v=1794586088> ;
+  ex:location <urn:uuid:41299a44-db3a-5569-adb3-ebdc918729d2> ;
+  ex:gaiaXMemberCategory "Founding Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://irt-systemx.fr/> a ex:Organization ;
+  ex:name "IRT SystemX" ;
+  ex:homepage <http://www.irt-systemx.fr/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/irt-systemx.fr.png?v=1794586038> ;
+  ex:location <urn:uuid:41299a44-db3a-5569-adb3-ebdc918729d2> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://legaldataspace.eu/> a ex:Organization ;
+  ex:name "LEGAL DATA SPACE" ;
+  ex:homepage <https://www.legaldataspace.eu> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/legaldataspace.eu.png?v=1794586080> ;
+  ex:location <urn:uuid:8d0cf78f-87eb-520a-a5a8-c43cd1bb7670> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://mipih.fr/> a ex:Organization ;
+  ex:name "MiPih (Groupement d'Intéret Public)" ;
+  ex:homepage <https://mipih.fr> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/mipih.fr.png?v=1794586050> ;
+  ex:location <urn:uuid:f9edc861-3d57-5936-b97c-3e8ab335f526> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://medef.com/> a ex:Organization ;
+  ex:name "Mouvement des entreprises de France (MEDEF)" ;
+  ex:homepage <http://www.medef.com/fr> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/medef.com.png?v=1794586038> ;
+  ex:location <urn:uuid:b13b6efa-4065-5816-9676-0fa74fad0438> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://orange.com/> a ex:Organization ;
+  ex:name "Orange Sa" ;
+  ex:homepage <https://www.orange.com/fr> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/orange-business.com.png?v=1794586088> ;
+  ex:location <urn:uuid:51cdcb0b-80d4-531a-9809-1e68fae02de1> ;
+  ex:gaiaXMemberCategory "Founding Members" ;
+  ex:gxdch true ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://outscale.com/> a ex:Organization ;
+  ex:name "OUTSCALE SASU" ;
+  ex:homepage <https://outscale.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/outscale.com.png?v=1794586082> ;
+  ex:location <urn:uuid:bfc423ed-b210-54de-9bec-a53ebd9e0bf6> ;
+  ex:gaiaXMemberCategory "Founding Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://ovhcloud.com/> a ex:Organization ;
+  ex:name "OVHcloud" ;
+  ex:homepage <https://www.ovhcloud.com/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/ovhcloud.com.png?v=1794586088> ;
+  ex:location <urn:uuid:357ac439-cc18-5f0a-bd8e-bc1e06899ee7> ;
+  ex:gaiaXMemberCategory "Founding Members" ;
+  ex:gxdch true ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://chairgovreg.fondation-dauphine.fr/> a ex:Organization ;
+  ex:name "Paris Dauphine Foundation / Governance and Regulation Chair" ;
+  ex:homepage <https://chairgovreg.fondation-dauphine.fr/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/chairgovreg.fondation-dauphine.fr.png?v=1794586069> ;
+  ex:location <urn:uuid:b13b6efa-4065-5816-9676-0fa74fad0438> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://dataspace.prometheus-x.org/> a ex:Organization ;
+  ex:name "Prometheus-X" ;
+  ex:homepage <https://dataspace.prometheus-x.org/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/dataspace.prometheus-x.org.png?v=1794586070> ;
+  ex:location <urn:uuid:b13b6efa-4065-5816-9676-0fa74fad0438> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://clever-cloud.com/> a ex:Organization ;
+  ex:name "SAS CLEVER CLOUD" ;
+  ex:homepage <http://www.clever-cloud.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/clever-cloud.com.png?v=1794586043> ;
+  ex:location <urn:uuid:c6b11079-7877-5f48-bf3d-3471229ec12c> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://servicepilot.com/> a ex:Organization ;
+  ex:name "ServicePilot" ;
+  ex:homepage <https://www.servicepilot.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/https%3A//www.servicepilot.com.png?v=1794586079> ;
+  ex:location <urn:uuid:77a242e5-fdc2-5686-a50f-a6ad66f5611e> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://soprasteria.com/> a ex:Organization ;
+  ex:name "Sopra Steria Group SA" ;
+  ex:homepage <http://www.soprasteria.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/soprasteria.com.png?v=1794586039> ;
+  ex:location <urn:uuid:2b138285-f4b2-57b0-8d13-00ca2b1f280d> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://thalesgroup.com/> a ex:Organization ;
+  ex:name "Thales Group" ;
+  ex:homepage <http://www.thalesgroup.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/thalesgroup.com.png?v=1794586051> ;
+  ex:location <urn:uuid:18505775-c9a3-5398-b56f-6740a0c82b3f> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://50hertz.com/> a ex:Organization ;
+  ex:name "50Hertz Transmission GmbH" ;
+  ex:homepage <http://www.50hertz.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/50hertz.com.png?v=1794586036> ;
+  ex:location <urn:uuid:305bf491-b462-50ec-88b5-cd16720fc973> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://acatech.de/> a ex:Organization ;
+  ex:name "Acatech" ;
+  ex:homepage <http://www.acatech.de> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/acatech.de.png?v=1794586055> ;
+  ex:location <urn:uuid:62786316-190e-51cd-b74c-6875860cfee0> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://apheris.com/> a ex:Organization ;
+  ex:name "apheris AI GmbH" ;
+  ex:homepage <http://www.apheris.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/apheris.com.png?v=1794586036> ;
+  ex:location <urn:uuid:305bf491-b462-50ec-88b5-cd16720fc973> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://apiida.com/> a ex:Organization ;
+  ex:name "APIIDA AG" ;
+  ex:homepage <http://www.apiida.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/apiida.com.png?v=1794586038> ;
+  ex:location <urn:uuid:81a35846-9211-5571-9ff6-784f3697ea93> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://beckhoff.com/> a ex:Organization ;
+  ex:name "BECKHOFF AUTOMATION GmbH & Co. KG" ;
+  ex:homepage <https://beckhoff.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/beckhoff.com.png?v=1794586096> ;
+  ex:location <urn:uuid:94446a16-f91d-5566-a8b0-de1d1f6dfb50> ;
+  ex:gaiaXMemberCategory "Founding Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://bigchaindb.com/> a ex:Organization ;
+  ex:name "BigchainDB GmbH" ;
+  ex:homepage <http://www.bigchaindb.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/bigchaindb.com.png?v=1794586055> ;
+  ex:location <urn:uuid:305bf491-b462-50ec-88b5-cd16720fc973> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://bitkom.org/> a ex:Organization ;
+  ex:name "Bitkom e.V." ;
+  ex:homepage <http://www.bitkom.org> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/bitkom.org.png?v=1794586051> ;
+  ex:location <urn:uuid:305bf491-b462-50ec-88b5-cd16720fc973> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://bmw.de/> a ex:Organization ;
+  ex:name "BMW Group" ;
+  ex:homepage <https://bmw.de> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/bmw.de.png?v=1794586106> ;
+  ex:location <urn:uuid:62786316-190e-51cd-b74c-6875860cfee0> ;
+  ex:gaiaXMemberCategory "Founding Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://bsi.bund.de/> a ex:Organization ;
+  ex:name "Bundesamt für Sicherheit in der Informationstechnik (BSI)" ;
+  ex:homepage <https://www.bsi.bund.de> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/bsi.bund.de.png?v=1794586051> ;
+  ex:location <urn:uuid:5dcbcd2e-740c-5309-b93e-2f70d4a16767> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://bdi.eu/> a ex:Organization ;
+  ex:name "Bundesverband der Deutschen Industrie e.V." ;
+  ex:homepage <http://www.bdi.eu> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/bdi.eu.png?v=1794586043> ;
+  ex:location <urn:uuid:305bf491-b462-50ec-88b5-cd16720fc973> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://charite.de/> a ex:Organization ;
+  ex:name "Charité - Universitätsmedizin Berlin" ;
+  ex:homepage <http://www.charite.de> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/charite.de.png?v=1794586038> ;
+  ex:location <urn:uuid:305bf491-b462-50ec-88b5-cd16720fc973> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://coac.de/> a ex:Organization ;
+  ex:name "coac GmbH" ;
+  ex:homepage <http://www.coac.de> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/coac.de.png?v=1794586039> ;
+  ex:location <urn:uuid:cea2a0b5-9c9b-5551-aeb5-6d0564fa168f> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://dataport.de/> a ex:Organization ;
+  ex:name "Dataport AöR" ;
+  ex:homepage <http://www.dataport.de> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/dataport.de.png?v=1794586036> ;
+  ex:location <urn:uuid:25740652-7bf9-5362-abb8-a09ded37de9b> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://delta-dao.com/> a ex:Organization ;
+  ex:name "deltaDAO AG" ;
+  ex:homepage <http://www.delta-dao.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/delta-dao.com.png?v=1794586046> ;
+  ex:location <urn:uuid:8107cb82-7d44-52f9-b803-4a87c3729f67> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch true ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://telekom.com/> a ex:Organization ;
+  ex:name "Deutsche Telekom AG, T&I, PG 1034" ;
+  ex:homepage <https://www.telekom.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/telekom.com.png?v=1794586092> ;
+  ex:location <urn:uuid:5dcbcd2e-740c-5309-b93e-2f70d4a16767> ;
+  ex:gaiaXMemberCategory "Founding Members" ;
+  ex:gxdch true ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://dlr.de/> a ex:Organization ;
+  ex:name "Deutsches Zentrum für Luft- und Raumfahrt e.V. (DLR) | German Aerospace Center" ;
+  ex:homepage <https://www.dlr.de/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/dlr.de.png?v=1794586050> ;
+  ex:location <urn:uuid:cea2a0b5-9c9b-5551-aeb5-6d0564fa168f> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://eclass.eu/> a ex:Organization ;
+  ex:name "ECLASS e.V." ;
+  ex:homepage <http://www.eclass.eu> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/eclass.eu.png?v=1794586036> ;
+  ex:location <urn:uuid:cea2a0b5-9c9b-5551-aeb5-6d0564fa168f> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://elbtech.dev/> a ex:Organization ;
+  ex:name "elbtech GmbH" ;
+  ex:homepage <https://www.elbtech.dev> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/www.elbtech.dev.png?v=1794586076> ;
+  ex:location <urn:uuid:8107cb82-7d44-52f9-b803-4a87c3729f67> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://ecb.europa.eu/> a ex:Organization ;
+  ex:name "European Central Bank" ;
+  ex:homepage <https://www.ecb.europa.eu> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/ecb.europa.eu.png?v=1794586061> ;
+  ex:location <urn:uuid:f60ccb0a-d05b-5494-a382-6ceeb72010ae> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://fiware.org/> a ex:Organization ;
+  ex:name "FIWARE Foundation" ;
+  ex:homepage <http://www.fiware.org> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/fiware.org.png?v=1794586036> ;
+  ex:location <urn:uuid:305bf491-b462-50ec-88b5-cd16720fc973> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://fluxionsystem.com/> a ex:Organization ;
+  ex:name "FluxionSystem UG" ;
+  ex:homepage <https://fluxionsystem.com/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/www.fluxionsystem.com.png?v=1794586081> ;
+  ex:location <urn:uuid:f60ccb0a-d05b-5494-a382-6ceeb72010ae> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://fortiss.org/> a ex:Organization ;
+  ex:name "fortiss GmbH" ;
+  ex:homepage <http://www.fortiss.org> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/fortiss.org.png?v=1794586046> ;
+  ex:location <urn:uuid:62786316-190e-51cd-b74c-6875860cfee0> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://fraunhofer.de/> a ex:Organization ;
+  ex:name "FRAUNHOFER-GESELLSCHAFT ZUR FÖRDERUNG DER ANGEWANDTEN FORSCHUNG e.V." ;
+  ex:homepage <https://www.fraunhofer.de/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/fraunhofer.de.png?v=1794586087> ;
+  ex:location <urn:uuid:62786316-190e-51cd-b74c-6875860cfee0> ;
+  ex:gaiaXMemberCategory "Founding Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://gauss-centre.eu/> a ex:Organization ;
+  ex:name "Gauss Centre for Supercomputing e.V." ;
+  ex:homepage <http://www.gauss-centre.eu> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/gauss-centre.eu.png?v=1794586039> ;
+  ex:location <urn:uuid:305bf491-b462-50ec-88b5-cd16720fc973> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://dfki.de/> a ex:Organization ;
+  ex:name "German Research Center for Artificial Intelligence (DFKI)" ;
+  ex:homepage <http://www.dfki.de> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/dfki.de.png?v=1794586036> ;
+  ex:location <urn:uuid:74619303-f71b-5018-a6c2-789554c27548> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://gwdg.de/> a ex:Organization ;
+  ex:name "GWDG - Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen" ;
+  ex:homepage <http://www.gwdg.de> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/gwdg.de.png?v=1794586036> ;
+  ex:location <urn:uuid:645cfa17-051f-5167-8801-25b1953f47d2> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://highq.de/> a ex:Organization ;
+  ex:name "highQ Computerlösungen GmbH" ;
+  ex:homepage <http://www.highq.de> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/highq.de.png?v=1794586046> ;
+  ex:location <urn:uuid:166697c4-fb67-5bcb-aa9c-252860f326f1> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://hop-hop.ai/> a ex:Organization ;
+  ex:name "Hop Hop B Mobility" ;
+  ex:homepage <https://hop-hop.ai> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/hop-hop.ai.png?v=1794586081> ;
+  ex:location <urn:uuid:f60ccb0a-d05b-5494-a382-6ceeb72010ae> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://huawei.eu/> a ex:Organization ;
+  ex:name "Huawei Technologies Duesseldorf GmbH" ;
+  ex:homepage <http://www.huawei.eu> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/huawei.eu.png?v=1794586036> ;
+  ex:location <urn:uuid:92c0334e-aa9a-5897-93b8-012a4c273937> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://inagpt.com/> a ex:Organization ;
+  ex:name "INA GPT GmbH" ;
+  ex:homepage <https://inagpt.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/inagpt.com.png?v=1794586081> ;
+  ex:location <urn:uuid:305bf491-b462-50ec-88b5-cd16720fc973> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://insentis.com/> a ex:Organization ;
+  ex:name "Insentis GmbH" ;
+  ex:homepage <http://www.insentis.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/insentis.com.png?v=1794586043> ;
+  ex:location <urn:uuid:336bfc79-1af4-5d95-9d05-b3ec640a7189> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://internationaldataspaces.org/> a ex:Organization ;
+  ex:name "INTERNATIONAL DATA SPACES e.V." ;
+  ex:homepage <https://internationaldataspaces.org> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/internationaldataspaces.org.png?v=1794586100> ;
+  ex:location <urn:uuid:2b43e388-6efd-5b56-b782-6c91c669f4bb> ;
+  ex:gaiaXMemberCategory "Founding Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://trusted-cloud.de/> a ex:Organization ;
+  ex:name "Kompetenznetzwerk Trusted Cloud" ;
+  ex:homepage <http://www.trusted-cloud.de> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/trusted-cloud.de.png?v=1794586051> ;
+  ex:location <urn:uuid:cea2a0b5-9c9b-5551-aeb5-6d0564fa168f> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://materna.de/> a ex:Organization ;
+  ex:name "Materna Information & Communications SE" ;
+  ex:homepage <http://www.materna.de> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/materna.de.png?v=1794586055> ;
+  ex:location <urn:uuid:2b43e388-6efd-5b56-b782-6c91c669f4bb> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://mulan-it-solutions.com/> a ex:Organization ;
+  ex:name "Mulan IT Solutions GmbH" ;
+  ex:homepage <https://www.mulan-it-solutions.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/mulan-it-solutions.com.png?v=1794586067> ;
+  ex:location <urn:uuid:81a35846-9211-5571-9ff6-784f3697ea93> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://myrasecurity.com/> a ex:Organization ;
+  ex:name "Myra Security GmbH" ;
+  ex:homepage <http://www.myrasecurity.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/myrasecurity.com.png?v=1794586039> ;
+  ex:location <urn:uuid:62786316-190e-51cd-b74c-6875860cfee0> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://neusta-aerospace.de/> a ex:Organization ;
+  ex:name "neusta aerospace GmbH" ;
+  ex:homepage <https://neusta-aerospace.de/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/neusta-aerospace.de.png?v=1794586076> ;
+  ex:location <urn:uuid:7a488159-fabe-53c6-af43-a6fce4a37a88> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch true ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://osb-alliance.de/> a ex:Organization ;
+  ex:name "Open Source Business Alliance e.V." ;
+  ex:homepage <https://osb-alliance.de/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/osb-alliance.de.png?v=1794586056> ;
+  ex:location <urn:uuid:305bf491-b462-50ec-88b5-cd16720fc973> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://osism.tech/> a ex:Organization ;
+  ex:name "OSISM GmbH" ;
+  ex:homepage <https://osism.tech> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/osism.tech.png?v=1794586050> ;
+  ex:location <urn:uuid:4e33f044-316e-5d7e-a622-14139cfa2174> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://owncloud.com/> a ex:Organization ;
+  ex:name "ownCloud GmbH" ;
+  ex:homepage <https://owncloud.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/owncloud.com.png?v=1794586055> ;
+  ex:location <urn:uuid:4cd3507e-7679-51d5-a75d-12d2be39614c> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://pfalzkom.de/> a ex:Organization ;
+  ex:name "PFALZKOM GmbH" ;
+  ex:homepage <https://www.pfalzkom.de> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/www.pfalzkom.de.png?v=1794586071> ;
+  ex:location <urn:uuid:9e6a38c7-d2c2-5f2d-a74b-d9e3017654d7> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch true ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://plusserver.com/> a ex:Organization ;
+  ex:name "PLUSSERVER GmbH" ;
+  ex:homepage <https://plusserver.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/plusserver.com.png?v=1794586082> ;
+  ex:location <urn:uuid:cea2a0b5-9c9b-5551-aeb5-6d0564fa168f> ;
+  ex:gaiaXMemberCategory "Founding Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://bosch.com/> a ex:Organization ;
+  ex:name "ROBERT BOSCH GmbH" ;
+  ex:homepage <https://www.bosch.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/bosch.com.png?v=1794586087> ;
+  ex:location <urn:uuid:3a37bf3d-05f6-54d5-887d-8600c3c30599> ;
+  ex:gaiaXMemberCategory "Founding Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://rocketstar.foundation/> a ex:Organization ;
+  ex:name "Rocketstar SCE" ;
+  ex:homepage <https://rocketstar.foundation> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/rocketstar.foundation.png?v=1794586045> ;
+  ex:location <urn:uuid:f60ccb0a-d05b-5494-a382-6ceeb72010ae> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://sap.com/> a ex:Organization ;
+  ex:name "SAP" ;
+  ex:homepage <https://www.sap.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/sap.com.png?v=1794586088> ;
+  ex:location <urn:uuid:dc83474c-b211-527f-aa32-6157d138e7cd> ;
+  ex:gaiaXMemberCategory "Founding Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://stackit.de/> a ex:Organization ;
+  ex:name "Schwarz Digits Cloud GmbH & Co. KG" ;
+  ex:homepage <http://www.stackit.de> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/stackit.de.png?v=1794586046> ;
+  ex:location <urn:uuid:d435ade0-b26d-5c54-96a5-265ae88ef87e> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://sriw.de/> a ex:Organization ;
+  ex:name "Selbstregulierung Informationswirtschaft e.V." ;
+  ex:homepage <https://sriw.de> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/sriw.de.png?v=1794586036> ;
+  ex:location <urn:uuid:305bf491-b462-50ec-88b5-cd16720fc973> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://siemens.com/> a ex:Organization ;
+  ex:name "Siemens AG" ;
+  ex:homepage <https://siemens.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/siemens.com.png?v=1794586092> ;
+  ex:location <urn:uuid:62786316-190e-51cd-b74c-6875860cfee0> ;
+  ex:gaiaXMemberCategory "Founding Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://sigma.software/> a ex:Organization ;
+  ex:name "Sigma Software" ;
+  ex:homepage <https://sigma.software/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/https%3A//sigma.software/.png?v=1794586078> ;
+  ex:location <urn:uuid:c7229167-1168-57d8-a467-19f3717fb60c> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://soaryasu.com/> a ex:Organization ;
+  ex:name "Soaryasu UG" ;
+  ex:homepage <https://www.soaryasu.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/soaryasu.com.png?v=1794586079> ;
+  ex:location <urn:uuid:8c2a36ed-f9b5-5b3a-bfe6-4d8bae96ea3c> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://supplyon.com/> a ex:Organization ;
+  ex:name "SupplyOn AG" ;
+  ex:homepage <http://www.supplyon.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/supplyon.com.png?v=1794586055> ;
+  ex:location <urn:uuid:2c840a5b-cac8-57b6-8824-1c39074ebf56> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://suse.com/> a ex:Organization ;
+  ex:name "SUSE Software Solutions Germany GmbH" ;
+  ex:homepage <http://www.suse.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/suse.com.png?v=1794586043> ;
+  ex:location <urn:uuid:4cd3507e-7679-51d5-a75d-12d2be39614c> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://ptw.tu-darmstadt.de/> a ex:Organization ;
+  ex:name "TU Darmstadt" ;
+  ex:homepage <https://ptw.tu-darmstadt.de> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/ptw.tu-darmstadt.de.png?v=1794586061> ;
+  ex:location <urn:uuid:81a35846-9211-5571-9ff6-784f3697ea93> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://uni-passau.de/> a ex:Organization ;
+  ex:name "University of Passau" ;
+  ex:homepage <https://www.uni-passau.de/en/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/uni-passau.de.png?v=1794586045> ;
+  ex:location <urn:uuid:09152306-36e9-5dc4-8e97-e556c078003d> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://vdma.org/> a ex:Organization ;
+  ex:name "VDMA e.V." ;
+  ex:homepage <http://www.vdma.org> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/vdma.org.png?v=1794586055> ;
+  ex:location <urn:uuid:f60ccb0a-d05b-5494-a382-6ceeb72010ae> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://wobcom.de/> a ex:Organization ;
+  ex:name "WOBCOM GmbH Wolfsburg" ;
+  ex:homepage <https://www.wobcom.de/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/wobcom.de.png?v=1794586070> ;
+  ex:location <urn:uuid:724dce64-af6d-52a6-8971-9388aca3ab37> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://demokritos.gr/> a ex:Organization ;
+  ex:name "Demokritos - National Centre for Scientific Research" ;
+  ex:homepage <https://www.demokritos.gr/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/demokritos.gr.png?v=1794586075> ;
+  ex:location <urn:uuid:e002df67-f199-5e4f-95d0-c940cedcfb4a> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://lms.mech.upatras.gr/> a ex:Organization ;
+  ex:name "ELKE University of Patras, Laboratory for Manufacturing Systems & Automation (LMS)" ;
+  ex:homepage <http://www.lms.mech.upatras.gr> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/lms.mech.upatras.gr.png?v=1794586043> ;
+  ex:location <urn:uuid:afa2e550-3ca6-55d8-906b-122787b3a1ff> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://iccs.gr/> a ex:Organization ;
+  ex:name "Institute of Communication and Computer Systems" ;
+  ex:homepage <http://www.iccs.gr> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/iccs.gr.png?v=1794586037> ;
+  ex:location <urn:uuid:e002df67-f199-5e4f-95d0-c940cedcfb4a> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://teachingfactory-cc.eu/> a ex:Organization ;
+  ex:name "TEACHING FACTORY COMPETENCE CENTER (TFCC)" ;
+  ex:homepage <https://teachingfactory-cc.eu> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/https%3A//teachingfactory-cc.eu/.png?v=1794586080> ;
+  ex:location <urn:uuid:afa2e550-3ca6-55d8-906b-122787b3a1ff> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://sztaki.hun-ren.hu/> a ex:Organization ;
+  ex:name "HUN-REN SZTAKI (Institute for Computer Science and Control)" ;
+  ex:homepage <https://sztaki.hun-ren.hu> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/www.sztaki.hun-ren.hu.png?v=1794586076> ;
+  ex:location <urn:uuid:bc69c6fd-57c0-5dd3-9ee4-b6901143c553> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://cloud.google.com/> a ex:Organization ;
+  ex:name "Google Ireland Ltd." ;
+  ex:homepage <http://cloud.google.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/cloud.google.com.png?v=1794586042> ;
+  ex:location <urn:uuid:b5f1d0ce-df55-5957-8658-b28b1e46775e> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://aruba.it/> a ex:Organization ;
+  ex:name "Aruba" ;
+  ex:homepage <http://www.aruba.it> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/aruba.it.png?v=1794586046> ;
+  ex:location <urn:uuid:1984a2a6-62e8-574b-8c23-1f97cb5e4e1f> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch true ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://assosoftware.it/> a ex:Organization ;
+  ex:name "ASSOSOFTWARE - Associazione Italiana  Produttori di Software" ;
+  ex:homepage <http://www.assosoftware.it> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/assosoftware.it.png?v=1794586036> ;
+  ex:location <urn:uuid:d1f90880-66ed-5e19-adb5-f782272f566b> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://csipiemonte.it/> a ex:Organization ;
+  ex:name "CSI Piemonte" ;
+  ex:homepage <http://www.csipiemonte.it/web/en> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/csipiemonte.it.png?v=1794586055> ;
+  ex:location <urn:uuid:6274c1ec-a4f0-5782-b9a2-b3aaa10314fc> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://dinfo.unifi.it/> a ex:Organization ;
+  ex:name "Department of Information Engineering, University of Florence (DINFO)" ;
+  ex:homepage <https://www.dinfo.unifi.it/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/dinfo.unifi.it.png?v=1794586045> ;
+  ex:location <urn:uuid:c7231035-c401-5c65-a7fb-19f7d235b415> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://dinova.one/> a ex:Organization ;
+  ex:name "Dinova Srl" ;
+  ex:homepage <https://www.dinova.one/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/dinova.one.png?v=1794586038> ;
+  ex:location <urn:uuid:fd72ee43-bb0f-5c21-a30a-4346aa33619b> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://dynamo.cloud/> a ex:Organization ;
+  ex:name "Dynamo S.p.a." ;
+  ex:homepage <https://www.dynamo.cloud> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/dynamo.cloud.png?v=1794586075> ;
+  ex:location <urn:uuid:d1f90880-66ed-5e19-adb5-f782272f566b> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://elemento.cloud/> a ex:Organization ;
+  ex:name "Elemento SRL" ;
+  ex:homepage <https://elemento.cloud> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/elemento.cloud.png?v=1794586069> ;
+  ex:location <urn:uuid:9d2256a8-91f8-59a2-a53b-2a063dbf31a0> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://enia.ai/> a ex:Organization ;
+  ex:name "ENTE NAZIONALE per l'INTELLIGENZA ARTIFICIALE ENIA" ;
+  ex:homepage <https://www.enia.ai> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/www.enia.ai.png?v=1794586078> ;
+  ex:location <urn:uuid:d1f90880-66ed-5e19-adb5-f782272f566b> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://fastweb.it/> a ex:Organization ;
+  ex:name "Fastweb S.p.A." ;
+  ex:homepage <https://www.fastweb.it/corporate/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/fastweb.it.png?v=1794586043> ;
+  ex:location <urn:uuid:d1f90880-66ed-5e19-adb5-f782272f566b> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://fsitaliane.it/> a ex:Organization ;
+  ex:name "Ferrovie dello Stato Italiane S.p.A" ;
+  ex:homepage <https://www.fsitaliane.it/content/fsitaliane/en.html> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/fsitaliane.it.png?v=1794586061> ;
+  ex:location <urn:uuid:f62393cc-2022-5981-9dbc-ab071fc91fc9> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://fincantierinxt.it/> a ex:Organization ;
+  ex:name "FINCANTIERI NEXTECH S.P.A." ;
+  ex:homepage <http://www.fincantierinxt.it> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/fincantierinxt.it.png?v=1794586043> ;
+  ex:location <urn:uuid:d1f90880-66ed-5e19-adb5-f782272f566b> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://infordata.pro/> a ex:Organization ;
+  ex:name "Infordata Sistemi Srl" ;
+  ex:homepage <https://www.infordata.pro> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/infordata.pro.png?v=1794586073> ;
+  ex:location <urn:uuid:99187c6d-3f3d-5271-9c40-3f6ee4bb8ff4> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://namex.it/> a ex:Organization ;
+  ex:name "Namex" ;
+  ex:homepage <http://www.namex.it> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/namex.it.png?v=1794586043> ;
+  ex:location <urn:uuid:f62393cc-2022-5981-9dbc-ab071fc91fc9> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://netalia.it/> a ex:Organization ;
+  ex:name "netalia srl" ;
+  ex:homepage <http://www.netalia.it> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/netalia.it.png?v=1794586043> ;
+  ex:location <urn:uuid:5a8022fb-bbcb-5e38-9aaf-49768278a194> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://opiquad.it/> a ex:Organization ;
+  ex:name "OPIQUAD S.p.A." ;
+  ex:homepage <https://Www.opiquad.it> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/opiquad.it.png?v=1794586071> ;
+  ex:location <urn:uuid:d1f90880-66ed-5e19-adb5-f782272f566b> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://rai.it/> a ex:Organization ;
+  ex:name "Rai - Radiotetevisione Italiana Spa" ;
+  ex:homepage <http://www.rai.it> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/rai.it.png?v=1794586039> ;
+  ex:location <urn:uuid:f62393cc-2022-5981-9dbc-ab071fc91fc9> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://realcomm.it/> a ex:Organization ;
+  ex:name "REAL COMM srl" ;
+  ex:homepage <https://realcomm.it/it> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/realcomm.it.png?v=1794586051> ;
+  ex:location <urn:uuid:02de166c-ef72-59a3-a996-3fc295d519be> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://irideos.it/> a ex:Organization ;
+  ex:name "Retelit Digital Services S.p.A." ;
+  ex:homepage <https://irideos.it> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/irideos.it.png?v=1794586046> ;
+  ex:location <urn:uuid:d1f90880-66ed-5e19-adb5-f782272f566b> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://skyit.it/> a ex:Organization ;
+  ex:name "SkyIT s.r.l." ;
+  ex:homepage <http://www.skyit.it> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/skyit.it.png?v=1794586047> ;
+  ex:location <urn:uuid:97fa116f-e861-533b-9d12-7d08a87d6306> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://sogei.it/> a ex:Organization ;
+  ex:name "Sogei S.p.A." ;
+  ex:homepage <http://www.sogei.it> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/sogei.it.png?v=1794586038> ;
+  ex:location <urn:uuid:f62393cc-2022-5981-9dbc-ab071fc91fc9> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://top-ix.org/> a ex:Organization ;
+  ex:name "TOP-IX" ;
+  ex:homepage <http://www.top-ix.org/it/home> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/top-ix.org.png?v=1794586036> ;
+  ex:location <urn:uuid:6274c1ec-a4f0-5782-b9a2-b3aaa10314fc> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://data-society-alliance.org/> a ex:Organization ;
+  ex:name "Data Society Alliance" ;
+  ex:homepage <https://data-society-alliance.org> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/data-society-alliance.org.png?v=1794586068> ;
+  ex:location <urn:uuid:daefdb45-45f6-5c82-93d8-bc0bc4aa070d> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://ntt.com/> a ex:Organization ;
+  ex:name "NTT Communications Corporation" ;
+  ex:homepage <https://www.ntt.com/en/index.html> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/ntt.com.png?v=1794586055> ;
+  ex:location <urn:uuid:cd1e33b0-2587-563e-8246-a64b9905e773> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://jmfrri.gr.jp/> a ex:Organization ;
+  ex:name "Robot Revolution & Industrial IoT Initiative" ;
+  ex:homepage <https://www.jmfrri.gr.jp/english/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/jmfrri.gr.jp.png?v=1794586038> ;
+  ex:location <urn:uuid:1a82e1f9-bc0b-546b-bd47-2cdf27265954> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://cloudcommunityeurope.lu/> a ex:Organization ;
+  ex:name "Cloud Community Europe - Luxembourg ASBL" ;
+  ex:homepage <https://www.cloudcommunityeurope.lu> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/cloudcommunityeurope.lu.png?v=1794586056> ;
+  ex:location <urn:uuid:57733b50-fe8d-51a8-9afd-3763721f8398> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://incert.lu/> a ex:Organization ;
+  ex:name "Incert Gie" ;
+  ex:homepage <https://www.incert.lu/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/incert.lu.png?v=1794586070> ;
+  ex:location <urn:uuid:425d732a-3f4b-526b-8599-2fed7a388046> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://list.lu/> a ex:Organization ;
+  ex:name "Luxembourg Institute for Science and Technology (LIST)" ;
+  ex:homepage <https://www.list.lu> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/list.lu.png?v=1794586052> ;
+  ex:location <urn:uuid:8f8e17d3-34a3-50c5-bd81-41b3b206617f> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://lih.lu/> a ex:Organization ;
+  ex:name "Luxembourg Institute of Health" ;
+  ex:homepage <https://www.lih.lu> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/lih.lu.png?v=1794586037> ;
+  ex:location <urn:uuid:57733b50-fe8d-51a8-9afd-3763721f8398> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://lnds.lu/> a ex:Organization ;
+  ex:name "Luxembourg National Data Service (LNDS)" ;
+  ex:homepage <https://lnds.lu> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/lnds.lu.png?v=1794586070> ;
+  ex:location <urn:uuid:8f8e17d3-34a3-50c5-bd81-41b3b206617f> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://luxinnovation.lu/> a ex:Organization ;
+  ex:name "Luxinnovation GIE" ;
+  ex:homepage <https://www.luxinnovation.lu> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/luxinnovation.lu.png?v=1794586041> ;
+  ex:location <urn:uuid:8f8e17d3-34a3-50c5-bd81-41b3b206617f> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://luxprovide.lu/> a ex:Organization ;
+  ex:name "LuxProvide" ;
+  ex:homepage <https://www.luxprovide.lu> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/www.luxprovide.lu.png?v=1794586076> ;
+  ex:location <urn:uuid:b6b5b8cd-f0da-5d75-a53f-06e8333e4145> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://omniscloud.eu/> a ex:Organization ;
+  ex:name "Omnis Cloud S.a.r.l." ;
+  ex:homepage <https://omniscloud.eu> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/omniscloud.eu.png?v=1794586038> ;
+  ex:location <urn:uuid:57733b50-fe8d-51a8-9afd-3763721f8398> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://sigi.lu/> a ex:Organization ;
+  ex:name "SIGI - Syndicat Intercommunal de Gestion Informatique" ;
+  ex:homepage <https://www.sigi.lu> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/sigi.lu.png?v=1794586050> ;
+  ex:location <urn:uuid:c89fe937-e052-5642-9747-e5e795207fe6> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://uni.lu/> a ex:Organization ;
+  ex:name "University of Luxembourg" ;
+  ex:homepage <https://www.uni.lu/en/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/https%3A//www.uni.lu/snt-en/.png?v=1794586038> ;
+  ex:location <urn:uuid:8f8e17d3-34a3-50c5-bd81-41b3b206617f> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://xjenzamalta.mt/> a ex:Organization ;
+  ex:name "Xjenza Malta" ;
+  ex:homepage <https://xjenzamalta.mt/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/xjenza.malta.png?v=1794586079> ;
+  ex:location <urn:uuid:c35c64a9-b5d5-552d-8e51-51f95827ddb5> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://ams-ix.net/> a ex:Organization ;
+  ex:name "Amsterdam Internet Exchange B.V." ;
+  ex:homepage <http://www.ams-ix.net> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/ams-ix.net.png?v=1794586036> ;
+  ex:location <urn:uuid:58b55933-2238-5433-8e5b-68117feee572> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://brainportindustries.nl/> a ex:Organization ;
+  ex:name "Brainport Industries" ;
+  ex:homepage <http://www.brainportindustries.nl> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/brainportindustries.nl.png?v=1794586036> ;
+  ex:location <urn:uuid:19c13873-3ce8-5b31-9c9d-c11a6bc0248b> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://egi.eu/> a ex:Organization ;
+  ex:name "EGI Foundation" ;
+  ex:homepage <https://www.egi.eu/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/egi.eu.png?v=1794586055> ;
+  ex:location <urn:uuid:58b55933-2238-5433-8e5b-68117feee572> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://ishare.eu/> a ex:Organization ;
+  ex:name "iSHARE Foundation" ;
+  ex:homepage <https://ishare.eu> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/ishare.eu.png?v=1794586073> ;
+  ex:location <urn:uuid:2333ec44-5659-5a15-8767-9cd60f792a71> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://leaseweb.com/> a ex:Organization ;
+  ex:name "Leaseweb Global B.V." ;
+  ex:homepage <http://www.leaseweb.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/leaseweb.com.png?v=1794586039> ;
+  ex:location <urn:uuid:58b55933-2238-5433-8e5b-68117feee572> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://realcob.com/> a ex:Organization ;
+  ex:name "RealCob" ;
+  ex:homepage <https://realcob.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/https%3A//realcob.com.png?v=1794586079> ;
+  ex:location <urn:uuid:43115abf-9fab-5ca8-b1fd-fe0254bb2789> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://surf.nl/> a ex:Organization ;
+  ex:name "SURF" ;
+  ex:homepage <http://www.surf.nl/en/about-surf> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/surf.nl.png?v=1794586055> ;
+  ex:location <urn:uuid:e65c2b70-c3e6-5350-a285-ffca019c053c> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://techseals.nl/> a ex:Organization ;
+  ex:name "Tech Seals B.V." ;
+  ex:homepage <https://www.techseals.nl/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/techseals.nl.png?v=1794586081> ;
+  ex:location <urn:uuid:19c13873-3ce8-5b31-9c9d-c11a6bc0248b> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://tno.nl/> a ex:Organization ;
+  ex:name "TNO" ;
+  ex:homepage <https://tno.nl> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/tno.nl.png?v=1794586038> ;
+  ex:location <urn:uuid:3ed2515f-0261-58ac-9294-29cd3bca7a99> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://united.group/> a ex:Organization ;
+  ex:name "UNITED GROUP MC B.V." ;
+  ex:homepage <http://www.united.group> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/united.group.png?v=1794586046> ;
+  ex:location <urn:uuid:359e45d6-b32d-51a3-bb9e-c55deff84ed4> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://smartinnovationnorway.com/> a ex:Organization ;
+  ex:name "Smart Innovation Venture AS" ;
+  ex:homepage <https://www.smartinnovationnorway.com/en/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/smartinnovationnorway.com.png?v=1794586074> ;
+  ex:location <urn:uuid:9b05ce0d-a685-5bc5-9881-eecb5b77f30e> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://evolvebitx.com/> a ex:Organization ;
+  ex:name "Evolve" ;
+  ex:homepage <https://www.evolvebitx.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/https%3A//evolvebitx.com/.png?v=1794586079> ;
+  ex:location <urn:uuid:0a6a4fb5-83cb-5092-acc3-fa084b6130d4> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://piit.org.pl/> a ex:Organization ;
+  ex:name "POLSKA IZBA INFORMATYKI I TELEKOMUNIKACJI (POLISH CHAMBER OF IT AND TELECOMMUNICATIONS)" ;
+  ex:homepage <http://www.piit.org.pl> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/piit.org.pl.png?v=1794586056> ;
+  ex:location <urn:uuid:a3e2e56f-db96-5bd1-b49c-73e8df893ad8> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://psnc.pl/> a ex:Organization ;
+  ex:name "Poznan Supercomputing and Networking Center (PSNC)" ;
+  ex:homepage <http://www.psnc.pl> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/psnc.pl.png?v=1794586051> ;
+  ex:location <urn:uuid:ce83c7dd-a01c-52d4-81d4-b16ba83c0440> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://tice.pt/> a ex:Organization ;
+  ex:name "Associação para o Polo das Tecnologias de Comunicação e Eletrónica - TICE.PT" ;
+  ex:homepage <http://www.tice.pt> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/tice.pt.png?v=1794586039> ;
+  ex:location <urn:uuid:53d69422-5ed7-5750-819e-596ed8ca195c> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://datacolab.pt/> a ex:Organization ;
+  ex:name "Data CoLAB" ;
+  ex:homepage <https://datacolab.pt> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/datacolab.pt.png?v=1794586069> ;
+  ex:location <urn:uuid:fc10c9f9-973e-5f0d-af69-249fbf27a2ee> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://inesctec.pt/> a ex:Organization ;
+  ex:name "INESC TEC" ;
+  ex:homepage <https://www.inesctec.pt/en> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/inesctec.pt.png?v=1794586076> ;
+  ex:location <urn:uuid:835d5676-c314-5d4e-bc0c-b4a76feff510> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://portal3.ipb.pt/> a ex:Organization ;
+  ex:name "Instituto Politécnico de Bragança" ;
+  ex:homepage <https://portal3.ipb.pt/index.php/pt/ipb> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/portal3.ipb.pt.png?v=1794586074> ;
+  ex:location <urn:uuid:7b8f1ab1-85de-5619-8722-4ce2d21a84c0> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://iptelecom.pt/> a ex:Organization ;
+  ex:name "IP Telecom, Serviços de Telecomunicações, S.A." ;
+  ex:homepage <http://www.iptelecom.pt> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/iptelecom.pt.png?v=1794586051> ;
+  ex:location <urn:uuid:1a833bff-4b83-5f19-8a82-2b61e50f64ab> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://dtcloudnow.com/> a ex:Organization ;
+  ex:name "Digital Transformation Europe doo" ;
+  ex:homepage <https://www.dtcloudnow.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/dtcloudnow.com.png?v=1794586068> ;
+  ex:location <urn:uuid:c4ce549f-94f8-5f89-852b-a078ed4ce58e> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://vnet.sk/> a ex:Organization ;
+  ex:name "VNET a.s" ;
+  ex:homepage <https://www.vnet.sk> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/vnet.sk.png?v=1794586076> ;
+  ex:location <urn:uuid:5f8136b1-8d6b-56f6-8db4-bc21ff33b6ce> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://mestric.com/> a ex:Organization ;
+  ex:name "Incognitio d.o.o." ;
+  ex:homepage <https://mestric.com/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/Incognitio.com.png?v=1794586080> ;
+  ex:location <urn:uuid:88581689-e817-5508-9854-eaf6ebd4b0f5> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://process-space.com/> a ex:Organization ;
+  ex:name "Process Space d.o.o." ;
+  ex:homepage <https://www.process-space.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/process-space.com.png?v=1794586075> ;
+  ex:location <urn:uuid:88581689-e817-5508-9854-eaf6ebd4b0f5> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://abhcst.com/> a ex:Organization ;
+  ex:name "abh" ;
+  ex:homepage <https://www.abhcst.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/abhcst.com.png?v=1794586056> ;
+  ex:location <urn:uuid:70ae7e5e-ed37-5712-86d2-283cba3ade45> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://bluemap.kr/> a ex:Organization ;
+  ex:name "BLUEMAP Inc." ;
+  ex:homepage <https://www.bluemap.kr/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/bluemap.dev.png?v=1794586071> ;
+  ex:location <urn:uuid:e350afaa-dd0b-5730-9d01-f31d63b957ac> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://circularsolution.net/> a ex:Organization ;
+  ex:name "Circular Solution Co., Ltd" ;
+  ex:homepage <https://circularsolution.net> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/circularsolution.co.kr.png?v=1794586078> ;
+  ex:location <urn:uuid:b416dc07-abab-5acf-8b23-40cd1e01d7e9> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://k4-security.com/> a ex:Organization ;
+  ex:name "K4Security Ltd" ;
+  ex:homepage <https://www.k4-security.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/www.k4-security.com.png?v=1794586077> ;
+  ex:location <urn:uuid:09dc3896-c85a-5bee-b8d2-782f6f9e23bc> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://adigital.org/> a ex:Organization ;
+  ex:name "Adigital - Asociación española de la economía digital (Adigital)" ;
+  ex:homepage <https://www.adigital.org/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/adigital.org.png?v=1794586059> ;
+  ex:location <urn:uuid:fc99043e-1b2b-5b78-8ca4-1cbb097b0804> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://alisys.net/> a ex:Organization ;
+  ex:name "ALISYS DIGITAL SLU" ;
+  ex:homepage <https://www.alisys.net> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/alisys.net.png?v=1794586071> ;
+  ex:location <urn:uuid:d193f9a5-07a9-53f4-9bf1-3e4109972295> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://ww.apecdata.es/> a ex:Organization ;
+  ex:name "APECDATA Association" ;
+  ex:homepage <https://ww.apecdata.es> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/apecdata.es.png?v=1794586060> ;
+  ex:location <urn:uuid:7bd092e1-a9a3-5146-b4c4-68fb45abfea8> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://gaiax.es/> a ex:Organization ;
+  ex:name "ASOCIACION GAIA-X ESPAÑA" ;
+  ex:homepage <https://www.gaiax.es> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/gaiax.es.png?v=1794586074> ;
+  ex:location <urn:uuid:e3b042d8-40d5-5459-ba43-0668b2f34a93> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://bsc.es/> a ex:Organization ;
+  ex:name "Barcelona Supercomputing Center" ;
+  ex:homepage <http://www.bsc.es> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/bsc.es.png?v=1794586060> ;
+  ex:location <urn:uuid:fc99043e-1b2b-5b78-8ca4-1cbb097b0804> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://eurecat.org/> a ex:Organization ;
+  ex:name "Eurecat" ;
+  ex:homepage <http://www.eurecat.org> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/eurecat.org.png?v=1794586043> ;
+  ex:location <urn:uuid:e6a40b4f-ba4b-57a3-a228-eecca15d89b8> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://tekniker.es/> a ex:Organization ;
+  ex:name "Fundacion Tekniker" ;
+  ex:homepage <https://www.tekniker.es> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/tekniker.es.png?v=1794586058> ;
+  ex:location <urn:uuid:290e5875-1951-5522-9908-3cfdc5bc7d12> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://vicomtech.org/> a ex:Organization ;
+  ex:name "FUNDACIÓN CENTRO DE TECNOLOGÍAS DE INTERACCIÓN VISUAL Y COMUNICACIONES VICOMTECH" ;
+  ex:homepage <http://www.vicomtech.org/en> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/vicomtech.org.png?v=1794586036> ;
+  ex:location <urn:uuid:4afa1440-8307-565d-8c6b-eadd17bd6f2e> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://ctme.es/> a ex:Organization ;
+  ex:name "Fundación Centro Tecnológico de Miranda de Ebro (CTME)" ;
+  ex:homepage <https://ctme.es> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/ctme.es.png?v=1794586075> ;
+  ex:location <urn:uuid:4cf2fa85-773a-5065-a8fc-7728e24e4354> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://airenetworks.es/> a ex:Organization ;
+  ex:name "Grupo Aire" ;
+  ex:homepage <https://www.airenetworks.es/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/airenetworks.es.png?v=1794586043> ;
+  ex:location <urn:uuid:e890dd17-e6e6-584a-8e4c-720cfb4012c4> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch true ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://clinicbarcelona.org/> a ex:Organization ;
+  ex:name "Hospital Clinic de Barcelona" ;
+  ex:homepage <http://www.clinicbarcelona.org> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/clinicbarcelona.org.png?v=1794586055> ;
+  ex:location <urn:uuid:fc99043e-1b2b-5b78-8ca4-1cbb097b0804> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://i2cat.net/> a ex:Organization ;
+  ex:name "i2CAT" ;
+  ex:homepage <http://www.i2cat.net> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/i2cat.net.png?v=1794586046> ;
+  ex:location <urn:uuid:fc99043e-1b2b-5b78-8ca4-1cbb097b0804> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://ikerlan.es/> a ex:Organization ;
+  ex:name "IKERLAN" ;
+  ex:homepage <https://www.ikerlan.es> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/ikerlan.es.png?v=1794586052> ;
+  ex:location <urn:uuid:1643a080-7945-56b7-ada2-20da86d38772> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://innovalia.org/> a ex:Organization ;
+  ex:name "Innovalia Association" ;
+  ex:homepage <http://www.innovalia.org> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/innovalia.org.png?v=1794586055> ;
+  ex:location <urn:uuid:2602e8e5-59aa-5396-a16a-2943f9902848> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://itg.es/> a ex:Organization ;
+  ex:name "ITG" ;
+  ex:homepage <https://www.itg.es> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/itg.es.png?v=1794586077> ;
+  ex:location <urn:uuid:5bc8152d-0370-592f-95a0-8785764bcd51> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://iti.es/> a ex:Organization ;
+  ex:name "ITI - Instituto Tecnológico de Informática" ;
+  ex:homepage <http://www.iti.es> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/iti.es.png?v=1794586036> ;
+  ex:location <urn:uuid:1d337bac-b322-58ac-bb3b-46ed62e8bfd0> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://kanzo.tech/> a ex:Organization ;
+  ex:name "KANZO TECH" ;
+  ex:homepage <https://www.kanzo.tech> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/www.kanzo.tech.png?v=1794586080> ;
+  ex:location <urn:uuid:c94fefd2-e81b-5466-9c25-0116087d278f> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://kiwa.com/> a ex:Organization ;
+  ex:name "Kiwa Spain" ;
+  ex:homepage <https://www.kiwa.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/https%3A//www.kiwa.com/es/es/.png?v=1794586079> ;
+  ex:location <urn:uuid:919a8bc4-7736-50b3-858d-88fc5186c49b> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://libelium.com/> a ex:Organization ;
+  ex:name "Libelium" ;
+  ex:homepage <https://www.libelium.com/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/www.libelium.com.png?v=1794586078> ;
+  ex:location <urn:uuid:0ea55b3d-aca5-5bc7-a87d-a30ba021c433> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://miceliodata.eu/> a ex:Organization ;
+  ex:name "MicelioData SL" ;
+  ex:homepage <https://miceliodata.eu> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/www.miceliodata.eu.png?v=1794586081> ;
+  ex:location <urn:uuid:d193f9a5-07a9-53f4-9bf1-3e4109972295> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://tecnalia.com/> a ex:Organization ;
+  ex:name "TECNALIA Research & Innovation" ;
+  ex:homepage <http://www.tecnalia.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/tecnalia.com.png?v=1794586046> ;
+  ex:location <urn:uuid:3597999d-80b0-5b82-8504-3aa0b78b6f36> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://upm.es/> a ex:Organization ;
+  ex:name "UNIVERSIDAD POLITÉCNICA DE MADRID" ;
+  ex:homepage <http://www.upm.es> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/upm.es.png?v=1794586055> ;
+  ex:location <urn:uuid:d193f9a5-07a9-53f4-9bf1-3e4109972295> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://agrospai.udl.cat/> a ex:Organization ;
+  ex:name "Universitat de Lleida" ;
+  ex:homepage <https://agrospai.udl.cat> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/udl.cat.png?v=1794586070> ;
+  ex:location <urn:uuid:a4f9c50f-e3d6-5565-b8ab-dbfdda860a91> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://zertifier.com/> a ex:Organization ;
+  ex:name "ZERTIFIER" ;
+  ex:homepage <https://www.zertifier.com/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/zertifier.com.png?v=1794586076> ;
+  ex:location <urn:uuid:b4d85cef-127a-505a-a636-8c31dd8b1a6d> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://safespring.com/> a ex:Organization ;
+  ex:name "Safespring AB" ;
+  ex:homepage <http://www.safespring.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/safespring.com.png?v=1794586043> ;
+  ex:location <urn:uuid:be8c0fcf-a301-5e5f-b162-7b8377f7e112> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://cloudsigma.com/> a ex:Organization ;
+  ex:name "CloudSigma AG" ;
+  ex:homepage <https://www.cloudsigma.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/cloudsigma.com.png?v=1794586039> ;
+  ex:location <urn:uuid:50eb47b5-d9ff-5573-b4f9-4a3f62ef7607> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://ebu.ch/> a ex:Organization ;
+  ex:name "European Broadcasting Union (EBU)" ;
+  ex:homepage <http://www.ebu.ch> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/ebu.ch.png?v=1794586051> ;
+  ex:location <urn:uuid:4811071f-0525-5efe-a0cf-f8a2ad400b47> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://swissdataalliance.ch/> a ex:Organization ;
+  ex:name "Swiss Data Alliance" ;
+  ex:homepage <https://www.swissdataalliance.ch/> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/swissdataalliance.ch.png?v=1794586076> ;
+  ex:location <urn:uuid:e6fd1ad4-ed55-562b-b6bc-ca11edb549f6> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://turkbesd.org/> a ex:Organization ;
+  ex:name "TURKBESD - White Goods Manufacturers’ Association of Turkey" ;
+  ex:homepage <https://www.turkbesd.org> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/turkbesd.org.png?v=1794586038> ;
+  ex:location <urn:uuid:3b654142-7142-5d17-9dd3-2fe7a416c454> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://mess.org.tr/> a ex:Organization ;
+  ex:name "Turkish Employers' Association of Metal Industries" ;
+  ex:homepage <https://www.mess.org.tr/en/homepage> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/mess.org.tr.png?v=1794586058> ;
+  ex:location <urn:uuid:3b654142-7142-5d17-9dd3-2fe7a416c454> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://3verest.com/> a ex:Organization ;
+  ex:name "3verest" ;
+  ex:homepage <https://www.3verest.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/www.3verest.com.png?v=1794586076> ;
+  ex:location <urn:uuid:353c1530-8296-5564-a930-5d925611b5ed> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://nscale.com/> a ex:Organization ;
+  ex:name "NScale Operations (UK) Ltd" ;
+  ex:homepage <https://www.nscale.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/nscale.com.png?v=1794586078> ;
+  ex:location <urn:uuid:d043141e-1789-5167-8590-980e61710bd2> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://openuk.uk/> a ex:Organization ;
+  ex:name "OpenUK" ;
+  ex:homepage <http://www.openuk.uk> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/openuk.uk.png?v=1794586051> ;
+  ex:location <urn:uuid:353c1530-8296-5564-a930-5d925611b5ed> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://technovativesolutions.co.uk/> a ex:Organization ;
+  ex:name "Technovative Solutions Ltd" ;
+  ex:homepage <https://www.technovativesolutions.co.uk> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/https%3A//technovativesolutions.co.uk.png?v=1794586080> ;
+  ex:location <urn:uuid:c821d46e-475e-5fd4-92f5-b1e4049ed813> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://snowflake.com/> a ex:Organization ;
+  ex:name "Snowflake Computing U.K. Limited" ;
+  ex:homepage <http://www.snowflake.com> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/snowflake.com.png?v=1794586051> ;
+  ex:location <urn:uuid:83381820-ec30-5747-b9f6-cc1c136ed5e3> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:gxdch false ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
+
+<https://kaist.ac.kr/> a ex:Organization ;
+  ex:name "International Data Research and Collaboration Institute" ;
+  ex:homepage <https://www.kaist.ac.kr> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/shinkim.com.png?v=1794586079> ;
+  ex:location <urn:uuid:c8b96345-9899-595c-acd4-45e7da9f3e84> ;
+  ex:gaiaXMemberCategory "Members" ;
+  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .

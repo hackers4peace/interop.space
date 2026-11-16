@@ -41,6 +41,29 @@
     ]
   },
   {
+    "id": "https://gaia-x.eu/",
+    "name": "Gaia-X",
+    "website": "https://gaia-x.eu/",
+    "logo": "/logos/gaia-x.svg",
+    "sections": [
+      {
+        "kind": "chips",
+        "title": "Focus",
+        "items": [
+          {
+            "label": "Data spaces"
+          },
+          {
+            "label": "Trust framework"
+          },
+          {
+            "label": "Federation services"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "https://www.ietf.org/",
     "name": "Internet Engineering Task Force",
     "website": "https://www.ietf.org/",

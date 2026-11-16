@@ -90,6 +90,9 @@ const STATIC_SEED_FILES = [
   'data/events.ttl',
   'data/locations.ttl',
   'data/nlnet.ttl',
+  'data/gaia-x/locations.ttl',
+  'data/gaia-x/organizations.ttl',
+  'data/gaia-x/events.ttl',
 ]
 
 const usage = `usage:
@@ -98,8 +101,8 @@ const usage = `usage:
   bun scripts/fuseki.ts tunnel [production]
 
 seed targets (default: all):
-  all      every stage file in data/dump and data/fedidb plus every curated data/*.ttl
-  static   only the curated data/*.ttl files
+  all      every stage file in data/dump and data/fedidb plus every curated data/**/*.ttl
+  static   only the curated data/**/*.ttl files
   fedidb   only the generated data/fedidb/*.nq files
   <group>  one stage group under data/dump (w3c, ietf, cross, ...)
   <path>   one .ttl/.nq file, or a directory of .nq files`
@@ -201,7 +204,7 @@ function resolveTargets(targets: string[]): string[] {
       if (!existsSync(path)) {
         const known = [...groups, 'fedidb', 'static', 'all'].join(', ')
         throw new UsageError(
-          `unknown seed target "${target}"; use ${known}, a stage group or a data/*.ttl / data/dump/*/*.nq / data/fedidb/*.nq path (environments are development and production)`,
+          `unknown seed target "${target}"; use ${known}, a stage group or a data/**/*.ttl / data/dump/*/*.nq / data/fedidb/*.nq path (environments are development and production)`,
         )
       }
       if (statSync(path).isDirectory()) {

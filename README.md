@@ -31,7 +31,7 @@ Run from the repository root with `devbox run <script>`:
 | `identities:remap` | Applies `DUPLICATE_W3C_IDS` to `data/identities.json` (dry run adds `--pair=<dup>=<canonical>`) |
 | `identities:verify` | Checks identity-map and stage-graph invariants |
 | `identities:duplicates` | Lists same-name W3C account pairs with api.w3.org evidence |
-| `seed` | Loads `data/dump/*/*.nq`, `data/fedidb/*.nq` + `data/*.ttl`, or only the given files/groups; defaults to development |
+| `seed` | Loads `data/dump/*/*.nq`, `data/fedidb/*.nq` + `data/**/*.ttl`, or only the given files/groups; defaults to development |
 | `wipe` | Clears every graph; defaults to development |
 | `tunnel` | Keeps `127.0.0.1:3030` forwarded to the VPS Fuseki (production only) |
 | `generate` | Regenerates TypeScript, UI and C# types from `schema/*.json` |
@@ -53,7 +53,7 @@ devbox run seed -- production w3c          # only data/dump/w3c/*.nq
 devbox run seed -- fedidb                  # only data/fedidb/*.nq
 devbox run seed -- ietf data/nlnet.ttl     # a stage group plus one curated file
 devbox run seed -- data/nlnet.ttl          # one file, development endpoint
-devbox run seed -- static                  # every curated data/*.ttl
+devbox run seed -- static                  # every curated data/**/*.ttl
 ```
 
 The targets are `all` (default), `static`, `fedidb`, a stage group under
@@ -128,6 +128,14 @@ the curated `data/software.ttl`).
 
 `seed` includes this directory in `all`, and `devbox run seed -- fedidb` seeds
 only these files. See `data/fedidb/README.md` for the RDF mapping.
+
+## Gaia-X data
+
+`data/gaia-x/` holds the Gaia-X organization, its public member directory with
+city-level locations, and the upcoming events from the Gaia-X calendar. The
+files are curated from public endpoints; `data/gaia-x/README.md` records the
+sources, the snapshot date and the RDF mapping. They are part of
+`seed -- static` and `seed -- all`.
 
 ## IETF crawl
 

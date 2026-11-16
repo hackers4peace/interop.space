@@ -27,8 +27,8 @@ const Locations: Component = () => {
         <h1 class="text-3xl font-bold tracking-tight">Locations</h1>
         <p class="text-slate-600 dark:text-slate-400">
           {total()} {isSearch() ? 'matching' : ''}{' '}
-          {total() === 1 ? 'location' : 'locations'} with local groups in the
-          catalog.
+          {total() === 1 ? 'location' : 'locations'} with local groups or
+          member organizations in the catalog.
         </p>
       </div>
       <SearchBar

@@ -1127,22 +1127,35 @@ async function orgsByUris(
   const orgs = new Map<string, Org>()
   if (!uris.length) return orgs
   const rows = await queryBindings(`${PREFIXES}
-    SELECT ?org ?name ?homepage ?logo WHERE {
+    SELECT ?org ?name ?homepage ?logo ?location ?locationName ?locationRegion WHERE {
       VALUES ?org { ${uris.map(iri).join(' ')} }
       ?org a ex:Organization ; ex:name ?name .
       OPTIONAL { ?org ex:homepage ?homepage }
       OPTIONAL { ?org ex:logo ?logo }
+      OPTIONAL {
+        ?org ex:location ?location .
+        OPTIONAL { ?location ex:name ?locationName }
+        OPTIONAL { ?location ex:region ?locationRegion }
+      }
     }`)
   for (const b of rows) {
     const uri = value(b, 'org')
     const name = value(b, 'name')
     if (!uri || !name) continue
+    const locationUri = value(b, 'location')
     orgs.set(uri, {
       id: short(uri),
       uri,
       name,
       homepage: value(b, 'homepage'),
       logo: value(b, 'logo'),
+      location: locationUri
+        ? {
+            uri: locationUri,
+            name: value(b, 'locationName') ?? short(locationUri),
+            region: value(b, 'locationRegion'),
+          }
+        : undefined,
       affiliates: [],
       proposedUseCaseUris: [],
       funds: [],
@@ -1735,12 +1748,16 @@ async function useCaseDetail(id: string, sdo?: string) {
 async function locationDetail(id: string) {
   const uri = await resolveSubject('location', id)
   if (!uri) return undefined
-  const [locations, groups, eventRows] = await Promise.all([
+  const [locations, groups, eventRows, orgRows] = await Promise.all([
     locationsByUris([uri]),
     localGroupsAt(uri),
     queryBindings(`${PREFIXES}
       SELECT DISTINCT ?event WHERE {
         ?event a ex:Event ; ex:atLocation ${iri(uri)} .
+      }`),
+    queryBindings(`${PREFIXES}
+      SELECT DISTINCT ?org WHERE {
+        ?org a ex:Organization ; ex:location ${iri(uri)} .
       }`),
   ])
   const location = locations.get(uri)
@@ -1748,12 +1765,22 @@ async function locationDetail(id: string) {
   const eventUris = eventRows
     .map((b) => value(b, 'event'))
     .filter((event): event is string => Boolean(event))
-  const eventsByUri = await eventsByUris(eventUris)
+  const [eventsByUri, orgsByUri] = await Promise.all([
+    eventsByUris(eventUris),
+    orgsByUris(
+      orgRows
+        .map((b) => value(b, 'org'))
+        .filter((org): org is string => Boolean(org)),
+    ),
+  ])
   const events = eventUris
     .map((eventUri) => eventsByUri.get(eventUri))
     .filter((event): event is Event => event !== undefined)
     .sort((a, b) => (a.startDate ?? '').localeCompare(b.startDate ?? ''))
-  return { kind: 'location' as const, location, events, groups }
+  const orgs = [...orgsByUri.values()].sort((a, b) =>
+    a.name.localeCompare(b.name),
+  )
+  return { kind: 'location' as const, location, events, groups, orgs }
 }
 
 async function eventDetail(id: string) {

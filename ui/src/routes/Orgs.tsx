@@ -18,8 +18,8 @@ const Orgs: Component = () => {
         <h1 class="text-3xl font-bold tracking-tight">Organizations</h1>
         <p class="text-slate-600 dark:text-slate-400">
           {total()} {isSearch() ? 'matching' : ''}{' '}
-          {total() === 1 ? 'organization' : 'organizations'} with affiliations
-          or proposed use cases in the catalog.
+          {total() === 1 ? 'organization' : 'organizations'} in the catalog,
+          including Gaia-X members and their locations.
         </p>
       </div>
       <SearchBar

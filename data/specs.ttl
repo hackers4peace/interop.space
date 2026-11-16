@@ -6,6 +6,19 @@
 # on both the group page and the specification list.
 #
 # Source: https://w3c-cg.github.io/rsp/spec/messages
+#
+# Data spaces batch — from the Gaia-X TechX26 talk "An ODRL Profile to join
+# them all for Data Spaces" by Joaquín Salvachúa and Andrés Muñoz (UPM).
+#
+# Source: https://www.youtube.com/watch?v=ysykboeFPs8
+# Slides: https://gaia-x.eu/wp-content/uploads/2026/06/2.4-An-ODRL-Profile-to-join-them-all-for-Data-Spaces.pdf
+#
+# The talk links https://w3c.github.io/odrl/profile-bigdata/; that document now
+# says it is superseded by https://w3c.github.io/odrl/profile-dataspaces/. Both
+# stay in the catalog because the linked URL is still live. ODRL 2.2 is the
+# Recommendation the profiles extend; it is not in the W3C API dump, so it is
+# added here.
+#
 # Seeded with `devbox run seed` (see devbox.json).
 
 @prefix ex: <http://example.org#> .
@@ -24,3 +37,50 @@
 
 <https://www.w3.org/community/rsp/> ex:specification
   <https://w3c-cg.github.io/rsp/spec/messages> .
+
+<https://www.w3.org/TR/odrl-model/> a ex:Specification ;
+  ex:sdo <https://www.w3.org/> ;
+  ex:name "ODRL Information Model 2.2" ;
+  ex:shortname "odrl-model" ;
+  ex:landingPage <https://www.w3.org/TR/odrl-model/> ;
+  ex:editorDraft <https://w3c.github.io/poe/model/> ;
+  dcterms:publisher "W3C" ;
+  dcterms:date "15 February 2018" .
+
+<https://www.w3.org/TR/odrl-vocab/> a ex:Specification ;
+  ex:sdo <https://www.w3.org/> ;
+  ex:name "ODRL Vocabulary & Expression 2.2" ;
+  ex:shortname "odrl-vocab" ;
+  ex:landingPage <https://www.w3.org/TR/odrl-vocab/> ;
+  ex:editorDraft <https://w3c.github.io/poe/vocab/> ;
+  dcterms:publisher "W3C" ;
+  dcterms:date "15 February 2018" .
+
+# The profile URL linked from the talk.
+<https://w3c.github.io/odrl/profile-bigdata/> a ex:Specification ;
+  ex:sdo <https://www.w3.org/> ;
+  ex:name "ODRL Profile: Big Data" ;
+  ex:shortname "odrl-profile-bigdata" ;
+  ex:editorDraft <https://w3c.github.io/odrl/profile-bigdata/> ;
+  dcterms:publisher "W3C ODRL Community Group" ;
+  bibo:obsoletedBy <https://w3c.github.io/odrl/profile-dataspaces/> .
+
+# The Data Spaces profile names Joaquín Salvachúa, Andrés Muñoz, Gabriel
+# Huecas, Carlos Aparicio and Rodrigo Menéndez in its acknowledgments. Carlos
+# Aparicio has no local identity yet, so only the other four are linked.
+<https://w3c.github.io/odrl/profile-dataspaces/> a ex:Specification ;
+  ex:sdo <https://www.w3.org/> ;
+  ex:name "ODRL Profile: Data Spaces" ;
+  ex:shortname "odrl-profile-dataspaces" ;
+  ex:editorDraft <https://w3c.github.io/odrl/profile-dataspaces/> ;
+  dcterms:publisher "W3C ODRL Community Group" ;
+  dcterms:creator
+    <urn:uuid:a5a90db9-7621-4137-9c76-fc0f5c4eb649> ,
+    <urn:uuid:8ba9d985-5895-4ba7-afdd-d50d7a9e6562> ,
+    <urn:uuid:e8360bc5-0bc4-4b8c-a40a-55b9d8779699> ,
+    <urn:uuid:7b953668-6ebd-4bda-9247-9edd5221e7d4> ;
+  bibo:obsoletes <https://w3c.github.io/odrl/profile-bigdata/> .
+
+<https://www.w3.org/community/odrl/> ex:specification
+  <https://w3c.github.io/odrl/profile-bigdata/> ,
+  <https://w3c.github.io/odrl/profile-dataspaces/> .

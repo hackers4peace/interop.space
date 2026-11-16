@@ -3,6 +3,7 @@ import { For, Match, Show, Switch, createEffect } from 'solid-js'
 import { A, useParams } from '@solidjs/router'
 import { LocalGroupCard } from '../components/LocalGroupCard'
 import { EventCard } from '../components/EventCard'
+import { OrgCard } from '../components/OrgCard'
 import { appActor } from '../store/app'
 import { useSdoNav } from '../lib/sdoNav'
 import { detailFor } from '../store/selectors'
@@ -64,6 +65,19 @@ const LocationDetail: Component = () => {
                   <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <For each={data().events}>
                       {(event) => <EventCard event={event} />}
+                    </For>
+                  </ul>
+                </div>
+              </Show>
+
+              <Show when={data().orgs.length > 0}>
+                <div class="space-y-3">
+                  <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                    Organizations
+                  </h2>
+                  <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <For each={data().orgs}>
+                      {(org) => <OrgCard org={org} />}
                     </For>
                   </ul>
                 </div>

@@ -98,6 +98,11 @@ export type Org = {
   name: string
   homepage?: string
   logo?: string // ex:logo, a public path or absolute URL
+  location?: {
+    uri: string // ex:location target
+    name: string // ex:name of the location
+    region?: string // ex:region of the location
+  }
   affiliates: SpecContributor[] // people linked with ex:affiliation
   proposedUseCaseUris: string[] // ex:proposed targets
   funds: OrgFunding[] // ex:funds edges grouped by funded software (detail only)
