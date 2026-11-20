@@ -149,6 +149,18 @@ files are curated from public endpoints; `data/gaia-x/README.md` records the
 sources, the snapshot date and the RDF mapping. They are part of
 `seed -- static` and `seed -- all`.
 
+## Eclipse data
+
+`data/eclipse/` adds the **Eclipse Dataspace Working Group**
+(`https://dataspace.eclipse.org/`), the **Dataspace Protocol 2025-1**
+(`https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/`), the
+**International Data Spaces Association (IDSA)** and the **Data Spaces
+Symposium 2027**. The Eclipse Foundation organization itself is not duplicated:
+the existing Gaia-X member record `<https://eclipse.org/>` is reused as the
+`ex:sdo`, and the Eclipse entry in `ui/src/data/sdos.json` supplies the catalog
+name, website and logo. See `data/eclipse/README.md` for sources and the RDF
+mapping. The files are part of `seed -- static` and `seed -- all`.
+
 ## Interoperable Europe data
 
 `data/semic/` holds the Interoperable Europe SDO, its SEMIC Support Centre and
@@ -172,8 +184,8 @@ sources, counts and the deployment mapping. The files are part of
 entry is the SDS 2026 paper *DCAT-based Data Discovery in Solid-based
 Dataspaces* (`https://drive.google.com/file/d/1-PfRwyZwbStpAq5HCWVeoIHdYInHtMMk`).
 It links its authors to catalog people (five W3C accounts plus Tobias Meisen's
-ORCID record), cites eleven W3C / Solid Community Group specifications, and
-references the paper's reference implementation.
+ORCID record), cites eleven W3C / Solid Community Group specifications plus the
+Eclipse Dataspace Protocol, and references the paper's reference implementation.
 
 The publication page shows its authors plus the specifications and software it
 references. Every cited specification page shows the publication in a

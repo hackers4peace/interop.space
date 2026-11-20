@@ -1,0 +1,29 @@
+# Data Spaces Symposium 2027.
+#
+# The symposium is organised by IDSA together with the Data Spaces Support
+# Centre (DSSC), BDVA, Gaia-X and other partners. IDSA is recorded as both the
+# event's standards-body scope (ex:sdo) and its organizer. The page gives
+# 9-10 March 2027, 08:00-17:30 UTC+01:00 each day; the dates below are those
+# times converted to UTC (Europe/Brussels is still on CET in March).
+#
+# Source: https://internationaldataspaces.org/events/data-spaces-symposium-2027-value-at-scale-trust-by-design/
+# Snapshot: 2026-11-19.
+#
+# The venue is The EGG, Rue Bara 175, Brussels. ex:atLocation reuses the
+# existing Brussels city node from data/locations.ttl (the event page supplies
+# the street venue as ex:location).
+#
+# Seeded with `devbox run seed -- static` (see scripts/fuseki.ts).
+
+@prefix ex: <http://example.org#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<urn:uuid:d7b17c9b-d665-43e2-9cad-3af6194fa354> a ex:Event ;
+  ex:sdo <https://internationaldataspaces.org/> ;
+  ex:name "Data Spaces Symposium 2027 | Value at Scale, Trust by Design" ;
+  ex:startDate "2027-03-09T07:00:00Z"^^xsd:dateTime ;
+  ex:endDate "2027-03-10T16:30:00Z"^^xsd:dateTime ;
+  ex:location "The EGG, Rue Bara 175, 1070 Brussels, Belgium" ;
+  ex:atLocation <urn:uuid:7e3e99af-9fbb-58c9-adef-fc2bea6bd5a5> ;
+  ex:organizer <https://internationaldataspaces.org/> ;
+  ex:source <https://internationaldataspaces.org/events/data-spaces-symposium-2027-value-at-scale-trust-by-design/> .

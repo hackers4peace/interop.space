@@ -1,0 +1,24 @@
+# Eclipse Dataspace Working Group.
+#
+# The working group develops the Dataspace Protocol under the Eclipse
+# Foundation. The Eclipse organization itself already exists as the Gaia-X
+# member record <https://eclipse.org/> in data/gaia-x/organizations.ttl; that
+# URI is reused here so the two directories do not create duplicate Eclipse
+# organizations.
+#
+# Sources: https://dataspace.eclipse.org/
+#          https://github.com/eclipse-dataspace-protocol-base/DataspaceProtocol
+# Snapshot: 2026-11-19.
+#
+# Seeded with `devbox run seed -- static` (see scripts/fuseki.ts).
+
+@prefix ex: <http://example.org#> .
+
+<https://dataspace.eclipse.org/> a ex:Group ;
+  ex:name "Eclipse Dataspace Working Group" ;
+  ex:shortname "dataspace" ;
+  ex:type "working group" ;
+  ex:sdo <https://eclipse.org/> ;
+  ex:homepage <https://dataspace.eclipse.org/> ;
+  ex:description "Eclipse Foundation working group developing the Dataspace Protocol and related dataspace standards." ;
+  ex:source <https://dataspace.eclipse.org/> .

@@ -12,7 +12,7 @@ the same rules.
 | File | Contents |
 | --- | --- |
 | `locations.ttl` | One `ex:Location` per member city, with country, coordinates and source |
-| `organizations.ttl` | The Gaia-X organization plus every member organization, linked to its location |
+| `organizations.ttl` | The Gaia-X organization plus every member organization except IDSA, linked to its location |
 | `events.ttl` | Upcoming Gaia-X events, linked to Gaia-X and to the matching location |
 
 ## Events
@@ -58,6 +58,11 @@ The directory's authenticated `hs_companies` endpoint was not used. The map
 endpoint already returns the public fields needed here: name, website, domain,
 logo URL, city, country, latitude, longitude, membership category and GXDCH
 status.
+
+IDSA (`https://internationaldataspaces.org/`) is the one member record kept in
+`data/eclipse/organizations.ttl`, because of its role in the Dataspace Protocol
+handover. It keeps the Gaia-X fields, logo, location and source and is linked
+from the Gaia-X Brussels location like the other members.
 
 ## RDF mapping
 

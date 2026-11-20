@@ -1,0 +1,27 @@
+# International Data Spaces Association (IDSA).
+#
+# IDSA developed the Dataspace Protocol up to version 2024-1, then contributed
+# that release to the Eclipse Dataspace Protocol project. The association
+# remains one of the core organisers of the Data Spaces Symposium.
+#
+# Sources: https://internationaldataspaces.org/
+#          https://github.com/eclipse-dataspace-protocol-base/DataspaceProtocol
+# Snapshot: 2026-11-19.
+#
+# Seeded with `devbox run seed -- static` (see scripts/fuseki.ts).
+
+@prefix ex: <http://example.org#> .
+
+# The Gaia-X member directory record is kept here after the Dataspace Protocol
+# handover, so IDSA has a single organization node. Its Gaia-X membership
+# fields and Brussels location are preserved; the extra source is IDSA's own
+# site.
+<https://internationaldataspaces.org/> a ex:Organization ;
+  ex:name "INTERNATIONAL DATA SPACES e.V." ;
+  ex:shortname "IDSA" ;
+  ex:homepage <https://internationaldataspaces.org> ;
+  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/internationaldataspaces.org.png?v=1794586100> ;
+  ex:location <urn:uuid:2b43e388-6efd-5b56-b782-6c91c669f4bb> ;
+  ex:gaiaXMemberCategory "Founding Members" ;
+  ex:gxdch false ;
+  ex:source <https://internationaldataspaces.org/> , <https://gaia-x.eu/community/members-directory/#/members-directory> .

@@ -928,15 +928,6 @@
   ex:gxdch false ;
   ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
 
-<https://internationaldataspaces.org/> a ex:Organization ;
-  ex:name "INTERNATIONAL DATA SPACES e.V." ;
-  ex:homepage <https://internationaldataspaces.org> ;
-  ex:logo <https://gaia-x-company-logos.s3.eu-west-1.amazonaws.com/MemberLogos/internationaldataspaces.org.png?v=1794586100> ;
-  ex:location <urn:uuid:2b43e388-6efd-5b56-b782-6c91c669f4bb> ;
-  ex:gaiaXMemberCategory "Founding Members" ;
-  ex:gxdch false ;
-  ex:source <https://gaia-x.eu/community/members-directory/#/members-directory> .
-
 <https://trusted-cloud.de/> a ex:Organization ;
   ex:name "Kompetenznetzwerk Trusted Cloud" ;
   ex:homepage <http://www.trusted-cloud.de> ;

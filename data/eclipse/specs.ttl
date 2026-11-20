@@ -1,0 +1,32 @@
+# Dataspace Protocol.
+#
+# The protocol is maintained by the Eclipse Dataspace Protocol project in the
+# Eclipse Dataspace Working Group, under the governance of the Eclipse
+# Foundation. Versions up to 2024-1 were developed by the International Data
+# Spaces Association (IDSA); 2024-1 is the initial Eclipse contribution.
+#
+# Sources: https://github.com/eclipse-dataspace-protocol-base/DataspaceProtocol
+#          https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/
+# Snapshot: 2026-11-19.
+#
+# The specification URI is the project's current web rendering (main branch).
+# The latest tagged release is 2025-1-err2.
+#
+# Seeded with `devbox run seed -- static` (see scripts/fuseki.ts).
+
+@prefix ex: <http://example.org#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+
+<https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/> a ex:Specification ;
+  ex:sdo <https://eclipse.org/> ;
+  ex:name "Dataspace Protocol 2025-1" ;
+  ex:shortname "dataspace-protocol" ;
+  ex:landingPage <https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/> ;
+  dcterms:publisher "Eclipse Dataspace Working Group" ;
+  dcterms:date "11 September 2026" ;
+  bibo:status "Final Draft International Standard" ;
+  dcterms:source <https://github.com/eclipse-dataspace-protocol-base/DataspaceProtocol> .
+
+<https://dataspace.eclipse.org/> ex:specification
+  <https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/> .

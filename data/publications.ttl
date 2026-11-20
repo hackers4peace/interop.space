@@ -10,11 +10,12 @@
 # already come from the W3C dump; Tobias Meisen has no W3C account, so the
 # ORCID record is used as the stable person URI.
 #
-# The bibliography points at W3C specifications. DCAT 3, Architecture of the
-# World Wide Web and SHACL already come from the W3C crawl; the older W3C
-# Recommendations (LDP, RDF Schema, SKOS, WebID) and the living Solid
-# Community Group documents are added here because they are not part of the
-# W3C API dump.
+# The bibliography points at W3C and Eclipse specifications. DCAT 3,
+# Architecture of the World Wide Web and SHACL already come from the W3C
+# crawl; the older W3C Recommendations (LDP, RDF Schema, SKOS, WebID) and the
+# living Solid Community Group documents are added here because they are not
+# part of the W3C API dump. The Eclipse Dataspace Protocol comes from
+# data/eclipse/specs.ttl.
 #
 # Seeded by `devbox run seed` (all/static) or explicitly in either environment:
 #   devbox run seed:publications
@@ -52,6 +53,7 @@
     <https://www.w3.org/TR/rdf11-schema/> ,
     <https://www.w3.org/TR/skos-reference/> ,
     <https://www.w3.org/TR/shacl/> ,
+    <https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/> ,
     <https://github.com/tmdt-buw/semantic-data-catalog> .
 
 # No W3C account is known for this author; ORCID is the durable identifier.

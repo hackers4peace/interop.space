@@ -236,6 +236,29 @@
     ]
   },
   {
+    "id": "https://eclipse.org/",
+    "name": "Eclipse Foundation",
+    "website": "https://www.eclipse.org/",
+    "logo": "/logos/eclipse.svg",
+    "sections": [
+      {
+        "kind": "chips",
+        "title": "Focus",
+        "items": [
+          {
+            "label": "Data spaces"
+          },
+          {
+            "label": "Dataspace Protocol"
+          },
+          {
+            "label": "Open source standards"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "https://interoperable-europe.ec.europa.eu/",
     "name": "Interoperable Europe",
     "website": "https://interoperable-europe.ec.europa.eu/",
