@@ -2,6 +2,7 @@ node_modules
 .vscode/
 .prettierrc
 tmp/dataset.nq
+tmp/fuseki-dev/
 *.nq
 
 # Generated code from JSON Schema (run `devbox run generate`)

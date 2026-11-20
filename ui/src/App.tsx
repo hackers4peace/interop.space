@@ -11,6 +11,8 @@ import Software from './routes/Software'
 import SoftwareDetail from './routes/SoftwareDetail'
 import Specifications from './routes/Specifications'
 import SpecificationDetail from './routes/SpecificationDetail'
+import Publications from './routes/Publications'
+import PublicationDetail from './routes/PublicationDetail'
 import UseCases from './routes/UseCases'
 import UseCaseDetail from './routes/UseCaseDetail'
 import Orgs from './routes/Orgs'
@@ -38,6 +40,8 @@ export const routes: RouteDefinition[] = [
   { path: '/software/:id', component: SoftwareDetail },
   { path: '/specifications', component: Specifications },
   { path: '/specifications/:id', component: SpecificationDetail },
+  { path: '/publications', component: Publications },
+  { path: '/publications/:id', component: PublicationDetail },
   { path: '/use-cases', component: UseCases },
   { path: '/use-cases/:id', component: UseCaseDetail },
   { path: '/orgs', component: Orgs },
@@ -56,10 +60,6 @@ export const routes: RouteDefinition[] = [
 
 const navLink =
   'rounded-md px-3 py-1.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white'
-
-// Sections that are planned but have no page yet: rendered, but not links.
-const inactiveNavLink =
-  'cursor-default select-none rounded-md px-3 py-1.5 text-sm font-medium text-slate-400 dark:text-slate-600'
 
 const App: ParentComponent = (props) => {
   const { href } = useSdoNav()
@@ -97,9 +97,9 @@ const App: ParentComponent = (props) => {
           <A href={href('/deployments')} class={navLink} activeClass="bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white">
             Deployments
           </A>
-          <span class={inactiveNavLink} aria-disabled="true" title="Not available yet">
+          <A href={href('/publications')} class={navLink} activeClass="bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white">
             Publications
-          </span>
+          </A>
           <ThemeToggle />
           <A
             href={href('/info')}

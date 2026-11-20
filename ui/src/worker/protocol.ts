@@ -206,6 +206,29 @@ export type Specification = {
   citedBy: SpecReference[] // specs that cite this one
 }
 
+// A paper, report or other publication that can cite catalog specs and
+// software. The publication URI is also the route key.
+export type Publication = {
+  id: string // short display/URL form (tail of the publication URI)
+  uri: string // full publication URI
+  name: string
+  abstract?: string // dcterms:abstract
+  venue?: string // ex:venue
+  date?: string // dcterms:date
+  url?: string // ex:url, the published document
+  authors: SpecContributor[] // dcterms:creator, resolved to ex:Person when known
+}
+
+// Compact publication shape used by the reverse ("referenced by") section on
+// specification pages.
+export type PublicationRef = {
+  id: string // short display/URL form, matching /publications/:id
+  uri: string // full publication URI
+  name: string
+  venue?: string
+  date?: string
+}
+
 // Compact group shape used by listings and cross-page cards. The full roster
 // is only loaded for the group page or when a group is pinned for comparison.
 // `id` is the full public group URL, which is also the route key.
@@ -270,6 +293,14 @@ export type SpecificationView = {
   groups: GroupSummary[]
   software: Software[]
   useCases: UseCase[]
+  publications: PublicationRef[] // publications that cite this specification
+}
+
+export type PublicationView = {
+  kind: 'publication'
+  publication: Publication
+  specifications: Specification[] // referenced W3C / catalog specs
+  software: Software[] // referenced software
 }
 
 export type SoftwareView = {
@@ -304,6 +335,7 @@ export type LocationView = {
   location: Location
   events: Event[]
   groups: LocalGroup[]
+  orgs: Org[]
 }
 
 export type EventView = {
@@ -335,6 +367,7 @@ export type DetailView =
   | EventView
   | DeploymentView
   | LocalGroupView
+  | PublicationView
 
 export type DetailKind = DetailView['kind']
 
@@ -367,6 +400,7 @@ export type ListingKind =
   | 'events'
   | 'locations'
   | 'deployments'
+  | 'publications'
 
 export type AppState = {
   people: ListingState<Person>
@@ -379,6 +413,7 @@ export type AppState = {
   events: ListingState<Event>
   locations: ListingState<Location>
   deployments: ListingState<Server>
+  publications: ListingState<Publication>
   detail: DetailState
   groupSelection: GroupSelection
 }
@@ -402,6 +437,7 @@ export const initialAppState = (): AppState => ({
   events: emptyListing(),
   locations: emptyListing(),
   deployments: emptyListing(),
+  publications: emptyListing(),
   detail: { status: 'idle' },
   groupSelection: {
     selected: [],

@@ -1,13 +1,14 @@
 // Read/write helper for the catalog datasets.
 //
 // Environments:
-//   development (default) — the Red Hat sandbox Fuseki. It is read-only unless
-//     the rhsandbox write overlay is enabled (`make write-enable` there).
+//   development (default) — the local Fuseki started by
+//     `devbox run fuseki:dev` (scripts/fuseki-dev.sh). It listens on
+//     127.0.0.1:3031 only and accepts writes without credentials.
 //   production — the hackers4peace VPS. Writes use an SSH tunnel and the
 //     writer credentials; the public endpoints stay read-only.
 //
 // Query endpoints:
-//   development  https://fuseki-elf-pavlik-dev.apps.rm1.0a51.p1.openshiftapps.com/ds
+//   development  http://127.0.0.1:3031/catalog
 //   production   https://sparql.hackers4peace.net/catalog/sparql
 //
 // Usage:
@@ -24,9 +25,11 @@
 //   devbox run seed -- fedidb
 //   devbox run seed -- data/nlnet.ttl
 //   devbox run seed -- production ietf data/nlnet.ttl
+//   devbox run seed -- publications
 //   devbox run seed -- static
 //
 // Environment overrides:
+//   FUSEKI_DEV_PORT     local development port, default 3031
 //   FUSEKI_UPDATE_URL   override the update endpoint (both environments)
 //   FUSEKI_SSH_HOST     production SSH host, default root@5.75.154.192
 //   FUSEKI_USER         production user, default writer
@@ -45,8 +48,8 @@ type Environment = 'development' | 'production'
 /** A bad command line, reported without a stack trace. */
 class UsageError extends Error {}
 
-const DEVELOPMENT_UPDATE =
-  'https://fuseki-elf-pavlik-dev.apps.rm1.0a51.p1.openshiftapps.com/ds/update'
+const DEVELOPMENT_PORT = process.env.FUSEKI_DEV_PORT ?? '3031'
+const DEVELOPMENT_UPDATE = `http://127.0.0.1:${DEVELOPMENT_PORT}/catalog/update`
 const PRODUCTION_UPDATE = 'http://127.0.0.1:3030/catalog/update'
 
 const ENVIRONMENTS = ['development', 'production']
@@ -83,6 +86,7 @@ const VPS_PASSWD_FILE =
 // data/dump.
 const FEDIDB_SEED_DIR = 'data/fedidb'
 const LOCALFIRST_SEED_DIR = 'data/localfirst'
+const PUBLICATION_SEED_FILE = 'data/publications.ttl'
 
 const STATIC_SEED_FILES = [
   'data/software.ttl',
@@ -104,6 +108,7 @@ const STATIC_SEED_FILES = [
   'data/matrix/events.ttl',
   'data/matrix/software.ttl',
   'data/matrix/deployments.ttl',
+  PUBLICATION_SEED_FILE,
 ]
 
 const usage = `usage:
@@ -116,6 +121,7 @@ seed targets (default: all):
   static   only the curated data/**/*.ttl files
   fedidb   only the generated data/fedidb/*.nq files
   localfirst  only the generated data/localfirst/*.nq files
+  publications  only the curated data/publications.ttl file
   <group>  one stage group under data/dump (w3c, ietf, cross, ...)
   <path>   one .ttl/.nq file, or a directory of .nq files`
 
@@ -208,6 +214,8 @@ function resolveTargets(targets: string[]): string[] {
       all().forEach(add)
     } else if (target === 'static' || target === 'curated') {
       STATIC_SEED_FILES.forEach(add)
+    } else if (target === 'publications') {
+      add(PUBLICATION_SEED_FILE)
     } else if (target === 'fedidb') {
       const files = fedidbSeedFiles()
       if (files.length === 0) {
@@ -235,7 +243,7 @@ function resolveTargets(targets: string[]): string[] {
     } else {
       const path = isAbsolute(target) ? target : join(ROOT, target)
       if (!existsSync(path)) {
-        const known = [...groups, 'fedidb', 'localfirst', 'static', 'all'].join(', ')
+        const known = [...groups, 'fedidb', 'localfirst', 'publications', 'static', 'all'].join(', ')
         throw new UsageError(
           `unknown seed target "${target}"; use ${known}, a stage group or a data/**/*.ttl / data/dump/*/*.nq / data/fedidb/*.nq / data/localfirst/*.nq path (environments are development and production)`,
         )
@@ -399,15 +407,24 @@ async function update(query: string, label: string): Promise<void> {
     const token = Buffer.from(`${USER}:${password()}`).toString('base64')
     headers.Authorization = `Basic ${token}`
   }
-  const response = await fetch(UPDATE_URL, {
-    method: 'POST',
-    headers,
-    body: query,
-  })
+  let response: Response
+  try {
+    response = await fetch(UPDATE_URL, {
+      method: 'POST',
+      headers,
+      body: query,
+    })
+  } catch (error) {
+    const hint =
+      environment === 'development'
+        ? '\n(is the local Fuseki running? start it with `devbox run fuseki:dev`)'
+        : ''
+    throw new Error(`${label}: could not reach ${UPDATE_URL}${hint}\n${error}`)
+  }
   if (!response.ok) {
     const hint =
-      environment === 'development' && response.status === 405
-        ? '\n(development is read-only: run `make write-enable` in rhsandbox first)'
+      environment === 'development'
+        ? '\n(is the local Fuseki running? start it with `devbox run fuseki:dev`)'
         : ''
     throw new Error(
       `${label}: ${response.status} ${response.statusText}\n${await response.text()}${hint}`,
@@ -523,7 +540,7 @@ if (command !== 'seed' && selectors.length > 0) {
 
 if (command === 'tunnel' && requestedEnvironment === 'development') {
   console.error(
-    'the development environment does not use an SSH tunnel; enable the rhsandbox write overlay with `make write-enable`',
+    'the development environment uses the local Fuseki; start it with `devbox run fuseki:dev` and use the tunnel only for production',
   )
   process.exit(1)
 }

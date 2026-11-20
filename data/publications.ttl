@@ -1,0 +1,152 @@
+# Publications and the catalog records they reference.
+#
+# SDS 2026 paper 13 — "DCAT-based Data Discovery in Solid-based Dataspaces",
+# presented at the Fourth International Workshop on Semantics in Dataspaces
+# (SDS 2026), co-located with ESWC 2026, Dubrovnik, Croatia, 10 May 2026.
+#
+# Source: https://drive.google.com/file/d/1-PfRwyZwbStpAq5HCWVeoIHdYInHtMMk/view
+#
+# Authors are linked to their catalog people nodes. Five of the six authors
+# already come from the W3C dump; Tobias Meisen has no W3C account, so the
+# ORCID record is used as the stable person URI.
+#
+# The bibliography points at W3C specifications. DCAT 3, Architecture of the
+# World Wide Web and SHACL already come from the W3C crawl; the older W3C
+# Recommendations (LDP, RDF Schema, SKOS, WebID) and the living Solid
+# Community Group documents are added here because they are not part of the
+# W3C API dump.
+#
+# Seeded by `devbox run seed` (all/static) or explicitly in either environment:
+#   devbox run seed:publications
+#   devbox run seed:publications -- production
+#
+# Paper license: CC BY 4.0.
+
+@prefix ex: <http://example.org#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+
+<https://drive.google.com/file/d/1-PfRwyZwbStpAq5HCWVeoIHdYInHtMMk> a ex:Publication ;
+  ex:name "DCAT-based Data Discovery in Solid-based Dataspaces" ;
+  dcterms:abstract "Solid-based dataspaces lack an interoperable, standards-based mechanism for discovering datasets offered by dataspace participants. The paper proposes the Solid DCAT Profile to establish a standards-based, privacy-preserving, catalog-centric discovery mechanism by aligning Solid's resource-centric paradigm with DCAT's dataset-centric model. It enables hosting the catalog on a Solid storage, independently managing access control for catalog resources and source data, discovering resources stored on Solid storages as well as externally stored resources, and following the follow-your-nose approach of the RESTful Web architecture." ;
+  ex:venue "The Fourth International Workshop on Semantics in Dataspaces (SDS 2026), ESWC 2026, Dubrovnik, Croatia" ;
+  dcterms:date "10 May 2026" ;
+  ex:url <https://drive.google.com/file/d/1-PfRwyZwbStpAq5HCWVeoIHdYInHtMMk/view> ;
+  dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+  dcterms:creator
+    <urn:uuid:fe30a72f-505c-4f2c-8af8-6bb65addc77d> , # Lukas Kubelka (W3C)
+    <urn:uuid:618a13d7-92f8-4ba9-bb17-866329c57b6c> , # Florian Hölken (W3C)
+    <urn:uuid:f41d7481-3971-45b1-b647-bbb68abc6d90> , # Christoph Braun (W3C)
+    <urn:uuid:5db70d89-b857-4de3-a517-e408bc881e47> , # André Pomp (W3C)
+    <https://orcid.org/0000-0002-1969-559X> ,       # Tobias Meisen (ORCID)
+    <urn:uuid:cf39ac7e-0081-4b1c-817d-9249da9e8f12> ; # Tobias Käfer (W3C)
+  dcterms:references
+    <https://www.w3.org/TR/vocab-dcat-3/> ,
+    <https://www.w3.org/TR/ldp/> ,
+    <https://www.w3.org/TR/webarch/> ,
+    <https://www.w3.org/2005/Incubator/webid/spec/identity/> ,
+    <https://solidproject.org/TR/protocol> ,
+    <https://solidproject.org/TR/oidc> ,
+    <https://solid.github.io/web-access-control-spec/> ,
+    <https://solid.github.io/authorization-panel/acp-specification/> ,
+    <https://www.w3.org/TR/rdf11-schema/> ,
+    <https://www.w3.org/TR/skos-reference/> ,
+    <https://www.w3.org/TR/shacl/> ,
+    <https://github.com/tmdt-buw/semantic-data-catalog> .
+
+# No W3C account is known for this author; ORCID is the durable identifier.
+<https://orcid.org/0000-0002-1969-559X> a ex:Person ;
+  ex:name "Tobias Meisen" .
+
+# ---------------------------------------------------------------------------
+# W3C Recommendations that predate the current W3C API group/specification set
+# and therefore do not appear in data/dump/w3c/specs.nq.
+# ---------------------------------------------------------------------------
+
+<https://www.w3.org/TR/ldp/> a ex:Specification ;
+  ex:sdo <https://www.w3.org/> ;
+  ex:name "Linked Data Platform 1.0" ;
+  ex:shortname "ldp" ;
+  ex:landingPage <https://www.w3.org/TR/ldp/> ;
+  dcterms:publisher "W3C" ;
+  dcterms:date "26 February 2015" .
+
+<https://www.w3.org/TR/rdf11-schema/> a ex:Specification ;
+  ex:sdo <https://www.w3.org/> ;
+  ex:name "RDF Schema 1.1" ;
+  ex:shortname "rdf11-schema" ;
+  ex:landingPage <https://www.w3.org/TR/rdf11-schema/> ;
+  dcterms:publisher "W3C" ;
+  dcterms:date "25 February 2014" .
+
+<https://www.w3.org/TR/skos-reference/> a ex:Specification ;
+  ex:sdo <https://www.w3.org/> ;
+  ex:name "SKOS Simple Knowledge Organization System Reference" ;
+  ex:shortname "skos-reference" ;
+  ex:landingPage <https://www.w3.org/TR/skos-reference/> ;
+  dcterms:publisher "W3C" ;
+  dcterms:date "18 August 2009" .
+
+<https://www.w3.org/2005/Incubator/webid/spec/identity/> a ex:Specification ;
+  ex:sdo <https://www.w3.org/> ;
+  ex:name "WebID 1.0 - Web Identity and Discovery" ;
+  ex:shortname "webid" ;
+  ex:editorDraft <https://www.w3.org/2005/Incubator/webid/spec/identity/> ;
+  dcterms:publisher "W3C" ;
+  dcterms:date "5 March 2014" .
+
+# ---------------------------------------------------------------------------
+# Solid Community Group documents. These are living documents published by the
+# CG, not W3C Recommendations, and are absent from the W3C API dump.
+# ---------------------------------------------------------------------------
+
+<https://solidproject.org/TR/protocol> a ex:Specification ;
+  ex:sdo <https://www.w3.org/> ;
+  ex:name "Solid Protocol" ;
+  ex:shortname "solid-protocol" ;
+  ex:landingPage <https://solidproject.org/TR/protocol> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "2024" .
+
+<https://solidproject.org/TR/oidc> a ex:Specification ;
+  ex:sdo <https://www.w3.org/> ;
+  ex:name "Solid-OIDC" ;
+  ex:shortname "solid-oidc" ;
+  ex:landingPage <https://solidproject.org/TR/oidc> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "2022" .
+
+<https://solid.github.io/web-access-control-spec/> a ex:Specification ;
+  ex:sdo <https://www.w3.org/> ;
+  ex:name "Web Access Control" ;
+  ex:shortname "wac" ;
+  ex:editorDraft <https://solid.github.io/web-access-control-spec/> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "2022" .
+
+<https://solid.github.io/authorization-panel/acp-specification/> a ex:Specification ;
+  ex:sdo <https://www.w3.org/> ;
+  ex:name "Access Control Policy (ACP)" ;
+  ex:shortname "acp" ;
+  ex:editorDraft <https://solid.github.io/authorization-panel/acp-specification/> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "2022" .
+
+<https://www.w3.org/community/solid/> ex:specification
+  <https://solidproject.org/TR/protocol> ,
+  <https://solidproject.org/TR/oidc> ,
+  <https://solid.github.io/web-access-control-spec/> ,
+  <https://solid.github.io/authorization-panel/acp-specification/> .
+
+# ---------------------------------------------------------------------------
+# Software referenced by the publication.
+# ---------------------------------------------------------------------------
+
+<https://github.com/tmdt-buw/semantic-data-catalog> a doap:Project ;
+  doap:name "Semantic Data Catalog" ;
+  doap:shortdesc "Reference implementation of the Solid DCAT Profile: a catalog-centric discovery application for Solid-based dataspaces." ;
+  doap:programming-language "TypeScript" ;
+  doap:programming-language "Python" ;
+  doap:license "Apache-2.0" ;
+  doap:homepage <https://semantic-data-catalog.tmdt.info/semantic-data-catalog/> ;
+  doap:repository <https://github.com/tmdt-buw/semantic-data-catalog> .

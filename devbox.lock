@@ -1,6 +1,54 @@
 {
   "lockfile_version": "1",
   "packages": {
+    "apache-jena-fuseki@latest": {
+      "last_modified": "2026-11-16T14:48:49Z",
+      "resolved": "github:NixOS/nixpkgs/e21fec321d73511849707a7585e4ea155ee4bf40#apache-jena-fuseki",
+      "source": "devbox-search",
+      "version": "5.1.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/vjhik096bskd4zc2ja6h6fzp82ibnhcw-apache-jena-fuseki-5.1.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/vjhik096bskd4zc2ja6h6fzp82ibnhcw-apache-jena-fuseki-5.1.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/3g4jj0m42crfy48x677nc44jvj465nnk-apache-jena-fuseki-5.1.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/3g4jj0m42crfy48x677nc44jvj465nnk-apache-jena-fuseki-5.1.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/r9xrxzk69y9mvxb4zr8vmpfxxll9yp29-apache-jena-fuseki-5.1.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/r9xrxzk69y9mvxb4zr8vmpfxxll9yp29-apache-jena-fuseki-5.1.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/cwaa3azimygz6lj2axp9s4qrjwysh44a-apache-jena-fuseki-5.1.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/cwaa3azimygz6lj2axp9s4qrjwysh44a-apache-jena-fuseki-5.1.0"
+        }
+      }
+    },
     "bun@latest": {
       "last_modified": "2026-07-15T11:37:32Z",
       "resolved": "github:NixOS/nixpkgs/35d3407a3816f3b341d8cf1d60abaf2b7b8166ac#bun",

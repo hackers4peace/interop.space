@@ -7,9 +7,9 @@ queries it over SPARQL.
 ## Requirements
 
 - [devbox](https://www.jetify.com/devbox) — provides `bun`, `dagger`,
-  `dotnet`, `xh`, `grpcurl`
+  `dotnet`, `xh`, `grpcurl` and the local Apache Jena Fuseki
 - Docker — the Dagger engine runs in a container
-- SSH access to the Fuseki VPS (`root@5.75.154.192`) for `seed` / `wipe`
+- SSH access to the Fuseki VPS (`root@5.75.154.192`) for production `seed` / `wipe`
 
 ## devbox scripts
 
@@ -33,13 +33,22 @@ Run from the repository root with `devbox run <script>`:
 | `identities:verify` | Checks identity-map and stage-graph invariants |
 | `identities:duplicates` | Lists same-name W3C account pairs with api.w3.org evidence |
 | `seed` | Loads `data/dump/*/*.nq`, `data/fedidb/*.nq`, `data/localfirst/*.nq` + `data/**/*.ttl`, or only the given files/groups; defaults to development |
+| `seed:publications` | Seeds only `data/publications.ttl`; pass `-- production` for the VPS |
 | `wipe` | Clears every graph; defaults to development |
+| `fuseki:dev` | Starts the local development Fuseki on `127.0.0.1:3031` with TDB2 data in `tmp/fuseki-dev/`; subcommands `stop`, `status`, `run`, `restart` |
 | `tunnel` | Keeps `127.0.0.1:3030` forwarded to the VPS Fuseki (production only) |
 | `generate` | Regenerates TypeScript, UI and C# types from `schema/*.json` |
 | `build` | `generate` + builds `dotnet/Worker/Worker.csproj` |
 
-`seed` and `wipe` default to the **development** endpoint (the Red Hat
-sandbox). Pass production explicitly:
+`seed` and `wipe` default to the **local development** Fuseki. Start it in
+another terminal first:
+
+```sh
+devbox run fuseki:dev
+```
+
+The local TDB2 database lives in `tmp/fuseki-dev/catalog`, so it survives
+restarts. Pass production explicitly:
 
 ```sh
 devbox run seed -- production
@@ -53,8 +62,9 @@ group can be seeded without touching the rest:
 devbox run seed -- production w3c          # only data/dump/w3c/*.nq
 devbox run seed -- fedidb                  # only data/fedidb/*.nq
 devbox run seed -- localfirst              # only data/localfirst/*.nq
+devbox run seed -- publications            # only data/publications.ttl
 devbox run seed -- ietf data/nlnet.ttl     # a stage group plus one curated file
-devbox run seed -- data/nlnet.ttl          # one file, development endpoint
+devbox run seed -- data/nlnet.ttl          # one file, local development Fuseki
 devbox run seed -- static                  # every curated data/**/*.ttl
 ```
 
@@ -70,9 +80,9 @@ with `"$@"` in `devbox.json` (e.g. `bun run scripts/fuseki.ts seed "$@"`);
 without it `devbox run seed -- production` silently seeds development. The
 same applies to `identities:remap -- --pair=…`.
 
-The development Fuseki is read-only unless the sandbox write overlay is
-enabled (`make write-enable` in `rhsandbox`). Production writes use the SSH
-tunnel and the existing writer credentials.
+The local development Fuseki is writable without credentials and listens on
+`127.0.0.1` only. Production writes use the SSH tunnel and the existing writer
+credentials.
 
 `dump:w3c` (or another generated source such as `dump:fedidb` or
 `dump:localfirst`) must run before `seed` on a fresh checkout. The stage files
@@ -155,6 +165,35 @@ the managed-hosting providers as deployments. See `data/matrix/README.md` for
 sources, counts and the deployment mapping. The files are part of
 `seed -- static` and `seed -- all`; the Deployments view combines these
 `ex:Server` records with the FediDB server exports.
+
+## Publications
+
+`data/publications.ttl` holds publications that cite catalog records. The first
+entry is the SDS 2026 paper *DCAT-based Data Discovery in Solid-based
+Dataspaces* (`https://drive.google.com/file/d/1-PfRwyZwbStpAq5HCWVeoIHdYInHtMMk`).
+It links its authors to catalog people (five W3C accounts plus Tobias Meisen's
+ORCID record), cites eleven W3C / Solid Community Group specifications, and
+references the paper's reference implementation.
+
+The publication page shows its authors plus the specifications and software it
+references. Every cited specification page shows the publication in a
+**Referenced by publications** section, next to the existing specification
+citation backlinks. The citation predicate is `dcterms:references`, so the
+same file can hold papers, reports and other documents without new predicates.
+
+Older W3C Recommendations (LDP, RDF Schema, SKOS, WebID) and the living Solid
+CG documents are included in the same file because the W3C API crawl does not
+return them. The file is part of `seed -- static` and `seed -- all`; seed just
+the publication data in either environment with:
+
+```sh
+devbox run seed:publications
+devbox run seed:publications -- production
+```
+
+`publications` is also a normal seed target (`devbox run seed -- production
+publications`) and the source can be seeded as a single file (`devbox run seed
+-- data/publications.ttl`).
 
 ## Local-First data
 
@@ -383,6 +422,44 @@ would otherwise stay in the published dataset.
 
 ## Fuseki
 
+### Development
+
+`devbox run fuseki:dev` starts Apache Jena Fuseki 5.1.0 from the devbox
+environment. The service shape mirrors the production VPS: the dataset is
+`/catalog` with `sparql`, `update` and read-only `data` endpoints. The config
+is generated under `tmp/fuseki-dev/`; the TDB2 database is at
+`tmp/fuseki-dev/catalog`.
+
+```sh
+devbox run fuseki:dev              # start in the background
+devbox run fuseki:dev -- status
+devbox run fuseki:dev -- stop
+devbox run fuseki:dev -- restart
+devbox run fuseki:dev -- run       # foreground, logs on the terminal
+```
+
+Local endpoints:
+
+- queries: `http://127.0.0.1:3031/catalog/sparql`
+- graph store: `http://127.0.0.1:3031/catalog/data`
+- updates: `http://127.0.0.1:3031/catalog/update`
+
+`FUSEKI_DEV_PORT` and `FUSEKI_DEV_BASE` override the port and state directory.
+The default port `3031` stays clear of the production tunnel on `3030`. The
+Vite dev server proxies `/catalog` to this instance, so the browser does not
+need CORS. The production config is from
+[hackers4peace/vps](https://github.com/hackers4peace/vps).
+
+For ad-hoc writes against the local development instance:
+
+```sh
+curl -X POST http://127.0.0.1:3031/catalog/update \
+  -H 'Content-Type: application/sparql-update' \
+  --data 'INSERT DATA { <urn:example:s> <urn:example:p> "hello" }'
+```
+
+### Production
+
 Public, read-only (proxied by Caddy):
 
 - queries: https://sparql.hackers4peace.net/catalog/sparql
@@ -390,14 +467,12 @@ Public, read-only (proxied by Caddy):
 
 Writes are not exposed on production. Fuseki listens on the VPS loopback only,
 so production `seed` / `wipe` open an SSH tunnel on demand and authenticate as
-`writer` against `/catalog/update`. Development uses the sandbox `/ds/update`
-directly while its write overlay is enabled. The production password is read
-from the VPS age secret; set `FUSEKI_PASSWORD` to use a different one,
-`FUSEKI_SSH_HOST` to use another host. The graph store endpoint is read-only,
-so seeding converts the RDF files to `INSERT DATA` updates (see
-`scripts/fuseki.ts`).
+`writer` against `/catalog/update`. The production password is read from the
+VPS age secret; set `FUSEKI_PASSWORD` to use a different one, `FUSEKI_SSH_HOST`
+to use another host. The graph store endpoint is read-only, so seeding converts
+the RDF files to `INSERT DATA` updates (see `scripts/fuseki.ts`).
 
-For ad-hoc writes keep the tunnel open in one terminal:
+For production, keep the tunnel open in one terminal:
 
 ```sh
 devbox run tunnel
@@ -413,14 +488,18 @@ curl -u writer -X POST http://127.0.0.1:3030/catalog/update \
 
 ## UI
 
+Start the local Fuseki first, then the Vite dev server:
+
 ```sh
+devbox run fuseki:dev
 cd ui
 bun install
-bun run dev     # development endpoint, http://localhost:5173
+bun run dev     # local Fuseki through the Vite proxy, http://localhost:5173
 bun run prod    # production endpoint, http://localhost:5173
 bun run build   # Vercel/build default: production
 bun run preview
 ```
 
-The SPARQL endpoint defaults to the public query endpoint above; override it
-with `VITE_SPARQL_ENDPOINT`.
+`bun run dev` uses `/catalog/sparql` and Vite proxies it to
+`127.0.0.1:3031`. `bun run prod` uses the public production query endpoint. The
+fallback for builds is production; override it with `VITE_SPARQL_ENDPOINT`.

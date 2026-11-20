@@ -11,6 +11,8 @@ import type {
   OrgFunding,
   Person,
   Project,
+  Publication,
+  PublicationRef,
   Server,
   Software,
   SoftwareFunding,
@@ -26,10 +28,10 @@ import type {
 // ---------------------------------------------------------------------------
 // SPARQL endpoint
 // ---------------------------------------------------------------------------
-// The catalog is served by Apache Fuseki. Production is the hackers4peace VPS;
-// `npm run dev` points at the redhat sandbox, `npm run prod` at production.
-// Vercel builds keep the production default below. VITE_SPARQL_ENDPOINT
-// overrides it for any other build/runtime.
+// The catalog is served by Apache Fuseki. `bun run dev` uses `/catalog/sparql`
+// and Vite proxies that path to the local Fuseki (`devbox run fuseki:dev`).
+// `bun run prod` points at production; Vercel builds keep the production
+// default below. VITE_SPARQL_ENDPOINT overrides it for any other build/runtime.
 const SPARQL_ENDPOINT =
   import.meta.env.VITE_SPARQL_ENDPOINT ??
   'https://sparql.hackers4peace.net/catalog/sparql'
@@ -205,6 +207,7 @@ export type ListingPage = {
     | Event[]
     | Location[]
     | Server[]
+    | Publication[]
   hasMore: boolean
   cursor: ListingCursor | null
   total?: number
@@ -222,6 +225,7 @@ export const PAGE_SIZE: Record<ListingKind, number> = {
   events: 20,
   locations: 20,
   deployments: 20,
+  publications: 20,
 }
 
 // The ordering is authoritative on the server. The URI tie-breaker makes it a
@@ -248,6 +252,7 @@ const LISTING_BODY: Record<ListingKind, string> = {
     OPTIONAL { ?id ex:name ?serverName }
     OPTIONAL { ?id ex:domain ?domain }
     BIND(COALESCE(?serverName, ?domain, STR(?id)) AS ?name)`,
+  publications: `?id a ex:Publication ; ex:name ?name .`,
 }
 
 // Events read newest first; every other directory is alphabetical.
@@ -488,7 +493,7 @@ async function specificationsByUris(
       OPTIONAL { ?spec ex:w3cApiUrl ?w3cApiUrl }
       OPTIONAL { ?spec ex:sdo ?sdo }
       OPTIONAL {
-        ?group a ex:Organization ; ex:specification ?spec ; ex:name ?groupName .
+        ?group a ex:Group ; ex:specification ?spec ; ex:name ?groupName .
       }
       OPTIONAL {
         ?spec dcterms:creator ?author .
@@ -562,6 +567,93 @@ async function specificationsByUris(
     spec.groupUris.sort((a, b) => a.localeCompare(b))
   }
   return specs
+}
+
+async function publicationsByUris(
+  uris: string[],
+): Promise<Map<string, Publication>> {
+  const publications = new Map<string, Publication>()
+  if (!uris.length) return publications
+  const rows = await queryBindings(`${PREFIXES}
+    SELECT ?id ?name ?abstract ?venue ?date ?url
+           ?author ?authorName ?authorLogo ?authorSilo WHERE {
+      VALUES ?id { ${uris.map(iri).join(' ')} }
+      ?id a ex:Publication ; ex:name ?name .
+      OPTIONAL { ?id dcterms:abstract ?abstract }
+      OPTIONAL { ?id ex:venue ?venue }
+      OPTIONAL { ?id dcterms:date ?date }
+      OPTIONAL { ?id ex:url ?url }
+      OPTIONAL {
+        ?id dcterms:creator ?author .
+        OPTIONAL { ?author ex:name ?authorName }
+        OPTIONAL { ?author ex:logo ?authorLogo }
+        OPTIONAL { ?author ex:siloUsername ?authorSilo }
+      }
+    }`)
+  for (const b of rows) {
+    const uri = value(b, 'id')
+    const name = value(b, 'name')
+    if (!uri || !name) continue
+    let publication = publications.get(uri)
+    if (!publication) {
+      publication = {
+        id: short(uri),
+        uri,
+        name,
+        abstract: value(b, 'abstract'),
+        venue: value(b, 'venue'),
+        date: value(b, 'date'),
+        url: value(b, 'url'),
+        authors: [],
+      }
+      publications.set(uri, publication)
+    }
+    publication.abstract ??= value(b, 'abstract')
+    publication.venue ??= value(b, 'venue')
+    publication.date ??= value(b, 'date')
+    publication.url ??= value(b, 'url')
+    addSpecContributor(
+      publication.authors,
+      toSpecContributor(
+        value(b, 'author'),
+        value(b, 'authorName'),
+        value(b, 'authorLogo'),
+        value(b, 'authorSilo'),
+      ),
+    )
+  }
+  for (const publication of publications.values()) {
+    publication.authors.sort((a, b) => a.name.localeCompare(b.name))
+  }
+  return publications
+}
+
+async function publicationsReferencingSpec(
+  uri: string,
+): Promise<PublicationRef[]> {
+  const rows = await queryBindings(`${PREFIXES}
+    SELECT ?pub ?name ?venue ?date WHERE {
+      ?pub a ex:Publication ; ex:name ?name ; dcterms:references ${iri(uri)} .
+      OPTIONAL { ?pub ex:venue ?venue }
+      OPTIONAL { ?pub dcterms:date ?date }
+    }`)
+  const references = new Map<string, PublicationRef>()
+  for (const b of rows) {
+    const publication = value(b, 'pub')
+    const name = value(b, 'name')
+    if (!publication || !name) continue
+    const reference: PublicationRef = {
+      id: short(publication),
+      uri: publication,
+      name,
+    }
+    const venue = value(b, 'venue')
+    const date = value(b, 'date')
+    if (venue) reference.venue = venue
+    if (date) reference.date = date
+    references.set(publication, reference)
+  }
+  return [...references.values()].sort((a, b) => a.name.localeCompare(b.name))
 }
 
 const citationRank = (reference: SpecReference) =>
@@ -679,6 +771,7 @@ async function softwareByUris(
            ?maintainer ?maintainerName ?maintainerLogo ?maintainerSiloUsername
            ?spec ?specName ?specShortname ?specLandingPage WHERE {
       VALUES ?s { ${uris.map(iri).join(' ')} }
+      { ?s a doap:Project } UNION { ?s a ex:Software }
       OPTIONAL { ?s doap:name ?doapName }
       OPTIONAL { ?s ex:name ?exName }
       BIND(COALESCE(?doapName, ?exName) AS ?name)
@@ -1526,6 +1619,17 @@ export async function fetchListingPage(
           .filter((spec): spec is Specification => spec !== undefined),
       )
     }
+    case 'publications': {
+      const publications = await publicationsByUris(ids)
+      return result(
+        ids
+          .map((id) => publications.get(id))
+          .filter(
+            (publication): publication is Publication =>
+              publication !== undefined,
+          ),
+      )
+    }
     case 'useCases': {
       const useCases = await useCasesByUris(ids)
       return result(
@@ -1603,7 +1707,8 @@ async function resolveSubject(
     | 'location'
     | 'event'
     | 'deployment'
-    | 'localGroup',
+    | 'localGroup'
+    | 'publication',
   id: string,
   sdo?: string,
 ): Promise<string | undefined> {
@@ -1620,6 +1725,7 @@ async function resolveSubject(
     event: `?s a ex:Event .`,
     deployment: `?s a ex:Server .`,
     localGroup: `?s a ex:LocalGroup .`,
+    publication: `?s a ex:Publication .`,
   }[kind]
   const scoped =
     sdo && (kind === 'specification' || kind === 'useCase')
@@ -1738,20 +1844,22 @@ async function specificationDetail(id: string, sdo?: string) {
   const uri = await resolveSubject('specification', id, sdo)
   if (!uri) return undefined
 
-  const [specs, outgoing, groups, softwareUris, useCaseUris] = await Promise.all([
-    specificationsByUris([uri]),
-    outgoingReferences([uri]),
-    groupsDeliveringSpec(uri),
-    queryBindings(`${PREFIXES}
-      SELECT DISTINCT ?sw WHERE {
-        ?sw doap:implements ${iri(uri)} .
-        { ?sw a doap:Project } UNION { ?sw a ex:Software }
-      }`),
-    queryBindings(`${PREFIXES}
-      SELECT DISTINCT ?uc WHERE {
-        ?uc a ex:UseCase ; ex:useCaseOf ${iri(uri)} .
-      }`),
-  ])
+  const [specs, outgoing, groups, softwareUris, useCaseUris, publications] =
+    await Promise.all([
+      specificationsByUris([uri]),
+      outgoingReferences([uri]),
+      groupsDeliveringSpec(uri),
+      queryBindings(`${PREFIXES}
+        SELECT DISTINCT ?sw WHERE {
+          ?sw doap:implements ${iri(uri)} .
+          { ?sw a doap:Project } UNION { ?sw a ex:Software }
+        }`),
+      queryBindings(`${PREFIXES}
+        SELECT DISTINCT ?uc WHERE {
+          ?uc a ex:UseCase ; ex:useCaseOf ${iri(uri)} .
+        }`),
+      publicationsReferencingSpec(uri),
+    ])
 
   const spec = specs.get(uri)
   if (!spec) return undefined
@@ -1789,6 +1897,7 @@ async function specificationDetail(id: string, sdo?: string) {
       .map((uc) => useCases.get(uc))
       .filter((useCase): useCase is UseCase => useCase !== undefined)
       .sort((a, b) => a.name.localeCompare(b.name)),
+    publications,
   }
 }
 
@@ -1804,6 +1913,42 @@ async function softwareDetail(id: string) {
   ])
   entry.funding = funding
   return { kind: 'software' as const, software: entry, references }
+}
+
+async function publicationDetail(id: string) {
+  const uri = await resolveSubject('publication', id)
+  if (!uri) return undefined
+
+  const [publications, referenceRows] = await Promise.all([
+    publicationsByUris([uri]),
+    queryBindings(`${PREFIXES}
+      SELECT DISTINCT ?ref WHERE {
+        ${iri(uri)} dcterms:references ?ref .
+      }`),
+  ])
+  const publication = publications.get(uri)
+  if (!publication) return undefined
+
+  const references = referenceRows
+    .map((b) => value(b, 'ref'))
+    .filter((ref): ref is string => Boolean(ref))
+  const [specs, software] = await Promise.all([
+    specificationsByUris(references),
+    softwareByUris(references),
+  ])
+
+  return {
+    kind: 'publication' as const,
+    publication,
+    specifications: references
+      .map((ref) => specs.get(ref))
+      .filter((spec): spec is Specification => spec !== undefined)
+      .sort((a, b) => a.name.localeCompare(b.name)),
+    software: references
+      .map((ref) => software.get(ref))
+      .filter((entry): entry is Software => entry !== undefined)
+      .sort((a, b) => a.name.localeCompare(b.name)),
+  }
 }
 
 async function groupDetail(id: string, sdo?: string) {
@@ -1970,6 +2115,7 @@ export type DetailResult =
   | Awaited<ReturnType<typeof eventDetail>>
   | Awaited<ReturnType<typeof deploymentDetail>>
   | Awaited<ReturnType<typeof localGroupDetail>>
+  | Awaited<ReturnType<typeof publicationDetail>>
 
 export async function fetchDetail(
   kind: DetailKind,
@@ -1999,5 +2145,7 @@ export async function fetchDetail(
       return deploymentDetail(id)
     case 'localGroup':
       return localGroupDetail(id)
+    case 'publication':
+      return publicationDetail(id)
   }
 }

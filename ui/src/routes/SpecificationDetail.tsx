@@ -5,6 +5,7 @@ import { ContributorSection } from '../components/ContributorChips'
 import { GroupCard } from '../components/GroupCard'
 import { SdoBanner } from '../components/SdoBanner'
 import { SoftwareCard } from '../components/SoftwareCard'
+import { PublicationReferenceSection } from '../components/PublicationReferences'
 import { SpecReferenceSection } from '../components/SpecReferences'
 import { UseCaseCard } from '../components/UseCaseCard'
 import { appActor } from '../store/app'
@@ -145,9 +146,16 @@ const SpecificationDetail: Component = () => {
 
               <SpecReferenceSection
                 id="referenced-by"
-                title="Referenced by"
+                title="Referenced by specifications"
                 references={data().spec.citedBy}
                 empty="No catalog specification references this one."
+              />
+
+              <PublicationReferenceSection
+                id="referenced-by-publications"
+                title="Referenced by publications"
+                publications={data().publications}
+                empty="No catalog publication references this specification."
               />
 
               <div class="space-y-3">

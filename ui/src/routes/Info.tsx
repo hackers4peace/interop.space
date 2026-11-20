@@ -130,6 +130,14 @@ const InfoPage: Component = () => {
             <AttributionLink href="https://fedidb.com/datasets" />), CC BY 4.0
           </li>
           <li>
+            Publication metadata from the SDS 2026 paper (
+            <AttributionLink
+              href="https://drive.google.com/file/d/1-PfRwyZwbStpAq5HCWVeoIHdYInHtMMk/view"
+              label="DCAT-based Data Discovery in Solid-based Dataspaces"
+            />
+            ), CC BY 4.0
+          </li>
+          <li>
             Local-First conference details from Local-First Conf (
             <AttributionLink href="https://www.localfirstconf.com/" />)
           </li>
