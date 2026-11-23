@@ -10,12 +10,15 @@
 # already come from the W3C dump; Tobias Meisen has no W3C account, so the
 # ORCID record is used as the stable person URI.
 #
-# The bibliography points at W3C and Eclipse specifications. DCAT 3,
+# The bibliography points at W3C, Solid and Eclipse specifications. DCAT 3,
 # Architecture of the World Wide Web and SHACL already come from the W3C
-# crawl; the older W3C Recommendations (LDP, RDF Schema, SKOS, WebID) and the
-# living Solid Community Group documents are added here because they are not
-# part of the W3C API dump. The Eclipse Dataspace Protocol comes from
-# data/eclipse/specs.ttl.
+# crawl; the older W3C Recommendations (LDP, RDF Schema, SKOS, WebID) are
+# added here because they are not part of the W3C API dump. The living Solid
+# Community Group documents now live in data/solid/specs.ttl, and the Eclipse
+# Dataspace Protocol comes from data/eclipse/specs.ttl. The paper's formal
+# Solid references and the three Solid work items linked in footnotes (Type
+# Indexes, SAI, Shape Trees) all target the canonical nodes in data/solid,
+# so no specification is duplicated here.
 #
 # Seeded by `devbox run seed` (all/static) or explicitly in either environment:
 #   devbox run seed:publications
@@ -48,8 +51,15 @@
     <https://www.w3.org/2005/Incubator/webid/spec/identity/> ,
     <https://solidproject.org/TR/protocol> ,
     <https://solidproject.org/TR/oidc> ,
-    <https://solid.github.io/web-access-control-spec/> ,
-    <https://solid.github.io/authorization-panel/acp-specification/> ,
+    <https://solidproject.org/TR/wac> ,
+    <https://solidproject.org/TR/acp> ,
+    # The paper cites these three in footnotes. Their footnote URLs are mapped
+    # to the existing canonical specification nodes, not repeated as specs:
+    # SAI:        https://solid.github.io/data-interoperability-panel/specification/
+    # Shape Trees: https://shapetrees.org/TR/specification/
+    <https://solid.github.io/type-indexes/> ,
+    <https://solidproject.org/TR/sai> ,
+    <https://shapetrees.github.io/specification/> ,
     <https://www.w3.org/TR/rdf11-schema/> ,
     <https://www.w3.org/TR/skos-reference/> ,
     <https://www.w3.org/TR/shacl/> ,
@@ -96,49 +106,6 @@
   ex:editorDraft <https://www.w3.org/2005/Incubator/webid/spec/identity/> ;
   dcterms:publisher "W3C" ;
   dcterms:date "5 March 2014" .
-
-# ---------------------------------------------------------------------------
-# Solid Community Group documents. These are living documents published by the
-# CG, not W3C Recommendations, and are absent from the W3C API dump.
-# ---------------------------------------------------------------------------
-
-<https://solidproject.org/TR/protocol> a ex:Specification ;
-  ex:sdo <https://www.w3.org/> ;
-  ex:name "Solid Protocol" ;
-  ex:shortname "solid-protocol" ;
-  ex:landingPage <https://solidproject.org/TR/protocol> ;
-  dcterms:publisher "W3C Solid Community Group" ;
-  dcterms:date "2024" .
-
-<https://solidproject.org/TR/oidc> a ex:Specification ;
-  ex:sdo <https://www.w3.org/> ;
-  ex:name "Solid-OIDC" ;
-  ex:shortname "solid-oidc" ;
-  ex:landingPage <https://solidproject.org/TR/oidc> ;
-  dcterms:publisher "W3C Solid Community Group" ;
-  dcterms:date "2022" .
-
-<https://solid.github.io/web-access-control-spec/> a ex:Specification ;
-  ex:sdo <https://www.w3.org/> ;
-  ex:name "Web Access Control" ;
-  ex:shortname "wac" ;
-  ex:editorDraft <https://solid.github.io/web-access-control-spec/> ;
-  dcterms:publisher "W3C Solid Community Group" ;
-  dcterms:date "2022" .
-
-<https://solid.github.io/authorization-panel/acp-specification/> a ex:Specification ;
-  ex:sdo <https://www.w3.org/> ;
-  ex:name "Access Control Policy (ACP)" ;
-  ex:shortname "acp" ;
-  ex:editorDraft <https://solid.github.io/authorization-panel/acp-specification/> ;
-  dcterms:publisher "W3C Solid Community Group" ;
-  dcterms:date "2022" .
-
-<https://www.w3.org/community/solid/> ex:specification
-  <https://solidproject.org/TR/protocol> ,
-  <https://solidproject.org/TR/oidc> ,
-  <https://solid.github.io/web-access-control-spec/> ,
-  <https://solid.github.io/authorization-panel/acp-specification/> .
 
 # ---------------------------------------------------------------------------
 # Software referenced by the publication.

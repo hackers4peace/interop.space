@@ -237,6 +237,8 @@ export type GroupSummary = {
   name: string
   participantCount?: number
   w3cApiUrl?: string
+  // A shared group can carry several values; the UI keeps one and gives W3C
+  // precedence for the shared Solid Community Group.
   sdo?: string
 }
 

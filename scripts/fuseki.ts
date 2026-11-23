@@ -87,6 +87,10 @@ const VPS_PASSWD_FILE =
 const FEDIDB_SEED_DIR = 'data/fedidb'
 const LOCALFIRST_SEED_DIR = 'data/localfirst'
 const PUBLICATION_SEED_FILE = 'data/publications.ttl'
+// The publication cites four Solid Technical Reports. They live with the rest
+// of the Solid data, so the publications target seeds them together.
+const SOLID_SEED_FILES = ['data/solid/groups.ttl', 'data/solid/specs.ttl']
+const PUBLICATION_SEED_FILES = [PUBLICATION_SEED_FILE, ...SOLID_SEED_FILES]
 
 const STATIC_SEED_FILES = [
   'data/software.ttl',
@@ -112,6 +116,7 @@ const STATIC_SEED_FILES = [
   'data/matrix/events.ttl',
   'data/matrix/software.ttl',
   'data/matrix/deployments.ttl',
+  ...SOLID_SEED_FILES,
   PUBLICATION_SEED_FILE,
 ]
 
@@ -125,7 +130,7 @@ seed targets (default: all):
   static   only the curated data/**/*.ttl files
   fedidb   only the generated data/fedidb/*.nq files
   localfirst  only the generated data/localfirst/*.nq files
-  publications  only the curated data/publications.ttl file
+  publications  data/publications.ttl plus its Solid specification records
   <group>  one stage group under data/dump (w3c, ietf, cross, ...)
   <path>   one .ttl/.nq file, or a directory of .nq files`
 
@@ -219,7 +224,7 @@ function resolveTargets(targets: string[]): string[] {
     } else if (target === 'static' || target === 'curated') {
       STATIC_SEED_FILES.forEach(add)
     } else if (target === 'publications') {
-      add(PUBLICATION_SEED_FILE)
+      PUBLICATION_SEED_FILES.forEach(add)
     } else if (target === 'fedidb') {
       const files = fedidbSeedFiles()
       if (files.length === 0) {

@@ -30,6 +30,8 @@ export const sdos = rawSdos as Sdo[]
 // Keep old ?sdo=w3c links working while the canonical value is the SDO URL.
 const LEGACY_IDS: Record<string, string> = {
   w3c: 'https://www.w3.org/',
+  solid: 'https://solidproject.org/',
+  solidproject: 'https://solidproject.org/',
   ietf: 'https://www.ietf.org/',
   'gaia-x': 'https://gaia-x.eu/',
   eclipse: 'https://eclipse.org/',

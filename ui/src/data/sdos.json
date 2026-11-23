@@ -166,6 +166,32 @@
     "sections": []
   },
   {
+    "id": "https://solidproject.org/",
+    "name": "Solid Project",
+    "website": "https://solidproject.org/",
+    "logo": "/logos/solid.svg",
+    "sections": [
+      {
+        "kind": "chips",
+        "title": "Focus",
+        "items": [
+          {
+            "label": "Personal data pods"
+          },
+          {
+            "label": "Decentralized data"
+          },
+          {
+            "label": "Linked Data"
+          },
+          {
+            "label": "Interoperability"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "https://indieweb.org/IndieWebCamps",
     "name": "IndieWebCamps",
     "website": "https://indieweb.org/IndieWebCamps",

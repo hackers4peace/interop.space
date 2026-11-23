@@ -97,11 +97,13 @@
   ex:atLocation <urn:uuid:f1b9ebfb-16d7-5916-a8c0-3bef43cbe08e> ;
   ex:source <https://events.ccc.de/congress/2026/infos/startpage.html> .
 
-# No ex:sdo: the Solid Symposium is organised by a committee together with the
-# Future Society Hub and the ICS and ILE institutes at the University of
-# St.Gallen, not by a standards body. The Solid specification itself is
-# developed in the W3C Solid Community Group.
+# The Solid Symposium is organised by a committee together with the Future
+# Society Hub and the ICS and ILE institutes at the University of St.Gallen.
+# The Solid specification itself is developed by the Solid Community Group, so
+# the event is scoped to the Solid Project with ex:sdo. The SDO link describes
+# the standards scope, not the organiser.
 <urn:uuid:22ec6da3-0ead-4723-9da1-ab4436eab7f6> a ex:Event ;
+  ex:sdo <https://solidproject.org/> ;
   ex:name "Solid Symposium 2027" ;
   ex:startDate "2027-05-10T00:00:00Z"^^xsd:dateTime ;
   ex:endDate "2027-05-12T23:59:59Z"^^xsd:dateTime ;

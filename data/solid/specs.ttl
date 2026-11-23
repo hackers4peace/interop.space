@@ -1,0 +1,372 @@
+# Solid Project specifications.
+#
+# Source: https://solidproject.org/TR/
+# Snapshot: 2026-11-23.
+#
+# The W3C API does not expose the Solid Community Group's Technical Reports,
+# so the 26 work items listed on the TR page are curated here. Test suites
+# (Test Suite, Specification Tests) are not specifications and are excluded.
+# The notification channel types appear twice on the TR page (in the Technical
+# Reports and in the channel-type table); each is recorded once.
+#
+# "Use W3C data whenever possible": the Solid Community Group itself is the
+# existing W3C group <https://www.w3.org/community/solid/> (see groups.ttl), and
+# editors below reuse the W3C person identities already in data/identities.json
+# instead of creating duplicate people. Names without a W3C identity are
+# omitted rather than invented. The W3C display name for elf Pavlik is
+# "Pavlik elf", and Maxime Lecoq-Gaillard is recorded as "Maxime Lecoq"; the
+# GitHub identifiers in data/identities.json confirm both matches.
+#
+# Published reports use ex:landingPage; editor's drafts use ex:editorDraft.
+# bibo:status keeps the TR page's current stage verbatim.
+#
+# The Solid-PREP subject carries a #solid-prep fragment so its UI route key
+# stays unique; the document path ends in /protocol/, which would otherwise
+# collide with the Solid Protocol route. ex:editorDraft is the real document
+# URL.
+#
+# The Shape Trees entry uses the current GitHub Pages rendering named by the
+# specification's own metadata. The TR page still links the older
+# https://shapetrees.org/TR/specification/ URL, which now serves unrelated
+# content. The Authorization Use Cases Survey is a Markdown document in the
+# authorization panel repository, without a rendered editor list.
+#
+# Seeded with `devbox run seed -- static` (see scripts/fuseki.ts).
+
+@prefix ex: <http://example.org#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+
+<https://solidproject.org/TR/protocol> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "Solid Protocol" ;
+  ex:shortname "solid-protocol" ;
+  ex:landingPage <https://solidproject.org/TR/protocol> ;
+  ex:editorDraft <https://solidproject.org/ED/protocol> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "12 May 2024" ;
+  bibo:status "CG-DRAFT, v0.11.0" ;
+  bibo:editor
+    <urn:uuid:1f85317e-f0ce-4d6f-9feb-e22adf14514d> , # Sarven Capadisli
+    <urn:uuid:6d0a8a6d-4873-4645-ab56-d0b1ec976ce9> , # Tim Berners-Lee
+    <urn:uuid:0e5a8431-18ac-4b07-a3c6-965ec77e0ee5> ; # Kjetil Kjernsmo
+  dcterms:source <https://github.com/solid/specification> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://solid.github.io/webid-profile/> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "Solid WebID Profile" ;
+  ex:shortname "solid-webid-profile" ;
+  ex:editorDraft <https://solid.github.io/webid-profile/> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "28 January 2026" ;
+  bibo:status "CG-DRAFT, v1.0.0" ;
+  bibo:editor
+    <urn:uuid:4b273c99-9946-4534-bbf7-065132244a97> , # Virginia Balseiro
+    <urn:uuid:a4408917-ad5e-4dd9-82bf-6c139942c2e2> , # Jeff Zucker
+    <urn:uuid:1f85317e-f0ce-4d6f-9feb-e22adf14514d> ; # Sarven Capadisli
+  dcterms:source <https://github.com/solid/webid-profile> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://solidproject.org/TR/oidc> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "Solid-OIDC" ;
+  ex:shortname "solid-oidc" ;
+  ex:landingPage <https://solidproject.org/TR/oidc> ;
+  ex:editorDraft <https://solid.github.io/solid-oidc/> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "28 March 2022" ;
+  bibo:status "v0.1.0" ;
+  bibo:editor
+    <urn:uuid:c5aa348d-09c0-4a79-bfc2-0bd49c1ed3cf> , # Aaron Coburn
+    <urn:uuid:dd86eb60-91fb-47b9-8163-f184fc4e5f61> , # elf Pavlik (W3C: Pavlik elf)
+    <urn:uuid:74f2419c-c283-458d-b3fd-c50454a3d1cf> ; # Dmitri Zagidulin
+  dcterms:source <https://github.com/solid/solid-oidc> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://solid.github.io/httpsig/> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "HTTPSig Authentication for Solid" ;
+  ex:shortname "httpsig" ;
+  ex:editorDraft <https://solid.github.io/httpsig/> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  bibo:status "CG-DRAFT" ;
+  bibo:editor <urn:uuid:1f85317e-f0ce-4d6f-9feb-e22adf14514d> ; # Sarven Capadisli
+  dcterms:source <https://github.com/solid/httpsig> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://solidproject.org/TR/wac> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "Web Access Control" ;
+  ex:shortname "wac" ;
+  ex:landingPage <https://solidproject.org/TR/wac> ;
+  ex:editorDraft <https://solid.github.io/web-access-control-spec/> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "12 May 2024" ;
+  bibo:status "CG-DRAFT, v1.0.0" ;
+  bibo:editor <urn:uuid:1f85317e-f0ce-4d6f-9feb-e22adf14514d> ; # Sarven Capadisli
+  dcterms:source <https://github.com/solid/web-access-control-spec/> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://solidproject.org/TR/acp> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "Access Control Policy" ;
+  ex:shortname "acp" ;
+  ex:landingPage <https://solidproject.org/TR/acp> ;
+  ex:editorDraft <https://solid.github.io/authorization-panel/acp-specification> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "18 May 2022" ;
+  bibo:status "v0.9.0" ;
+  bibo:editor <urn:uuid:c48ce72c-b3dc-460e-bf75-d870a22d65a5> ; # Matthieu Bosquet
+  dcterms:source <https://github.com/solid/authorization-panel> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://solidproject.org/TR/sai> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "Solid Application Interoperability" ;
+  ex:shortname "sai" ;
+  ex:landingPage <https://solidproject.org/TR/sai> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "25 September 2025" ;
+  bibo:status "CG-DRAFT, v0.1.0" ;
+  bibo:editor
+    <urn:uuid:5076bc3f-3e65-4bf8-a7f7-51bcf4058b03> , # Justin Bingham
+    <urn:uuid:37b65f05-3594-409e-8407-bf3091c3e022> , # Eric Prud'hommeaux
+    <urn:uuid:dd86eb60-91fb-47b9-8163-f184fc4e5f61> ; # elf Pavlik (W3C: Pavlik elf)
+  dcterms:source <https://github.com/solid/data-interoperability-panel> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://solid.github.io/type-indexes/> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "Type Indexes" ;
+  ex:shortname "type-indexes" ;
+  ex:editorDraft <https://solid.github.io/type-indexes/> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "13 March 2023" ;
+  bibo:status "v1.0.0, Editor's Draft" ;
+  dcterms:source <https://github.com/solid/type-indexes> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://shapetrees.github.io/specification/> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "Shape Trees" ;
+  ex:shortname "shape-trees" ;
+  ex:editorDraft <https://shapetrees.github.io/specification/> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "2 September 2026" ;
+  bibo:status "Editor's Draft" ;
+  bibo:editor
+    <urn:uuid:37b65f05-3594-409e-8407-bf3091c3e022> , # Eric Prud'hommeaux
+    <urn:uuid:5076bc3f-3e65-4bf8-a7f7-51bcf4058b03> ; # Justin Bingham
+  dcterms:source <https://github.com/shapetrees/specification> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://solid.github.io/did-method-solid/> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "Solid DID Method" ;
+  ex:shortname "did-method-solid" ;
+  ex:editorDraft <https://solid.github.io/did-method-solid/> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  bibo:status "Unofficial Draft" ;
+  bibo:editor
+    <urn:uuid:1f85317e-f0ce-4d6f-9feb-e22adf14514d> , # Sarven Capadisli
+    <urn:uuid:d14f7c46-8df1-4827-8f49-0e167ba846a4> , # Amy Guy
+    <urn:uuid:74f2419c-c283-458d-b3fd-c50454a3d1cf> ; # Dmitri Zagidulin
+  dcterms:source <https://github.com/solid/did-method-solid> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://solidproject.org/TR/notifications-protocol> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "Solid Notifications Protocol" ;
+  ex:shortname "notifications-protocol" ;
+  ex:landingPage <https://solidproject.org/TR/notifications-protocol> ;
+  ex:editorDraft <https://solid.github.io/notifications/protocol> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "12 May 2024" ;
+  bibo:status "CG-DRAFT, v0.3.0" ;
+  bibo:editor <urn:uuid:1f85317e-f0ce-4d6f-9feb-e22adf14514d> ; # Sarven Capadisli
+  dcterms:source <https://github.com/solid/notifications> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://solid.github.io/notifications/eventsource-channel-2023> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "EventSourceChannel2023" ;
+  ex:shortname "eventsource-channel-2023" ;
+  ex:editorDraft <https://solid.github.io/notifications/eventsource-channel-2023> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "11 January 2023" ;
+  bibo:status "Editor's Draft" ;
+  bibo:editor <urn:uuid:c5aa348d-09c0-4a79-bfc2-0bd49c1ed3cf> ; # Aaron Coburn
+  dcterms:source <https://github.com/solid/notifications> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://solid.github.io/notifications/ldn-channel-2023> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "LDNChannel2023" ;
+  ex:shortname "ldn-channel-2023" ;
+  ex:editorDraft <https://solid.github.io/notifications/ldn-channel-2023> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "3 February 2023" ;
+  bibo:status "v1.0.0, Editor's Draft" ;
+  bibo:editor <urn:uuid:1f85317e-f0ce-4d6f-9feb-e22adf14514d> ; # Sarven Capadisli
+  dcterms:source <https://github.com/solid/notifications> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://solid.github.io/notifications/streaming-http-channel-2023> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "StreamingHTTPChannel2023" ;
+  ex:shortname "streaming-http-channel-2023" ;
+  ex:editorDraft <https://solid.github.io/notifications/streaming-http-channel-2023> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "4 August 2026" ;
+  bibo:status "Editor's Draft" ;
+  bibo:editor <urn:uuid:dd86eb60-91fb-47b9-8163-f184fc4e5f61> ; # elf Pavlik (W3C: Pavlik elf)
+  dcterms:source <https://github.com/solid/notifications> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://solid.github.io/notifications/websocket-channel-2023> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "WebSocketChannel2023" ;
+  ex:shortname "websocket-channel-2023" ;
+  ex:editorDraft <https://solid.github.io/notifications/websocket-channel-2023> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "27 December 2022" ;
+  bibo:status "Editor's Draft" ;
+  bibo:editor <urn:uuid:c5aa348d-09c0-4a79-bfc2-0bd49c1ed3cf> ; # Aaron Coburn
+  dcterms:source <https://github.com/solid/notifications> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://solid.github.io/notifications/webhook-channel-2023> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "WebhookChannel2023" ;
+  ex:shortname "webhook-channel-2023" ;
+  ex:editorDraft <https://solid.github.io/notifications/webhook-channel-2023> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "4 August 2026" ;
+  bibo:status "Editor's Draft" ;
+  bibo:editor
+    <urn:uuid:d097e88b-4414-4ac2-8ffd-ae8eb702b574> , # Jackson Morgan
+    <urn:uuid:dd86eb60-91fb-47b9-8163-f184fc4e5f61> ; # elf Pavlik (W3C: Pavlik elf)
+  dcterms:source <https://github.com/solid/notifications> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://solid.github.io/solid-prep/protocol/#solid-prep> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "Solid-PREP" ;
+  ex:shortname "solid-prep" ;
+  ex:editorDraft <https://solid.github.io/solid-prep/protocol/> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "30 December 2024" ;
+  bibo:status "Editor's Draft" ;
+  bibo:editor <urn:uuid:30d3c748-858d-4fa1-b0dc-5b5fb1a8539a> ; # Rahul Gupta
+  dcterms:source <https://github.com/solid/solid-prep> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://solid.github.io/chat/> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "Solid Chat" ;
+  ex:shortname "solid-chat" ;
+  ex:editorDraft <https://solid.github.io/chat/> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "21 August 2023" ;
+  bibo:status "v1.0.0, Editor's Draft" ;
+  bibo:editor <urn:uuid:6d0a8a6d-4873-4645-ab56-d0b1ec976ce9> ; # Tim Berners-Lee
+  dcterms:source <https://github.com/solid/chat> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://solid.github.io/erp/> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "Solid ERP" ;
+  ex:shortname "solid-erp" ;
+  ex:editorDraft <https://solid.github.io/erp/> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "13 February 2025" ;
+  bibo:status "Working towards a first draft" ;
+  bibo:editor <urn:uuid:72712ee1-ba92-4011-a811-d19961b4ed54> ; # Maxime Lecoq-Gaillard
+  dcterms:source <https://github.com/solid/erp> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://solidproject.org/ED/qa> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "Solid QA" ;
+  ex:shortname "solid-qa" ;
+  ex:editorDraft <https://solidproject.org/ED/qa> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "12 May 2024" ;
+  bibo:status "CG-DRAFT, v0.3.0" ;
+  bibo:editor <urn:uuid:1f85317e-f0ce-4d6f-9feb-e22adf14514d> ; # Sarven Capadisli
+  dcterms:source <https://github.com/solid/specification> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://solid.github.io/security-considerations/> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "Solid Security Considerations" ;
+  ex:shortname "solid-security-considerations" ;
+  ex:editorDraft <https://solid.github.io/security-considerations/> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "22 June 2024" ;
+  bibo:status "CG-DRAFT, v0.1.0" ;
+  bibo:editor <urn:uuid:dd86eb60-91fb-47b9-8163-f184fc4e5f61> ; # elf Pavlik (W3C: Pavlik elf)
+  dcterms:source <https://github.com/solid/security-considerations> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://solidproject.org/TR/oidc-primer> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "Solid OIDC Primer" ;
+  ex:shortname "solid-oidc-primer" ;
+  ex:landingPage <https://solidproject.org/TR/oidc-primer> ;
+  ex:editorDraft <https://solid.github.io/solid-oidc/primer/> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "28 March 2022" ;
+  bibo:status "v0.1.0" ;
+  bibo:editor
+    <urn:uuid:d097e88b-4414-4ac2-8ffd-ae8eb702b574> , # Jackson Morgan
+    <urn:uuid:c5aa348d-09c0-4a79-bfc2-0bd49c1ed3cf> , # Aaron Coburn
+    <urn:uuid:c48ce72c-b3dc-460e-bf75-d870a22d65a5> ; # Matthieu Bosquet
+  dcterms:source <https://github.com/solid/solid-oidc> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://solid.github.io/authorization-panel/authorization-ucr/> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "Authorization Use Cases and Requirements" ;
+  ex:shortname "authorization-ucr" ;
+  ex:editorDraft <https://solid.github.io/authorization-panel/authorization-ucr/> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "20 October 2023" ;
+  bibo:status "Editor's Draft" ;
+  dcterms:source <https://github.com/solid/authorization-panel> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://github.com/solid/authorization-panel/blob/master/proposals/authorization-ucr/uc-survey.md> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "Authorization Use Cases Survey" ;
+  ex:shortname "authorization-uc-survey" ;
+  ex:editorDraft <https://github.com/solid/authorization-panel/blob/master/proposals/authorization-ucr/uc-survey.md> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  bibo:status "Unofficial Draft" ;
+  dcterms:source <https://github.com/solid/authorization-panel> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://solidproject.org/TR/sai-primer-application> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "Solid Application Interoperability: Application Primer" ;
+  ex:shortname "sai-primer-application" ;
+  ex:landingPage <https://solidproject.org/TR/sai-primer-application> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "25 September 2025" ;
+  bibo:status "CG-DRAFT, v0.1.0" ;
+  bibo:editor <urn:uuid:dd86eb60-91fb-47b9-8163-f184fc4e5f61> ; # elf Pavlik (W3C: Pavlik elf)
+  dcterms:source <https://github.com/solid/data-interoperability-panel> ;
+  ex:source <https://solidproject.org/TR/> .
+
+<https://solidproject.org/TR/sai-primer-authorization-agent> a ex:Specification ;
+  ex:sdo <https://solidproject.org/> ;
+  ex:name "Solid Application Interoperability: Authorization Agent Primer" ;
+  ex:shortname "sai-primer-authorization-agent" ;
+  ex:landingPage <https://solidproject.org/TR/sai-primer-authorization-agent> ;
+  dcterms:publisher "W3C Solid Community Group" ;
+  dcterms:date "25 September 2025" ;
+  bibo:status "CG-DRAFT, v0.1.0" ;
+  bibo:editor <urn:uuid:dd86eb60-91fb-47b9-8163-f184fc4e5f61> ; # elf Pavlik (W3C: Pavlik elf)
+  dcterms:source <https://github.com/solid/data-interoperability-panel> ;
+  ex:source <https://solidproject.org/TR/> .

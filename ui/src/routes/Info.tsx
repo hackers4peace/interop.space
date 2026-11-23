@@ -70,6 +70,10 @@ const InfoPage: Component = () => {
             <AttributionLink href="https://www.w3.org/TR/" />)
           </li>
           <li>
+            Data from Solid Technical Reports (
+            <AttributionLink href="https://solidproject.org/TR/" />)
+          </li>
+          <li>
             Data from Atmosphere Community (
             <AttributionLink href="https://atmosphere.community/" />)
           </li>

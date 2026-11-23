@@ -1,0 +1,49 @@
+# Solid Community Group and its Technical Reports.
+#
+# The W3C crawl already provides <https://www.w3.org/community/solid/> as an
+# ex:Group with its name, shortname, members, W3C API link and W3C scope. This
+# file only adds the shared Solid scope and the links to the specifications, so
+# the same group appears under both:
+#
+#   ?sdo=https://www.w3.org/
+#   ?sdo=https://solidproject.org/
+#
+# Nothing about the group itself is duplicated: its members and W3C identifiers
+# keep coming from the generated W3C dump.
+#
+# Sources: https://solidproject.org/TR/
+#          https://www.w3.org/community/solid/
+# Snapshot: 2026-11-23.
+#
+# Seeded with `devbox run seed -- static` (see scripts/fuseki.ts).
+
+@prefix ex: <http://example.org#> .
+
+<https://www.w3.org/community/solid/> ex:sdo <https://solidproject.org/> ;
+  ex:specification
+    <https://solidproject.org/TR/protocol> ,
+    <https://solid.github.io/webid-profile/> ,
+    <https://solidproject.org/TR/oidc> ,
+    <https://solid.github.io/httpsig/> ,
+    <https://solidproject.org/TR/wac> ,
+    <https://solidproject.org/TR/acp> ,
+    <https://solidproject.org/TR/sai> ,
+    <https://solid.github.io/type-indexes/> ,
+    <https://shapetrees.github.io/specification/> ,
+    <https://solid.github.io/did-method-solid/> ,
+    <https://solidproject.org/TR/notifications-protocol> ,
+    <https://solid.github.io/notifications/eventsource-channel-2023> ,
+    <https://solid.github.io/notifications/ldn-channel-2023> ,
+    <https://solid.github.io/notifications/streaming-http-channel-2023> ,
+    <https://solid.github.io/notifications/websocket-channel-2023> ,
+    <https://solid.github.io/notifications/webhook-channel-2023> ,
+    <https://solid.github.io/solid-prep/protocol/#solid-prep> ,
+    <https://solid.github.io/chat/> ,
+    <https://solid.github.io/erp/> ,
+    <https://solidproject.org/ED/qa> ,
+    <https://solid.github.io/security-considerations/> ,
+    <https://solidproject.org/TR/oidc-primer> ,
+    <https://solid.github.io/authorization-panel/authorization-ucr/> ,
+    <https://github.com/solid/authorization-panel/blob/master/proposals/authorization-ucr/uc-survey.md> ,
+    <https://solidproject.org/TR/sai-primer-application> ,
+    <https://solidproject.org/TR/sai-primer-authorization-agent> .

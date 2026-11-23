@@ -1427,13 +1427,32 @@ async function orgsByUris(
   return orgs
 }
 
+// A group can belong to more than one standards body: the Solid Community
+// Group is shared by W3C and the Solid Project. Keep one SDO for the card
+// logo. A shared group that includes W3C keeps the W3C identity and icon even
+// when the listing is scoped to another SDO; other multi-SDO groups prefer the
+// active scope, then a stable lexicographic fallback.
+const W3C_SDO = 'https://www.w3.org/'
+const GROUP_SDO_AGG = '(GROUP_CONCAT(DISTINCT STR(?sdo); separator=" ") AS ?sdos)'
+
+function preferredGroupSdo(
+  raw: string | undefined,
+  preferred?: string,
+): string | undefined {
+  const sdos = (raw ?? '').split(' ').filter(Boolean)
+  if (sdos.includes(W3C_SDO)) return W3C_SDO
+  if (preferred && sdos.includes(preferred)) return preferred
+  return sdos.sort()[0]
+}
+
 async function groupSummariesByUris(
   uris: string[],
+  preferredSdo?: string,
 ): Promise<Map<string, GroupSummary>> {
   const groups = new Map<string, GroupSummary>()
   if (!uris.length) return groups
   const rows = await queryBindings(`${PREFIXES}
-    SELECT ?group ?name ?w3cApiUrl ?sdo (COUNT(DISTINCT ?member) AS ?count)
+    SELECT ?group ?name ?w3cApiUrl ${GROUP_SDO_AGG} (COUNT(DISTINCT ?member) AS ?count)
     WHERE {
       VALUES ?group { ${uris.map(iri).join(' ')} }
       ?group a ex:Group ; ex:name ?name .
@@ -1441,7 +1460,7 @@ async function groupSummariesByUris(
       OPTIONAL { ?group ex:sdo ?sdo }
       OPTIONAL { ?group ex:member ?member }
     }
-    GROUP BY ?group ?name ?w3cApiUrl ?sdo`)
+    GROUP BY ?group ?name ?w3cApiUrl`)
   for (const b of rows) {
     const uri = value(b, 'group')
     const name = value(b, 'name')
@@ -1451,7 +1470,7 @@ async function groupSummariesByUris(
       id: uri,
       name,
       w3cApiUrl: value(b, 'w3cApiUrl'),
-      sdo: value(b, 'sdo'),
+      sdo: preferredGroupSdo(value(b, 'sdos'), preferredSdo),
       participantCount: count === undefined ? 0 : Number(count),
     })
   }
@@ -1513,14 +1532,14 @@ async function groupFull(uri: string): Promise<W3cGroup | undefined> {
 
 async function groupsOfPerson(uri: string): Promise<GroupSummary[]> {
   const rows = await queryBindings(`${PREFIXES}
-    SELECT ?group ?name ?w3cApiUrl ?sdo (COUNT(DISTINCT ?member) AS ?count)
+    SELECT ?group ?name ?w3cApiUrl ${GROUP_SDO_AGG} (COUNT(DISTINCT ?member) AS ?count)
     WHERE {
       ?group a ex:Group ; ex:name ?name ; ex:member ${iri(uri)} .
       OPTIONAL { ?group ex:w3cApiUrl ?w3cApiUrl }
       OPTIONAL { ?group ex:sdo ?sdo }
       OPTIONAL { ?group ex:member ?member }
     }
-    GROUP BY ?group ?name ?w3cApiUrl ?sdo`)
+    GROUP BY ?group ?name ?w3cApiUrl`)
   const groups: GroupSummary[] = []
   for (const b of rows) {
     const groupUri = value(b, 'group')
@@ -1531,23 +1550,26 @@ async function groupsOfPerson(uri: string): Promise<GroupSummary[]> {
       id: groupUri,
       name,
       w3cApiUrl: value(b, 'w3cApiUrl'),
-      sdo: value(b, 'sdo'),
+      sdo: preferredGroupSdo(value(b, 'sdos')),
       participantCount: count === undefined ? 0 : Number(count),
     })
   }
   return groups.sort((a, b) => a.name.localeCompare(b.name))
 }
 
-async function groupsDeliveringSpec(uri: string): Promise<GroupSummary[]> {
+async function groupsDeliveringSpec(
+  uri: string,
+  preferredSdo?: string,
+): Promise<GroupSummary[]> {
   const rows = await queryBindings(`${PREFIXES}
-    SELECT ?group ?name ?w3cApiUrl ?sdo (COUNT(DISTINCT ?member) AS ?count)
+    SELECT ?group ?name ?w3cApiUrl ${GROUP_SDO_AGG} (COUNT(DISTINCT ?member) AS ?count)
     WHERE {
       ?group a ex:Group ; ex:specification ${iri(uri)} ; ex:name ?name .
       OPTIONAL { ?group ex:w3cApiUrl ?w3cApiUrl }
       OPTIONAL { ?group ex:sdo ?sdo }
       OPTIONAL { ?group ex:member ?member }
     }
-    GROUP BY ?group ?name ?w3cApiUrl ?sdo`)
+    GROUP BY ?group ?name ?w3cApiUrl`)
   const groups: GroupSummary[] = []
   for (const b of rows) {
     const groupUri = value(b, 'group')
@@ -1558,7 +1580,7 @@ async function groupsDeliveringSpec(uri: string): Promise<GroupSummary[]> {
       id: groupUri,
       name,
       w3cApiUrl: value(b, 'w3cApiUrl'),
-      sdo: value(b, 'sdo'),
+      sdo: preferredGroupSdo(value(b, 'sdos'), preferredSdo),
       participantCount: count === undefined ? 0 : Number(count),
     })
   }
@@ -1647,7 +1669,7 @@ export async function fetchListingPage(
       )
     }
     case 'groups': {
-      const groups = await groupSummariesByUris(ids)
+      const groups = await groupSummariesByUris(ids, sdo)
       return result(
         ids
           .map((id) => groups.get(id))
@@ -1848,7 +1870,7 @@ async function specificationDetail(id: string, sdo?: string) {
     await Promise.all([
       specificationsByUris([uri]),
       outgoingReferences([uri]),
-      groupsDeliveringSpec(uri),
+      groupsDeliveringSpec(uri, sdo),
       queryBindings(`${PREFIXES}
         SELECT DISTINCT ?sw WHERE {
           ?sw doap:implements ${iri(uri)} .

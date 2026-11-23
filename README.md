@@ -33,7 +33,7 @@ Run from the repository root with `devbox run <script>`:
 | `identities:verify` | Checks identity-map and stage-graph invariants |
 | `identities:duplicates` | Lists same-name W3C account pairs with api.w3.org evidence |
 | `seed` | Loads `data/dump/*/*.nq`, `data/fedidb/*.nq`, `data/localfirst/*.nq` + `data/**/*.ttl`, or only the given files/groups; defaults to development |
-| `seed:publications` | Seeds only `data/publications.ttl`; pass `-- production` for the VPS |
+| `seed:publications` | Seeds `data/publications.ttl` plus its Solid specification records; pass `-- production` for the VPS |
 | `wipe` | Clears every graph; defaults to development |
 | `fuseki:dev` | Starts the local development Fuseki on `127.0.0.1:3031` with TDB2 data in `tmp/fuseki-dev/`; subcommands `stop`, `status`, `run`, `restart` |
 | `tunnel` | Keeps `127.0.0.1:3030` forwarded to the VPS Fuseki (production only) |
@@ -62,7 +62,7 @@ group can be seeded without touching the rest:
 devbox run seed -- production w3c          # only data/dump/w3c/*.nq
 devbox run seed -- fedidb                  # only data/fedidb/*.nq
 devbox run seed -- localfirst              # only data/localfirst/*.nq
-devbox run seed -- publications            # only data/publications.ttl
+devbox run seed -- publications            # data/publications.ttl + data/solid
 devbox run seed -- ietf data/nlnet.ttl     # a stage group plus one curated file
 devbox run seed -- data/nlnet.ttl          # one file, local development Fuseki
 devbox run seed -- static                  # every curated data/**/*.ttl
@@ -178,14 +178,31 @@ sources, counts and the deployment mapping. The files are part of
 `seed -- static` and `seed -- all`; the Deployments view combines these
 `ex:Server` records with the FediDB server exports.
 
+## Solid data
+
+`data/solid/` adds the **Solid Project** SDO. Its URL
+`https://solidproject.org/` is the `ex:sdo` of the Solid Community Group's 26
+Technical Reports from <https://solidproject.org/TR/>. The Solid Community
+Group is a common group with W3C: the generated W3C dump supplies the group and
+its members, and `data/solid/groups.ttl` only adds the solid `ex:sdo` value and
+the specification links, so the same group appears under both SDO scopes. The
+specs are not in the W3C API; editors are linked to the existing W3C person
+identities whenever a match exists. See `data/solid/README.md` for the spec
+list and the W3C identity matches.
+
+The Solid Symposium 2027 event in `data/events.ttl` uses
+`ex:sdo <https://solidproject.org/>`. The files are part of `seed -- static`
+and `seed -- all`.
+
 ## Publications
 
 `data/publications.ttl` holds publications that cite catalog records. The first
 entry is the SDS 2026 paper *DCAT-based Data Discovery in Solid-based
 Dataspaces* (`https://drive.google.com/file/d/1-PfRwyZwbStpAq5HCWVeoIHdYInHtMMk`).
 It links its authors to catalog people (five W3C accounts plus Tobias Meisen's
-ORCID record), cites eleven W3C / Solid Community Group specifications plus the
-Eclipse Dataspace Protocol, and references the paper's reference implementation.
+ORCID record), cites fourteen W3C and Solid Community Group specifications
+plus the Eclipse Dataspace Protocol, and references the paper's reference
+implementation.
 
 The publication page shows its authors plus the specifications and software it
 references. Every cited specification page shows the publication in a
@@ -193,10 +210,13 @@ references. Every cited specification page shows the publication in a
 citation backlinks. The citation predicate is `dcterms:references`, so the
 same file can hold papers, reports and other documents without new predicates.
 
-Older W3C Recommendations (LDP, RDF Schema, SKOS, WebID) and the living Solid
-CG documents are included in the same file because the W3C API crawl does not
-return them. The file is part of `seed -- static` and `seed -- all`; seed just
-the publication data in either environment with:
+Older W3C Recommendations (LDP, RDF Schema, SKOS, WebID) are included in the
+same file because the W3C API crawl does not return them. The living Solid
+Community Group documents live in `data/solid/specs.ttl`; the publication
+cites their canonical TR URLs (`/TR/protocol`, `/TR/oidc`, `/TR/wac`,
+`/TR/acp`). The file is part of `seed -- static` and `seed -- all`; seed the
+publication data together with its Solid specification records in either
+environment with:
 
 ```sh
 devbox run seed:publications
@@ -205,7 +225,7 @@ devbox run seed:publications -- production
 
 `publications` is also a normal seed target (`devbox run seed -- production
 publications`) and the source can be seeded as a single file (`devbox run seed
--- data/publications.ttl`).
+-- data/publications.ttl`) when the catalog already contains the Solid specs.
 
 ## Local-First data
 
